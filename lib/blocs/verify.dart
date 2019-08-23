@@ -14,14 +14,29 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
   @override
   Stream<VerifyState> mapEventToState(VerifyEvent event) async* {
     if (event is SendCodeEvent) {
-      var res = await http.post("${conf['url']}/${event.mail}/code");
       yield CodeSending();
+      var res = await http.post("${conf['url']}/${event.mail}/code");
+      
       if (res.statusCode == 200) {
         yield CodeSentSucceed();
       } else {
         yield CodeSentFailed();
       }
       return;
+    } else if (event is VerifyCodeEvent) {
+      yield CodeSending();
+      var res = await http.post(
+        "${conf['url']}/${event.mail}/verify",
+        body: { 'code': event.code }
+      );
+      
+      if (res.statusCode == 200) {
+        await setString('mail', event.mail);
+        await setString('code', event.code);
+        yield CodeVerifiedSucceed();
+      } else {
+        yield CodeSentFailed();
+      }
     }
     return;
   }
@@ -36,6 +51,15 @@ class SendCodeEvent extends VerifyEvent {
   
   @override
   String toString() => 'SendCodeEvent';
+}
+
+class VerifyCodeEvent extends VerifyEvent {
+  final String mail;
+  final String code;
+  VerifyCodeEvent({ this.mail, this.code });
+  
+  @override
+  String toString() => 'VerifyCodeEvent';
 }
 
 // ---------------- state ------------------
@@ -53,12 +77,17 @@ class CodeSending extends VerifyState {
   String toString() => 'CodeSending';
 }
 
+class CodeSentFailed extends VerifyState {
+  @override
+  String toString() => 'CodeSentFailed';
+}
+
 class CodeSentSucceed extends VerifyState {
   @override
   String toString() => 'CodeSentSucceed';
 }
 
-class CodeSentFailed extends VerifyState {
+class CodeVerifiedSucceed extends VerifyState {
   @override
-  String toString() => 'CodeSentFailed';
+  String toString() => 'CodeVerifiedSucceed';
 }

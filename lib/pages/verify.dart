@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/verify.dart';
-import 'package:cdr_today/navigations/args.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Login extends StatefulWidget {
-  Login({ Key key }) : super(key: key);
+class Verify extends StatefulWidget {
+  final String mail;
+  Verify({ Key key, this.mail }) : super(key: key);
   
   @override
-  _LoginState createState() => _LoginState();
+  _VerifyState createState() => _VerifyState();
 }
 
-class _LoginState extends State<Login> {
+class _VerifyState extends State<Verify> {
   String _value = '';
   void changeValue(String value) {
     setState(() { _value = value; });
@@ -18,26 +19,7 @@ class _LoginState extends State<Login> {
   
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('登录'),
-        actions: [
-          BlocBuilder<VerifyBloc, VerifyState>(
-            builder: (context, state) {
-              if (state is CodeSentSucceed) {
-                return IconButton(
-                  icon: Icon(Icons.check),
-                  onPressed: () => Navigator.pushNamed(
-                    context, '/user/verify',
-                    arguments: MailArgs(mail: _value)
-                  )
-                );
-              } else {
-                return SizedBox.shrink();
-              }
-            }
-          )
-        ],
-      ),
+      appBar: AppBar(title: Text('验证邮箱')),
       body: Builder(
         builder: (context) => Container(
           padding: EdgeInsets.all(20.0),
@@ -57,12 +39,12 @@ class _LoginState extends State<Login> {
                 onChanged: changeValue,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: '邮箱',
+                  labelText: '验证码',
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 50.0),
-                child: Center(child: sendCode(context, _value))
+                child: Center(child: sendCode(context, _value, widget.mail))
               )
             ]
           )
@@ -72,7 +54,7 @@ class _LoginState extends State<Login> {
   }
 }
 
-sendCode(BuildContext context, String _email) {
+sendCode(BuildContext context, String _code, String mail) {
   final VerifyBloc _bloc = BlocProvider.of<VerifyBloc>(context);
   
   return Container(
@@ -82,16 +64,11 @@ sendCode(BuildContext context, String _email) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.red,
-              content: Text('邮件发送失败，请重试'),
+              content: Text('邮箱验证失败，请重试'),
             ),
           );
-        } else if (state is CodeSentSucceed) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.green,
-              content: Text('邮件已发送，请查收'),
-            ),
-          );
+        } else if (state is CodeVerifiedSucceed) {
+          Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
         }
       },
       child: BlocBuilder<VerifyBloc, VerifyState>(
@@ -101,23 +78,25 @@ sendCode(BuildContext context, String _email) {
           } else {
             return RaisedButton(
               onPressed: () {
-                bool emailValid = RegExp(
-                  r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"
-                ).hasMatch(_email);
+                bool codeValid = RegExp(
+                  r"^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}"
+                ).hasMatch(_code);
                 
-                if (!emailValid) {
+                if (!codeValid) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.red,
-                      content: Text('请输入正确的邮箱'),
+                      content: Text(
+                        "请输入正确的验证码，如: '99293e8e-5629-40d3-8747-10016474d49c'"
+                      ),
                     ),
                   );
                 } else {
-                  _bloc.dispatch(SendCodeEvent(mail: _email));
+                  _bloc.dispatch(VerifyCodeEvent(mail: mail, code: _code));
                 }
               },
               child: Text(
-                '发送验证码',
+                '请输入验证码',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white

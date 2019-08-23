@@ -1,5 +1,6 @@
 import './conf.dart';
 import './utils.dart';
+import './verify.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
@@ -10,20 +11,35 @@ import 'package:equatable/equatable.dart';
 /// @page: ['/home']
 // -------------- bloc ----------------
 class UserBloc extends Bloc<UserEvent, UserState> {
+  final VerifyBloc verifyBloc;
+  StreamSubscription verifyBlocSubscription;
+  
+  UserBloc(this.verifyBloc) {
+    verifyBlocSubscription = verifyBloc.state.listen((state){
+        if (state is CodeVerifiedSucceed) {
+          this.dispatch(CheckUserEvent());
+        }
+    });
+  }
+  
   @override
-  UserState get initialState => UserUnInited();
+  UserState get initialState => Empty();
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
     if (event is CheckUserEvent) {
       String mail = await getString('mail');
+      String code = await getString('code');
+      var res = await http.post(
+        "${conf['url']}/${mail}/verify",
+        body: { 'code': code }
+      );
 
-      if (mail == '') {
-        return;
-      } else {
+      if (res.statusCode == 200) {
         yield UserInited(mail: mail);
-        return;
       }
+      
+      return;
     } else if (event is InitUserEvent) {
       yield UserInited(mail: event.mail);
       return;
@@ -52,6 +68,11 @@ class InitUserEvent extends UserEvent {
 // -------------- states ------------------
 abstract class UserState extends Equatable {
   UserState([List props = const []]) : super(props);
+}
+
+class Empty extends UserState {
+  @override
+  String toString() => 'Empty';
 }
 
 class UserUnInited extends UserState {
