@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/blocs/user.dart';
+import 'package:cdr_today/pages/article_list.dart';
+import 'package:cdr_today/pages/publish.dart';
 
 // configs
 dynamic configs(BuildContext context) => [{
     'title': Text('文章列表'),
-    'child': Text('文章列表'),
+    'child': ArticleList(),
     'actions': [
       SizedBox.shrink()
     ],
   }, {
-    'title': Text('社区'),
-    'child': Text('社区'),
+    'title': Text('发表'),
+    'child': Publish(),
     'actions': [
       SizedBox.shrink()
     ]
@@ -26,7 +28,7 @@ dynamic configs(BuildContext context) => [{
 class TabNavigator extends StatefulWidget {
   final int index;
   TabNavigator({Key key, @required this.index}) : super(key: key);
-  
+
   @override
   _TabNavigatorState createState() => _TabNavigatorState();
 }
@@ -39,15 +41,6 @@ class _TabNavigatorState extends State<TabNavigator> {
     setState(() { _currentIndex = index;});
   }
   
-  @override
-  void initState() {
-    super.initState();
-    _userBloc = BlocProvider.of<UserBloc>(context);
-    _userBloc.dispatch(InitUser());
-
-    _currentIndex = widget.index;
-  }
-
   // if args
   @override
   Widget build(BuildContext context) {
@@ -71,7 +64,7 @@ class _TabNavigatorState extends State<TabNavigator> {
             title: Text(''),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
+            icon: Icon(Icons.add_circle_outline),
             title: Text(''),
           ),
           BottomNavigationBarItem(

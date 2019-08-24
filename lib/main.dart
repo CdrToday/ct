@@ -5,11 +5,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 // blocs
 import 'package:cdr_today/blocs/main.dart';
 import 'package:cdr_today/blocs/user.dart';
+import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/verify.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
+import 'package:cdr_today/pages/edit.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/navigations/tabbar.dart';
 
 /* app */
 void main() {
@@ -34,6 +37,9 @@ class App extends StatelessWidget {
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc
         ),
+        BlocProvider<EditBloc>(
+          builder: (context) => EditBloc()
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeData>(
         builder: (context, theme) => app(context, theme)
@@ -54,7 +60,7 @@ Widget app(BuildContext context, ThemeData theme) {
         if (state is UserUnInited) {
           return Login();
         } else if (state is UserInited) {
-          return Text('world');
+          return TabNavigator(index: 0);
         } else {
           _userBloc.dispatch(CheckUserEvent());
           return Center(
@@ -80,9 +86,13 @@ MaterialPageRoute router(settings) {
     return MaterialPageRoute(
       builder: (context) =>  Verify(mail: args.mail)
     );
+  } else if (r == '/user/edit') {
+    return MaterialPageRoute(
+      builder: (context) =>  Edit()
+    );
   }
   
   return MaterialPageRoute(
     builder: (context) =>  Text('hello')
-  );  
+  );
 }
