@@ -9,8 +9,8 @@ class Edit extends StatefulWidget {
 }
 
 class _EditState extends State<Edit> {
-  String _title;
-  String _content;
+  String _title = '';
+  String _content = '';
   
   Widget build(BuildContext context) {
     final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
@@ -34,10 +34,30 @@ class _EditState extends State<Edit> {
         appBar: AppBar(
           title: Text('编辑'),
           actions: [
-            IconButton(
-              icon: Icon(Icons.check),
-              onPressed: () => _bloc.dispatch(CompletedEdit(title: _title, content: _content))
-            ),
+            Builder(
+              builder: (context) => IconButton(
+                icon: Icon(Icons.check),
+                onPressed: () => {
+                  if (_title == null || _title == '') {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text('请填写文章标题'),
+                      ),
+                    )
+                  } else if (_content == null || _content == '') {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text('请填写文章内容'),
+                      ),
+                    )
+                  } else {
+                    _bloc.dispatch(CompletedEdit(title: _title, content: _content))
+                  }
+                }
+              )
+            )
           ],
         ),
         body: Container(

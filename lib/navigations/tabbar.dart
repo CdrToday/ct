@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:cdr_today/pages/mine.dart';
 import 'package:cdr_today/blocs/user.dart';
-import 'package:cdr_today/pages/article_list.dart';
 import 'package:cdr_today/pages/publish.dart';
+import 'package:cdr_today/pages/article_list.dart';
 
 // configs
 dynamic configs(BuildContext context) => [{
@@ -18,7 +19,7 @@ dynamic configs(BuildContext context) => [{
     ]
   }, {
     'title': Text('我'),
-    'child': Text('我'),
+    'child': Mine(),
     'actions': [
       SizedBox.shrink()
     ]

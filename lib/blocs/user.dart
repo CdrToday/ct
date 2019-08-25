@@ -41,11 +41,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       } else {
         yield UserUnInited();
       }
-      
-      return;
     } else if (event is InitUserEvent) {
       yield UserInited(mail: event.mail);
-      return;
+    } else if (event is LogoutEvent) {
+      await clear();
+      yield UserUnInited();
     }
     return;
   }
@@ -66,6 +66,11 @@ class InitUserEvent extends UserEvent {
   
   @override
   String toString() => 'InitUserEvent';
+}
+
+class LogoutEvent extends UserEvent {
+  @override
+  String toString() => 'LogoutEvent';
 }
 
 // -------------- states ------------------

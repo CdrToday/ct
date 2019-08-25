@@ -15,3 +15,9 @@ class ArticleArgs {
   final String content;
   ArticleArgs({ this.id, this.title, this.content });
 }
+
+class ModifyArgs {
+  final String index;
+  final String title;
+  ModifyArgs({ this.index, this.title });
+}

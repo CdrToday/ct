@@ -30,7 +30,7 @@ class Article extends StatelessWidget {
           ],
           crossAxisAlignment: CrossAxisAlignment.start
         ),
-        padding: EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0, bottom: 20.0),
+        padding: EdgeInsets.all(20.0),
       )
     );
   }

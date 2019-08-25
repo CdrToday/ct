@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // blocs
@@ -13,6 +13,7 @@ import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
 import 'package:cdr_today/pages/edit.dart';
 import 'package:cdr_today/pages/article.dart';
+import 'package:cdr_today/pages/modify.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/tabbar.dart';
 
@@ -69,9 +70,7 @@ Widget app(BuildContext context, ThemeData theme) {
           return TabNavigator(index: 0);
         } else {
           _userBloc.dispatch(CheckUserEvent());
-          return Center(
-            child: CircularProgressIndicator()
-          );
+          return Login();
         }
       }
     )
@@ -101,7 +100,13 @@ MaterialPageRoute router(settings) {
     return MaterialPageRoute(
       builder: (context) => Article(args: args)
     );
+  } else if (r == '/mine/modify') {
+    final ModifyArgs args = settings.arguments;
+    return MaterialPageRoute(
+      builder: (context) => Modify(args: args)
+    );
   }
+  
   
   return MaterialPageRoute(
     builder: (context) =>  Text('hello')

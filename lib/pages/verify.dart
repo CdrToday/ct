@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/verify.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Verify extends StatefulWidget {
   final String mail;
@@ -37,10 +36,7 @@ class _VerifyState extends State<Verify> {
               ),
               TextField(
                 onChanged: changeValue,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '验证码',
-                ),
+                decoration: InputDecoration(hintText: '验证码'),
               ),
               Container(
                 margin: EdgeInsets.only(top: 50.0),
@@ -68,7 +64,7 @@ sendCode(BuildContext context, String _code, String mail) {
             ),
           );
         } else if (state is CodeVerifiedSucceed) {
-            Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
+          Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
         }
       },
       child: BlocBuilder<VerifyBloc, VerifyState>(

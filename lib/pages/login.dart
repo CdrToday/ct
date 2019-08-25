@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/verify.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Login extends StatefulWidget {
@@ -23,17 +23,7 @@ class _LoginState extends State<Login> {
         actions: [
           BlocBuilder<VerifyBloc, VerifyState>(
             builder: (context, state) {
-              if (state is CodeSentSucceed) {
-                return IconButton(
-                  icon: Icon(Icons.check),
-                  onPressed: () => Navigator.pushNamed(
-                    context, '/user/verify',
-                    arguments: MailArgs(mail: _value)
-                  )
-                );
-              } else {
-                return SizedBox.shrink();
-              }
+              return SizedBox.shrink();
             }
           )
         ],
@@ -56,10 +46,7 @@ class _LoginState extends State<Login> {
                 ),
                 TextField(
                   onChanged: changeValue,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: '邮箱',
-                  ),
+                  decoration: InputDecoration(hintText: '邮箱'),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 50.0),
@@ -89,11 +76,9 @@ sendCode(BuildContext context, String _email) {
             ),
           );
         } else if (state is CodeSentSucceed) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.green,
-              content: Text('邮件已发送，请查收'),
-            ),
+          Navigator.pushNamed(
+            context, '/user/verify',
+            arguments: MailArgs(mail: _email)
           );
         }
       },
