@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
       ),
       body: Builder(
         builder: (context) => Container(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(30.0),
           child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

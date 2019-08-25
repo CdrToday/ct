@@ -15,6 +15,7 @@ import 'package:cdr_today/pages/edit.dart';
 import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/modify.dart';
 import 'package:cdr_today/pages/version.dart';
+import 'package:cdr_today/pages/splash.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/tabbar.dart';
 
@@ -56,25 +57,12 @@ class App extends StatelessWidget {
   }
 }
 
-Widget app(BuildContext context, ThemeData theme) {
-  final UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
-  
+Widget app(BuildContext context, ThemeData theme) {  
   return MaterialApp(
     theme: theme,
     initialRoute: '/',
     onGenerateRoute: router,
-    home: BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) {
-        if (state is UserUnInited) {
-          return Login();
-        } else if (state is UserInited) {
-          return TabNavigator(index: 0);
-        } else {
-          _userBloc.dispatch(CheckUserEvent());
-          return Login();
-        }
-      }
-    )
+    home: SplashPage()
   );
 }
 
@@ -84,8 +72,25 @@ MaterialPageRoute router(settings) {
   
   if (r == '/init') {
     final RootArgs args = settings.arguments;
+    int index = 0;
+    if (args != null) {
+      index = args.index;
+    }
+    
     return MaterialPageRoute(
-      builder: (context) =>  TabNavigator(index: 0)
+      builder: (context) =>  BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          if (state is UserUnInited) {
+            return Login();
+          } else if (state is UserInited) {
+            return TabNavigator(index: index);
+          } else {
+            final UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
+            _userBloc.dispatch(CheckUserEvent());
+            return Login();
+          }
+        }
+      )
     );
   } else if (r == '/user/verify') {
     final MailArgs args = settings.arguments;

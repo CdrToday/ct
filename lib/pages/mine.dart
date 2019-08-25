@@ -62,9 +62,7 @@ Widget logout(BuildContext context) {
         child: Text(
           '退出登录',
           style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 14.0,
-            fontWeight: FontWeight.w500
+            color: Theme.of(context).primaryColor, fontSize: 14.0
           )
         ),
         onTap: () => _bloc.dispatch(LogoutEvent())

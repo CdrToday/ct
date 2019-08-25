@@ -1,6 +1,6 @@
-# cdr_today
+# cdr.today
 
-A new Flutter project.
+Louder than words.
 
 ## Getting Started
 
