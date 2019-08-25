@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/edit.dart';
+import 'package:cdr_today/blocs/article_list.dart';
 
 class Edit extends StatefulWidget {
   @override
@@ -13,10 +14,12 @@ class _EditState extends State<Edit> {
   
   Widget build(BuildContext context) {
     final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
+    final ArticleListBloc _alBloc = BlocProvider.of<ArticleListBloc>(context);
     
     return BlocListener<EditBloc, EditState>(
       listener: (context, state) {
         if (state is PublishSucceed) {
+          _alBloc.dispatch(ReFetching());
           Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
         } else {
           Scaffold.of(context).showSnackBar(
@@ -38,28 +41,25 @@ class _EditState extends State<Edit> {
           ],
         ),
         body: Container(
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextField(
-                    decoration: InputDecoration(hintText: '标题',),
-                    scrollPadding: EdgeInsets.all(20.0),
-                    onChanged: (String text) => setState(() { _title = text; })
-                  ),
-                  Container(
-                    child: TextField(
-                      decoration: InputDecoration(hintText: '内容',),
-                      scrollPadding: EdgeInsets.all(20.0),
-                      maxLines: 99999,
-                      onChanged: (String text) => setState(() { _content = text; })
-                    ),
-                    padding: EdgeInsets.only(top: 5.0)
-                  )
-                ],
+          child: Column(
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(hintText: '标题',),
+                scrollPadding: EdgeInsets.all(20.0),
+                onChanged: (String text) => setState(() { _title = text; })
               ),
-            ),
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: '内容',
+                  ),
+                  expands: true,
+                  minLines: null,
+                  maxLines: null,
+                  onChanged: (String text) => setState(() { _content = text; })
+                ),
+              ),
+            ],
           ),
           padding: EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/article_list.dart';
+import 'package:cdr_today/navigations/args.dart';
 
 class ArticleList extends StatefulWidget {
   @override
@@ -12,11 +13,7 @@ class _ArticleListState extends State<ArticleList> {
     final ArticleListBloc _bloc = BlocProvider.of<ArticleListBloc>(context);
     return BlocListener<ArticleListBloc, ArticleListState>(
       listener: (context, state) {
-        if (state is UnFetched) {
-          _bloc.dispatch(FetchSelfArticles());
-        } else {
-          print(state);
-        }
+
       },
       child: BlocBuilder<ArticleListBloc, ArticleListState>(
         builder: (context, state) {
@@ -41,26 +38,39 @@ Widget _buildList(BuildContext context, List<dynamic> list) {
     itemBuilder: (BuildContext context, int index) {
       String title = list[index]['title'];
       String content = list[index]['content'];
+      content = content.replaceAll('\n', ' ');
       if (content.length > 120) {
         content = content.substring(0, 112);
         content = content + '...';
       }
       
-      return  ListTile(
-        title: Text(
-          title,
-          style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.w400
-          )
-        ),
-        subtitle: Container(
-          child: Text(
-            content,
-            style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400)
+      return GestureDetector(
+        child: ListTile(
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.w400
+            )
           ),
-          padding: EdgeInsets.only(top: 10.0),
+          subtitle: Container(
+            child: Text(
+              content,
+              style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400)
+            ),
+            padding: EdgeInsets.only(top: 10.0),
+          ),
         ),
+        onTap: () {
+          Navigator.pushNamed(
+            context, '/article',
+            arguments: ArticleArgs(
+              title: title,
+              content: content,
+              id: list[index]['_id']
+            )
+          );
+        }
       );
     },
     separatorBuilder: (BuildContext context, int index) => const Divider(),

@@ -12,6 +12,7 @@ import 'package:cdr_today/blocs/article_list.dart';
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
 import 'package:cdr_today/pages/edit.dart';
+import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/tabbar.dart';
 
@@ -94,6 +95,11 @@ MaterialPageRoute router(settings) {
   } else if (r == '/user/edit') {
     return MaterialPageRoute(
       builder: (context) =>  Edit()
+    );
+  } else if (r == '/article') {
+    final ArticleArgs args = settings.arguments;
+    return MaterialPageRoute(
+      builder: (context) => Article(args: args)
     );
   }
   

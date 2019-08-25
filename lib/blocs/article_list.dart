@@ -36,6 +36,9 @@ class ArticleListBloc extends Bloc<ArticleListEvent, ArticleListState> {
         yield FetchedFailed();
       }
       return;
+    } else if (event is ReFetching) {
+      yield UnFetched();
+      return;
     }
     return;
   }
@@ -81,3 +84,7 @@ class GotEmptyList extends ArticleListEvent {
   String toString() => 'GotEmptyList';
 }
 
+class ReFetching extends ArticleListEvent {
+  @override
+  String toString() => 'ReFetching';
+}

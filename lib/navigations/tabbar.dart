@@ -27,7 +27,10 @@ dynamic configs(BuildContext context) => [{
 // TabNavigator
 class TabNavigator extends StatefulWidget {
   final int index;
-  TabNavigator({Key key, @required this.index}) : super(key: key);
+  final bool fetch;
+  TabNavigator({
+      Key key, this.index, this.fetch
+  }) : super(key: key);
 
   @override
   _TabNavigatorState createState() => _TabNavigatorState();
