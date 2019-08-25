@@ -41,33 +41,36 @@ class _LoginState extends State<Login> {
       body: Builder(
         builder: (context) => Container(
           padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Container(
-                child: Center(
-                  child: Text(
-                    'cdr.today',
-                    style: Theme.of(context).textTheme.display2
-                  )
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Container(
+                  child: Center(
+                    child: Text(
+                      'cdr.today',
+                      style: Theme.of(context).textTheme.display2
+                    )
+                  ),
+                  padding: EdgeInsets.only(top: 75.0, bottom: 35.0)
                 ),
-                padding: EdgeInsets.only(top: 75.0, bottom: 35.0)
-              ),
-              TextField(
-                onChanged: changeValue,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '邮箱',
+                TextField(
+                  onChanged: changeValue,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: '邮箱',
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 50.0),
-                child: Center(child: sendCode(context, _value))
-              )
-            ]
-          )
+                Container(
+                  margin: EdgeInsets.only(top: 50.0),
+                  child: Center(child: sendCode(context, _value))
+                )
+              ]
+            )
+          ),
         ),
-      )
+      ),
+      resizeToAvoidBottomPadding: true,
     );
   }
 }

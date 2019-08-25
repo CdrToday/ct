@@ -8,15 +8,23 @@ class Edit extends StatefulWidget {
 }
 
 class _EditState extends State<Edit> {
+  String _title;
+  String _content;
+  
   Widget build(BuildContext context) {
     final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
-    String _title = '';
-    String _content = '';
     
     return BlocListener<EditBloc, EditState>(
       listener: (context, state) {
-        if (state is PrePublish) {
-          Navigator.pushNamed(context, '/user/edit/addition');
+        if (state is PublishSucceed) {
+          Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
+        } else {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text('发布失败，请重试'),
+            ),
+          );
         }
       },
       child: Scaffold(
@@ -25,9 +33,7 @@ class _EditState extends State<Edit> {
           actions: [
             IconButton(
               icon: Icon(Icons.check),
-              onPressed: () => _bloc.dispatch(
-                CompletedEdit(title: _title, content: _content)
-              )
+              onPressed: () => _bloc.dispatch(CompletedEdit(title: _title, content: _content))
             ),
           ],
         ),
@@ -47,7 +53,7 @@ class _EditState extends State<Edit> {
                       decoration: InputDecoration(hintText: '内容',),
                       scrollPadding: EdgeInsets.all(20.0),
                       maxLines: 99999,
-                      onChanged: (String text) => setState(() { _context = text; })
+                      onChanged: (String text) => setState(() { _content = text; })
                     ),
                     padding: EdgeInsets.only(top: 5.0)
                   )

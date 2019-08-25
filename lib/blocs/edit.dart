@@ -13,6 +13,21 @@ class EditBloc extends Bloc<EditEvent, EditState> {
 
   @override
   Stream<EditState> mapEventToState(EditEvent event) async* {
+    if (event is CompletedEdit) {
+      var mail = await getString('mail');
+      var res = await http.post(
+        "${conf['url']}/${mail}/publish",
+        body: {
+          'title': event.title,
+          'content': event.content
+        }
+      );
+      if (res.statusCode == 200) {
+        yield PublishSucceed();
+      } else {
+        yield PublishFailed();
+      }
+    }
     return;
   }
 }
@@ -30,6 +45,16 @@ class Empty extends EditState {
 class PrePublish extends EditState {
   @override
   String toString() => 'PrePublish';
+}
+
+class PublishSucceed extends EditState {
+  @override
+  String toString() => 'PublishSucceed';
+}
+
+class PublishFailed extends EditState {
+  @override
+  String toString() => 'PublishFailed';
 }
 
 // ------------- events -------------

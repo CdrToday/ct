@@ -18,7 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     verifyBlocSubscription = verifyBloc.state.listen((state){
         if (state is CodeVerifiedSucceed) {
           this.dispatch(CheckUserEvent());
-        }
+        } 
     });
   }
   
@@ -37,6 +37,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       if (res.statusCode == 200) {
         yield UserInited(mail: mail);
+      } else {
+        yield UserUnInited();
       }
       
       return;

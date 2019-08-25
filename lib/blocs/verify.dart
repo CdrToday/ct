@@ -35,7 +35,7 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
         await setString('code', event.code);
         yield CodeVerifiedSucceed();
       } else {
-        yield CodeSentFailed();
+        yield CodeVerifiedFailed();
       }
     }
     return;
@@ -90,4 +90,9 @@ class CodeSentSucceed extends VerifyState {
 class CodeVerifiedSucceed extends VerifyState {
   @override
   String toString() => 'CodeVerifiedSucceed';
+}
+
+class CodeVerifiedFailed extends VerifyState {
+  @override
+  String toString() => 'CodeVerifiedFailed';
 }

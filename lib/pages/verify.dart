@@ -68,7 +68,7 @@ sendCode(BuildContext context, String _code, String mail) {
             ),
           );
         } else if (state is CodeVerifiedSucceed) {
-          Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
+            Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
         }
       },
       child: BlocBuilder<VerifyBloc, VerifyState>(
@@ -96,7 +96,7 @@ sendCode(BuildContext context, String _code, String mail) {
                 }
               },
               child: Text(
-                '请输入验证码',
+                '验证邮箱',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white
