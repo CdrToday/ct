@@ -27,22 +27,23 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VerifyBloc verifyBloc = VerifyBloc();
+    ArticleListBloc articleListBloc = ArticleListBloc();
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemeBloc>(
           builder: (context) => ThemeBloc()
         ),
-        BlocProvider<UserBloc>(
-          builder: (context) => UserBloc(verifyBloc)
+        BlocProvider<EditBloc>(
+          builder: (context) => EditBloc()
         ),
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc
         ),
-        BlocProvider<EditBloc>(
-          builder: (context) => EditBloc()
-        ),
         BlocProvider<ArticleListBloc>(
-          builder: (context) => ArticleListBloc()
+          builder: (context) => articleListBloc
+        ),
+        BlocProvider<UserBloc>(
+          builder: (context) => UserBloc(verifyBloc)
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeData>(

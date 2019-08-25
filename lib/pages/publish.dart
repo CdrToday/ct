@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Publish extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
+      padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
       children: <Widget>[
         line(context)
       ]
