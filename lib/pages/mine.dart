@@ -12,6 +12,7 @@ class Mine extends StatelessWidget {
             padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
             children: <Widget>[
               mail(context, state.mail),
+              version(context),
               logout(context),
             ]
           );
@@ -31,14 +32,24 @@ Widget mail(BuildContext context, String str) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.green,
-              content: Text(
-                "修改邮箱请前往官网: 'https://cdr.today/reborn' 🦄️"
-              ),
+              content: Text("修改邮箱请前往官网: 'https://cdr.today/reborn' 🦄️" ),
             ),
           );
         }
       )
     )
+  );
+}
+
+Widget version(BuildContext context) {
+  return Container(
+    child: Card(
+      child: ListTile(
+        title: Text('版本信息'),
+        onTap: () => Navigator.pushNamed(context, '/mine/version')
+      )
+    ),
+    margin: EdgeInsets.only(top: 10.0)
   );
 }
 
@@ -48,10 +59,17 @@ Widget logout(BuildContext context) {
   return Container(
     child: Center(
       child: GestureDetector(
-        child: Text('退出登录', style: TextStyle(color: Theme.of(context).primaryColor)),
+        child: Text(
+          '退出登录',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w500
+          )
+        ),
         onTap: () => _bloc.dispatch(LogoutEvent())
       )
     ),
-    margin: EdgeInsets.only(top: 10.0)
+    margin: EdgeInsets.only(top: 20.0)
   );
 }

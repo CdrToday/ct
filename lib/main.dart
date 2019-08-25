@@ -14,6 +14,7 @@ import 'package:cdr_today/pages/verify.dart';
 import 'package:cdr_today/pages/edit.dart';
 import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/modify.dart';
+import 'package:cdr_today/pages/version.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/tabbar.dart';
 
@@ -104,6 +105,10 @@ MaterialPageRoute router(settings) {
     final ModifyArgs args = settings.arguments;
     return MaterialPageRoute(
       builder: (context) => Modify(args: args)
+    );
+  } else if (r == '/mine/version') {
+    return MaterialPageRoute(
+      builder: (context) => VersionPage()
     );
   }
   
