@@ -89,6 +89,8 @@ sendCode(BuildContext context, String _email) {
           } else {
             return OutlineButton(
               onPressed: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+                
                 bool emailValid = RegExp(
                   r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"
                 ).hasMatch(_email);

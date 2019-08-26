@@ -74,6 +74,7 @@ sendCode(BuildContext context, String _code, String mail) {
           } else {
             return OutlineButton(
               onPressed: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
                 bool codeValid = RegExp(
                   r"^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}"
                 ).hasMatch(_code);

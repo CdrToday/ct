@@ -37,23 +37,24 @@ class _EditState extends State<Edit> {
             Builder(
               builder: (context) => IconButton(
                 icon: Icon(Icons.check),
-                onPressed: () => {
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
                   if (_title == null || _title == '') {
                     Scaffold.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: Colors.red,
                         content: Text('请填写文章标题'),
                       ),
-                    )
+                    );
                   } else if (_content == null || _content == '') {
                     Scaffold.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: Colors.red,
                         content: Text('请填写文章内容'),
                       ),
-                    )
+                    );
                   } else {
-                    _bloc.dispatch(CompletedEdit(title: _title, content: _content))
+                    _bloc.dispatch(CompletedEdit(title: _title, content: _content));
                   }
                 }
               )
