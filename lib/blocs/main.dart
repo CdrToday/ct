@@ -24,9 +24,39 @@ class SimpleBlocDelegate extends BlocDelegate {
 // theme bloc
 enum ThemeEvent { toggle }
 
+ThemeData light() {
+  return ThemeData(
+    scaffoldBackgroundColor: Colors.grey[100],
+    primaryColor: Colors.white,
+    accentColor: Colors.grey[700],
+    appBarTheme: AppBarTheme(
+      elevation: 1.0,
+    ),
+    textTheme: TextTheme(),
+    iconTheme: IconThemeData(color: Colors.green),
+    cardTheme: CardTheme(
+      color: Colors.white,
+      elevation: 0.3
+    ),
+    buttonTheme: ButtonThemeData(
+      textTheme: ButtonTextTheme.accent,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.black)
+      )
+    )
+  );
+}
+
 class ThemeBloc extends Bloc<ThemeEvent, ThemeData> {
   final ThemeData light = ThemeData(
     scaffoldBackgroundColor: Color(0xffeeeeee),
+    appBarTheme: AppBarTheme(
+      color: Colors.grey,
+      elevation: 0.0,
+    ),
+    iconTheme: IconThemeData(color: Colors.green)
   );
   
   @override

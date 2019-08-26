@@ -56,7 +56,7 @@ sendCode(BuildContext context, String _code, String mail) {
   return Container(
     child: BlocListener<VerifyBloc, VerifyState>(
       listener: (context, state) {
-        if (state is CodeSentFailed) {
+        if (state is CodeVerifiedFailed) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.red,
@@ -72,7 +72,7 @@ sendCode(BuildContext context, String _code, String mail) {
           if (state is CodeSending) {
             return CircularProgressIndicator();
           } else {
-            return RaisedButton(
+            return OutlineButton(
               onPressed: () {
                 bool codeValid = RegExp(
                   r"^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}"
@@ -93,10 +93,7 @@ sendCode(BuildContext context, String _code, String mail) {
               },
               child: Text(
                 '验证邮箱',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white
-                )
+                style: TextStyle(fontSize: 16)
               ),
               color: Theme.of(context).primaryColor,
             );

@@ -53,6 +53,8 @@ class _TabNavigatorState extends State<TabNavigator> {
     return Scaffold(
       appBar: AppBar(
         leading: null,
+        centerTitle: true,
+        bottomOpacity: 100.0,
         title: conf[_currentIndex]['title'],
         actions: conf[_currentIndex]['actions'],
       ),
@@ -76,6 +78,8 @@ class _TabNavigatorState extends State<TabNavigator> {
             title: Text('')
           )
         ],
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey
       ),
     );
   }

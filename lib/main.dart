@@ -59,7 +59,7 @@ class App extends StatelessWidget {
 
 Widget app(BuildContext context, ThemeData theme) {  
   return MaterialApp(
-    theme: theme,
+    theme: light(),
     initialRoute: '/',
     onGenerateRoute: router,
     home: SplashPage()

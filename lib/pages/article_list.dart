@@ -24,6 +24,8 @@ class _ArticleListState extends State<ArticleList> {
             return Center(child: Text('正在请求中...'));
           } else if (state is FetchedSucceed) {
             return _buildList(context, state.list);
+          } else if (state is FetchedFailed) {
+            return Center(child: Text('请求失败 🧐'));
           }
         }
       )
@@ -32,6 +34,9 @@ class _ArticleListState extends State<ArticleList> {
 }
 
 Widget _buildList(BuildContext context, List<dynamic> list) {
+  if (list.length == 0) {
+      return Center(child: Text('暂无文章'));
+  }
   return ListView.separated(
     padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0, bottom: 20.0),
     itemCount: list.length,

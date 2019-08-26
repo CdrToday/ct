@@ -1,3 +1,3 @@
 Map<String, dynamic> conf = {
-  'url': 'http://localhost:6000/api_v0'
+  'url': 'http://api.cdr.today/api_v0'
 };

@@ -64,7 +64,11 @@ class _EditState extends State<Edit> {
           child: Column(
             children: <Widget>[
               TextField(
-                decoration: InputDecoration(hintText: '标题',),
+                style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700
+                  ),
+                decoration: InputDecoration(hintText: '标题'),
                 scrollPadding: EdgeInsets.all(20.0),
                 onChanged: (String text) => setState(() { _title = text; })
               ),

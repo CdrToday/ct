@@ -87,7 +87,7 @@ sendCode(BuildContext context, String _email) {
           if (state is CodeSending) {
             return CircularProgressIndicator();
           } else {
-            return RaisedButton(
+            return OutlineButton(
               onPressed: () {
                 bool emailValid = RegExp(
                   r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"
@@ -106,10 +106,7 @@ sendCode(BuildContext context, String _email) {
               },
               child: Text(
                 '发送验证码',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white
-                )
+                style: TextStyle(fontSize: 16)
               ),
               color: Theme.of(context).primaryColor,
             );

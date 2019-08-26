@@ -16,7 +16,7 @@ class Article extends StatelessWidget {
               args.title,
               style: TextStyle(
                 fontSize: 20.0,
-                fontWeight: FontWeight.w400
+                fontWeight: FontWeight.w600
               )
             ),
             Divider(),

@@ -61,9 +61,7 @@ Widget logout(BuildContext context) {
       child: GestureDetector(
         child: Text(
           '退出登录',
-          style: TextStyle(
-            color: Theme.of(context).primaryColor, fontSize: 14.0
-          )
+          style: TextStyle(fontSize: 14.0)
         ),
         onTap: () => _bloc.dispatch(LogoutEvent())
       )
