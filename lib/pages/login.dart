@@ -17,21 +17,20 @@ class _LoginState extends State<Login> {
   }
   
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('登录'),
-        actions: [
-          BlocBuilder<VerifyBloc, VerifyState>(
-            builder: (context, state) {
-              return SizedBox.shrink();
-            }
-          )
-        ],
-      ),
-      body: Builder(
-        builder: (context) => Container(
-          padding: EdgeInsets.all(30.0),
-          child: Center(
+    return GestureDetector(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('登录'),
+          actions: [
+            BlocBuilder<VerifyBloc, VerifyState>(
+              builder: (context, state) {
+                return SizedBox.shrink();
+              }
+            )
+          ],
+        ),
+        body: Builder(
+          builder: (context) => Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -42,7 +41,7 @@ class _LoginState extends State<Login> {
                       style: Theme.of(context).textTheme.display2
                     )
                   ),
-                  padding: EdgeInsets.only(top: 75.0, bottom: 35.0)
+                  margin: EdgeInsets.only(bottom: 35.0),
                 ),
                 TextField(
                   onChanged: changeValue,
@@ -52,12 +51,17 @@ class _LoginState extends State<Login> {
                   margin: EdgeInsets.only(top: 50.0),
                   child: Center(child: sendCode(context, _value))
                 )
-              ]
-            )
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
+            margin: EdgeInsets.only(left: 50.0, right: 50.0),
+            transform: Matrix4.translationValues(0.0, -100.0, 0.0),
           ),
         ),
+        // TODO
+        // resizeToAvoidBottomInset: false
       ),
-      resizeToAvoidBottomPadding: true,
+      onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
     );
   }
 }

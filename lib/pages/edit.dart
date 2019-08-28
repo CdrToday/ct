@@ -69,14 +69,21 @@ class _EditState extends State<Edit> {
                     fontSize: 18.0,
                     fontWeight: FontWeight.w700
                   ),
-                decoration: InputDecoration(hintText: '标题'),
+                  decoration: InputDecoration(
+                    hintText: '标题',
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
                 scrollPadding: EdgeInsets.all(20.0),
                 onChanged: (String text) => setState(() { _title = text; })
               ),
+              Divider(),
               Expanded(
                 child: TextField(
                   decoration: InputDecoration(
                     hintText: '内容',
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
                   ),
                   expands: true,
                   minLines: null,

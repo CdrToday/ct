@@ -38,8 +38,8 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         padding: EdgeInsets.only(
-          left: 45.0,
-          right: 45.0,
+          left: 80.0,
+          right: 80.0,
           bottom: 120.0
         )
       ),

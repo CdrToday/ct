@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/verify.dart';
 
 class Verify extends StatefulWidget {
@@ -17,35 +18,42 @@ class _VerifyState extends State<Verify> {
   }
   
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('验证邮箱')),
-      body: Builder(
-        builder: (context) => Container(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Container(
-                child: Center(
-                  child: Text(
-                    'cdr.today',
-                    style: Theme.of(context).textTheme.display2
-                  )
+    return GestureDetector(
+      child: Scaffold(
+        appBar: AppBar(title: Text('验证邮箱')),
+        body: Builder(
+          builder: (context) => Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Container(
+                  child: Center(
+                    child: Text(
+                      'cdr.today',
+                      style: Theme.of(context).textTheme.display2
+                    )
+                  ),
+                  margin: EdgeInsets.only(bottom: 35.0),
                 ),
-                padding: EdgeInsets.only(top: 75.0, bottom: 35.0)
-              ),
-              TextField(
-                onChanged: changeValue,
-                decoration: InputDecoration(hintText: '验证码'),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 50.0),
-                child: Center(child: sendCode(context, _value, widget.mail))
-              )
-            ]
-          )
+                TextField(
+                  onChanged: changeValue,
+                  decoration: InputDecoration(hintText: '验证码'),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 50.0),
+                  child: Center(child: sendCode(context, _value, widget.mail))
+                )
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
+            margin: EdgeInsets.only(left: 50.0, right: 50.0),
+            transform: Matrix4.translationValues(0.0, -100.0, 0.0),
+          ),
         ),
-      )
+        // TODO
+        // resizeToAvoidBottomInset: false
+      ),
+      onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
     );
   }
 }
@@ -64,6 +72,8 @@ sendCode(BuildContext context, String _code, String mail) {
             ),
           );
         } else if (state is CodeVerifiedSucceed) {
+          final UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
+          _userBloc.dispatch(CheckUserEvent());
           Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
         }
       },

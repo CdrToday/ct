@@ -19,8 +19,8 @@ class VersionPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         padding: EdgeInsets.only(
-          left: 30.0,
-          right: 30.0,
+          left: 80.0,
+          right: 80.0,
           bottom: 100.0
         )
       ),

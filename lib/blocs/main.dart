@@ -30,7 +30,7 @@ ThemeData light() {
     primaryColor: Colors.white,
     accentColor: Colors.grey[700],
     appBarTheme: AppBarTheme(
-      elevation: 1.0,
+      elevation: 0.5,
     ),
     textTheme: TextTheme(),
     iconTheme: IconThemeData(color: Colors.green),

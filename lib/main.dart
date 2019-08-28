@@ -62,7 +62,8 @@ Widget app(BuildContext context, ThemeData theme) {
     theme: light(),
     initialRoute: '/',
     onGenerateRoute: router,
-    home: SplashPage()
+    home: SplashPage(),
+    debugShowCheckedModeBanner: false
   );
 }
 
@@ -73,9 +74,7 @@ MaterialPageRoute router(settings) {
   if (r == '/init') {
     final RootArgs args = settings.arguments;
     int index = 0;
-    if (args != null) {
-      index = args.index;
-    }
+    if (args != null) { index = args.index; }
     
     return MaterialPageRoute(
       builder: (context) =>  BlocBuilder<UserBloc, UserState>(
@@ -85,8 +84,6 @@ MaterialPageRoute router(settings) {
           } else if (state is UserInited) {
             return TabNavigator(index: index);
           } else {
-            final UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
-            _userBloc.dispatch(CheckUserEvent());
             return Login();
           }
         }

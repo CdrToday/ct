@@ -15,8 +15,9 @@ class Article extends StatelessWidget {
             Text(
               args.title,
               style: TextStyle(
+                height: 2.0,
                 fontSize: 20.0,
-                fontWeight: FontWeight.w600
+                fontWeight: FontWeight.w500
               )
             ),
             Divider(),
@@ -25,12 +26,12 @@ class Article extends StatelessWidget {
                 args.content,
                 style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400)
               ),
-              padding: EdgeInsets.only(top: 10.0),
+              padding: EdgeInsets.only(top: 15.0),
             )
           ],
           crossAxisAlignment: CrossAxisAlignment.start
         ),
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.only(right: 20.0, left: 20.0)
       )
     );
   }
