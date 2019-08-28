@@ -24,7 +24,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
   
   @override
-  UserState get initialState => Empty();
+  UserState get initialState => UserEmptyState();
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
@@ -78,9 +78,9 @@ abstract class UserState extends Equatable {
   UserState([List props = const []]) : super(props);
 }
 
-class Empty extends UserState {
+class UserEmptyState extends UserState {
   @override
-  String toString() => 'Empty';
+  String toString() => 'UserEmptyState';
 }
 
 class UserUnInited extends UserState {

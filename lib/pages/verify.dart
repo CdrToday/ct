@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/verify.dart';
 
 class Verify extends StatefulWidget {
@@ -47,11 +46,11 @@ class _VerifyState extends State<Verify> {
               mainAxisAlignment: MainAxisAlignment.center,
             ),
             margin: EdgeInsets.only(left: 50.0, right: 50.0),
-            transform: Matrix4.translationValues(0.0, -100.0, 0.0),
+            transform: Matrix4.translationValues(0.0, -120.0, 0.0),
           ),
         ),
         // TODO
-        // resizeToAvoidBottomInset: false
+        resizeToAvoidBottomInset: false
       ),
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
     );
@@ -72,9 +71,7 @@ sendCode(BuildContext context, String _code, String mail) {
             ),
           );
         } else if (state is CodeVerifiedSucceed) {
-          final UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
-          _userBloc.dispatch(CheckUserEvent());
-          Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
+          Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);
         }
       },
       child: BlocBuilder<VerifyBloc, VerifyState>(

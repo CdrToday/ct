@@ -8,14 +8,14 @@ class Article extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('文章详情')),
+      appBar: AppBar(title: Text('')),
       body: Container(
         child: Column(
           children: <Widget>[
             Text(
               args.title,
               style: TextStyle(
-                height: 2.0,
+                height: 3.0,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500
               )

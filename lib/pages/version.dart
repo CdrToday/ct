@@ -14,15 +14,12 @@ class VersionPage extends StatelessWidget {
               )
             ),
             Divider(),
-            Text('version 0.1.0', style: TextStyle(color: Colors.grey)),
+            Text('version 0.1.3', style: TextStyle(color: Colors.grey)),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
         ),
-        padding: EdgeInsets.only(
-          left: 80.0,
-          right: 80.0,
-          bottom: 100.0
-        )
+        padding: EdgeInsets.only(left: 80.0, right: 80.0),
+        transform: Matrix4.translationValues(0.0, -100.0, 0.0),
       ),
     );
   }

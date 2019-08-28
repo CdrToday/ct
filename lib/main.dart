@@ -72,22 +72,28 @@ MaterialPageRoute router(settings) {
   String r = settings.name;
   
   if (r == '/init') {
-    final RootArgs args = settings.arguments;
-    int index = 0;
-    if (args != null) { index = args.index; }
-    
     return MaterialPageRoute(
       builder: (context) =>  BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
           if (state is UserUnInited) {
             return Login();
           } else if (state is UserInited) {
-            return TabNavigator(index: index);
-          } else {
+            return TabNavigator(index: 0);
+          } else if (state is UserEmptyState){
+            final _bloc = BlocProvider.of<UserBloc>(context);
+            _bloc.dispatch(CheckUserEvent());
             return Login();
           }
         }
       )
+    );
+  } else if (r == '/root') {
+    final RootArgs args = settings.arguments;
+    int index = 0;
+    if (args != null) { index = args.index; }
+    
+    return MaterialPageRoute(
+      builder: (context) =>  TabNavigator(index: index)
     );
   } else if (r == '/user/verify') {
     final MailArgs args = settings.arguments;

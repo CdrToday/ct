@@ -88,12 +88,15 @@ class _EditState extends State<Edit> {
                   expands: true,
                   minLines: null,
                   maxLines: null,
-                  onChanged: (String text) => setState(() { _content = text; })
+                  onChanged: (String text) => setState(() { _content = text; }),
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(new FocusNode());
+                  }
                 ),
               ),
             ],
           ),
-          padding: EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
+          padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
         ),
         resizeToAvoidBottomPadding: true,
       )
