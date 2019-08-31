@@ -16,8 +16,11 @@ import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/modify.dart';
 import 'package:cdr_today/pages/version.dart';
 import 'package:cdr_today/pages/splash.dart';
+import 'package:cdr_today/pages/article_manager.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/tabbar.dart';
+// components
+import 'package:cdr_today/components/empty.dart';
 
 /* app */
 void main() {
@@ -70,7 +73,6 @@ Widget app(BuildContext context, ThemeData theme) {
 /* app router */
 MaterialPageRoute router(settings) {
   String r = settings.name;
-  
   if (r == '/init') {
     return MaterialPageRoute(
       builder: (context) =>  BlocBuilder<UserBloc, UserState>(
@@ -79,11 +81,7 @@ MaterialPageRoute router(settings) {
             return Login();
           } else if (state is UserInited) {
             return TabNavigator(index: 0);
-          } else if (state is UserEmptyState){
-            final _bloc = BlocProvider.of<UserBloc>(context);
-            _bloc.dispatch(CheckUserEvent());
-            return Login();
-          }
+          } 
         }
       )
     );
@@ -103,6 +101,10 @@ MaterialPageRoute router(settings) {
   } else if (r == '/user/edit') {
     return MaterialPageRoute(
       builder: (context) =>  Edit()
+    );
+  } else if (r == '/user/article/manager') {
+    return MaterialPageRoute(
+      builder: (context) =>  ArticleManager()
     );
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;

@@ -29,6 +29,7 @@ ThemeData light() {
     scaffoldBackgroundColor: Colors.grey[100],
     primaryColor: Colors.white,
     accentColor: Colors.grey[700],
+    splashColor: Colors.transparent,
     appBarTheme: AppBarTheme(
       elevation: 0.5,
     ),

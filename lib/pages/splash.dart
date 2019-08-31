@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:cdr_today/blocs/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -9,11 +11,9 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   startTime() async {
     var _duration = new Duration(seconds: 2);
-    return new Timer(_duration, navigationPage);
-  }
-
-  void navigationPage() {
-    Navigator.of(context).pushReplacementNamed('/init');
+    return new Timer(_duration, () {
+        Navigator.of(context).pushReplacementNamed('/init');
+    });
   }
 
   @override
@@ -23,6 +23,9 @@ class _SplashPageState extends State<SplashPage> {
   }
   
   Widget build(context) {
+    final _bloc = BlocProvider.of<UserBloc>(context);
+    _bloc.dispatch(CheckUserEvent());
+    
     return Scaffold(
       appBar: null,
       body: Container(
@@ -42,7 +45,7 @@ class _SplashPageState extends State<SplashPage> {
           right: 80.0,
           bottom: 120.0
         )
-      ),
+      )
     );
   }
 }

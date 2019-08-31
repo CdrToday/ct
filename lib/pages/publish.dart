@@ -5,20 +5,20 @@ class Publish extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
       children: <Widget>[
-        line(context)
+        line(context, '文章', '可以发表长段文字', '/user/edit', Icons.note_add)
       ]
     );
   }
 }
 
-Widget line(BuildContext context) {
+Widget line(BuildContext context, String title, String info, String route, IconData icon) {
   return Card(
     child: ListTile(
-      leading: Icon(Icons.note_add, size: 42.0),
-      title: Text('文章'),
-      subtitle: Text('可以发表长段文字'),
+      leading: Icon(icon, size: 42.0),
+      title: Text(title),
+      subtitle: Text(info),
       onTap: () {
-        Navigator.pushNamed(context, '/user/edit');
+        Navigator.pushNamed(context, route);
       }
     )
   );

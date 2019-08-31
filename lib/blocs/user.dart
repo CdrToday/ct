@@ -24,16 +24,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
   
   @override
-  UserState get initialState => UserEmptyState();
+  UserState get initialState => UserUnInited();
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
     if (event is CheckUserEvent) {
       String mail = await getString('mail');
       String code = await getString('code');
+
+      Map data = {
+        'code': code
+      };
+      
       var res = await http.post(
         "${conf['url']}/${mail}/verify",
-        body: { 'code': code }
+        body: json.encode(data)
       );
 
       if (res.statusCode == 200) {
@@ -76,11 +81,6 @@ class LogoutEvent extends UserEvent {
 // -------------- states ------------------
 abstract class UserState extends Equatable {
   UserState([List props = const []]) : super(props);
-}
-
-class UserEmptyState extends UserState {
-  @override
-  String toString() => 'UserEmptyState';
 }
 
 class UserUnInited extends UserState {

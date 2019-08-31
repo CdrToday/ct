@@ -15,12 +15,14 @@ class EditBloc extends Bloc<EditEvent, EditState> {
   Stream<EditState> mapEventToState(EditEvent event) async* {
     if (event is CompletedEdit) {
       var mail = await getString('mail');
+      Map data = {
+        'title': event.title,
+        'content': event.content
+      };
+      
       var res = await http.post(
         "${conf['url']}/${mail}/publish",
-        body: {
-          'title': event.title,
-          'content': event.content
-        }
+        body: json.encode(data),
       );
       if (res.statusCode == 200) {
         yield PublishSucceed();

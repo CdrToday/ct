@@ -12,6 +12,7 @@ class Mine extends StatelessWidget {
             padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
             children: <Widget>[
               mail(context, state.mail),
+              articles(context),
               version(context),
               logout(context),
             ]
@@ -38,6 +39,18 @@ Widget mail(BuildContext context, String str) {
         }
       )
     )
+  );
+}
+
+Widget articles(BuildContext context) {
+  return Container(
+    child: Card(
+      child: ListTile(
+        title: Text('文章管理'),
+        onTap: () => Navigator.pushNamed(context, '/user/article/manager')
+      )
+    ),
+    margin: EdgeInsets.only(top: 10.0)
   );
 }
 

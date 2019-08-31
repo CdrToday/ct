@@ -15,7 +15,7 @@ class Article extends StatelessWidget {
             Text(
               args.title,
               style: TextStyle(
-                height: 3.0,
+                height: 2.5,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500
               )

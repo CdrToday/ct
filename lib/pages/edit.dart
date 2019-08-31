@@ -90,7 +90,7 @@ class _EditState extends State<Edit> {
                   maxLines: null,
                   onChanged: (String text) => setState(() { _content = text; }),
                   onTap: () {
-                    FocusScope.of(context).requestFocus(new FocusNode());
+                    // FocusScope.of(context).requestFocus(new FocusNode());
                   }
                 ),
               ),

@@ -19,7 +19,7 @@ class VersionPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         padding: EdgeInsets.only(left: 80.0, right: 80.0),
-        transform: Matrix4.translationValues(0.0, -100.0, 0.0),
+        transform: Matrix4.translationValues(0.0, -80.0, 0.0),
       ),
     );
   }

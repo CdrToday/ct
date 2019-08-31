@@ -25,9 +25,14 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
       return;
     } else if (event is VerifyCodeEvent) {
       yield CodeSending();
+
+      Map data = {
+        'code': event.code
+      };
+      
       var res = await http.post(
         "${conf['url']}/${event.mail}/verify",
-        body: { 'code': event.code }
+        body: json.encode(data)
       );
       
       if (res.statusCode == 200) {

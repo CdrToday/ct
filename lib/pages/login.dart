@@ -55,7 +55,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
             ),
             margin: EdgeInsets.only(left: 50.0, right: 50.0),
-            transform: Matrix4.translationValues(0.0, -120.0, 0.0),
+            transform: Matrix4.translationValues(0.0, -100.0, 0.0),
           ),
         ),
         // TODO
