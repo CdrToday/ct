@@ -10,10 +10,11 @@ class MailArgs {
 }
 
 class ArticleArgs {
+  final bool edit;
   final String id;
   final String title;
   final String content;
-  ArticleArgs({ this.id, this.title, this.content });
+  ArticleArgs({ this.edit, this.id, this.title, this.content });
 }
 
 class ModifyArgs {

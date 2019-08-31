@@ -11,9 +11,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   startTime() async {
     var _duration = new Duration(seconds: 2);
-    return new Timer(_duration, () {
-        Navigator.of(context).pushReplacementNamed('/init');
-    });
+    return new Timer(_duration, () {});
   }
 
   @override
@@ -26,24 +24,31 @@ class _SplashPageState extends State<SplashPage> {
     final _bloc = BlocProvider.of<UserBloc>(context);
     _bloc.dispatch(CheckUserEvent());
     
-    return Scaffold(
-      appBar: null,
-      body: Container(
-        child: Column(
-          children: [
-            Text(
-              'cdr.today',
-              style: Theme.of(context).textTheme.display1
-            ),
-            Divider(),
-            Text('Louder than words.', style: TextStyle(color: Colors.grey)),
-          ],
-          mainAxisAlignment: MainAxisAlignment.center,
-        ),
-        padding: EdgeInsets.only(
-          left: 80.0,
-          right: 80.0,
-          bottom: 120.0
+    return BlocListener<UserBloc, UserState>(
+      listener: (context, state) {
+        if (state is! UserEmptyState) {
+          Navigator.of(context).pushReplacementNamed('/init');
+        }
+      },
+      child: Scaffold(
+        appBar: null,
+        body: Container(
+          child: Column(
+            children: [
+              Text(
+                'cdr.today',
+                style: Theme.of(context).textTheme.display1
+              ),
+              Divider(),
+              Text('Louder than words.', style: TextStyle(color: Colors.grey)),
+            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+          ),
+          padding: EdgeInsets.only(
+            left: 80.0,
+            right: 80.0,
+            bottom: 120.0
+          )
         )
       )
     );

@@ -4,6 +4,9 @@ import 'package:cdr_today/blocs/article_list.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class ArticleList extends StatefulWidget {
+  final bool edit;
+  ArticleList({ this.edit });
+  
   @override
   _ArticleListState createState() => _ArticleListState();
 }
@@ -23,7 +26,7 @@ class _ArticleListState extends State<ArticleList> {
             _bloc.dispatch(FetchSelfArticles());
             return Center(child: Text('正在请求中...'));
           } else if (state is FetchedSucceed) {
-            return _buildList(context, state.list);
+            return _buildList(context, state.list, widget.edit);
           } else if (state is FetchedFailed) {
             return Center(child: Text('请求失败 🧐'));
           }
@@ -33,7 +36,7 @@ class _ArticleListState extends State<ArticleList> {
   }
 }
 
-Widget _buildList(BuildContext context, List<dynamic> list) {
+Widget _buildList(BuildContext context, List<dynamic> list, bool edit) {
   if (list.length == 0) {
       return Center(child: Text('暂无文章'));
   }
@@ -48,7 +51,7 @@ Widget _buildList(BuildContext context, List<dynamic> list) {
         content = content.substring(0, 112);
         content = content + '...';
       }
-      
+
       return GestureDetector(
         child: ListTile(
           title: Text(
@@ -67,14 +70,27 @@ Widget _buildList(BuildContext context, List<dynamic> list) {
           ),
         ),
         onTap: () {
-          Navigator.pushNamed(
-            context, '/article',
-            arguments: ArticleArgs(
-              title: title,
-              content: content,
-              id: list[index]['_id']
-            )
-          );
+          if (edit == true) {
+            Navigator.pushNamed(
+              context, '/user/edit',
+              arguments: ArticleArgs(
+                edit: edit,
+                title: title,
+                content: content,
+                id: list[index]['_id']
+              )
+            );
+          } else {
+            Navigator.pushNamed(
+              context, '/article',
+              arguments: ArticleArgs(
+                edit: edit,
+                title: title,
+                content: content,
+                id: list[index]['_id']
+              )
+            );
+          }
         }
       );
     },

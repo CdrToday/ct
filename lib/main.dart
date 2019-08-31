@@ -99,8 +99,9 @@ MaterialPageRoute router(settings) {
       builder: (context) =>  Verify(mail: args.mail)
     );
   } else if (r == '/user/edit') {
+    final ArticleArgs args = settings.arguments;
     return MaterialPageRoute(
-      builder: (context) =>  Edit()
+      builder: (context) =>  Edit(args: args)
     );
   } else if (r == '/user/article/manager') {
     return MaterialPageRoute(

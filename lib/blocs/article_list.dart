@@ -27,7 +27,6 @@ class ArticleListBloc extends Bloc<ArticleListEvent, ArticleListState> {
       var res = await http.get("${conf['url']}/${mail}/articles");
       if (res.statusCode == 200) {
         ArticleListAPI articles = ArticleListAPI.fromJson(json.decode(res.body));
-        print(articles);
         if (articles.articles.length > 0) {
           yield FetchedSucceed(list: articles.articles);
         } else {
