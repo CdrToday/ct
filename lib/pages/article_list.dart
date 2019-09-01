@@ -77,7 +77,7 @@ Widget _buildList(BuildContext context, List<dynamic> list, bool edit) {
                 edit: edit,
                 title: title,
                 content: content,
-                id: list[index]['_id']
+                id: list[index]['id']
               )
             );
           } else {
@@ -87,7 +87,7 @@ Widget _buildList(BuildContext context, List<dynamic> list, bool edit) {
                 edit: edit,
                 title: title,
                 content: content,
-                id: list[index]['_id']
+                id: list[index]['id']
               )
             );
           }

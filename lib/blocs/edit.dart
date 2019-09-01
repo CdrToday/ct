@@ -43,9 +43,11 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       );
       if (res.statusCode == 200) {
         yield UpdateSucceed();
+        yield Empty();
       } else {
         yield UpdateFailed();
       }
+      
     } else if (event is DeleteEdit) {
       var mail = await getString('mail');
       Map data = {
@@ -58,6 +60,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       );
       if (res.statusCode == 200) {
         yield DeleteSucceed();
+        yield Empty();
       } else {
         yield DeleteFailed();
       }

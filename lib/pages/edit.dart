@@ -16,10 +16,15 @@ class _EditState extends State<Edit> {
   TextEditingController _titleController;
   TextEditingController _contentController;
 
+  String _title = '';
+  String _content = '';
+  
   @override
   void initState() {
     super.initState();
     if (widget.args.edit == true) {
+      _title = widget.args.title;
+      _content = widget.args.content;
       _titleController = new TextEditingController(text: widget.args.title);
       _contentController = new TextEditingController(text: widget.args.content);
     } else {
@@ -27,18 +32,10 @@ class _EditState extends State<Edit> {
       _contentController = new TextEditingController(text: '');
     }
   }
-  
-  String _title = '';
-  String _content = '';
 
   Widget build(BuildContext context) {
     final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
     final ArticleListBloc _alBloc = BlocProvider.of<ArticleListBloc>(context);
-
-    if (widget.args.edit == true) {
-      _title = widget.args.title;
-      _content = widget.args.content;
-    }
     
     return Scaffold(
       appBar: AppBar(
@@ -47,7 +44,7 @@ class _EditState extends State<Edit> {
           title: _title,
           content: _content,
           id: widget.args.id,
-          edit: widget.args.edit
+          edit: widget.args.edit,
         ),
         title: Text('编辑'),
       ),
@@ -58,10 +55,10 @@ class _EditState extends State<Edit> {
             Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
           } else if (state is UpdateSucceed) {
             _alBloc.dispatch(ReFetching());
-            Navigator.pushNamedAndRemoveUntil(context, '/article/manager', (_) => false);
+            Navigator.pop(context);
           } else if (state is DeleteSucceed) {
             _alBloc.dispatch(ReFetching());
-            Navigator.pushNamedAndRemoveUntil(context, '/article/manager', (_) => false);
+            Navigator.pop(context);
           } else if (state is DeleteFailed) {
             Scaffold.of(context).showSnackBar(
               SnackBar(
@@ -100,7 +97,10 @@ class _EditState extends State<Edit> {
                 ),
                 scrollPadding: EdgeInsets.all(20.0),
                 controller: _titleController,
-                onChanged: (String text) => setState(() { _title = text; })
+                onChanged: (String text) {
+                  setState(() { _title = text; });
+                  print(_title);
+                }
               ),
               Divider(),
               Expanded(
@@ -115,9 +115,6 @@ class _EditState extends State<Edit> {
                   maxLines: null,
                   controller: _contentController,
                   onChanged: (String text) => setState(() { _content = text; }),
-                  onTap: () {
-                    // FocusScope.of(context).requestFocus(new FocusNode());
-                  }
                 ),
               ),
             ],
@@ -130,12 +127,22 @@ class _EditState extends State<Edit> {
   }
 }
 
-
-List<Widget> _actions(
-  BuildContext context, { String title, String content, String id, bool edit }
+_actions(
+  BuildContext context, {String title, String content, String id, bool edit}
 ) {
   final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
   
+  Widget delete = IconButton(
+    icon: Icon(Icons.highlight_off),
+    onPressed: () => _neverSatisfied(context, id)
+  );
+
+  Widget empty = SizedBox.shrink();
+
+  if (edit != true) {
+    delete = empty;
+  }
+
   Builder upload = Builder(
     builder: (context) => IconButton(
       icon: Icon(Icons.check),
@@ -165,24 +172,11 @@ List<Widget> _actions(
       }
     )
   );
-
-  Builder delete = Builder(
-    builder: (context) => IconButton(
-      icon: Icon(Icons.highlight_off),
-      onPressed: () => _neverSatisfied(context, id)
-    )
-  );
-
-  Builder empty = Builder(
-    builder: (context) => SizedBox.shrink()
-  );
-
-  if (edit != true) {
-    delete = empty;
-  }
   
-  return [ delete, upload ];
+  return [delete, upload];
 }
+
+
 
 Future<void> _neverSatisfied(BuildContext context, String id) async {
   final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
