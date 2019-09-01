@@ -37,9 +37,6 @@ class _ArticleListState extends State<ArticleList> {
 }
 
 Widget _buildList(BuildContext context, List<dynamic> list, bool edit) {
-  if (list.length == 0) {
-      return Center(child: Text('暂无文章'));
-  }
   return ListView.separated(
     padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0, bottom: 20.0),
     itemCount: list.length,

@@ -73,13 +73,6 @@ class _EditState extends State<Edit> {
                 content: Text('更新失败，请重试'),
               ),
             );
-          } else {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.red,
-                content: Text('发布失败，请重试'),
-              ),
-            );
           }
         },
         child: Container(
@@ -176,8 +169,6 @@ _actions(
   return [delete, upload];
 }
 
-
-
 Future<void> _neverSatisfied(BuildContext context, String id) async {
   final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
   return showDialog<void>(
@@ -195,6 +186,7 @@ Future<void> _neverSatisfied(BuildContext context, String id) async {
             child: Text('确定'),
             onPressed: () {
               _bloc.dispatch(DeleteEdit(id: id));
+              Navigator.pop(context);
             },
           ),
         ],
