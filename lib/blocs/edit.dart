@@ -13,19 +13,26 @@ class EditBloc extends Bloc<EditEvent, EditState> {
 
   @override
   Stream<EditState> mapEventToState(EditEvent event) async* {
+    var mail = await getString('mail');
+    var code = await getString('code');
+    
     if (event is CompletedEdit) {
-      var mail = await getString('mail');
       Map data = {
+        'code': code,
         'title': event.title,
-        'content': event.content
+        'content': event.content,
       };
       
       var res = await http.post(
         "${conf['url']}/${mail}/publish",
+        headers: {
+          'code': code,
+        },
         body: json.encode(data),
       );
       if (res.statusCode == 200) {
         yield PublishSucceed();
+        yield Empty();
       } else {
         yield PublishFailed();
       }
@@ -39,6 +46,9 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       
       var res = await http.post(
         "${conf['url']}/${mail}/article/update",
+        headers: {
+          'code': code
+        },
         body: json.encode(data),
       );
       if (res.statusCode == 200) {
@@ -56,6 +66,9 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       
       var res = await http.post(
         "${conf['url']}/${mail}/article/delete",
+        headers: {
+          'code': code
+        },
         body: json.encode(data),
       );
       if (res.statusCode == 200) {

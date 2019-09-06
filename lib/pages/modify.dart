@@ -19,51 +19,44 @@ class _ModifyState extends State<Modify> {
   }
   
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.args.title),
-        actions: [
-          Builder(
-            builder: (context) => _ok(context, widget.args.index, _value)
-          )
-        ]
-      ),
-      body: Container(
-        child: TextField(
-          decoration: InputDecoration(hintText: widget.args.title),
-          onChanged: changeValue
+    return GestureDetector(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.args.title),
+          actions: [
+            ok(context, _value)
+          ]
         ),
-        padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0)
-      )
+        body: Container(
+          child: TextField(
+            decoration: InputDecoration(hintText: widget.args.title),
+            onChanged: changeValue
+          ),
+          padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0)
+        ),
+      ),
+      onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
     );
   }
 }
 
-Widget _ok(BuildContext context, String index, String _value) {
-  final VerifyBloc _bloc = BlocProvider.of<VerifyBloc>(context);
-  
-  if (index == 'mail') {
-    return BlocListener<VerifyBloc, VerifyState>(
-      child: IconButton(
-        icon: Icon(Icons.check, color: Colors.white),
+Widget ok(BuildContext context, String _value) {
+  return Builder(
+    builder: (context) {
+      return IconButton(
+        icon: Icon(Icons.check, color: Colors.black),
         onPressed: () {
-          bool emailValid = RegExp(
-            r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"
-          ).hasMatch(_value);
-          
-          if (!emailValid) {
+          if (_value == '') {
             Scaffold.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.red,
                 content: Text('请输入正确的邮箱'),
               ),
             );
-          } else {
-            _bloc.dispatch(SendCodeEvent(mail: _value));
           }
+          Navigator.pop(context);
         }
-      ),
-      listener: (context, state) {}
-    );
-  }
+      );
+    }
+  );
 }

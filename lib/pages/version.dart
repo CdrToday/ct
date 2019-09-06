@@ -14,7 +14,7 @@ class VersionPage extends StatelessWidget {
               )
             ),
             Divider(),
-            Text('version 0.1.3', style: TextStyle(color: Colors.grey)),
+            Text('version 0.1.5', style: TextStyle(color: Colors.grey)),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
         ),

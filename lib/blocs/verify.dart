@@ -15,7 +15,7 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
   Stream<VerifyState> mapEventToState(VerifyEvent event) async* {
     if (event is SendCodeEvent) {
       yield CodeSending();
-      var res = await http.post("${conf['url']}/${event.mail}/code");
+      var res = await http.get("${conf['url']}/${event.mail}/code");
       
       if (res.statusCode == 200) {
         yield CodeSentSucceed();

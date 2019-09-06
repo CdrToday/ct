@@ -7,15 +7,18 @@ import 'package:cdr_today/blocs/main.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/verify.dart';
+import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/blocs/article_list.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
 import 'package:cdr_today/pages/edit.dart';
+import 'package:cdr_today/pages/image.dart';
 import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/modify.dart';
 import 'package:cdr_today/pages/version.dart';
 import 'package:cdr_today/pages/splash.dart';
+import 'package:cdr_today/pages/profile.dart';
 import 'package:cdr_today/pages/article_manager.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/tabbar.dart';
@@ -51,6 +54,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<UserBloc>(
           builder: (context) => UserBloc(verifyBloc)
+        ),
+        BlocProvider<ProfileBloc>(
+          builder: (context) => ProfileBloc()
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeData>(
@@ -103,19 +109,27 @@ MaterialPageRoute router(settings) {
     return MaterialPageRoute(
       builder: (context) =>  Edit(args: args)
     );
-  } else if (r == '/user/article/manager') {
+  } else if (r == '/user/image') {
     return MaterialPageRoute(
-      builder: (context) =>  ArticleManager()
+      builder: (context) =>  ImagePage()
     );
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return MaterialPageRoute(
       builder: (context) => Article(args: args)
     );
-  } else if (r == '/mine/modify') {
+  } else if (r == '/mine/profile') {
+    return MaterialPageRoute(
+      builder: (context) =>  Profile()
+    );
+  } else if (r == '/mine/profile/modify') {
     final ModifyArgs args = settings.arguments;
     return MaterialPageRoute(
       builder: (context) => Modify(args: args)
+    );
+  } else if (r == '/mine/article/manager') {
+    return MaterialPageRoute(
+      builder: (context) =>  ArticleManager()
     );
   } else if (r == '/mine/version') {
     return MaterialPageRoute(

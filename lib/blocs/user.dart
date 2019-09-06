@@ -1,7 +1,6 @@
 import './conf.dart';
 import './utils.dart';
 import './verify.dart';
-import './article_list.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
@@ -42,12 +41,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       );
 
       if (res.statusCode == 200) {
-        yield UserInited(mail: mail);
+        MailVerifyResult _data = MailVerifyResult.fromJson(json.decode(res.body));
+        
+        yield UserInited(
+          mail: _data.data['mail'],
+          name: _data.data['name']
+        );
       } else {
         yield UserUnInited();
       }
     } else if (event is InitUserEvent) {
-      yield UserInited(mail: event.mail);
+      yield UserInited(mail: event.mail, name: event.name);
     } else if (event is LogoutEvent) {
       await clear();
       yield UserUnInited();
@@ -55,7 +59,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     return;
   }
 }
-
 
 // -------------- events ----------------
 abstract class UserEvent extends Equatable {}
@@ -67,7 +70,8 @@ class CheckUserEvent extends UserEvent {
 
 class InitUserEvent extends UserEvent {
   final String mail;
-  InitUserEvent({ this.mail });
+  final String name;
+  InitUserEvent({ this.mail, this.name });
   
   @override
   String toString() => 'InitUserEvent';
@@ -76,6 +80,14 @@ class InitUserEvent extends UserEvent {
 class LogoutEvent extends UserEvent {
   @override
   String toString() => 'LogoutEvent';
+}
+
+class UpdateUserName extends UserEvent {
+  final String name;
+  UpdateUserName({ this.name });
+
+  @override
+  String toString() => 'UpdateUserName';
 }
 
 // -------------- states ------------------
@@ -95,19 +107,20 @@ class UserEmptyState extends UserState {
 
 class UserInited extends UserState {
   final String mail;
+  final String name;
   
   UserInited({
-      this.mail,
-  }) : super([ mail ]);
+      this.mail, this.name
+  }) : super([ mail, name ]);
 }
-
 
 // -------------- apis ---------------------
 class MailVerifyResult {
   final String msg;
-  MailVerifyResult({ this.msg });
+  final Map<String, dynamic> data;
+  MailVerifyResult({ this.msg, this.data });
 
-  factory MailVerifyResult.fromJson(Map<String, String> json) {
-    return MailVerifyResult( msg: json['msg']);
+  factory MailVerifyResult.fromJson(Map<String, dynamic> json) {
+    return MailVerifyResult( msg: json['msg'], data: json['data']);
   }
 }
