@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cdr_today/blocs/main.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/edit.dart';
+import 'package:cdr_today/blocs/image.dart';
 import 'package:cdr_today/blocs/verify.dart';
 import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/blocs/article_list.dart';
@@ -45,6 +46,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<EditBloc>(
           builder: (context) => EditBloc()
+        ),
+        BlocProvider<ImageBloc>(
+          builder: (context) => ImageBloc()
         ),
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc

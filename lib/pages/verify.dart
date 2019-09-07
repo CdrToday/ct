@@ -49,7 +49,6 @@ class _VerifyState extends State<Verify> {
             transform: Matrix4.translationValues(0.0, -100.0, 0.0),
           ),
         ),
-        // TODO
         resizeToAvoidBottomInset: false
       ),
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode())

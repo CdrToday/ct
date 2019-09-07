@@ -35,6 +35,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
         yield Empty();
       } else {
         yield PublishFailed();
+        yield Empty();
       }
     } else if (event is UpdateEdit) {
       var mail = await getString('mail');
