@@ -39,9 +39,12 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
         },
         body: json.encode(data)
       );
+
+      yield ImageUploading();
       
       if (res.statusCode == 200) {
-        yield ImageUploadSucceed();
+        UploadResult _data = UploadResult.fromJson(json.decode(res.body));
+        yield ImageUploadSucceed(cover: _data.cover);
       } else {
         yield ImageUploadFailed();
       }
@@ -67,6 +70,9 @@ class ImageUploading extends ImageState {
 }
 
 class ImageUploadSucceed extends ImageState {
+  final String cover;
+  ImageUploadSucceed({ this.cover });
+  
   @override
   String toString() => "ImageUploadSucceed";
 }
@@ -82,4 +88,14 @@ abstract class ImageEvent extends Equatable {}
 class UploadImageEvent extends ImageEvent {
   final File image;
   UploadImageEvent({ this.image });
+}
+
+// ---------- API ---------
+class UploadResult {
+  final String cover;
+  UploadResult({ this.cover });
+  
+  factory UploadResult.fromJson(Map<String, dynamic> json) {
+    return UploadResult( cover: json['cover'] );
+  }
 }

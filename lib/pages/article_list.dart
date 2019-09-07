@@ -42,6 +42,7 @@ Widget _buildList(BuildContext context, List<dynamic> list, bool edit) {
     itemCount: list.length,
     itemBuilder: (BuildContext context, int index) {
       String title = list[index]['title'];
+      String cover = list[index]['cover'];
       String content = list[index]['content'];
       content = content.replaceAll('\n', ' ');
       if (content.length > 120) {
@@ -72,6 +73,7 @@ Widget _buildList(BuildContext context, List<dynamic> list, bool edit) {
               context, '/user/edit',
               arguments: ArticleArgs(
                 edit: edit,
+                cover: cover,
                 title: title,
                 content: content,
                 id: list[index]['id']
@@ -82,6 +84,7 @@ Widget _buildList(BuildContext context, List<dynamic> list, bool edit) {
               context, '/article',
               arguments: ArticleArgs(
                 edit: edit,
+                cover: cover,
                 title: title,
                 content: content,
                 id: list[index]['id']

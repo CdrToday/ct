@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:cdr_today/blocs/conf.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cdr_today/blocs/edit.dart';
@@ -22,6 +23,7 @@ class _EditState extends State<Edit> {
   File _image;
   String _title = '';
   String _content = '';
+  String _cover = '';
 
   Future getImage(BuildContext context) async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -35,11 +37,11 @@ class _EditState extends State<Edit> {
     });
   }
 
-  Future<void> _changeImage(BuildContext context) async {
+  Future<void> _changeImage(BuildContext context, bool del) async {
     final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
     return showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext _context) {
         return AlertDialog(
           actions: <Widget>[
             FlatButton(
@@ -51,14 +53,18 @@ class _EditState extends State<Edit> {
             FlatButton(
               child: Text('确定'),
               onPressed: () {
-                setState(() {
-                    _image = null;
-                });
                 Navigator.pop(context);
+                if (del == false) {
+                  getImage(context);
+                } else {
+                  setState(() {
+                      _image = null;
+                  });
+                }
               },
             ),
           ],
-          title: Text('删除图片?'),
+          title: del == true? Text('删除图片?') :Text('修改图片?'),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0))
           ),
@@ -73,6 +79,7 @@ class _EditState extends State<Edit> {
     if (widget.args.edit == true) {
       _title = widget.args.title;
       _content = widget.args.content;
+      _cover = widget.args.cover;
       _titleController = new TextEditingController(text: widget.args.title);
       _contentController = new TextEditingController(text: widget.args.content);
     } else {
@@ -131,13 +138,47 @@ class _EditState extends State<Edit> {
   }
 
   Widget imageWidget(BuildContext context) {
-    return Center(
-      child: _image == null
-      ? SizedBox.shrink()
-      : GestureDetector(
-        child: Image.file(_image),
-        onLongPress: () => _changeImage(context)
-      ),
+    if (_image == null) {
+      if (widget.args.edit == true && _cover != "") {
+        return GestureDetector(
+          child: Center(child: Image.network(conf['image'] + _cover)),
+          onLongPress: () => _changeImage(context, false),
+          onDoubleTap: () => _changeImage(context, true),
+        );
+      }
+      return SizedBox.shrink();
+    }
+
+    return Builder(
+      builder: (context) => BlocListener<ImageBloc, ImageState>(
+        listener: (context, state) {
+          if (state is ImageUploadFailed) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.red,
+                content: Text('图片上传失败，请重试'),
+              ),
+            );
+          } else if (state is ImageUploadSucceed) {
+            setState(() {
+                _cover = state.cover;
+            });
+          }
+        },
+        child: BlocBuilder<ImageBloc, ImageState>(
+          builder: (context, state) {
+            if (state is ImageUploading) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return GestureDetector(
+                child: Center(child: Image.file(_image)),
+                onLongPress: () => _changeImage(context, false),
+                onDoubleTap: () => _changeImage(context, true),
+              );
+            }
+          }
+        )
+      )
     );
   }
 
@@ -159,6 +200,7 @@ class _EditState extends State<Edit> {
       appBar: AppBar(
         actions: _actions(
           context,
+          cover: _cover,
           title: _title,
           content: _content,
           id: widget.args.id,
@@ -213,7 +255,13 @@ class _EditState extends State<Edit> {
 
 //  ------- actions ----------
 List<Widget> _actions(
-  BuildContext context, {String title, String content, String id, bool edit}
+  BuildContext context, {
+    String title,
+    String content,
+    String cover,
+    String id,
+    bool edit
+  }
 ) {
   final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
   
@@ -249,9 +297,10 @@ List<Widget> _actions(
           );
         } else {
           if (edit != true) {
-            _bloc.dispatch(CompletedEdit(title: title, content: content));
+            _bloc.dispatch(CompletedEdit(title: title, cover: cover, content: content));
           } else {
-            _bloc.dispatch(UpdateEdit(id: id, title: title, content: content));
+            print(cover);
+            _bloc.dispatch(UpdateEdit(id: id, title: title, cover: cover, content: content));
           }
         }
       }

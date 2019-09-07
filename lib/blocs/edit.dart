@@ -20,6 +20,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       Map data = {
         'code': code,
         'title': event.title,
+        'cover': event.cover,
         'content': event.content,
       };
       
@@ -42,9 +43,10 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       Map data = {
         'id': event.id,
         'title': event.title,
+        'cover': event.cover,
         'content': event.content
       };
-      
+      print(event.cover);
       var res = await http.post(
         "${conf['url']}/${mail}/article/update",
         headers: {
@@ -134,14 +136,16 @@ abstract class EditEvent extends Equatable {}
 class UpdateEdit extends EditEvent {
   final String id;
   final String title;
+  final String cover;
   final String content;
-  UpdateEdit({ this.id, this.title, this.content });
+  UpdateEdit({ this.id, this.title, this.cover, this.content });
 }
 
 class CompletedEdit extends EditEvent {
   final String title;
+  final String cover;
   final String content;
-  CompletedEdit({ this.title, this.content });
+  CompletedEdit({ this.title, this.cover, this.content });
 }
 
 class DeleteEdit extends EditEvent {

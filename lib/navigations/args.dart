@@ -13,8 +13,9 @@ class ArticleArgs {
   final bool edit;
   final String id;
   final String title;
+  final String cover;
   final String content;
-  ArticleArgs({ this.edit, this.id, this.title, this.content });
+  ArticleArgs({ this.edit, this.id, this.title, this.cover, this.content });
 }
 
 class ModifyArgs {
