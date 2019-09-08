@@ -27,7 +27,7 @@ class Article extends StatelessWidget {
               args.title,
               style: TextStyle(
                 height: 1.5,
-                fontSize: 24.0,
+                fontSize: 26.0,
                 fontWeight: FontWeight.w700
               )
             ),
@@ -35,7 +35,12 @@ class Article extends StatelessWidget {
           ),
           image(),
           Container(
-            child: Text(args.content),
+            child: Text(
+              args.content,
+              style: TextStyle(
+                fontSize: 16.0
+              )
+            ),
             padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
           )
         ],

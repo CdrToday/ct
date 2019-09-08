@@ -59,6 +59,7 @@ class _EditState extends State<Edit> {
                 } else {
                   setState(() {
                       _image = null;
+                      _cover = "";
                   });
                 }
               },
