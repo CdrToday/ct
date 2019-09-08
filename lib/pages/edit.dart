@@ -207,6 +207,7 @@ class _EditState extends State<Edit> {
           edit: widget.args.edit,
         ),
         title: Text('编辑'),
+        leading: widget.args.edit? BackButton():CloseButton()
       ),
       body: BlocListener<EditBloc, EditState>(
         listener: (context, state) {

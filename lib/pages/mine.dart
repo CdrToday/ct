@@ -11,8 +11,16 @@ class Mine extends StatelessWidget {
       builder: (context, state) {
         if (state is UserInited) {
           return ListView(
-            padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
             children: <Widget>[
+              DrawerHeader(
+                child: Center(
+                  child: Icon(
+                    Icons.gesture,
+                    color: Colors.black,
+                    size: 50.0
+                  )
+                )
+              ),
               profile(context),
               articles(context),
               version(context),
@@ -34,10 +42,9 @@ Widget profile(BuildContext context) {
     child: Card(
       child: ListTile(
         title: Text('个人信息'),
-        onTap: () => Navigator.pushNamed(context, '/mine/profile')
+        onTap: () => Navigator.popAndPushNamed(context, '/mine/profile')
       )
     ),
-    margin: EdgeInsets.only(top: 10.0)
   );
 }
 
@@ -46,7 +53,7 @@ Widget articles(BuildContext context) {
     child: Card(
       child: ListTile(
         title: Text('文章管理'),
-        onTap: () => Navigator.pushNamed(context, '/mine/article/manager')
+        onTap: () => Navigator.popAndPushNamed(context, '/mine/article/manager')
       )
     ),
     margin: EdgeInsets.only(top: 10.0)
@@ -58,7 +65,7 @@ Widget version(BuildContext context) {
     child: Card(
       child: ListTile(
         title: Text('版本信息'),
-        onTap: () => Navigator.pushNamed(context, '/mine/version')
+        onTap: () => Navigator.popAndPushNamed(context, '/mine/version')
       )
     ),
     margin: EdgeInsets.only(top: 10.0)

@@ -12,7 +12,10 @@ class Profile extends StatelessWidget {
       builder: (context, state) {
         if (state is UserInited) {
           return Scaffold(
-            appBar: AppBar(title: Text('个人信息')),
+            appBar: AppBar(
+              title: Text('个人信息'),
+              leading: CloseButton()
+            ),
             body: ListView(
               padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
               children: <Widget>[

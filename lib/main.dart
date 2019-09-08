@@ -14,7 +14,7 @@ import 'package:cdr_today/blocs/article_list.dart';
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
 import 'package:cdr_today/pages/edit.dart';
-import 'package:cdr_today/pages/image.dart';
+import 'package:cdr_today/pages/publish.dart';
 import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/modify.dart';
 import 'package:cdr_today/pages/version.dart';
@@ -22,9 +22,11 @@ import 'package:cdr_today/pages/splash.dart';
 import 'package:cdr_today/pages/profile.dart';
 import 'package:cdr_today/pages/article_manager.dart';
 import 'package:cdr_today/navigations/args.dart';
-import 'package:cdr_today/navigations/tabbar.dart';
+import 'package:cdr_today/navigations/init.dart';
 // components
 import 'package:cdr_today/components/empty.dart';
+// navigations
+import 'package:cdr_today/navigations/slide.dart';
 
 /* app */
 void main() {
@@ -81,7 +83,7 @@ Widget app(BuildContext context, ThemeData theme) {
 }
 
 /* app router */
-MaterialPageRoute router(settings) {
+Route router(settings) {
   String r = settings.name;
   if (r == '/init') {
     return MaterialPageRoute(
@@ -90,18 +92,18 @@ MaterialPageRoute router(settings) {
           if (state is UserUnInited) {
             return Login();
           } else if (state is UserInited) {
-            return TabNavigator(index: 0);
+            return InitPage();
           } 
         }
       )
     );
   } else if (r == '/root') {
-    final RootArgs args = settings.arguments;
-    int index = 0;
-    if (args != null) { index = args.index; }
-    
     return MaterialPageRoute(
-      builder: (context) =>  TabNavigator(index: index)
+      builder: (context) =>  InitPage()
+    );
+  } else if (r == '/publish') {
+    return MaterialPageRoute(
+      builder: (context) =>  Publish()
     );
   } else if (r == '/user/verify') {
     final MailArgs args = settings.arguments;
@@ -110,37 +112,29 @@ MaterialPageRoute router(settings) {
     );
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
-    return MaterialPageRoute(
-      builder: (context) =>  Edit(args: args)
-    );
-  } else if (r == '/user/image') {
-    return MaterialPageRoute(
-      builder: (context) =>  ImagePage()
-    );
+    if (args.edit) {
+      return MaterialPageRoute(
+        builder: (context) => Edit(args: args)
+      );
+    }
+    return SlideBottomRoute(page: Edit(args: args));
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return MaterialPageRoute(
       builder: (context) => Article(args: args)
     );
   } else if (r == '/mine/profile') {
-    return MaterialPageRoute(
-      builder: (context) =>  Profile()
-    );
+    return SlideBottomRoute(page: Profile());
   } else if (r == '/mine/profile/modify') {
     final ModifyArgs args = settings.arguments;
     return MaterialPageRoute(
       builder: (context) => Modify(args: args)
     );
   } else if (r == '/mine/article/manager') {
-    return MaterialPageRoute(
-      builder: (context) =>  ArticleManager()
-    );
+    return SlideBottomRoute(page: ArticleManager());
   } else if (r == '/mine/version') {
-    return MaterialPageRoute(
-      builder: (context) => VersionPage()
-    );
+    return SlideBottomRoute(page: VersionPage());
   }
-  
   
   return MaterialPageRoute(
     builder: (context) =>  Text('hello')

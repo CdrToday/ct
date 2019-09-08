@@ -13,15 +13,7 @@ class Publish extends StatelessWidget {
           route: '/user/edit',
           icon: Icons.gesture,
           args: ArticleArgs(edit: false)
-        ),
-        line(
-          context,
-          title: '图片',
-          info: '可以发表多张图片',
-          route: '/user/image',
-          icon: Icons.image,
-          args: ArticleArgs(edit: false)
-        ),
+        )
       ]
     );
   }

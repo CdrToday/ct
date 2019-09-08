@@ -9,7 +9,6 @@ import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 // --------- bloc --------
 class ImageBloc extends Bloc<ImageEvent, ImageState> {
