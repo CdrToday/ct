@@ -31,6 +31,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       String mail = await getString('mail');
       String code = await getString('code');
 
+      if (mail == "" || code == "") {
+        yield UserUnInited();
+        return;
+      }
+      
       Map data = {
         'code': code
       };

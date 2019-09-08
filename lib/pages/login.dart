@@ -28,6 +28,7 @@ class _LoginState extends State<Login> {
               }
             )
           ],
+          automaticallyImplyLeading: false
         ),
         body: Builder(
           builder: (context) => Container(

@@ -85,6 +85,7 @@ Widget logout(BuildContext context) {
         ),
         onTap: () {
           _bloc.dispatch(LogoutEvent());
+          Navigator.pop(context);
           _albloc.dispatch(CleanList());
         }
       )
