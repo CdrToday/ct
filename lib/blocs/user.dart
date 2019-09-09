@@ -12,10 +12,9 @@ import 'package:equatable/equatable.dart';
 // -------------- bloc ----------------
 class UserBloc extends Bloc<UserEvent, UserState> {
   final VerifyBloc verifyBloc;
-  StreamSubscription verifyBlocSubscription;
   
   UserBloc(this.verifyBloc) {
-    verifyBlocSubscription = verifyBloc.state.listen((state){
+    verifyBloc.state.listen((state){
         if (state is CodeVerifiedSucceed) {
           this.dispatch(CheckUserEvent());
         } 
@@ -41,7 +40,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       };
       
       var res = await http.post(
-        "${conf['url']}/${mail}/verify",
+        "${conf['url']}/$mail/verify",
         body: json.encode(data)
       );
 
@@ -58,7 +57,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } else if (event is InitUserEvent) {
       yield UserInited(mail: event.mail, name: event.name);
     } else if (event is LogoutEvent) {
-      await clear();
+      clear();
       yield UserUnInited();
     }
     return;

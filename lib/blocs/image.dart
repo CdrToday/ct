@@ -3,7 +3,6 @@ import './utils.dart';
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
-import 'package:uuid/uuid.dart';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
@@ -17,14 +16,11 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
   Stream<ImageState> mapEventToState(ImageEvent event) async * {
     var mail = await getString('mail');
     var code = await getString('code');
-    var uuid = new Uuid();
 
     if (event is LoadImageEvent) {
       yield ImageLoading();
     } else if (event is UploadImageEvent) {
       yield ImageUploading();
-      
-      String id = uuid.v4();
       String img = base64Encode(
         event.image.readAsBytesSync()
       );

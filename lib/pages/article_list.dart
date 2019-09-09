@@ -30,6 +30,8 @@ class _ArticleListState extends State<ArticleList> {
           } else if (state is FetchedFailed) {
             return Center(child: Text('请求失败 🧐'));
           }
+
+          return SizedBox.shrink();
         }
       )
     );

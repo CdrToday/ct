@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 // blocs
 import 'package:cdr_today/blocs/main.dart';
 import 'package:cdr_today/blocs/user.dart';
@@ -16,7 +15,6 @@ import 'package:cdr_today/pages/verify.dart';
 import 'package:cdr_today/pages/edit.dart';
 import 'package:cdr_today/pages/publish.dart';
 import 'package:cdr_today/pages/article.dart';
-import 'package:cdr_today/pages/modify.dart';
 import 'package:cdr_today/pages/version.dart';
 import 'package:cdr_today/pages/splash.dart';
 import 'package:cdr_today/pages/profile.dart';
@@ -33,12 +31,11 @@ void main() {
 }
 
 class App extends StatelessWidget {
-  VerifyBloc verifyBloc = VerifyBloc();
+  final VerifyBloc verifyBloc = VerifyBloc();
+  final ArticleListBloc articleListBloc = ArticleListBloc();
   
   @override
   Widget build(BuildContext context) {
-    VerifyBloc verifyBloc = VerifyBloc();
-    ArticleListBloc articleListBloc = ArticleListBloc();
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemeBloc>(
@@ -87,11 +84,11 @@ Route router(settings) {
     return MaterialPageRoute(
       builder: (context) =>  BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
-          if (state is UserUnInited) {
-            return Login();
-          } else if (state is UserInited) {
+          if (state is UserInited) {
             return InitPage();
-          } 
+          }
+          
+          return Login();
         }
       )
     );
@@ -123,11 +120,6 @@ Route router(settings) {
     );
   } else if (r == '/mine/profile') {
     return SlideBottomRoute(page: Profile());
-  } else if (r == '/mine/profile/modify') {
-    final ModifyArgs args = settings.arguments;
-    return MaterialPageRoute(
-      builder: (context) => Modify(args: args)
-    );
   } else if (r == '/mine/article/manager') {
     return SlideBottomRoute(page: ArticleManager());
   } else if (r == '/mine/version') {

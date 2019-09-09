@@ -24,7 +24,7 @@ class ArticleListBloc extends Bloc<ArticleListEvent, ArticleListState> {
   Stream<ArticleListState> mapEventToState(ArticleListEvent event) async* {
     if (event is FetchSelfArticles) {
       String mail = await getString('mail');
-      var res = await http.get("${conf['url']}/${mail}/articles");
+      var res = await http.get("${conf['url']}/$mail/articles");
       if (res.statusCode == 200) {
         ArticleListAPI articles = ArticleListAPI.fromJson(json.decode(res.body));
         if (articles.articles.length > 0) {

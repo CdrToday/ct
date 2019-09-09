@@ -36,8 +36,8 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
       );
       
       if (res.statusCode == 200) {
-        await setString('mail', event.mail);
-        await setString('code', event.code);
+        setString('mail', event.mail);
+        setString('code', event.code);
         yield CodeVerifiedSucceed();
       } else {
         yield CodeVerifiedFailed();

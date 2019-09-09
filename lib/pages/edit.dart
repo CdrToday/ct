@@ -43,7 +43,6 @@ class _EditState extends State<Edit> {
   }
 
   Future<void> _changeImage(BuildContext context, bool del) async {
-    final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
     return showDialog<void>(
       context: context,
       builder: (BuildContext _context) {
@@ -213,7 +212,6 @@ class _EditState extends State<Edit> {
   }
 
   Widget build(BuildContext context) {
-    final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
     final ArticleListBloc _alBloc = BlocProvider.of<ArticleListBloc>(context);
     
     return Scaffold(

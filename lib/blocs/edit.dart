@@ -25,7 +25,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       };
       
       var res = await http.post(
-        "${conf['url']}/${mail}/publish",
+        "${conf['url']}/$mail/publish",
         headers: {
           'code': code,
         },
@@ -48,7 +48,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       };
       print(event.cover);
       var res = await http.post(
-        "${conf['url']}/${mail}/article/update",
+        "${conf['url']}/$mail/article/update",
         headers: {
           'code': code
         },
@@ -68,7 +68,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       };
       
       var res = await http.post(
-        "${conf['url']}/${mail}/article/delete",
+        "${conf['url']}/$mail/article/delete",
         headers: {
           'code': code
         },

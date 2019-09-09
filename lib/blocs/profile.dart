@@ -23,7 +23,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       };
       
       var res = await http.post(
-        "${conf['url']}/${mail}/update/name",
+        "${conf['url']}/$mail/update/name",
         headers: {
           'code': code
         },

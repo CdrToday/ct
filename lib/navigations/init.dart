@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/pages/mine.dart';
 import 'package:cdr_today/pages/article_list.dart';
 import 'package:cdr_today/navigations/args.dart';
