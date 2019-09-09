@@ -26,11 +26,7 @@ class Article extends StatelessWidget {
           Container(
             child: Text(
               args.title,
-              style: TextStyle(
-                height: 1.5,
-                fontSize: 26.0,
-                fontWeight: FontWeight.w700
-              )
+              style: TextStyle(height: 1.5, fontSize: 26.0, fontWeight: FontWeight.w700)
             ),
             padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 12.0),
           ),
@@ -45,4 +41,3 @@ class Article extends StatelessWidget {
     );
   }
 }
-
