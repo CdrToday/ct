@@ -31,7 +31,7 @@ ThemeData light() {
     accentColor: Colors.grey[700],
     splashColor: Colors.transparent,
     appBarTheme: AppBarTheme(
-      color: Colors.grey[100],
+      color: Colors.grey[200],
       elevation: 0.5,
     ),
     textTheme: TextTheme(),

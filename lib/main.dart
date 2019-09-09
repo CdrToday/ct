@@ -13,7 +13,6 @@ import 'package:cdr_today/blocs/article_list.dart';
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
 import 'package:cdr_today/pages/edit.dart';
-import 'package:cdr_today/pages/publish.dart';
 import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/version.dart';
 import 'package:cdr_today/pages/splash.dart';
@@ -22,7 +21,7 @@ import 'package:cdr_today/pages/article_manager.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/init.dart';
 // navigations
-import 'package:cdr_today/navigations/slide.dart';
+import 'package:cdr_today/navigations/txs.dart';
 
 /* app */
 void main() {
@@ -81,8 +80,8 @@ Widget app(BuildContext context, ThemeData theme) {
 Route router(settings) {
   String r = settings.name;
   if (r == '/init') {
-    return MaterialPageRoute(
-      builder: (context) =>  BlocBuilder<UserBloc, UserState>(
+    return FadeRoute(
+      page: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
           if (state is UserInited) {
             return InitPage();
@@ -93,37 +92,25 @@ Route router(settings) {
       )
     );
   } else if (r == '/root') {
-    return MaterialPageRoute(
-      builder: (context) =>  InitPage()
-    );
-  } else if (r == '/publish') {
-    return MaterialPageRoute(
-      builder: (context) =>  Publish()
-    );
+    return FadeRoute(page: InitPage());
   } else if (r == '/user/verify') {
     final MailArgs args = settings.arguments;
-    return MaterialPageRoute(
-      builder: (context) =>  Verify(mail: args.mail)
-    );
+    return SlideRoute(page: Verify(mail: args.mail));
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
     if (args.edit) {
-      return MaterialPageRoute(
-        builder: (context) => Edit(args: args)
-      );
+        return SlideRoute(page: Edit(args: args));
     }
-    return SlideBottomRoute(page: Edit(args: args));
+    return FadeRoute(page: Edit(args: args));
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
-    return MaterialPageRoute(
-      builder: (context) => Article(args: args)
-    );
+    return FadeRoute(page: Article(args: args));
   } else if (r == '/mine/profile') {
-    return SlideBottomRoute(page: Profile());
+    return FadeRoute(page: Profile());
   } else if (r == '/mine/article/manager') {
-    return SlideBottomRoute(page: ArticleManager());
+    return FadeRoute(page: ArticleManager());
   } else if (r == '/mine/version') {
-    return SlideBottomRoute(page: VersionPage());
+    return FadeRoute(page: VersionPage());
   }
   
   return MaterialPageRoute(

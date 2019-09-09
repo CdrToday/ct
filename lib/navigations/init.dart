@@ -8,9 +8,13 @@ class InitPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: null,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () => Scaffold.of(context).openDrawer()
+          )
+        ),
         centerTitle: true,
-        bottomOpacity: 100.0,
         title: Text('文章列表'),
         automaticallyImplyLeading: false
       ),
@@ -26,14 +30,11 @@ class InitPage extends StatelessWidget {
           },
           color: Colors.black,
         ),
-        padding: EdgeInsets.only(right: 10.0),
         alignment: AlignmentDirectional.centerEnd,
-        constraints: BoxConstraints(
-          maxHeight: 42.0
-        ),
-        decoration: BoxDecoration(color: Colors.grey[100])
+        constraints: BoxConstraints(maxHeight: 42.0),
+        decoration: BoxDecoration(color: Colors.grey[200])
       ),
-      endDrawer: Drawer(child: Mine())
+      drawer: Drawer(child: Mine())
     );
   }
 }

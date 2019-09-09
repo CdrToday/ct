@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/article_list.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/widgets/center.dart';
+
 
 class Mine extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -11,15 +13,7 @@ class Mine extends StatelessWidget {
         if (state is UserInited) {
           return ListView(
             children: <Widget>[
-              DrawerHeader(
-                child: Center(
-                  child: Icon(
-                    Icons.gesture,
-                    color: Colors.black,
-                    size: 50.0
-                  )
-                )
-              ),
+              header(),
               profile(context),
               articles(context),
               version(context),
@@ -36,6 +30,18 @@ class Mine extends StatelessWidget {
 }
 
 // ----------- tiles -------------
+Widget header() {
+  return DrawerHeader(
+    child: Center(
+      child: Icon(
+        Icons.gesture,
+        color: Colors.black,
+        size: 50.0
+      )
+    )
+  );
+}
+
 Widget profile(BuildContext context) {
   return Container(
     child: Card(

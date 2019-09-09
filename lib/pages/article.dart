@@ -17,7 +17,10 @@ class Article extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('')),
+      appBar: AppBar(
+        title: Text(''),
+        leading: CloseButton()
+      ),
       body: Column(
         children: <Widget>[
           Container(
