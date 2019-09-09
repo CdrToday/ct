@@ -23,8 +23,6 @@ import 'package:cdr_today/pages/profile.dart';
 import 'package:cdr_today/pages/article_manager.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/init.dart';
-// components
-import 'package:cdr_today/components/empty.dart';
 // navigations
 import 'package:cdr_today/navigations/slide.dart';
 

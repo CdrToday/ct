@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/navigations/args.dart';
-import 'package:cdr_today/components/modify.dart';
+import 'package:cdr_today/widgets/modify.dart';
 
 class Profile extends StatelessWidget {
   Widget build(BuildContext context) {

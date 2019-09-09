@@ -9,9 +9,7 @@ class Article extends StatelessWidget {
   Widget image() {
     if (args.cover.length > 0) {
       String url = conf['image'] + args.cover;
-      return Center(
-        child: Image.network(url)
-      );
+      return Center(child: Image.network(url));
     }
     return SizedBox.shrink();
   }
@@ -35,12 +33,7 @@ class Article extends StatelessWidget {
           ),
           image(),
           Container(
-            child: Text(
-              args.content,
-              style: TextStyle(
-                fontSize: 16.0
-              )
-            ),
+            child: Text(args.content, style: TextStyle(fontSize: 16.0)),
             padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
           )
         ],

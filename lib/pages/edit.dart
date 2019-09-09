@@ -26,15 +26,20 @@ class _EditState extends State<Edit> {
   String _cover = '';
 
   Future getImage(BuildContext context) async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    final _bloc = BlocProvider.of<ImageBloc>(context);
-    
-    setState(() {
-        if (image != null) {
-          _image = image;
+    var image = await ImagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 540.0
+    );
+
+    if (image != null) {
+      final _bloc = BlocProvider.of<ImageBloc>(context);
+      _bloc.dispatch(LoadImageEvent());
+      
+      setState(() {
           _bloc.dispatch(UploadImageEvent(image: image));
-        }
-    });
+          _image = image;
+      });
+    }
   }
 
   Future<void> _changeImage(BuildContext context, bool del) async {
@@ -139,17 +144,6 @@ class _EditState extends State<Edit> {
   }
 
   Widget imageWidget(BuildContext context) {
-    if (_image == null) {
-      if (widget.args.edit == true && _cover != "") {
-        return GestureDetector(
-          child: Center(child: Image.network(conf['image'] + _cover)),
-          onLongPress: () => _changeImage(context, false),
-          onDoubleTap: () => _changeImage(context, true),
-        );
-      }
-      return SizedBox.shrink();
-    }
-
     return Builder(
       builder: (context) => BlocListener<ImageBloc, ImageState>(
         listener: (context, state) {
@@ -169,7 +163,32 @@ class _EditState extends State<Edit> {
         child: BlocBuilder<ImageBloc, ImageState>(
           builder: (context, state) {
             if (state is ImageUploading) {
-              return Center(child: CircularProgressIndicator());
+              return Container(
+                child: Center(
+                  child: CircularProgressIndicator()
+                ),
+                constraints: BoxConstraints(
+                  minHeight: 120.0
+                )
+              );
+            } else if (state is ImageLoading) {
+              return Container(
+                child: Center(
+                  child: CircularProgressIndicator()
+                ),
+                constraints: BoxConstraints(
+                  minHeight: 120.0
+                )
+              );
+            } else if (_image == null) {
+              if (widget.args.edit == true && _cover != "") {
+                return GestureDetector(
+                  child: Center(child: Image.network(conf['image'] + _cover)),
+                  onLongPress: () => _changeImage(context, false),
+                  onDoubleTap: () => _changeImage(context, true),
+                );
+              }
+              return SizedBox.shrink();
             } else {
               return GestureDetector(
                 child: Center(child: Image.file(_image)),
@@ -184,7 +203,7 @@ class _EditState extends State<Edit> {
   }
 
   Widget imagePicker(BuildContext context) {
-    if (_image == null) {
+    if (_image == null && _cover == '') {
       return FloatingActionButton(
         onPressed: () => getImage(context),
         child: Icon(Icons.add_a_photo),

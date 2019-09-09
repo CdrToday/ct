@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/verify.dart';
 import 'package:cdr_today/navigations/args.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Modify extends StatefulWidget {
   final ModifyArgs args;

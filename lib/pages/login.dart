@@ -15,52 +15,35 @@ class _LoginState extends State<Login> {
   void changeValue(String value) {
     setState(() { _value = value; });
   }
-  
+
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Scaffold(
         appBar: AppBar(
           title: Text('登录'),
-          actions: [
-            BlocBuilder<VerifyBloc, VerifyState>(
-              builder: (context, state) {
-                return SizedBox.shrink();
-              }
-            )
-          ],
           automaticallyImplyLeading: false
         ),
         body: Builder(
           builder: (context) => Container(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Container(
-                  child: Center(
-                    child: Text(
-                      'cdr.today',
-                      style: Theme.of(context).textTheme.display2
-                    )
-                  ),
-                  margin: EdgeInsets.only(bottom: 35.0),
+                Text(
+                  'cdr.today',
+                  style: Theme.of(context).textTheme.display2
                 ),
                 TextField(
                   onChanged: changeValue,
                   decoration: InputDecoration(hintText: '邮箱'),
+                  style: Theme.of(context).textTheme.title
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 50.0),
-                  child: Center(child: sendCode(context, _value))
-                )
+                sendCode(context, _value),
               ],
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             ),
-            margin: EdgeInsets.only(left: 50.0, right: 50.0),
-            transform: Matrix4.translationValues(0.0, -100.0, 0.0),
+            margin: EdgeInsets.symmetric(horizontal: kToolbarHeight)
           ),
         ),
-        // TODO
-        resizeToAvoidBottomInset: false
       ),
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
     );
@@ -111,10 +94,7 @@ sendCode(BuildContext context, String _email) {
                   _bloc.dispatch(SendCodeEvent(mail: _email));
                 }
               },
-              child: Text(
-                '发送验证码',
-                style: TextStyle(fontSize: 16)
-              ),
+              child: Text('发送验证码', style: TextStyle(fontSize: 16)),
               color: Theme.of(context).primaryColor,
             );
           }

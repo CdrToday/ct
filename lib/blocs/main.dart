@@ -38,7 +38,8 @@ ThemeData light() {
     iconTheme: IconThemeData(color: Colors.green),
     cardTheme: CardTheme(
       color: Colors.white,
-      elevation: 0.3
+      elevation: 0.3,
+      shape: BeveledRectangleBorder()
     ),
     buttonTheme: ButtonThemeData(
       textTheme: ButtonTextTheme.accent,

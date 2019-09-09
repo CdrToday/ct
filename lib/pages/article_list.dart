@@ -24,7 +24,7 @@ class _ArticleListState extends State<ArticleList> {
             return Center(child: Text('暂无文章'));
           } else if (state is UnFetched) {
             _bloc.dispatch(FetchSelfArticles());
-            return Center(child: Text('正在请求中...'));
+            return Center(child: CircularProgressIndicator());
           } else if (state is FetchedSucceed) {
             return _buildList(context, state.list, widget.edit);
           } else if (state is FetchedFailed) {

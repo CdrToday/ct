@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

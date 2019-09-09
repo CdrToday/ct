@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/article_list.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/navigations/args.dart';
 
 class Mine extends StatelessWidget {
   Widget build(BuildContext context) {

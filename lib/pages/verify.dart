@@ -23,40 +23,31 @@ class _VerifyState extends State<Verify> {
         body: Builder(
           builder: (context) => Container(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Container(
-                  child: Center(
-                    child: Text(
-                      'cdr.today',
-                      style: Theme.of(context).textTheme.display2
-                    )
-                  ),
-                  margin: EdgeInsets.only(bottom: 35.0),
+                Text(
+                  'cdr.today',
+                  style: Theme.of(context).textTheme.display2
                 ),
                 TextField(
                   onChanged: changeValue,
                   decoration: InputDecoration(hintText: '验证码'),
+                  style: Theme.of(context).textTheme.title
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 50.0),
-                  child: Center(child: sendCode(context, _value, widget.mail))
-                )
+                verifyCode(context, _value, widget.mail)
               ],
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             ),
-            margin: EdgeInsets.only(left: 50.0, right: 50.0),
-            transform: Matrix4.translationValues(0.0, -100.0, 0.0),
+            margin: EdgeInsets.symmetric(horizontal: kToolbarHeight)
           ),
         ),
-        resizeToAvoidBottomInset: false
       ),
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
     );
   }
 }
 
-sendCode(BuildContext context, String _code, String mail) {
+verifyCode(BuildContext context, String _code, String mail) {
   final VerifyBloc _bloc = BlocProvider.of<VerifyBloc>(context);
   
   return Container(
@@ -98,10 +89,7 @@ sendCode(BuildContext context, String _code, String mail) {
                   _bloc.dispatch(VerifyCodeEvent(mail: mail, code: _code));
                 }
               },
-              child: Text(
-                '验证邮箱',
-                style: TextStyle(fontSize: 16)
-              ),
+              child: Text('验证邮箱', style: TextStyle(fontSize: 16)),
               color: Theme.of(context).primaryColor,
             );
           }
