@@ -17,6 +17,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
     var code = await getString('code');
     
     if (event is CompletedEdit) {
+      yield Posting();
       Map data = {
         'code': code,
         'title': event.title,
@@ -39,6 +40,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
         yield Empty();
       }
     } else if (event is UpdateEdit) {
+      yield Posting();
       var mail = await getString('mail');
       Map data = {
         'id': event.id,
@@ -62,6 +64,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       }
       
     } else if (event is DeleteEdit) {
+      yield Posting();
       var mail = await getString('mail');
       Map data = {
         'id': event.id,
@@ -95,9 +98,9 @@ class Empty extends EditState {
   String toString() => 'Empty';
 }
 
-class PrePublish extends EditState {
+class Posting extends EditState {
   @override
-  String toString() => 'PrePublish';
+  String toString() => 'Posting';
 }
 
 class DeleteSucceed extends EditState {

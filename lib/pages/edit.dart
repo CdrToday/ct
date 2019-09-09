@@ -161,24 +161,19 @@ class _EditState extends State<Edit> {
         },
         child: BlocBuilder<ImageBloc, ImageState>(
           builder: (context, state) {
+            Widget loading = Container(
+              child: Center(
+                child: CircularProgressIndicator()
+              ),
+              constraints: BoxConstraints(
+                minHeight: 150.0
+              )
+            );
+            
             if (state is ImageUploading) {
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator()
-                ),
-                constraints: BoxConstraints(
-                  minHeight: 120.0
-                )
-              );
+              return loading;
             } else if (state is ImageLoading) {
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator()
-                ),
-                constraints: BoxConstraints(
-                  minHeight: 120.0
-                )
-              );
+              return loading;
             } else if (_image == null) {
               if (widget.args.edit == true && _cover != "") {
                 return GestureDetector(
@@ -229,15 +224,19 @@ class _EditState extends State<Edit> {
       ),
       body: BlocListener<EditBloc, EditState>(
         listener: (context, state) {
-          if (state is PublishSucceed) {
+          if (state is Posting) {
+            _loading(context);
+          } else if (state is PublishSucceed) {
             _alBloc.dispatch(ReFetching());
             Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
           } else if (state is UpdateSucceed) {
             _alBloc.dispatch(ReFetching());
             Navigator.pop(context);
+            Navigator.maybePop(context);
           } else if (state is DeleteSucceed) {
             _alBloc.dispatch(ReFetching());
             Navigator.pop(context);
+            Navigator.maybePop(context);
           } else if (state is DeleteFailed) {
             Scaffold.of(context).showSnackBar(
               SnackBar(
@@ -254,16 +253,25 @@ class _EditState extends State<Edit> {
             );
           }
         },
-        child: GestureDetector(
-          child: Column(
-            children: [
-              contentWidget(context),
-            ],
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-          ),
-          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: BlocBuilder<EditBloc, EditState>(
+          builder: (context, state) {
+            return GestureDetector(
+              child: Column(
+                children: [
+                  contentWidget(context),
+                ],
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+              ),
+              onTap: () {
+                if (state is Posting) {
+                  return;
+                }
+                FocusScope.of(context).requestFocus(new FocusNode());
+              }
+            );
+          }
         ),
       ),
       floatingActionButton: imagePicker(context),
@@ -351,6 +359,21 @@ Future<void> _neverSatisfied(BuildContext context, String id) async {
           ),
         ],
         title: Text('删除文章?'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))
+        ),
+      );
+    },
+  );
+}
+
+Future<void> _loading(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Calling Elvis...'),
+        content: CircularProgressIndicator(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))
         ),
