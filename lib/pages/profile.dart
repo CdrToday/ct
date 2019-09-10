@@ -4,6 +4,8 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/blocs/article_list.dart';
 import 'package:cdr_today/widgets/modify.dart';
+import 'package:cdr_today/widgets/center.dart';
+import 'package:cdr_today/widgets/snackers.dart';
 
 class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class Profile extends StatelessWidget {
           );
         } else {
           _bloc.dispatch(CheckUserEvent());
-          return Center(child: Text('重新登录中...'));
+          return CenterX(x: '重新登录中...');
         }
       }
     );
@@ -37,24 +39,10 @@ class Profile extends StatelessWidget {
 Widget profile(BuildContext context, String name) {
   return BlocListener<ProfileBloc, ProfileState>(
     listener: (context, state) {
-      final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
-      if (state is ProfileUpdatingSucceed) {
-        _bloc.dispatch(InitUserEvent(mail: state.mail, name: state.name));
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            content: Text("用户名修改成功"),
-            duration: Duration(seconds: 1)
-          ),
-        );
-      } else if (state is ProfileUpdatingFailed) {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text("用户名已被使用" ),
-            duration: Duration(seconds: 1)
-          ),
-        );
+      if (state is ProfileUpdatedSucceed) {
+        snacker(context, "用户名修改成功", color: Colors.green);
+      } else if (state is ProfileUpdatedFailed) {
+        snacker(context, "用户名已被使用", color: Colors.green);
       }
     },
     child: Container(

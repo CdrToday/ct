@@ -31,7 +31,7 @@ void main() {
 
 class App extends StatelessWidget {
   final VerifyBloc verifyBloc = VerifyBloc();
-  final ArticleListBloc articleListBloc = ArticleListBloc();
+  final ProfileBloc profileBloc = ProfileBloc();
   
   @override
   Widget build(BuildContext context) {
@@ -46,17 +46,17 @@ class App extends StatelessWidget {
         BlocProvider<ImageBloc>(
           builder: (context) => ImageBloc()
         ),
+        BlocProvider<ArticleListBloc>(
+          builder: (context) => ArticleListBloc()
+        ),
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc
         ),
-        BlocProvider<ArticleListBloc>(
-          builder: (context) => articleListBloc
+        BlocProvider<ProfileBloc>(
+          builder: (context) => profileBloc
         ),
         BlocProvider<UserBloc>(
-          builder: (context) => UserBloc(verifyBloc)
-        ),
-        BlocProvider<ProfileBloc>(
-          builder: (context) => ProfileBloc()
+          builder: (context) => UserBloc(v: verifyBloc, p: profileBloc)
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeData>(

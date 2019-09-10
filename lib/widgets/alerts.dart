@@ -32,13 +32,13 @@ Future<void> deleteArticle(BuildContext context, String id) async {
   );
 }
 
-Future<void> postLoading(BuildContext context) async {
+Future<void> alertLoading(BuildContext context, {String text}) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Calling Elvis...'),
+        title: text == null? Text('Calling Elvis'): Text(text),
         content: Padding(
           child: Row(
             mainAxisSize: MainAxisSize.min,

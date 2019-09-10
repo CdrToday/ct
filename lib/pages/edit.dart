@@ -9,6 +9,7 @@ import 'package:cdr_today/blocs/article_list.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/actions.dart';
+import 'package:cdr_today/widgets/snackers.dart';
 
 
 class Edit extends StatefulWidget {
@@ -62,32 +63,17 @@ class _EditState extends State<Edit> {
       body: BlocListener<EditBloc, EditState>(
         listener: (context, state) {
           if (state is Posting) {
-            postLoading(context);
-          } else if (state is PublishSucceed) {
-            _alBloc.dispatch(ReFetching());
-            Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
-          } else if (state is UpdateSucceed) {
-            _alBloc.dispatch(ReFetching());
-            Navigator.pop(context);
-            Navigator.maybePop(context);
-          } else if (state is DeleteSucceed) {
-            _alBloc.dispatch(ReFetching());
-            Navigator.pop(context);
-            Navigator.maybePop(context);
+            // must have
+            alertLoading(context);
           } else if (state is DeleteFailed) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.red,
-                content: Text('删除失败，请重试'),
-              ),
-            );
+            snacker(context, '删除失败，请重试');
           } else if (state is UpdateFailed) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.red,
-                content: Text('更新失败，请重试'),
-              ),
-            );
+            snacker(context, '更新失败，请重试');
+          } else {
+            // succeed
+            _alBloc.dispatch(CleanList());
+            Navigator.pop(context);
+            Navigator.maybePop(context);
           }
         },
         child: BlocBuilder<EditBloc, EditState>(
@@ -106,59 +92,6 @@ class _EditState extends State<Edit> {
       ),
       floatingActionButton: imagePicker(context),
       resizeToAvoidBottomPadding: true,
-    );
-  }
-
-
-  // funcs
-  Future getImage(BuildContext context) async {
-    var image = await ImagePicker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 540.0
-    );
-
-    if (image != null) {
-      final _bloc = BlocProvider.of<ImageBloc>(context);
-      _bloc.dispatch(LoadImageEvent());
-      
-      setState(() {
-          _bloc.dispatch(UploadImageEvent(image: image));
-          _image = image;
-      });
-    }
-  }
-
-  Future<void> changeImage(BuildContext context, bool del) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext _context) {
-        return AlertDialog(
-          actions: <Widget>[
-            FlatButton(
-              child: Text('取消'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            FlatButton(
-              child: Text('确定'),
-              onPressed: () {
-                Navigator.pop(context);
-                if (del == false) {
-                  getImage(context);
-                } else {
-                  setState(() {
-                      _image = null;
-                      _cover = "";
-                  });
-                }
-              },
-            ),
-          ],
-          title: del == true? Text('删除图片?') :Text('修改图片?'),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0))
-          ),
-        );
-      },
     );
   }
   
@@ -207,34 +140,19 @@ class _EditState extends State<Edit> {
       builder: (context) => BlocListener<ImageBloc, ImageState>(
         listener: (context, state) {
           if (state is ImageUploadFailed) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.red,
-                content: Text('图片上传失败，请重试'),
-              ),
-            );
+            snacker(context, '图片上传失败，请重试');
           } else if (state is ImageUploadSucceed) {
             setState(() {
                 _cover = state.cover;
             });
+            Navigator.pop(context);
+          } else if (state is ImageUploading) {
+            alertLoading(context);
           }
         },
-        child: BlocBuilder<ImageBloc, ImageState>(
-          builder: (context, state) {
-            Widget loading = Container(
-              child: Center(
-                child: CircularProgressIndicator()
-              ),
-              constraints: BoxConstraints(
-                minHeight: 150.0
-              )
-            );
-            
-            if (state is ImageUploading) {
-              return loading;
-            } else if (state is ImageLoading) {
-              return loading;
-            } else if (_image == null) {
+        child: Builder(
+          builder: (context) {
+            if (_image == null) {
               if (widget.args.edit == true && _cover != "") {
                 return GestureDetector(
                   child: Center(child: Image.network(conf['image'] + _cover)),
@@ -243,13 +161,12 @@ class _EditState extends State<Edit> {
                 );
               }
               return SizedBox.shrink();
-            } else {
-              return GestureDetector(
-                child: Center(child: Image.file(_image)),
-                onLongPress: () => changeImage(context, false),
-                onDoubleTap: () => changeImage(context, true),
-              );
-            }
+            } 
+            return GestureDetector(
+              child: Center(child: Image.file(_image)),
+              onLongPress: () => changeImage(context, false),
+              onDoubleTap: () => changeImage(context, true),
+            );
           }
         )
       )
@@ -274,5 +191,56 @@ class _EditState extends State<Edit> {
     );
     
     return <Widget>[_ctx];
+  }
+
+  // funcs
+  Future getImage(BuildContext context) async {
+    var image = await ImagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 540.0
+    );
+
+    if (image != null) {
+      final _bloc = BlocProvider.of<ImageBloc>(context);
+      
+      setState(() {
+          _bloc.dispatch(UploadImageEvent(image: image));
+          _image = image;
+      });
+    }
+  }
+
+  Future<void> changeImage(BuildContext context, bool del) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext _context) {
+        return AlertDialog(
+          actions: <Widget>[
+            FlatButton(
+              child: Text('取消'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            FlatButton(
+              child: Text('确定'),
+              onPressed: () {
+                Navigator.pop(context);
+                if (del == false) {
+                  getImage(context);
+                } else {
+                  setState(() {
+                      _image = null;
+                      _cover = "";
+                  });
+                }
+              },
+            ),
+          ],
+          title: del == true? Text('删除图片?') :Text('修改图片?'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))
+          ),
+        );
+      },
+    );
   }
 }

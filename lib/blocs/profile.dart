@@ -1,13 +1,11 @@
-import './conf.dart';
-import './utils.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/blocs/conf.dart';
+import 'package:cdr_today/blocs/utils.dart';
 
-// Profile
-// ----------- bloc ------------
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
   ProfileState get initialState => EmptyProfileState();
@@ -32,28 +30,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       if (res.statusCode == 200) {
         ProfileUpdateResult _data = ProfileUpdateResult.fromJson(json.decode(res.body));
-        yield ProfileUpdatingSucceed(
+        yield ProfileUpdatedSucceed(
           mail: _data.data['mail'],
           name: _data.data['name']
         );
-        yield EmptyProfileState();
       } else {
-        yield ProfileUpdatingFailed();
-        yield EmptyProfileState();
+        yield ProfileUpdatedFailed();
       }
+      yield EmptyProfileState();
     }
   }
-}
-
-// --------- events ---------
-abstract class ProfileEvent extends Equatable{}
-
-class UpdateProfileName extends ProfileEvent {
-  final String name;
-  UpdateProfileName({ this.name });
-
-  @override
-  String toString() => 'UpdateProfileName';
 }
 
 // --------- states --------
@@ -66,18 +52,29 @@ class EmptyProfileState extends ProfileState {
   String toString() => 'EmptyProfileState';
 }
 
-class ProfileUpdatingFailed extends ProfileState {
+class ProfileUpdatedFailed extends ProfileState {
   @override
   String toString() => 'ProfileUpdatingFailed';
 }
 
-class ProfileUpdatingSucceed extends ProfileState {
+class ProfileUpdatedSucceed extends ProfileState {
   final String mail;
   final String name;
 
-  ProfileUpdatingSucceed({this.mail, this.name});
+  ProfileUpdatedSucceed({this.mail, this.name});
   @override
-  String toString() => 'ProfileUpdatingSucceed';
+  String toString() => 'ProfileUpdatedSucceed';
+}
+
+// --------- events ---------
+abstract class ProfileEvent extends Equatable{}
+
+class UpdateProfileName extends ProfileEvent {
+  final String name;
+  UpdateProfileName({ this.name });
+
+  @override
+  String toString() => 'UpdateProfileName';
 }
 
 // -------------- apis ---------------------

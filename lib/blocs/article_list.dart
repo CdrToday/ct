@@ -6,16 +6,6 @@ import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
 
-class ArticleListAPI {
-  final List<dynamic> articles;
-  ArticleListAPI({ this.articles });
-
-  factory ArticleListAPI.fromJson(Map<String, dynamic> json) {
-    return ArticleListAPI(articles: json['articles']);
-  }
-}
-
-// ------------ bloc -------------
 class ArticleListBloc extends Bloc<ArticleListEvent, ArticleListState> {
   @override
   ArticleListState get initialState => UnFetched();
@@ -35,9 +25,6 @@ class ArticleListBloc extends Bloc<ArticleListEvent, ArticleListState> {
       } else {
         yield FetchedFailed();
       }
-      return;
-    } else if (event is ReFetching) {
-      yield UnFetched();
       return;
     } else if (event is CleanList) {
       yield UnFetched();
@@ -61,16 +48,16 @@ class FetchedFailed extends ArticleListState {
   String toString() => 'FetchedFailed';
 }
 
-class EmptyList extends ArticleListState {
-  @override
-  String toString() => 'EmptyList';
-}
-
 class FetchedSucceed extends ArticleListState {
   final dynamic list;
   FetchedSucceed({ this.list });
   @override
   String toString() => 'FetchedSucceed';
+}
+
+class EmptyList extends ArticleListState {
+  @override
+  String toString() => 'EmptyList';
 }
 
 // ----------- events ------------
@@ -86,7 +73,12 @@ class CleanList extends ArticleListEvent {
   String toString() => 'CleanList';
 }
 
-class ReFetching extends ArticleListEvent {
-  @override
-  String toString() => 'ReFetching';
+// ------------ api --------------
+class ArticleListAPI {
+  final List<dynamic> articles;
+  ArticleListAPI({ this.articles });
+
+  factory ArticleListAPI.fromJson(Map<String, dynamic> json) {
+    return ArticleListAPI(articles: json['articles']);
+  }
 }

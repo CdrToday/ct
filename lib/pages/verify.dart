@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/verify.dart';
+import 'package:cdr_today/widgets/snackers.dart';
 
 class Verify extends StatefulWidget {
   final String mail;
@@ -28,6 +29,7 @@ class _VerifyState extends State<Verify> {
                   'cdr.today',
                   style: Theme.of(context).textTheme.display2
                 ),
+                Spacer(),
                 TextField(
                   onChanged: changeValue,
                   decoration: InputDecoration(hintText: '验证码'),
@@ -36,7 +38,7 @@ class _VerifyState extends State<Verify> {
                 verifyCode(context, _value, widget.mail)
               ],
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
             ),
             margin: EdgeInsets.symmetric(horizontal: kToolbarHeight)
           ),
@@ -54,12 +56,7 @@ verifyCode(BuildContext context, String _code, String mail) {
     child: BlocListener<VerifyBloc, VerifyState>(
       listener: (context, state) {
         if (state is CodeVerifiedFailed) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text('邮箱验证失败，请重试'),
-            ),
-          );
+          snacker(context, '邮箱验证失败，请重试');
         } else if (state is CodeVerifiedSucceed) {
           Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);
         }
@@ -77,14 +74,7 @@ verifyCode(BuildContext context, String _code, String mail) {
                 ).hasMatch(_code);
                 
                 if (!codeValid) {
-                  Scaffold.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text(
-                        "请输入正确的验证码，如: '99293e8e-5629-40d3-8747-10016474d49c'"
-                      ),
-                    ),
-                  );
+                  snacker(context, "请输入正确的验证码，如: '99293e8e-5629-40d3-8747-10016474d49c'");
                 } else {
                   _bloc.dispatch(VerifyCodeEvent(mail: mail, code: _code));
                 }

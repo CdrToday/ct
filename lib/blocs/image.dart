@@ -17,9 +17,7 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
     var mail = await getString('mail');
     var code = await getString('code');
 
-    if (event is LoadImageEvent) {
-      yield ImageLoading();
-    } else if (event is UploadImageEvent) {
+    if (event is UploadImageEvent) {
       yield ImageUploading();
       String img = base64Encode(
         event.image.readAsBytesSync()
@@ -57,11 +55,6 @@ abstract class ImageState extends Equatable {
 class UploadEmpty extends ImageState {
   @override
   String toString() => "UploadEmpty";
-}
-
-class ImageLoading extends ImageState {
-  @override
-  String toString() => "ImageLoading";
 }
 
 class ImageUploading extends ImageState {

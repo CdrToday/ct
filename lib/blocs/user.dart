@@ -1,28 +1,33 @@
-import './conf.dart';
-import './utils.dart';
-import './verify.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/blocs/conf.dart';
+import 'package:cdr_today/blocs/utils.dart';
+import 'package:cdr_today/blocs/verify.dart';
+import 'package:cdr_today/blocs/profile.dart';
 
-/// User 
-/// @page: ['/home']
-// -------------- bloc ----------------
 class UserBloc extends Bloc<UserEvent, UserState> {
-  final VerifyBloc verifyBloc;
+  final VerifyBloc v;
+  final ProfileBloc p;
   
-  UserBloc(this.verifyBloc) {
-    verifyBloc.state.listen((state){
+  UserBloc({this.v, this.p}) {
+    v.state.listen((state){
         if (state is CodeVerifiedSucceed) {
           this.dispatch(CheckUserEvent());
+        } 
+    });
+
+    p.state.listen((state){
+        if (state is ProfileUpdatedSucceed) {
+          this.dispatch(InitUserEvent(mail: state.mail, name: state.name));
         } 
     });
   }
   
   @override
-  UserState get initialState => UserEmptyState();
+  UserState get initialState => UserUnInited();
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
@@ -64,6 +69,26 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 }
 
+// -------------- states ------------------
+abstract class UserState extends Equatable {
+  UserState([List props = const []]) : super(props);
+}
+
+class UserUnInited extends UserState {
+  @override
+  String toString() => 'UserUnInited';
+}
+
+class UserInited extends UserState {
+  final String mail;
+  final String name;
+  
+  UserInited({
+      this.mail, this.name
+  }) : super([ mail, name ]);
+}
+
+
 // -------------- events ----------------
 abstract class UserEvent extends Equatable {}
 
@@ -81,11 +106,6 @@ class InitUserEvent extends UserEvent {
   String toString() => 'InitUserEvent';
 }
 
-class LogoutEvent extends UserEvent {
-  @override
-  String toString() => 'LogoutEvent';
-}
-
 class UpdateUserName extends UserEvent {
   final String name;
   UpdateUserName({ this.name });
@@ -94,29 +114,11 @@ class UpdateUserName extends UserEvent {
   String toString() => 'UpdateUserName';
 }
 
-// -------------- states ------------------
-abstract class UserState extends Equatable {
-  UserState([List props = const []]) : super(props);
-}
-
-class UserUnInited extends UserState {
+class LogoutEvent extends UserEvent {
   @override
-  String toString() => 'UserUnInited';
+  String toString() => 'LogoutEvent';
 }
 
-class UserEmptyState extends UserState {
-  @override
-  String toString() => 'UserEmptyState';
-}
-
-class UserInited extends UserState {
-  final String mail;
-  final String name;
-  
-  UserInited({
-      this.mail, this.name
-  }) : super([ mail, name ]);
-}
 
 // -------------- apis ---------------------
 class MailVerifyResult {

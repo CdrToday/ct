@@ -19,7 +19,6 @@ class EditBloc extends Bloc<EditEvent, EditState> {
     if (event is CompletedEdit) {
       yield Posting();
       Map data = {
-        'code': code,
         'title': event.title,
         'cover': event.cover,
         'content': event.content,
@@ -48,7 +47,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
         'cover': event.cover,
         'content': event.content
       };
-      print(event.cover);
+
       var res = await http.post(
         "${conf['url']}/$mail/article/update",
         headers: {

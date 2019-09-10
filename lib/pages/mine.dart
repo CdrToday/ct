@@ -22,7 +22,7 @@ class Mine extends StatelessWidget {
           );
         } else {
           _bloc.dispatch(CheckUserEvent());
-          return Center(child: Text('重新登录中...'));
+          return CenterX(x: '重新登录中...');
         }
       }
     );

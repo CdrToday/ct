@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cdr_today/blocs/verify.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/blocs/verify.dart';
+import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Login extends StatefulWidget {
@@ -31,6 +32,7 @@ class _LoginState extends State<Login> {
                   'cdr.today',
                   style: Theme.of(context).textTheme.display2
                 ),
+                Spacer(),
                 TextField(
                   onChanged: changeValue,
                   decoration: InputDecoration(hintText: '邮箱'),
@@ -39,7 +41,7 @@ class _LoginState extends State<Login> {
                 sendCode(context, _value),
               ],
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
             ),
             margin: EdgeInsets.symmetric(horizontal: kToolbarHeight)
           ),
@@ -57,12 +59,7 @@ sendCode(BuildContext context, String _email) {
     child: BlocListener<VerifyBloc, VerifyState>(
       listener: (context, state) {
         if (state is CodeSentFailed) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text('邮件发送失败，请重试'),
-            ),
-          );
+          snacker(context, '邮件发送失败，请重试');
         } else if (state is CodeSentSucceed) {
           Navigator.pushNamed(
             context, '/user/verify',
@@ -78,18 +75,12 @@ sendCode(BuildContext context, String _email) {
             return OutlineButton(
               onPressed: () {
                 FocusScope.of(context).requestFocus(new FocusNode());
-                
                 bool emailValid = RegExp(
                   r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"
                 ).hasMatch(_email);
                 
                 if (!emailValid) {
-                  Scaffold.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text('请输入正确的邮箱'),
-                    ),
-                  );
+                  snacker(context, '请输入正确的邮箱');
                 } else {
                   _bloc.dispatch(SendCodeEvent(mail: _email));
                 }

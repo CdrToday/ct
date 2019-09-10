@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
     
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
-        if (state is! UserEmptyState) {
+        if (state is! UserUnInited) {
           Navigator.of(context).pushReplacementNamed('/init');
         }
       },

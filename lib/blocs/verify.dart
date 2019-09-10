@@ -47,26 +47,6 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
   }
 }
 
-// --------------- events ----------------
-abstract class VerifyEvent extends Equatable {}
-
-class SendCodeEvent extends VerifyEvent {
-  final String mail;
-  SendCodeEvent({ this.mail });
-  
-  @override
-  String toString() => 'SendCodeEvent';
-}
-
-class VerifyCodeEvent extends VerifyEvent {
-  final String mail;
-  final String code;
-  VerifyCodeEvent({ this.mail, this.code });
-  
-  @override
-  String toString() => 'VerifyCodeEvent';
-}
-
 // ---------------- state ------------------
 abstract class VerifyState extends Equatable {
   VerifyState([List props = const []]) : super(props);
@@ -100,4 +80,24 @@ class CodeVerifiedSucceed extends VerifyState {
 class CodeVerifiedFailed extends VerifyState {
   @override
   String toString() => 'CodeVerifiedFailed';
+}
+
+// --------------- events ----------------
+abstract class VerifyEvent extends Equatable {}
+
+class SendCodeEvent extends VerifyEvent {
+  final String mail;
+  SendCodeEvent({ this.mail });
+  
+  @override
+  String toString() => 'SendCodeEvent';
+}
+
+class VerifyCodeEvent extends VerifyEvent {
+  final String mail;
+  final String code;
+  VerifyCodeEvent({ this.mail, this.code });
+  
+  @override
+  String toString() => 'VerifyCodeEvent';
 }
