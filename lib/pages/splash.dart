@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:cdr_today/blocs/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/blocs/user.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -35,22 +35,25 @@ class _SplashPageState extends State<SplashPage> {
         body: Container(
           child: Column(
             children: [
+              Spacer(),
               Text(
                 'cdr.today',
-                style: Theme.of(context).textTheme.display1
+                style: Theme.of(context).textTheme.display2,
+                textAlign: TextAlign.center
               ),
-              Divider(),
-              Text('Louder than words.', style: TextStyle(color: Colors.grey)),
+              Spacer(),
+              Text(
+                'Louder than Words',
+                style: TextStyle(color: Colors.grey),
+                textAlign: TextAlign.center
+              )
             ],
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
           ),
-          padding: EdgeInsets.only(
-            left: 80.0,
-            right: 80.0,
-            bottom: 120.0
-          )
-        )
-      )
+          padding: EdgeInsets.only(bottom: kToolbarHeight)
+        ),
+      ),
     );
   }
 }

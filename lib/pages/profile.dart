@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/profile.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/blocs/article_list.dart';
 import 'package:cdr_today/widgets/modify.dart';
 
 class Profile extends StatelessWidget {
@@ -19,7 +20,8 @@ class Profile extends StatelessWidget {
               padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
               children: <Widget>[
                 profile(context, state.name),
-                mail(context, state.mail)
+                mail(context, state.mail),
+                logout(context),
               ]
             )
           );
@@ -88,6 +90,28 @@ Widget mail(BuildContext context, String str) {
       ),
       margin: EdgeInsets.only(top: 10.0)
     )
+  );
+}
+
+Widget logout(BuildContext context) {
+  final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
+  final ArticleListBloc _albloc = BlocProvider.of<ArticleListBloc>(context);
+  
+  return Container(
+    child: Center(
+      child: GestureDetector(
+        child: Text(
+          '退出登录',
+          style: TextStyle(fontSize: 14.0)
+        ),
+        onTap: () {
+          _bloc.dispatch(LogoutEvent());
+          Navigator.pop(context);
+          _albloc.dispatch(CleanList());
+        }
+      )
+    ),
+    margin: EdgeInsets.only(top: 20.0)
   );
 }
 

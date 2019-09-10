@@ -10,19 +10,23 @@ class VersionPage extends StatelessWidget {
       body: Container(
         child: Column(
           children: [
-            Center(
-              child: Text(
-                'cdr.today',
-                style: Theme.of(context).textTheme.display1
-              )
+            Spacer(),
+            Text(
+              'cdr.today',
+              style: Theme.of(context).textTheme.display2,
+              textAlign: TextAlign.center
             ),
-            Divider(),
-            Text('version 0.1.6', style: TextStyle(color: Colors.grey)),
+            Spacer(),
+            Text(
+              'version 0.1.6',
+              style: TextStyle(color: Colors.grey),
+              textAlign: TextAlign.center
+            )
           ],
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
         ),
-        padding: EdgeInsets.only(left: 80.0, right: 80.0),
-        transform: Matrix4.translationValues(0.0, -80.0, 0.0),
+        padding: EdgeInsets.only(bottom: kToolbarHeight)
       ),
     );
   }
