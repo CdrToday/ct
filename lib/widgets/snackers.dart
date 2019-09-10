@@ -7,6 +7,7 @@ void snacker(
     SnackBar(
       backgroundColor: color == null ? Colors.red : color,
       content: Text(text),
+      duration: Duration(seconds: 1)
     ),
   );
 }

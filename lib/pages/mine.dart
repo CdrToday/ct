@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
-import 'package:cdr_today/blocs/article_list.dart';
 import 'package:cdr_today/widgets/center.dart';
-
 
 class Mine extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -18,7 +16,7 @@ class Mine extends StatelessWidget {
               articles(context),
               version(context),
               Spacer()
-            ]
+            ],
           );
         } else {
           _bloc.dispatch(CheckUserEvent());
@@ -38,21 +36,21 @@ Widget header() {
 
 Widget profile(BuildContext context) {
   return  ListTile(
-    title: Text('个人信息'),
+    title: Text('个人信息', textAlign: TextAlign.center),
     onTap: () => Navigator.popAndPushNamed(context, '/mine/profile')
   );
 }
 
 Widget articles(BuildContext context) {
   return ListTile(
-    title: Text('文章管理'),
+    title: Text('文章管理', textAlign: TextAlign.center),
     onTap: () => Navigator.popAndPushNamed(context, '/mine/article/manager')
   );
 }
 
 Widget version(BuildContext context) {
   return  ListTile(
-    title: Text('版本信息'),
+    title: Text('版本信息', textAlign: TextAlign.center),
     onTap: () => Navigator.popAndPushNamed(context, '/mine/version')
   );
 }

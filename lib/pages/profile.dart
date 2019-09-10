@@ -18,13 +18,19 @@ class Profile extends StatelessWidget {
               title: Text('个人信息'),
               leading: CloseButton()
             ),
-            body: ListView(
-              padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
-              children: <Widget>[
-                profile(context, state.name),
-                mail(context, state.mail),
-                logout(context),
-              ]
+            body: Container(
+              child: Column(
+                children: <Widget>[
+                  profile(context, state.name),
+                  mail(context, state.mail),
+                  Spacer(),
+                  logout(context),
+                ]
+              ),
+              padding: EdgeInsets.only(
+                top: 20.0, left: 10.0, right: 10.0,
+                bottom: kToolbarHeight
+              ),
             )
           );
         } else {
@@ -66,13 +72,7 @@ Widget mail(BuildContext context, String str) {
           title: Text('邮箱'),
           trailing: Text(str),
           onTap: () {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.green,
-                content: Text("修改邮箱请前往官网: 'https://cdr.today/reborn' 🦄️" ),
-                duration: Duration(seconds: 1)
-              ),
-            );
+            snacker(context, "暂不支持修改邮箱 🦄️" )
           }
         )
       ),
