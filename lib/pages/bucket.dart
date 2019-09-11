@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cdr_today/pages/posts.dart';
+import 'package:cdr_today/pages/post.dart';
 
 class Bucket extends StatelessWidget {
     Widget build(BuildContext context) {
@@ -8,7 +8,7 @@ class Bucket extends StatelessWidget {
         title: Text('文章管理'),
         leading: CloseButton()
       ),
-      body: Posts(edit: true)
+      body: Post(edit: true)
     );
   }  
 }

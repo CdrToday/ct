@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/pages/mine.dart';
-import 'package:cdr_today/pages/posts.dart';
+import 'package:cdr_today/pages/post.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class InitPage extends StatelessWidget {
@@ -18,7 +18,7 @@ class InitPage extends StatelessWidget {
         title: Text('文章列表'),
         automaticallyImplyLeading: false
       ),
-      body: Posts(),
+      body: Post(),
       bottomSheet: Container(
         child: IconButton(
           icon: Icon(Icons.mode_edit),

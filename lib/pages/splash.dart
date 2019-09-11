@@ -43,7 +43,7 @@ class _SplashPageState extends State<SplashPage> {
               ),
               Spacer(),
               Text(
-                'Louder than Words',
+                'Louder than Words.',
                 style: TextStyle(color: Colors.grey),
                 textAlign: TextAlign.center
               )

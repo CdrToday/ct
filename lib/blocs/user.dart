@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/profile.dart';

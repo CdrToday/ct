@@ -1,16 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/blocs/edit.dart';
-import 'package:cdr_today/blocs/image.dart';
-import 'package:cdr_today/blocs/posts.dart';
-import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/blocs/post.dart';
+import 'package:cdr_today/widgets/edit.dart';
+import 'package:cdr_today/widgets/image.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/snackers.dart';
-
+import 'package:cdr_today/navigations/args.dart';
 
 class Edit extends StatefulWidget {
   final ArticleArgs args;
@@ -45,7 +43,7 @@ class _EditState extends State<Edit> {
   }
   
   Widget build(BuildContext context) {
-    final PostsBloc _alBloc = BlocProvider.of<PostsBloc>(context);
+    final PostBloc _bloc = BlocProvider.of<PostBloc>(context);
     
     return Scaffold(
       appBar: AppBar(
@@ -78,7 +76,7 @@ class _EditState extends State<Edit> {
             return;
           } else {
             // succeed
-            _alBloc.dispatch(CleanList());
+            _bloc.dispatch(CleanList());
             Navigator.pop(context);
             Navigator.maybePop(context);
           }
@@ -97,88 +95,35 @@ class _EditState extends State<Edit> {
           }
         ),
       ),
-      floatingActionButton: imagePicker(context),
+      floatingActionButton: ImagePickerWidget(
+        image: _image,
+        cover: _cover,
+        setImage: (image) => setState(() { _image = image; }),
+      ),
       resizeToAvoidBottomPadding: true,
     );
   }
   
-  // widgets
-  Widget imagePicker(BuildContext context) {
-    if (_image == null && _cover == '') {
-      return FloatingActionButton(
-        onPressed: () => getImage(context),
-        child: Icon(Icons.add_a_photo),
-      );
-    }
-    return SizedBox.shrink();
-  }
-
   List<Widget> ctx(BuildContext context) {
-    Widget _titleWidget = TextField(
-      style: TextStyle(
-        fontSize: 24.0,
-        fontWeight: FontWeight.w700
-      ),
-      decoration: InputDecoration(
-        hintText: '标题',
-        border: InputBorder.none,
-        focusedBorder: InputBorder.none,
-      ),
-      scrollPadding: EdgeInsets.all(20.0),
-      controller: _titleController,
-      onChanged: (String text) {
-        setState(() { _title = text; });
-      }
+    Widget _titleWidget = TitleWidget(
+      titleController: _titleController,
+      onChanged: (String text) => setState(() { _title = text; }),
     );
 
-    Widget _contentWidget = TextField(
-      decoration: InputDecoration(
-        hintText: '内容',
-        border: InputBorder.none,
-        focusedBorder: InputBorder.none,
-      ),
-      keyboardType: TextInputType.multiline,
-      maxLines: null,
-      controller: _contentController,
+    Widget _contentWidget = ContentWidget(
+      contentController: _contentController,
       onChanged: (String text) => setState(() { _content = text; }),
     );
     
-    Widget _imageWidget = Builder(
-      builder: (context) => BlocListener<ImageBloc, ImageState>(
-        listener: (context, state) {
-          if (state is ImageUploadFailed) {
-            snacker(context, '图片上传失败，请重试');
-          } else if (state is ImageUploadSucceed) {
-            setState(() {
-                _cover = state.cover;
-            });
-            Navigator.pop(context);
-          } else if (state is ImageUploading) {
-            alertLoading(context);
-          }
-        },
-        child: Builder(
-          builder: (context) {
-            if (_image == null) {
-              if (widget.args.edit == true && _cover != "") {
-                return GestureDetector(
-                  child: Center(child: Image.network(conf['image'] + _cover)),
-                  onLongPress: () => changeImage(context, false),
-                  onDoubleTap: () => changeImage(context, true),
-                );
-              }
-              return SizedBox.shrink();
-            } 
-            return GestureDetector(
-              child: Center(child: Image.file(_image)),
-              onLongPress: () => changeImage(context, false),
-              onDoubleTap: () => changeImage(context, true),
-            );
-          }
-        )
-      )
+    Widget _imageWidget = ImageWidget(
+      cover: _cover,
+      image: _image,
+      edit: widget.args.edit,
+      setImage: (image) => setState(() { _image = image; }),
+      setCover: (cover) => setState(() { _cover = cover; }),
+      cleanImage: () => setState(() { _image = null; _cover = ""; }),
     );
-
+    
     Widget _ctx = Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -198,56 +143,5 @@ class _EditState extends State<Edit> {
     );
     
     return <Widget>[_ctx];
-  }
-
-  // funcs
-  Future getImage(BuildContext context) async {
-    var image = await ImagePicker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 540.0
-    );
-
-    if (image != null) {
-      final _bloc = BlocProvider.of<ImageBloc>(context);
-      
-      setState(() {
-          _bloc.dispatch(UploadImageEvent(image: image));
-          _image = image;
-      });
-    }
-  }
-
-  Future<void> changeImage(BuildContext context, bool del) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext _context) {
-        return AlertDialog(
-          actions: <Widget>[
-            FlatButton(
-              child: Text('取消'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            FlatButton(
-              child: Text('确定'),
-              onPressed: () {
-                Navigator.pop(context);
-                if (del == false) {
-                  getImage(context);
-                } else {
-                  setState(() {
-                      _image = null;
-                      _cover = "";
-                  });
-                }
-              },
-            ),
-          ],
-          title: del == true? Text('删除图片?') :Text('修改图片?'),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0))
-          ),
-        );
-      },
-    );
   }
 }
