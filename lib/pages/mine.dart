@@ -1,28 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/widgets/center.dart';
 
 class Mine extends StatelessWidget {
   Widget build(BuildContext context) {
-    final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) {
-        if (state is UserInited) {
-          return Column(
-            children: <Widget>[
-              header(),
-              profile(context),
-              articles(context),
-              version(context),
-              Spacer()
-            ],
-          );
-        } else {
-          _bloc.dispatch(CheckUserEvent());
-          return CenterX(x: '重新登录中...');
-        }
-      }
+    return Column(
+      children: <Widget>[
+        header(),
+        profile(context),
+        articles(context),
+        version(context),
+        Spacer()
+      ],
     );
   }
 }
@@ -44,7 +33,7 @@ Widget profile(BuildContext context) {
 Widget articles(BuildContext context) {
   return ListTile(
     title: Text('文章管理', textAlign: TextAlign.center),
-    onTap: () => Navigator.popAndPushNamed(context, '/mine/article/manager')
+    onTap: () => Navigator.popAndPushNamed(context, '/mine/bucket')
   );
 }
 

@@ -107,7 +107,7 @@ Route router(settings) {
     return FadeRoute(page: Article(args: args));
   } else if (r == '/mine/profile') {
     return FadeRoute(page: Profile());
-  } else if (r == '/mine/article/manager') {
+  } else if (r == '/mine/bucket') {
     return FadeRoute(page: Bucket());
   } else if (r == '/mine/version') {
     return FadeRoute(page: VersionPage());
