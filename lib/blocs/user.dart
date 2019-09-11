@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
-import 'package:cdr_today/blocs/conf.dart';
-import 'package:cdr_today/blocs/utils.dart';
-import 'package:cdr_today/blocs/verify.dart';
+import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/profile.dart';
+import 'package:cdr_today/x/store.dart';
+import 'package:cdr_today/x/req.dart' as xReq;
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final VerifyBloc v;
@@ -27,10 +27,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
   
   @override
-  UserState get initialState => UserUnInited();
+  UserState get initialState => SplashState();
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
+    xReq.Requests r = await xReq.Requests.init();
+    
     if (event is CheckUserEvent) {
       String mail = await getString('mail');
       String code = await getString('code');
@@ -40,14 +42,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         return;
       }
       
-      Map data = {
-        'code': code
-      };
-      
-      var res = await http.post(
-        "${conf['url']}/$mail/verify",
-        body: json.encode(data)
-      );
+      var res = await r.authVerify(mail: mail, code: code);
 
       if (res.statusCode == 200) {
         MailVerifyResult _data = MailVerifyResult.fromJson(json.decode(res.body));
@@ -72,6 +67,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 // -------------- states ------------------
 abstract class UserState extends Equatable {
   UserState([List props = const []]) : super(props);
+}
+
+class SplashState extends UserState {
+  @override
+  String toString() => 'SplashState';
 }
 
 class UserUnInited extends UserState {

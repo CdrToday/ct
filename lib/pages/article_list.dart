@@ -40,12 +40,13 @@ class _ArticleListState extends State<ArticleList> {
 
 Widget _buildList(BuildContext context, List<dynamic> list, bool edit) {
   return ListView.separated(
-    padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0, bottom: 20.0),
+    padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0, bottom: 52.0),
     itemCount: list.length,
     itemBuilder: (BuildContext context, int index) {
       String title = list[index]['title'];
       String cover = list[index]['cover'];
       String content = list[index]['content'];
+
       content = content.replaceAll('\n', ' ');
       if (content.length > 120) {
         content = content.substring(0, 112);

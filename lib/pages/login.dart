@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/verify.dart';
+import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/navigations/args.dart';
 
@@ -28,20 +28,22 @@ class _LoginState extends State<Login> {
           builder: (context) => Container(
             child: Column(
               children: <Widget>[
+                SizedBox(height: 150.0),
                 Text(
                   'cdr.today',
                   style: Theme.of(context).textTheme.display2
                 ),
-                Spacer(),
+                SizedBox(height: 84.0),
                 TextField(
                   onChanged: changeValue,
                   decoration: InputDecoration(hintText: '邮箱'),
                   style: Theme.of(context).textTheme.title
                 ),
+                SizedBox(height: 42.0),
                 sendCode(context, _value),
               ],
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
             ),
             margin: EdgeInsets.symmetric(horizontal: kToolbarHeight)
           ),

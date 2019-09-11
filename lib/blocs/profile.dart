@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
-import 'package:cdr_today/blocs/conf.dart';
-import 'package:cdr_today/blocs/utils.dart';
+import 'package:cdr_today/x/req.dart' as xReq;
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
@@ -12,21 +10,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
+    xReq.Requests r = await xReq.Requests.init();
     if (event is UpdateProfileName) {
-      String code = await getString('code');
-      String mail = await getString('mail');
-
-      Map data = {
-        'name': event.name
-      };
-      
-      var res = await http.post(
-        "${conf['url']}/$mail/update/name",
-        headers: {
-          'code': code
-        },
-        body: json.encode(data),
-      );
+      var res = await r.updateName(name: event.name);
 
       if (res.statusCode == 200) {
         ProfileUpdateResult _data = ProfileUpdateResult.fromJson(json.decode(res.body));

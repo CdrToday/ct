@@ -1,11 +1,9 @@
-import './conf.dart';
-import './utils.dart';
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/x/req.dart' as xReq;
 
 // --------- bloc --------
 class ImageBloc extends Bloc<ImageEvent, ImageState> {
@@ -14,27 +12,15 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
 
   @override
   Stream<ImageState> mapEventToState(ImageEvent event) async * {
-    var mail = await getString('mail');
-    var code = await getString('code');
-
+    xReq.Requests r = await xReq.Requests.init();
+    
     if (event is UploadImageEvent) {
       yield ImageUploading();
       String img = base64Encode(
         event.image.readAsBytesSync()
       );
 
-      Map data = {
-        'image': img
-      };
-      
-      var res = await http.post(
-        "${conf['url']}/$mail/upload",
-        headers: {
-          'code': code,
-        },
-        body: json.encode(data)
-      );
-      
+      var res = await r.upload(image: img);
       if (res.statusCode == 200) {
         UploadResult _data = UploadResult.fromJson(json.decode(res.body));
         yield ImageUploadSucceed(cover: _data.cover);

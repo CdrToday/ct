@@ -1,10 +1,8 @@
-import './conf.dart';
-import './utils.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/x/req.dart' as xReq;
 
 class ArticleListBloc extends Bloc<ArticleListEvent, ArticleListState> {
   @override
@@ -12,9 +10,10 @@ class ArticleListBloc extends Bloc<ArticleListEvent, ArticleListState> {
 
   @override
   Stream<ArticleListState> mapEventToState(ArticleListEvent event) async* {
+    xReq.Requests r = await xReq.Requests.init();
+
     if (event is FetchSelfArticles) {
-      String mail = await getString('mail');
-      var res = await http.get("${conf['url']}/$mail/articles");
+      var res = await r.getPosts();
       if (res.statusCode == 200) {
         ArticleListAPI articles = ArticleListAPI.fromJson(json.decode(res.body));
         if (articles.articles.length > 0) {

@@ -72,7 +72,7 @@ Widget mail(BuildContext context, String str) {
           title: Text('邮箱'),
           trailing: Text(str),
           onTap: () {
-            snacker(context, "暂不支持修改邮箱 🦄️" )
+            snacker(context, "暂不支持修改邮箱 🦄️" );
           }
         )
       ),

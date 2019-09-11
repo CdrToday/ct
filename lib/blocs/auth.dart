@@ -1,10 +1,9 @@
-import './conf.dart';
-import './utils.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/x/store.dart';
+import 'package:cdr_today/x/req.dart' as xReq;
 
 // --------------- bloc ---------------
 class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
@@ -13,37 +12,27 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
 
   @override
   Stream<VerifyState> mapEventToState(VerifyEvent event) async* {
+    xReq.Requests r = xReq.Requests();
+    
     if (event is SendCodeEvent) {
       yield CodeSending();
-      var res = await http.get("${conf['url']}/${event.mail}/code");
+      var res = await r.auth(mail: event.mail);
       
       if (res.statusCode == 200) {
         yield CodeSentSucceed();
       } else {
         yield CodeSentFailed();
       }
-      return;
     } else if (event is VerifyCodeEvent) {
       yield CodeSending();
-
-      Map data = {
-        'code': event.code
-      };
-      
-      var res = await http.post(
-        "${conf['url']}/${event.mail}/verify",
-        body: json.encode(data)
-      );
+      var res = await r.authVerify(mail: event.mail, code: event.code);
       
       if (res.statusCode == 200) {
-        setString('mail', event.mail);
-        setString('code', event.code);
         yield CodeVerifiedSucceed();
       } else {
         yield CodeVerifiedFailed();
       }
     }
-    return;
   }
 }
 

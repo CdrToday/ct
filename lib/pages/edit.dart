@@ -65,10 +65,17 @@ class _EditState extends State<Edit> {
           if (state is Posting) {
             // must have
             alertLoading(context);
+          } else if (state is PublishFailed) {
+            Navigator.pop(context);
+            snacker(context, '发布失败，请重试');
           } else if (state is DeleteFailed) {
+            Navigator.pop(context);
             snacker(context, '删除失败，请重试');
           } else if (state is UpdateFailed) {
+            Navigator.pop(context);
             snacker(context, '更新失败，请重试');
+          } else if (state is EmptyEditState) {
+            return;
           } else {
             // succeed
             _alBloc.dispatch(CleanList());

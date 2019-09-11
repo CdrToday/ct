@@ -49,7 +49,6 @@ List<Widget> editActions(
           if (edit != true) {
             _bloc.dispatch(CompletedEdit(title: title, cover: cover, content: content));
           } else {
-            print(cover);
             _bloc.dispatch(UpdateEdit(id: id, title: title, cover: cover, content: content));
           }
         }

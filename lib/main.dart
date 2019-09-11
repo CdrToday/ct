@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // blocs
 import 'package:cdr_today/blocs/main.dart';
+import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/image.dart';
-import 'package:cdr_today/blocs/verify.dart';
 import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/blocs/article_list.dart';
 // pages

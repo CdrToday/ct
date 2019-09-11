@@ -1,87 +1,60 @@
-import './conf.dart';
-import './utils.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/x/req.dart' as xReq;
 
 // ------------ bloc -------------
 class EditBloc extends Bloc<EditEvent, EditState> {
   @override
-  EditState get initialState => Empty();
+  EditState get initialState => EmptyEditState();
 
   @override
   Stream<EditState> mapEventToState(EditEvent event) async* {
-    var mail = await getString('mail');
-    var code = await getString('code');
+    xReq.Requests r = await xReq.Requests.init();
     
     if (event is CompletedEdit) {
       yield Posting();
-      Map data = {
-        'title': event.title,
-        'cover': event.cover,
-        'content': event.content,
-      };
-      
-      var res = await http.post(
-        "${conf['url']}/$mail/publish",
-        headers: {
-          'code': code,
-        },
-        body: json.encode(data),
+      var res = await r.newPost(
+        title: event.title,
+        cover: event.cover,
+        content: event.content
       );
+      
       if (res.statusCode == 200) {
         yield PublishSucceed();
-        yield Empty();
       } else {
         yield PublishFailed();
-        yield Empty();
       }
+      
+      yield EmptyEditState();
     } else if (event is UpdateEdit) {
       yield Posting();
-      var mail = await getString('mail');
-      Map data = {
-        'id': event.id,
-        'title': event.title,
-        'cover': event.cover,
-        'content': event.content
-      };
-
-      var res = await http.post(
-        "${conf['url']}/$mail/article/update",
-        headers: {
-          'code': code
-        },
-        body: json.encode(data),
+      var res = await r.updatePost(
+        id: event.id,
+        title: event.title,
+        cover: event.cover,
+        content: event.content
       );
+      
       if (res.statusCode == 200) {
         yield UpdateSucceed();
-        yield Empty();
       } else {
         yield UpdateFailed();
       }
-      
+
+      yield EmptyEditState();
     } else if (event is DeleteEdit) {
       yield Posting();
-      var mail = await getString('mail');
-      Map data = {
-        'id': event.id,
-      };
+      var res = await r.deletePost(id: event.id);
       
-      var res = await http.post(
-        "${conf['url']}/$mail/article/delete",
-        headers: {
-          'code': code
-        },
-        body: json.encode(data),
-      );
       if (res.statusCode == 200) {
         yield DeleteSucceed();
-        yield Empty();
       } else {
         yield DeleteFailed();
       }
+
+      yield EmptyEditState();
     }
     return;
   }
@@ -92,9 +65,9 @@ abstract class EditState extends Equatable {
   EditState([List props = const []]) : super(props);
 }
 
-class Empty extends EditState {
+class EmptyEditState extends EditState {
   @override
-  String toString() => 'Empty';
+  String toString() => 'EmptyEditState';
 }
 
 class Posting extends EditState {
