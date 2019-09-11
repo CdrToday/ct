@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cdr_today/blocs/conf.dart';
+import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Article extends StatelessWidget {

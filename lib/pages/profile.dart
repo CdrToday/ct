@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/profile.dart';
-import 'package:cdr_today/blocs/article_list.dart';
+import 'package:cdr_today/blocs/posts.dart';
 import 'package:cdr_today/widgets/modify.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/widgets/snackers.dart';
@@ -83,7 +83,7 @@ Widget mail(BuildContext context, String str) {
 
 Widget logout(BuildContext context) {
   final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
-  final ArticleListBloc _albloc = BlocProvider.of<ArticleListBloc>(context);
+  final PostsBloc _albloc = BlocProvider.of<PostsBloc>(context);
   
   return Container(
     child: Center(

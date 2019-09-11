@@ -7,8 +7,8 @@ import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/image.dart';
+import 'package:cdr_today/blocs/posts.dart';
 import 'package:cdr_today/blocs/profile.dart';
-import 'package:cdr_today/blocs/article_list.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
@@ -17,7 +17,7 @@ import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/version.dart';
 import 'package:cdr_today/pages/splash.dart';
 import 'package:cdr_today/pages/profile.dart';
-import 'package:cdr_today/pages/article_manager.dart';
+import 'package:cdr_today/pages/bucket.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/init.dart';
 // navigations
@@ -46,8 +46,8 @@ class App extends StatelessWidget {
         BlocProvider<ImageBloc>(
           builder: (context) => ImageBloc()
         ),
-        BlocProvider<ArticleListBloc>(
-          builder: (context) => ArticleListBloc()
+        BlocProvider<PostsBloc>(
+          builder: (context) => PostsBloc()
         ),
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc
@@ -108,7 +108,7 @@ Route router(settings) {
   } else if (r == '/mine/profile') {
     return FadeRoute(page: Profile());
   } else if (r == '/mine/article/manager') {
-    return FadeRoute(page: ArticleManager());
+    return FadeRoute(page: Bucket());
   } else if (r == '/mine/version') {
     return FadeRoute(page: VersionPage());
   }

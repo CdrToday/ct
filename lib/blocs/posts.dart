@@ -4,20 +4,20 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
-class ArticleListBloc extends Bloc<ArticleListEvent, ArticleListState> {
+class PostsBloc extends Bloc<PostsEvent, PostsState> {
   @override
-  ArticleListState get initialState => UnFetched();
+  PostsState get initialState => UnFetched();
 
   @override
-  Stream<ArticleListState> mapEventToState(ArticleListEvent event) async* {
+  Stream<PostsState> mapEventToState(PostsEvent event) async* {
     xReq.Requests r = await xReq.Requests.init();
 
     if (event is FetchSelfArticles) {
       var res = await r.getPosts();
       if (res.statusCode == 200) {
-        ArticleListAPI articles = ArticleListAPI.fromJson(json.decode(res.body));
-        if (articles.articles.length > 0) {
-          yield FetchedSucceed(list: articles.articles);
+        PostsAPI posts = PostsAPI.fromJson(json.decode(res.body));
+        if (posts.posts.length > 0) {
+          yield FetchedSucceed(list: posts.posts);
         } else {
           yield EmptyList();
         }
@@ -33,51 +33,51 @@ class ArticleListBloc extends Bloc<ArticleListEvent, ArticleListState> {
 }
 
 // ----------- state -------------
-abstract class ArticleListState extends Equatable {
-  ArticleListState([List props = const []]) : super(props);
+abstract class PostsState extends Equatable {
+  PostsState([List props = const []]) : super(props);
 }
 
-class UnFetched extends ArticleListState {
+class UnFetched extends PostsState {
   @override
   String toString() => 'UnFetched';
 }
 
-class FetchedFailed extends ArticleListState {
+class FetchedFailed extends PostsState {
   @override
   String toString() => 'FetchedFailed';
 }
 
-class FetchedSucceed extends ArticleListState {
+class FetchedSucceed extends PostsState {
   final dynamic list;
   FetchedSucceed({ this.list });
   @override
   String toString() => 'FetchedSucceed';
 }
 
-class EmptyList extends ArticleListState {
+class EmptyList extends PostsState {
   @override
   String toString() => 'EmptyList';
 }
 
 // ----------- events ------------
-abstract class ArticleListEvent extends Equatable {}
+abstract class PostsEvent extends Equatable {}
 
-class FetchSelfArticles extends ArticleListEvent {
+class FetchSelfArticles extends PostsEvent {
   @override
   String toString() => 'FetchSelfArticles';
 }
 
-class CleanList extends ArticleListEvent {
+class CleanList extends PostsEvent {
   @override
   String toString() => 'CleanList';
 }
 
 // ------------ api --------------
-class ArticleListAPI {
-  final List<dynamic> articles;
-  ArticleListAPI({ this.articles });
-
-  factory ArticleListAPI.fromJson(Map<String, dynamic> json) {
-    return ArticleListAPI(articles: json['articles']);
+class PostsAPI {
+  final List<dynamic> posts;
+  PostsAPI({ this.posts });
+  
+  factory PostsAPI.fromJson(Map<String, dynamic> json) {
+    return PostsAPI(posts: json['posts']);
   }
 }

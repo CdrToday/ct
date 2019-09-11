@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/article_list.dart';
+import 'package:cdr_today/blocs/posts.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/navigations/args.dart';
 
-class ArticleList extends StatefulWidget {
+class Posts extends StatefulWidget {
   final bool edit;
-  ArticleList({ this.edit });
+  Posts({ this.edit });
   
   @override
-  _ArticleListState createState() => _ArticleListState();
+  _PostsState createState() => _PostsState();
 }
 
-class _ArticleListState extends State<ArticleList> {
+class _PostsState extends State<Posts> {
   Widget build(BuildContext context) {
-    final ArticleListBloc _bloc = BlocProvider.of<ArticleListBloc>(context);
-    return BlocListener<ArticleListBloc, ArticleListState>(
+    final PostsBloc _bloc = BlocProvider.of<PostsBloc>(context);
+    return BlocListener<PostsBloc, PostsState>(
       listener: (context, state) {
         if (state is FetchedFailed) {
           _bloc.dispatch(FetchSelfArticles());
         }
       },
-      child: BlocBuilder<ArticleListBloc, ArticleListState>(
+      child: BlocBuilder<PostsBloc, PostsState>(
         builder: (context, state) {
           if (state is UnFetched) {
             _bloc.dispatch(FetchSelfArticles());

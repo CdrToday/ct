@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/conf.dart';
+import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/image.dart';
-import 'package:cdr_today/blocs/article_list.dart';
+import 'package:cdr_today/blocs/posts.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/actions.dart';
@@ -45,7 +45,7 @@ class _EditState extends State<Edit> {
   }
   
   Widget build(BuildContext context) {
-    final ArticleListBloc _alBloc = BlocProvider.of<ArticleListBloc>(context);
+    final PostsBloc _alBloc = BlocProvider.of<PostsBloc>(context);
     
     return Scaffold(
       appBar: AppBar(

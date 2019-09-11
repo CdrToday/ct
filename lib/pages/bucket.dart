@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:cdr_today/pages/article_list.dart';
+import 'package:cdr_today/pages/posts.dart';
 
-class ArticleManager extends StatelessWidget {
+class Bucket extends StatelessWidget {
     Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('文章管理'),
         leading: CloseButton()
       ),
-      body: ArticleList(edit: true)
+      body: Posts(edit: true)
     );
   }  
 }
