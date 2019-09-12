@@ -197,7 +197,13 @@ class PostLoader extends StatelessWidget {
 class PostBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
-      child: Text('—— 到底了 ——'),
+      child: Text(
+        '— ∞ —',
+        style: TextStyle(
+          color: Colors.grey[500],
+          fontSize: 13.0,
+        )
+      ),
       alignment: Alignment.center,
       padding: EdgeInsets.all(10.0),
     );

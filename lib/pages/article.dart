@@ -40,7 +40,10 @@ class Article extends StatelessWidget {
           Container(
             child: Text(
               display(args.timestamp),
-              style: TextStyle(color: Colors.grey)
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 12.0,
+              )
             ),
             padding: EdgeInsets.only(
               bottom: kToolbarHeight,
