@@ -1,10 +1,23 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+  @override
+  Stream<ProfileState> transform(
+    Stream<ProfileEvent> events,
+    Stream<ProfileState> Function(ProfileEvent event) next,
+  ) {
+    return super.transform(
+      (events as Observable<ProfileEvent>).debounceTime(
+        Duration(milliseconds: 500),
+      ), next,
+    );
+  }
+  
   @override
   ProfileState get initialState => EmptyProfileState();
 

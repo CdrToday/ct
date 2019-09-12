@@ -14,7 +14,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     return super.transform(
       (events as Observable<PostEvent>).debounceTime(
         Duration(milliseconds: 500),
-      ), next,
+      ), next
     );
   }
   

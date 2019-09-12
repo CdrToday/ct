@@ -2,11 +2,24 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
 // --------- bloc --------
 class ImageBloc extends Bloc<ImageEvent, ImageState> {
+  @override
+  Stream<ImageState> transform(
+    Stream<ImageEvent> events,
+    Stream<ImageState> Function(ImageEvent event) next,
+  ) {
+    return super.transform(
+      (events as Observable<ImageEvent>).debounceTime(
+        Duration(milliseconds: 500),
+      ), next,
+    );
+  }
+  
   @override
   ImageState get initialState => UploadEmpty();
 

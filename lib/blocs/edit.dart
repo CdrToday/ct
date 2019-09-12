@@ -1,10 +1,23 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
 // ------------ bloc -------------
 class EditBloc extends Bloc<EditEvent, EditState> {
+  @override
+  Stream<EditState> transform(
+    Stream<EditEvent> events,
+    Stream<EditState> Function(EditEvent event) next,
+  ) {
+    return super.transform(
+      (events as Observable<EditEvent>).debounceTime(
+        Duration(milliseconds: 500),
+      ), next,
+    );
+  }
+  
   @override
   EditState get initialState => EmptyEditState();
 

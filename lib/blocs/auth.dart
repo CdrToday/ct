@@ -1,10 +1,23 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
 // --------------- bloc ---------------
 class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
+  @override
+  Stream<VerifyState> transform(
+    Stream<VerifyEvent> events,
+    Stream<VerifyState> Function(VerifyEvent event) next,
+  ) {
+    return super.transform(
+      (events as Observable<VerifyEvent>).debounceTime(
+        Duration(milliseconds: 500),
+      ), next,
+    );
+  }
+  
   @override
   VerifyState get initialState => UnVerified();
 

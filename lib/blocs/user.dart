@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/profile.dart';
@@ -23,6 +24,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           this.dispatch(InitUserEvent(mail: state.mail, name: state.name));
         } 
     });
+  }
+
+  @override
+  Stream<UserState> transform(
+    Stream<UserEvent> events,
+    Stream<UserState> Function(UserEvent event) next,
+  ) {
+    return super.transform(
+      (events as Observable<UserEvent>).debounceTime(
+        Duration(milliseconds: 500),
+      ), next,
+    );
   }
   
   @override
