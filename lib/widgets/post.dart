@@ -101,6 +101,7 @@ class _PostState extends State<PostList> {
         return PostItem(
           x: ArticleArgs(
             id: id,
+            edit: edit,
             title: title,
             cover: cover,
             content: content,

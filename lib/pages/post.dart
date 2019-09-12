@@ -19,13 +19,13 @@ class _PostState extends State<Post> {
     return BlocListener<PostBloc, PostState>(
       listener: (context, state) {
         if (state is FetchedFailed) {
-          _bloc.dispatch(FetchSelfPosts());
+          _bloc.dispatch(FetchSelfPosts(refresh: true));
         }
       },
       child: BlocBuilder<PostBloc, PostState>(
         builder: (context, state) {
           if (state is UnFetched) {
-            _bloc.dispatch(FetchSelfPosts());
+            _bloc.dispatch(FetchSelfPosts(refresh: true));
             return CenterX();
           } else if (state is FetchedSucceed) {
             if (state.posts.isEmpty) {
