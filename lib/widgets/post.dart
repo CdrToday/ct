@@ -136,10 +136,10 @@ class _PostState extends State<PostList> {
     _scrollDelay.stream.delay(
       Duration(milliseconds: 1000)
     ).listen((i) {
-        _scrollController.animateTo(
+        i == _scrollThreshold ? _scrollController.animateTo(
           i, curve: Curves.linear,
           duration: Duration (milliseconds: 500)
-        );
+        ) : '';
 
         _postBloc.dispatch(
           FetchSelfPosts(refresh: i == _scrollThreshold ? true : false)
