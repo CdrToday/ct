@@ -24,24 +24,56 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
     xReq.Requests r = await xReq.Requests.init();
-
+    
     if (event is FetchSelfPosts) {
-      var res = await r.getPost();
+      // refresh posts
+      if (event.refresh == true) {
+        var res = await r.getPost(page: 0);
+        if (res.statusCode == 200) {
+          PostAPI data = PostAPI.fromJson(json.decode(res.body));
+          yield FetchedSucceed(
+            page: 0,
+            posts: data.posts,
+            hasReachedMax: false,
+          );
+          return;
+        }
+        yield FetchedFailed();
+        return;
+      }
+
+      int _currentPage = 0;
+      List<dynamic> _posts = [];
+      bool _hasReachedMax = false;
+      
+      // load posts
+      if (currentState is FetchedSucceed) {
+        if ((currentState as FetchedSucceed).hasReachedMax == true) {
+          return;
+        }
+        
+        _currentPage = (currentState as FetchedSucceed).page + 1;
+        _posts = (currentState as FetchedSucceed).posts;
+      }
+
+      // get posts
+      var res = await r.getPost(page: _currentPage);
       if (res.statusCode == 200) {
         PostAPI data = PostAPI.fromJson(json.decode(res.body));
-        if (data.posts.length > 0) {
-          yield FetchedSucceed(posts: data.posts);
-        } else {
-          yield EmptyList();
-        }
-      } else {
-        yield FetchedFailed();
-      }
-      return;
+        yield data.posts.isEmpty
+        ? (currentState as FetchedSucceed).copyWith(hasReachedMax: true)
+        : FetchedSucceed(
+          page: _currentPage,
+          posts: _posts + data.posts,
+          hasReachedMax: _hasReachedMax,
+        );
+
+        return;
+      } 
+      yield FetchedFailed();
     } else if (event is CleanList) {
       yield UnFetched();
     }
-    return;
   }
 }
 
@@ -61,23 +93,39 @@ class FetchedFailed extends PostState {
 }
 
 class FetchedSucceed extends PostState {
-  final dynamic posts;
+  final int page;
+  final List<dynamic> posts;
   final bool hasReachedMax;
   
-  FetchedSucceed({ this.posts, this.hasReachedMax });
+  FetchedSucceed({
+      this.page,
+      this.posts,
+      this.hasReachedMax,
+  }): super([posts, hasReachedMax]);
+  
+  FetchedSucceed copyWith({
+      int page,
+      List<dynamic> posts,
+      bool hasReachedMax
+  }) {
+    return FetchedSucceed(
+      page: page ?? this.page,
+      posts: posts ?? this.posts,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+    );
+  }
+  
   @override
   String toString() => 'FetchedSucceed';
-}
-
-class EmptyList extends PostState {
-  @override
-  String toString() => 'EmptyList';
 }
 
 // ----------- events ------------
 abstract class PostEvent extends Equatable {}
 
 class FetchSelfPosts extends PostEvent {
+  final bool refresh;
+  FetchSelfPosts({ this.refresh });
+  
   @override
   String toString() => 'FetchSelfPosts';
 }

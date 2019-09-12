@@ -15,7 +15,16 @@ class ArticleArgs {
   final String title;
   final String cover;
   final String content;
-  ArticleArgs({ this.edit, this.id, this.title, this.cover, this.content });
+  final int timestamp;
+
+  ArticleArgs({
+      this.edit,
+      this.id,
+      this.title,
+      this.cover,
+      this.content,
+      this.timestamp
+  });
 }
 
 class ModifyArgs {

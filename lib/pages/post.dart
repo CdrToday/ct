@@ -27,10 +27,14 @@ class _PostState extends State<Post> {
           if (state is UnFetched) {
             _bloc.dispatch(FetchSelfPosts());
             return CenterX();
-          } else if (state is EmptyList) {
-            return CenterX(x: '暂无文章');
           } else if (state is FetchedSucceed) {
-            return PostList(posts: state.posts, edit: widget.edit);
+            if (state.posts.isEmpty) {
+              return CenterX(x: '暂无文章');
+            }
+            return PostList(
+              posts: state.posts, edit: widget.edit,
+              hasReachedMax: state.hasReachedMax,
+            );
           } 
           return CenterX();
         }

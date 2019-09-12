@@ -75,8 +75,8 @@ class Requests {
   }
 
   //@getPosts: GET '/u/{mail:string}/p'
-  Future<http.Response> getPost() async {
-    return await rGet("/u/$mail/p");
+  Future<http.Response> getPost({int page}) async {
+    return await rGet("/u/$mail/p?p=$page");
   }
   
   //@updatePost: PUT '/u/{mail:string}/p/update'

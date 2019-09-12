@@ -1,5 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class PostItem extends StatelessWidget {
@@ -15,7 +17,7 @@ class PostItem extends StatelessWidget {
         ),
         subtitle: Container(
           child: Text(
-            x.content, style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400)
+            "${x.timestamp}", style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400)
           ),
           padding: EdgeInsets.only(top: 10.0),
         ),
@@ -34,17 +36,18 @@ class PostItem extends StatelessWidget {
 
 // post list
 class PostList extends StatefulWidget {
-  final bool edit;
   final List<dynamic> posts;
-  PostList({ this.edit, this.posts });
+  final bool edit;
+  final bool hasReachedMax;
+  PostList({ this.edit, this.posts, this.hasReachedMax });
   
   @override
   _PostState createState() => _PostState();
 }
 
 class _PostState extends State<PostList> {
-  bool _topLock = false;
-  bool _bottomLock = false;
+  bool _scrollLock = false;
+  PostBloc _postBloc;
   // Divider's height is 20.0;
   // PostLoader's height is 90.0;
   final double _scrollThreshold = 110.0;
@@ -56,6 +59,7 @@ class _PostState extends State<PostList> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    _postBloc = BlocProvider.of<PostBloc>(context);
   }
 
   @override
@@ -71,19 +75,22 @@ class _PostState extends State<PostList> {
       padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0, bottom: 52.0),
       itemCount: posts.length + 1,
       itemBuilder: (BuildContext context, int index) {
-
         if (index == 0) {
           return PostLoader();
         }
         
         if (index >= posts.length) {
-          return PostLoader();
+          if (widget.hasReachedMax == false) {
+            return PostLoader();
+          }
+          return PostBottom();
         }
         
         String id = posts[index]['id'];
         String title = posts[index]['title'];
         String cover = posts[index]['cover'];
         String content = posts[index]['content'];
+        int timestamp = posts[index]['timestamp'];
 
         content = content.replaceAll('\n', ' ');
         if (content.length > 120) {
@@ -92,7 +99,13 @@ class _PostState extends State<PostList> {
         }
 
         return PostItem(
-          x: ArticleArgs(id: id, title: title, cover: cover, content: content)
+          x: ArticleArgs(
+            id: id,
+            title: title,
+            cover: cover,
+            content: content,
+            timestamp: timestamp
+          )
         );
       },
       separatorBuilder: (BuildContext context, int index) => const Divider(),
@@ -121,27 +134,36 @@ class _PostState extends State<PostList> {
           duration: Duration (milliseconds: 500)
         );
 
-        setState(() { _bottomLock = false; });
+        _postBloc.dispatch(
+          FetchSelfPosts(refresh: i == _scrollThreshold ? true : false)
+        );
+        
+        Observable.timer(
+          i, new Duration(milliseconds: 1000)
+        ).listen((i) => setState(() { _scrollLock = false; }));
       }
     );
 
     // top refresh
     if (currentScroll <=  _scrollThreshold) {
-      if (_bottomLock == true) {
+      if (_scrollLock == true) {
         return;
       }
-
-      setState(() { _bottomLock = true; });
+    
+      setState(() { _scrollLock = true; });
       _scrollDelay.add(_scrollThreshold);
     }
     
     // bottom load
-    if (maxScroll - currentScroll <= _scrollThreshold) {
-      if (_bottomLock == true) {
+    if (maxScroll - currentScroll <= (_scrollThreshold + 100.0)) {
+      if (widget.hasReachedMax == true) {
         return;
       }
-
-      setState(() { _bottomLock = true; });
+      
+      if (_scrollLock == true) {
+        return;
+      }
+      setState(() { _scrollLock = true; });
       _scrollDelay.add(maxScroll - _scrollThreshold);
     }
   }
@@ -161,6 +183,16 @@ class PostLoader extends StatelessWidget {
       ),
       alignment: Alignment.center,
       padding: EdgeInsets.all(30.0)
+    );
+  }
+}
+
+class PostBottom extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('—— 到底了 ——'),
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(10.0),
     );
   }
 }
