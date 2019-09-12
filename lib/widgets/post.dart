@@ -1,6 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/navigations/args.dart';
 
@@ -10,17 +11,20 @@ class PostItem extends StatelessWidget {
   PostItem({ this.x });
   @override
   Widget build(BuildContext context) {
+    // final now = DateTime.now();
     return GestureDetector(
       child: ListTile(
         title: Text(
           x.title, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)
         ),
         subtitle: Container(
-          child: Text(
-            "${x.timestamp}", style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400)
-          ),
-          padding: EdgeInsets.only(top: 10.0),
+          child: Text(display(x.timestamp), style: TextStyle(fontSize: 11.0)),
+          padding: EdgeInsets.only(top: 50.0),
+          alignment:  AlignmentDirectional.bottomEnd
         ),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 10.0, horizontal: 15.0
+        )
       ),
       onTap: () {
         if (x.edit == true) {
@@ -32,7 +36,6 @@ class PostItem extends StatelessWidget {
     );
   }
 }
-
 
 // post list
 class PostList extends StatefulWidget {
@@ -48,11 +51,11 @@ class PostList extends StatefulWidget {
 class _PostState extends State<PostList> {
   bool _scrollLock = false;
   PostBloc _postBloc;
-  // Divider's height is 20.0;
+  // Divider's height is 15.0;
   // PostLoader's height is 90.0;
-  final double _scrollThreshold = 110.0;
+  final double _scrollThreshold = 105.0;
   final ScrollController _scrollController = ScrollController(
-    initialScrollOffset: 110.0
+    initialScrollOffset: 105.0
   );
 
   @override
@@ -109,7 +112,10 @@ class _PostState extends State<PostList> {
           )
         );
       },
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      separatorBuilder: (BuildContext context, int index) => Divider(
+        indent: 15.0,
+        endIndent: 10.0
+      ),
       controller: _scrollController,
     );
   }

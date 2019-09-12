@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/x/conf.dart';
+import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Article extends StatelessWidget {
@@ -34,6 +35,19 @@ class Article extends StatelessWidget {
           Container(
             child: Text(args.content, style: TextStyle(fontSize: 16.0)),
             padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
+          ),
+          Spacer(),
+          Container(
+            child: Text(
+              display(args.timestamp),
+              style: TextStyle(color: Colors.grey)
+            ),
+            padding: EdgeInsets.only(
+              bottom: kToolbarHeight,
+              right: kToolbarHeight / 2,
+              top: kToolbarHeight,
+            ),
+            alignment:  AlignmentDirectional.bottomEnd
           )
         ],
         crossAxisAlignment: CrossAxisAlignment.start
