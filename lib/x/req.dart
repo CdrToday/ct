@@ -65,11 +65,9 @@ class Requests {
   }
 
   //@newPost: POST '/u/{mail:string}/p'
-  Future<http.Response> newPost({String title, String cover, String content}) async {
+  Future<http.Response> newPost({String document}) async {
     final Map body = {
-      'title': title,
-      'cover': cover,
-      'content': content,
+      'document': document,
     };
     return await rPost("/u/$mail/p", body: body);
   }
@@ -80,13 +78,9 @@ class Requests {
   }
   
   //@updatePost: PUT '/u/{mail:string}/p/update'
-  Future<http.Response> updatePost({
-      String id, String title, String cover, String content
-  }) async {
+  Future<http.Response> updatePost({ String id, String document }) async {
     final Map body = {
-      'title': title,
-      'cover': cover,
-      'content': content,
+      'document': document,
     };
     return await rPut("/u/$mail/p/$id", body: body);
   }

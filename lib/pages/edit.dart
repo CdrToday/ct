@@ -1,14 +1,15 @@
-import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/post.dart';
-import 'package:cdr_today/widgets/edit.dart';
-import 'package:cdr_today/widgets/image.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/actions.dart';
+import 'package:cdr_today/widgets/editor.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:quill_delta/quill_delta.dart';
+import 'package:zefyr/zefyr.dart';
 
 class Edit extends StatefulWidget {
   final ArticleArgs args;
@@ -19,27 +20,15 @@ class Edit extends StatefulWidget {
 }
 
 class _EditState extends State<Edit> {
-  TextEditingController _titleController;
-  TextEditingController _contentController;
-
-  File _image;
-  String _title = '';
-  String _content = '';
-  String _cover = '';
+  ZefyrController _controller;
+  FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
-    if (widget.args.edit == true) {
-      _title = widget.args.title;
-      _content = widget.args.content;
-      _cover = widget.args.cover;
-      _titleController = new TextEditingController(text: widget.args.title);
-      _contentController = new TextEditingController(text: widget.args.content);
-    } else {
-      _titleController = new TextEditingController(text: '');
-      _contentController = new TextEditingController(text: '');
-    }
+    final document = _loadDocument();
+    _focusNode = FocusNode();
+    _controller = ZefyrController(document);
   }
   
   Widget build(BuildContext context) {
@@ -49,19 +38,16 @@ class _EditState extends State<Edit> {
       appBar: AppBar(
         actions: editActions(
           context,
-          cover: _cover,
-          title: _title,
-          content: _content,
           id: widget.args.id,
           edit: widget.args.edit,
+          document: _controller.document
         ),
         title: Text('编辑'),
-        leading: widget.args.edit? BackButton():CloseButton()
+        leading: widget.args.edit ? BackButton() : CloseButton()
       ),
       body: BlocListener<EditBloc, EditState>(
         listener: (context, state) {
           if (state is Posting) {
-            // must have
             alertLoading(context);
           } else if (state is PublishFailed) {
             Navigator.pop(context);
@@ -75,73 +61,26 @@ class _EditState extends State<Edit> {
           } else if (state is EmptyEditState) {
             return;
           } else {
-            // succeed
             _bloc.dispatch(CleanList());
             Navigator.pop(context);
             Navigator.maybePop(context);
           }
         },
-        child: BlocBuilder<EditBloc, EditState>(
-          builder: (context, state) {
-            return GestureDetector(
-              child: Column(
-                children: ctx(context),
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-              ),
-              onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
-            );
-          }
+        child: Editor(
+          focusNode: _focusNode,
+          controller: _controller,
+          edit: true,
         ),
       ),
-      floatingActionButton: ImagePickerWidget(
-        image: _image,
-        cover: _cover,
-        setImage: (image) => setState(() { _image = image; }),
-      ),
-      resizeToAvoidBottomPadding: true,
     );
   }
   
-  List<Widget> ctx(BuildContext context) {
-    Widget _titleWidget = TitleWidget(
-      titleController: _titleController,
-      onChanged: (String text) => setState(() { _title = text; }),
-    );
-
-    Widget _contentWidget = ContentWidget(
-      contentController: _contentController,
-      onChanged: (String text) => setState(() { _content = text; }),
-    );
+  NotusDocument _loadDocument() {
+    if (widget.args.edit == true) {
+      return NotusDocument.fromJson(jsonDecode(widget.args.document));
+    }
     
-    Widget _imageWidget = ImageWidget(
-      cover: _cover,
-      image: _image,
-      edit: widget.args.edit,
-      setImage: (image) => setState(() { _image = image; }),
-      setCover: (cover) => setState(() { _cover = cover; }),
-      cleanImage: () => setState(() { _image = null; _cover = ""; }),
-    );
-    
-    Widget _ctx = Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              child: _titleWidget,
-              padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 5.0),
-            ),
-            _imageWidget,
-            Container(
-              child: _contentWidget,
-              padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0),
-            ),
-          ],
-        ),
-      ),
-    );
-    
-    return <Widget>[_ctx];
+    var data = r'[{"insert":"\n","attributes":{"heading":1}}]';
+    return NotusDocument.fromJson(json.decode(data) as List);
   }
 }

@@ -12,17 +12,13 @@ class MailArgs {
 class ArticleArgs {
   final bool edit;
   final String id;
-  final String title;
-  final String cover;
-  final String content;
+  final String document;
   final int timestamp;
 
   ArticleArgs({
       this.edit,
       this.id,
-      this.title,
-      this.cover,
-      this.content,
+      this.document,
       this.timestamp
   });
 }

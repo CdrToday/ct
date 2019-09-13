@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/widgets/post.dart';
 import 'package:cdr_today/widgets/center.dart';
-import 'package:cdr_today/navigations/args.dart';
 
 class Post extends StatefulWidget {
   final bool edit;

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,11 +12,12 @@ class PostItem extends StatelessWidget {
   PostItem({ this.x });
   @override
   Widget build(BuildContext context) {
-    // final now = DateTime.now();
+    List<dynamic> json = jsonDecode(x.document);
+    String title = json[0]['insert'];
     return GestureDetector(
       child: ListTile(
         title: Text(
-          x.title, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)
+          title, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)
         ),
         subtitle: Container(
           child: Text(display(x.timestamp), style: TextStyle(fontSize: 11.0)),
@@ -53,15 +55,20 @@ class _PostState extends State<PostList> {
   PostBloc _postBloc;
   // Divider's height is 15.0;
   // PostLoader's height is 90.0;
-  final double _scrollThreshold = 105.0;
-  final ScrollController _scrollController = ScrollController(
-    initialScrollOffset: 105.0
-  );
-
+  double _scrollThreshold;
+  ScrollController _scrollController;
+  
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    if (widget.posts.length >= 10) {
+      _scrollThreshold = 105.0;
+      _scrollController = ScrollController(
+        initialScrollOffset: _scrollThreshold
+      );
+      _scrollController.addListener(_onScroll);
+      
+    }
     _postBloc = BlocProvider.of<PostBloc>(context);
   }
 
@@ -69,18 +76,16 @@ class _PostState extends State<PostList> {
   Widget build(BuildContext context) {
     bool edit = widget.edit;
     List<dynamic> posts = widget.posts;
-
+    print(widget.posts.length);
+    if (posts.length >= 10) posts = [posts[0]] + posts;
+    print(posts.length);
     // Add refresh circle;
-    posts = [posts[0]] + posts;
-    
     return ListView.separated(
       physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0, bottom: 52.0),
-      itemCount: posts.length + 1,
+      itemCount: posts.length > 10 ? posts.length + 1 : posts.length,
       itemBuilder: (BuildContext context, int index) {
-        if (index == 0) {
-          return PostLoader();
-        }
+        if (posts.length > 10 && index == 0) return PostLoader();
         
         if (index >= posts.length) {
           if (widget.hasReachedMax == false) {
@@ -90,24 +95,14 @@ class _PostState extends State<PostList> {
         }
         
         String id = posts[index]['id'];
-        String title = posts[index]['title'];
-        String cover = posts[index]['cover'];
-        String content = posts[index]['content'];
+        String document = posts[index]['document'];
         int timestamp = posts[index]['timestamp'];
-
-        content = content.replaceAll('\n', ' ');
-        if (content.length > 120) {
-          content = content.substring(0, 112);
-          content = content + '...';
-        }
 
         return PostItem(
           x: ArticleArgs(
             id: id,
             edit: edit,
-            title: title,
-            cover: cover,
-            content: content,
+            document: document,
             timestamp: timestamp
           )
         );
@@ -130,16 +125,15 @@ class _PostState extends State<PostList> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     final lastPost = maxScroll - _scrollThreshold;
-
-    final _scrollDelay = new BehaviorSubject<double>();
+    final _scrollDelay = BehaviorSubject();
 
     _scrollDelay.stream.delay(
       Duration(milliseconds: 1000)
     ).listen((i) {
-        i == _scrollThreshold ? _scrollController.animateTo(
+        if (i == _scrollThreshold) _scrollController.animateTo(
           i, curve: Curves.linear,
           duration: Duration (milliseconds: 500)
-        ) : '';
+        );
 
         _postBloc.dispatch(
           FetchSelfPosts(refresh: i == _scrollThreshold ? true : false)

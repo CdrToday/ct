@@ -9,10 +9,10 @@ String display(int ts) {
   String minute = t.minute.toString();
   String weekday = t.weekday.toString();
 
-  month.length == 1? month = " $month": '';
-  day.length == 1? day = " $day": '';
-  hour.length == 1? hour = "0$hour": '';
-  minute.length == 1? minute = "0$minute": '';
+  if (month.length == 1) month = " $month";
+  if (day.length == 1) day = " $day";
+  if (hour.length == 1) hour = "0$hour";
+  if (minute.length == 1) minute = "0$minute";
 
   switch (weekday) {
     case '1':
@@ -45,11 +45,11 @@ String display(int ts) {
   }
   
   if (_now.year.toString() != year) {
-    return "${year}年${month}月/${day}日 $hour:$minute";
+    return "$year年$month月/$day日 $hour:$minute";
   } else if (_now.difference(t).inDays > 6) {
-    return "${month}月/${day}日 $hour:$minute";
+    return "$month月/$day日 $hour:$minute";
   } else if (_now.difference(t).inDays > 1) {
-    return "${weekday} $hour:$minute";
+    return "$weekday $hour:$minute";
   } else if (_now.difference(t).inDays > 0) {
     return "昨天 $hour:$minute";
   } else {

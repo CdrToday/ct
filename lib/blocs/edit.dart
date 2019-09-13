@@ -27,12 +27,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
     
     if (event is CompletedEdit) {
       yield Posting();
-      var res = await r.newPost(
-        title: event.title,
-        cover: event.cover,
-        content: event.content
-      );
-      
+      var res = await r.newPost(document: event.document);
       if (res.statusCode == 200) {
         yield PublishSucceed();
       } else {
@@ -42,12 +37,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       yield EmptyEditState();
     } else if (event is UpdateEdit) {
       yield Posting();
-      var res = await r.updatePost(
-        id: event.id,
-        title: event.title,
-        cover: event.cover,
-        content: event.content
-      );
+      var res = await r.updatePost(id: event.id, document: event.document);
       
       if (res.statusCode == 200) {
         yield UpdateSucceed();
@@ -122,17 +112,13 @@ abstract class EditEvent extends Equatable {}
 
 class UpdateEdit extends EditEvent {
   final String id;
-  final String title;
-  final String cover;
-  final String content;
-  UpdateEdit({ this.id, this.title, this.cover, this.content });
+  final String document;
+  UpdateEdit({ this.id, this.document });
 }
 
 class CompletedEdit extends EditEvent {
-  final String title;
-  final String cover;
-  final String content;
-  CompletedEdit({ this.title, this.cover, this.content });
+  final String document;
+  CompletedEdit({ this.document });
 }
 
 class DeleteEdit extends EditEvent {

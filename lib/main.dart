@@ -86,13 +86,15 @@ Route router(settings) {
           if (state is UserInited) {
             return InitPage();
           }
-          
           return Login();
         }
       )
     );
   } else if (r == '/root') {
     return FadeRoute(page: InitPage());
+  } else if (r == '/article') {
+    final ArticleArgs args = settings.arguments;
+    return FadeRoute(page: Article(args: args));
   } else if (r == '/user/verify') {
     final MailArgs args = settings.arguments;
     return SlideRoute(page: Verify(mail: args.mail));
@@ -102,9 +104,6 @@ Route router(settings) {
         return SlideRoute(page: Edit(args: args));
     }
     return FadeRoute(page: Edit(args: args));
-  } else if (r == '/article') {
-    final ArticleArgs args = settings.arguments;
-    return FadeRoute(page: Article(args: args));
   } else if (r == '/mine/profile') {
     return FadeRoute(page: Profile());
   } else if (r == '/mine/bucket') {

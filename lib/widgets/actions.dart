@@ -1,14 +1,15 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:zefyr/zefyr.dart';
 import 'package:cdr_today/blocs/edit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/alerts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 // edit Actions
 List<Widget> editActions(
   BuildContext context, {
-    String title,
-    String content,
-    String cover,
+    NotusDocument document,
     String id,
     bool edit
   }
@@ -26,36 +27,32 @@ List<Widget> editActions(
     delete = empty;
   }
 
-  Builder upload = Builder(
+  Builder post = Builder(
     builder: (context) => IconButton(
       icon: Icon(Icons.check),
       onPressed: () {
+        String json = jsonEncode(document);
+
         FocusScope.of(context).requestFocus(new FocusNode());
-        if (title == null || title == '') {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text('请填写文章标题'),
-            ),
-          );
-        } else if (content == null || content == '') {
+        if (!document.toPlainText().contains(new RegExp(r'\S'))) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.red,
               content: Text('请填写文章内容'),
             ),
           );
+          return;
+        }
+        
+        if (edit != true) {
+          _bloc.dispatch(CompletedEdit(document: json));
         } else {
-          if (edit != true) {
-            _bloc.dispatch(CompletedEdit(title: title, cover: cover, content: content));
-          } else {
-            _bloc.dispatch(UpdateEdit(id: id, title: title, cover: cover, content: content));
-          }
+          _bloc.dispatch(UpdateEdit(id: id, document: json));
         }
       }
     )
   );
   
-  return [delete, upload];
+  return [delete, post];
 }
 
