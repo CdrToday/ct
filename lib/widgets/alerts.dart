@@ -38,7 +38,7 @@ Future<void> alertLoading(BuildContext context, {String text}) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: text == null? Text('Calling Elvis'): Text(text),
+        title: text == null? Text('Calling Elvis...'): Text(text),
         content: Padding(
           child: Row(
             mainAxisSize: MainAxisSize.min,

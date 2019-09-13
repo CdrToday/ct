@@ -1,7 +1,7 @@
 String display(int ts) {
   DateTime _now = DateTime.now();
   DateTime t = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
-
+  
   String year = t.year.toString();
   String month = t.month.toString();
   String day = t.day.toString();
@@ -15,31 +15,31 @@ String display(int ts) {
   minute.length == 1? minute = "0$minute": '';
 
   switch (weekday) {
-    case '0':
+    case '1':
     weekday = '周一';
     break;
     
-    case '1':
+    case '2':
     weekday = '周二';
     break;
 
-    case '2':
+    case '3':
     weekday = '周三';
     break;
 
-    case '3':
+    case '4':
     weekday = '周四';
     break;
 
-    case '4':
+    case '5':
     weekday = '周五';
     break;
 
-    case '5':
+    case '6':
     weekday = '周六';
     break;
 
-    case '6':
+    case '7':
     weekday = '周日';
     break;
   }

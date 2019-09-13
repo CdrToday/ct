@@ -22,7 +22,7 @@ class Article extends StatelessWidget {
         title: Text(''),
         leading: CloseButton()
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           Container(
             child: Text(
@@ -36,7 +36,6 @@ class Article extends StatelessWidget {
             child: Text(args.content, style: TextStyle(fontSize: 16.0)),
             padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
           ),
-          Spacer(),
           Container(
             child: Text(
               display(args.timestamp),
@@ -46,14 +45,13 @@ class Article extends StatelessWidget {
               )
             ),
             padding: EdgeInsets.only(
-              bottom: kToolbarHeight,
+              bottom: kToolbarHeight / 2,
               right: kToolbarHeight / 2,
               top: kToolbarHeight,
             ),
             alignment:  AlignmentDirectional.bottomEnd
           )
         ],
-        crossAxisAlignment: CrossAxisAlignment.start
       ),
     );
   }
