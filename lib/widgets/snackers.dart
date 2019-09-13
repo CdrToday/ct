@@ -5,7 +5,7 @@ void snacker(
 ) {
   Scaffold.of(context).showSnackBar(
     SnackBar(
-      backgroundColor: color == null ? Colors.red : color,
+      backgroundColor: color == null ? Colors.grey : color,
       content: Text(text),
       duration: Duration(seconds: 1)
     ),

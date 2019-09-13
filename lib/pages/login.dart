@@ -37,7 +37,8 @@ class _LoginState extends State<Login> {
                 TextField(
                   onChanged: changeValue,
                   decoration: InputDecoration(hintText: '邮箱'),
-                  style: Theme.of(context).textTheme.title
+                  style: Theme.of(context).textTheme.title,
+                  keyboardType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 42.0),
                 sendCode(context, _value),

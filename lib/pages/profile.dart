@@ -46,9 +46,9 @@ Widget profile(BuildContext context, String name) {
   return BlocListener<ProfileBloc, ProfileState>(
     listener: (context, state) {
       if (state is ProfileUpdatedSucceed) {
-        snacker(context, "用户名修改成功", color: Colors.green);
+        snacker(context, "用户名修改成功", color: Colors.black);
       } else if (state is ProfileUpdatedFailed) {
-        snacker(context, "用户名已被使用", color: Colors.green);
+        snacker(context, "用户名已被使用");
       }
     },
     child: Container(

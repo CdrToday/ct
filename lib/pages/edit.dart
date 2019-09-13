@@ -12,7 +12,7 @@ import 'package:quill_delta/quill_delta.dart';
 import 'package:zefyr/zefyr.dart';
 
 class Edit extends StatefulWidget {
-  final ArticleArgs args;
+  ArticleArgs args;
   Edit({ this.args });
   
   @override
@@ -29,6 +29,7 @@ class _EditState extends State<Edit> {
     final document = _loadDocument();
     _focusNode = FocusNode();
     _controller = ZefyrController(document);
+    if (widget.args == null) widget.args = ArticleArgs(edit: false);
   }
   
   Widget build(BuildContext context) {
@@ -49,6 +50,14 @@ class _EditState extends State<Edit> {
         listener: (context, state) {
           if (state is Posting) {
             alertLoading(context);
+          } else if (state is PublishSucceed) {
+            Navigator.pop(context);
+            snacker(context, '保存成功。');
+            _bloc.dispatch(CleanList());
+          } else if (state is UpdateSucceed) {
+            Navigator.pop(context);
+            snacker(context, '更新成功。', color: Colors.black);
+            _bloc.dispatch(CleanList());
           } else if (state is PublishFailed) {
             Navigator.pop(context);
             snacker(context, '发布失败，请重试');

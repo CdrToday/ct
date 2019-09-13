@@ -76,9 +76,8 @@ class _PostState extends State<PostList> {
   Widget build(BuildContext context) {
     bool edit = widget.edit;
     List<dynamic> posts = widget.posts;
-    print(widget.posts.length);
     if (posts.length >= 10) posts = [posts[0]] + posts;
-    print(posts.length);
+
     // Add refresh circle;
     return ListView.separated(
       physics: const AlwaysScrollableScrollPhysics(),
@@ -115,11 +114,11 @@ class _PostState extends State<PostList> {
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scrollController.dispose();
+  //   super.dispose();
+  // }
 
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;

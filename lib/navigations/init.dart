@@ -18,15 +18,12 @@ class InitPage extends StatelessWidget {
         title: Text('文章列表'),
         automaticallyImplyLeading: false
       ),
-      body: Post(),
+      body: Post(edit: false),
       bottomSheet: Container(
         child: IconButton(
           icon: Icon(Icons.mode_edit),
           onPressed: () {
-            Navigator.pushNamed(
-              context, '/user/edit',
-              arguments: ArticleArgs(edit: false)
-            );
+            Navigator.pushNamed(context, '/user/edit');
           },
           color: Colors.black,
         ),
