@@ -29,7 +29,6 @@ class _EditState extends State<Edit> {
     final document = _loadDocument();
     _focusNode = FocusNode();
     _controller = ZefyrController(document);
-    if (widget.args == null) widget.args = ArticleArgs(edit: false);
   }
   
   Widget build(BuildContext context) {

@@ -23,7 +23,10 @@ class InitPage extends StatelessWidget {
         child: IconButton(
           icon: Icon(Icons.mode_edit),
           onPressed: () {
-            Navigator.pushNamed(context, '/user/edit');
+            Navigator.pushNamed(
+              context, '/user/edit',
+              arguments: ArticleArgs(edit: false)
+            );
           },
           color: Colors.black,
         ),
