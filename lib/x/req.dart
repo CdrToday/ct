@@ -69,12 +69,12 @@ class Requests {
     final Map body = {
       'document': document,
     };
-    return await rPost("/u/$mail/p", body: body);
+    return await rPost("/u/$mail/post", body: body);
   }
 
   //@getPosts: GET '/u/{mail:string}/p'
   Future<http.Response> getPost({int page}) async {
-    return await rGet("/u/$mail/p?p=$page");
+    return await rGet("/u/$mail/post?p=$page");
   }
   
   //@updatePost: PUT '/u/{mail:string}/p/update'
@@ -82,12 +82,12 @@ class Requests {
     final Map body = {
       'document': document,
     };
-    return await rPut("/u/$mail/p/$id", body: body);
+    return await rPut("/u/$mail/post/$id", body: body);
   }
 
   //@deletePost: DELETE '/u/{mail:string}/p/delete'
   Future<http.Response> deletePost({ String id }) async {
-    return await rDelete("/u/$mail/p/$id");
+    return await rDelete("/u/$mail/post/$id");
   }
 
   //@upload: POST '/u/{mail:string}/upload'

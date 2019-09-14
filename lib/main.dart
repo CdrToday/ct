@@ -7,7 +7,6 @@ import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/post.dart';
-import 'package:cdr_today/blocs/image.dart';
 import 'package:cdr_today/blocs/profile.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
@@ -42,9 +41,6 @@ class App extends StatelessWidget {
         ),
         BlocProvider<EditBloc>(
           builder: (context) => EditBloc()
-        ),
-        BlocProvider<ImageBloc>(
-          builder: (context) => ImageBloc()
         ),
         BlocProvider<PostBloc>(
           builder: (context) => PostBloc()
