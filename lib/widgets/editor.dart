@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/snackers.dart';
@@ -22,11 +21,7 @@ class Editor extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         controller: controller,
         focusNode: focusNode,
-        mode: ZefyrMode(
-          canEdit: edit,
-          canSelect: true,
-          canFormat: true,
-        ),
+        mode: edit? ZefyrMode.edit : ZefyrMode.view,
         imageDelegate: ImageDelegate(context: context),
       ),
     );

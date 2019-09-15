@@ -4,11 +4,8 @@ import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/widgets/alerts.dart';
-import 'package:cdr_today/widgets/snackers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screenshot/screenshot.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 // edit Actions
 List<Widget> editActions(

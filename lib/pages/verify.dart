@@ -28,7 +28,7 @@ class _VerifyState extends State<Verify> {
                 'cdr.today',
                 style: Theme.of(context).textTheme.display2
               ),
-              SizedBox(height: 120.0),
+              SizedBox(height: 150.0),
               TextField(
                 onChanged: changeValue,
                 decoration: InputDecoration(hintText: '验证码'),

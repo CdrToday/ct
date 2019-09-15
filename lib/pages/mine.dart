@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/blocs/user.dart';
 
 class Mine extends StatelessWidget {
@@ -50,7 +49,6 @@ Widget articles(BuildContext context) {
 }
 
 Widget blog(BuildContext context) {
-  final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
   return BlocBuilder<UserBloc, UserState>(
     builder: (context, state){
       if (state is UserInited) {
@@ -61,7 +59,7 @@ Widget blog(BuildContext context) {
             style: Theme.of(context).textTheme.subhead,
           ),
           onTap: () async {
-            await launch('https://${state.name}.cdr.today');
+            await launch('https://cdr.today/${state.name}');
           }
         );
       }

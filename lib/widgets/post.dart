@@ -14,9 +14,9 @@ class PostItem extends StatelessWidget {
   Widget build(BuildContext context) {
     List<dynamic> json = jsonDecode(x.document);
     String title;
-    for (var i=0; i<5; i++) {
-      if (json[i]['insert'].contains(new RegExp(r'\S'))) {
-        title = json[0]['insert'];
+    for (var i in json) {
+      if (i['insert'].contains(new RegExp(r'\S'))) {
+        title = i['insert'];
         break;
       }
     }
@@ -69,7 +69,7 @@ class _PostState extends State<PostList> {
   void initState() {
     super.initState();
     if (widget.posts.length >= 10) {
-      _scrollThreshold = 105.0;
+      _scrollThreshold = 108.0;
       _scrollController = ScrollController(
         initialScrollOffset: _scrollThreshold
       );
@@ -130,10 +130,9 @@ class _PostState extends State<PostList> {
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
-    final lastPost = maxScroll - _scrollThreshold;
-    final _scrollDelay = BehaviorSubject();
-
-    _scrollDelay.stream.delay(
+    BehaviorSubject scrollDelay = BehaviorSubject();
+    
+    scrollDelay.stream.delay(
       Duration(milliseconds: 1000)
     ).listen((i) {
         if (i == _scrollThreshold) _scrollController.animateTo(
@@ -158,7 +157,7 @@ class _PostState extends State<PostList> {
       }
     
       setState(() { _scrollLock = true; });
-      _scrollDelay.add(_scrollThreshold);
+      scrollDelay.add(_scrollThreshold);
     }
     
     // bottom load
@@ -171,7 +170,7 @@ class _PostState extends State<PostList> {
         return;
       }
       setState(() { _scrollLock = true; });
-      _scrollDelay.add(maxScroll - _scrollThreshold);
+      scrollDelay.add(maxScroll - _scrollThreshold);
     }
   }
 }

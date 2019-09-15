@@ -8,11 +8,10 @@ import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/editor.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/navigations/args.dart';
-import 'package:quill_delta/quill_delta.dart';
 import 'package:zefyr/zefyr.dart';
 
 class Edit extends StatefulWidget {
-  ArticleArgs args;
+  final ArticleArgs args;
   Edit({ this.args });
   
   @override

@@ -31,10 +31,10 @@ class _LoginState extends State<Login> {
                 'cdr.today',
                 style: Theme.of(context).textTheme.display2
               ),
-              SizedBox(height: 120.0),
+              SizedBox(height: 150.0),
               TextField(
                 onChanged: changeValue,
-                decoration: InputDecoration(hintText: '邮箱'),
+                decoration: InputDecoration(hintText: 'e-mail'),
                 style: Theme.of(context).textTheme.title,
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -45,9 +45,9 @@ class _LoginState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.center,
           ),
           margin: EdgeInsets.symmetric(horizontal: kToolbarHeight),
-          height: double.infinity,
         ),
       ),
+      // resizeToAvoidBottomInset : false,
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
     );
   }
