@@ -28,11 +28,11 @@ ThemeData light() {
   return ThemeData(
     scaffoldBackgroundColor: Colors.grey[50],
     primaryColor: Colors.white,
-    primaryColorLight: Colors.grey[200],
+    primaryColorLight: Colors.grey[100],
     accentColor: Colors.grey[700],
     splashColor: Colors.transparent,
     appBarTheme: AppBarTheme(
-      color: Colors.grey[200],
+      color: Colors.grey[100],
       elevation: 0.5,
     ),
     textTheme: TextTheme(),

@@ -25,6 +25,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     xReq.Requests r = await xReq.Requests.init();
     if (event is UpdateProfileName) {
+      bool valid = RegExp(r"^[a-z]$").hasMatch(event.name);
+      if (valid == false) {
+        yield ProfileNameCheckedFailed();
+        return;
+      }
+      
       var res = await r.updateName(name: event.name);
 
       if (res.statusCode == 200) {
@@ -49,6 +55,11 @@ abstract class ProfileState extends Equatable {
 class EmptyProfileState extends ProfileState {
   @override
   String toString() => 'EmptyProfileState';
+}
+
+class ProfileNameCheckedFailed extends ProfileState {
+  @override
+  String toString() => 'ProfileNameCheckedFailed';
 }
 
 class ProfileUpdatedFailed extends ProfileState {

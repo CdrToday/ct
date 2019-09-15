@@ -13,7 +13,14 @@ class PostItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<dynamic> json = jsonDecode(x.document);
-    String title = json[0]['insert'];
+    String title;
+    for (var i=0; i<5; i++) {
+      if (json[i]['insert'].contains(new RegExp(r'\S'))) {
+        title = json[0]['insert'];
+        break;
+      }
+    }
+    
     return GestureDetector(
       child: ListTile(
         title: Text(

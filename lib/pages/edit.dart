@@ -51,7 +51,8 @@ class _EditState extends State<Edit> {
             alertLoading(context);
           } else if (state is PublishSucceed) {
             Navigator.pop(context);
-            snacker(context, '保存成功。');
+            Navigator.maybePop(context);
+            // snacker(context, '保存成功。');
             _bloc.dispatch(CleanList());
           } else if (state is UpdateSucceed) {
             Navigator.pop(context);

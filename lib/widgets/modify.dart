@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/blocs/profile.dart';
+import 'package:cdr_today/widgets/alerts.dart';
+import 'package:cdr_today/widgets/snackers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ModifyDialog extends StatefulWidget {
@@ -43,8 +45,10 @@ class _ModifyDialogState extends State<ModifyDialog> {
         FlatButton(
           child: Text('修改'),
           onPressed: () {
+            bool valid = RegExp(r"^[a-z]$").hasMatch(_value);
             _bloc.dispatch(UpdateProfileName(name: _value));
             Navigator.of(context).pop();
+            alertLoading(context);
           }
         ),
       ],

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
-
 
 class Editor extends StatelessWidget {
   final bool edit;
@@ -19,7 +19,7 @@ class Editor extends StatelessWidget {
   Widget build(BuildContext context) {
     return  ZefyrScaffold(
       child: ZefyrEditor(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(16.0),
         controller: controller,
         focusNode: focusNode,
         mode: ZefyrMode(
@@ -68,17 +68,12 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
     UploadResult _data = UploadResult.fromJson(json.decode(res.body));
     return _data.image;
   }
-
+  
   Widget buildImage(BuildContext context, String key) {
-    return OverflowBox(
-      minWidth: 0.0, 
-      minHeight: 0.0, 
-      maxWidth: double.infinity, 
-      child: Image.network(
-        Uri.parse(conf['image'] + key).toString(),
-        fit: BoxFit.fill,
-        width: MediaQuery.of(context).size.width - 32.0,
-      )
+    return Image.network(
+      conf['image'] + key,
+      fit: BoxFit.fitWidth,
+      width: MediaQuery.of(context).size.width - 32.0
     );
   }
 }

@@ -45,7 +45,11 @@ class Profile extends StatelessWidget {
 Widget profile(BuildContext context, String name) {
   return BlocListener<ProfileBloc, ProfileState>(
     listener: (context, state) {
-      if (state is ProfileUpdatedSucceed) {
+      if (state is ProfileNameCheckedFailed) {
+        Navigator.pop(context);
+        snacker(context, "只能使用纯小写字母");
+      } else if (state is ProfileUpdatedSucceed) {
+        Navigator.pop(context);
         snacker(context, "用户名修改成功", color: Colors.black);
       } else if (state is ProfileUpdatedFailed) {
         snacker(context, "用户名已被使用");
@@ -54,9 +58,9 @@ Widget profile(BuildContext context, String name) {
     child: Container(
       child: Card(
         child: ListTile(
-          title: Text('名字'),
+          title: Text('id'),
           trailing: Text(name),
-          onTap: () => _neverSatisfied(context, '名字', 'name'),
+          onTap: () => _neverSatisfied(context, 'id', 'name'),
         )
       ),
       margin: EdgeInsets.only(top: 10.0)
@@ -69,7 +73,7 @@ Widget mail(BuildContext context, String str) {
     builder: (context) => Container(
       child: Card(
         child: ListTile(
-          title: Text('邮箱'),
+          title: Text('e-mail'),
           trailing: Text(str),
           onTap: () {
             snacker(context, "暂不支持修改邮箱 🦄️" );

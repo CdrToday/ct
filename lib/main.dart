@@ -96,9 +96,6 @@ Route router(settings) {
     return SlideRoute(page: Verify(mail: args.mail));
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
-    if (args.edit) {
-        return SlideRoute(page: Edit(args: args));
-    }
     return FadeRoute(page: Edit(args: args));
   } else if (r == '/mine/profile') {
     return FadeRoute(page: Profile());

@@ -21,29 +21,26 @@ class _VerifyState extends State<Verify> {
     return GestureDetector(
       child: Scaffold(
         appBar: AppBar(title: Text('验证邮箱')),
-        body: Builder(
-          builder: (context) => Container(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 150.0),
-                Text(
-                  'cdr.today',
-                  style: Theme.of(context).textTheme.display2
-                ),
-                SizedBox(height: 84.0),
-                TextField(
-                  onChanged: changeValue,
-                  decoration: InputDecoration(hintText: '验证码'),
-                  style: Theme.of(context).textTheme.title
-                ),
-                SizedBox(height: 42.0),
-                verifyCode(context, _value, widget.mail)
-              ],
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-            ),
-            margin: EdgeInsets.symmetric(horizontal: kToolbarHeight)
+        body: Container(
+          child: Column(
+            children: <Widget>[
+              Text(
+                'cdr.today',
+                style: Theme.of(context).textTheme.display2
+              ),
+              SizedBox(height: 120.0),
+              TextField(
+                onChanged: changeValue,
+                decoration: InputDecoration(hintText: '验证码'),
+                style: Theme.of(context).textTheme.title
+              ),
+              SizedBox(height: 60.0),
+              verifyCode(context, _value, widget.mail)
+            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
           ),
+          margin: EdgeInsets.symmetric(horizontal: kToolbarHeight)
         ),
       ),
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
@@ -54,38 +51,40 @@ class _VerifyState extends State<Verify> {
 verifyCode(BuildContext context, String _code, String mail) {
   final VerifyBloc _bloc = BlocProvider.of<VerifyBloc>(context);
   
-  return Container(
-    child: BlocListener<VerifyBloc, VerifyState>(
-      listener: (context, state) {
-        if (state is CodeVerifiedFailed) {
-          snacker(context, '邮箱验证失败，请重试');
-        } else if (state is CodeVerifiedSucceed) {
-          Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);
-        }
-      },
-      child: BlocBuilder<VerifyBloc, VerifyState>(
-        builder: (context, state) {
-          if (state is CodeSending) {
-            return CircularProgressIndicator();
-          } else {
-            return OutlineButton(
-              onPressed: () {
-                FocusScope.of(context).requestFocus(new FocusNode());
-                bool codeValid = RegExp(
-                  r"^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}"
-                ).hasMatch(_code);
-                
-                if (!codeValid) {
-                  snacker(context, "请输入正确的验证码，如: '99293e8e-5629-40d3-8747-10016474d49c'");
-                } else {
-                  _bloc.dispatch(VerifyCodeEvent(mail: mail, code: _code));
-                }
-              },
-              child: Text('验证邮箱', style: TextStyle(fontSize: 16)),
-              color: Theme.of(context).primaryColor,
-            );
+  return Builder(
+    builder: (context) => Container(
+      child: BlocListener<VerifyBloc, VerifyState>(
+        listener: (context, state) {
+          if (state is CodeVerifiedFailed) {
+            snacker(context, '邮箱验证失败，请重试');
+          } else if (state is CodeVerifiedSucceed) {
+            Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);
           }
-        }
+        },
+        child: BlocBuilder<VerifyBloc, VerifyState>(
+          builder: (context, state) {
+            if (state is CodeSending) {
+              return CircularProgressIndicator();
+            } else {
+              return OutlineButton(
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  bool codeValid = RegExp(
+                    r"^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$"
+                  ).hasMatch(_code);
+                  
+                  if (!codeValid) {
+                    snacker(context, "请输入正确的验证码，如: '99293e8e-5629-40d3-8747-10016474d49c'");
+                  } else {
+                    _bloc.dispatch(VerifyCodeEvent(mail: mail, code: _code));
+                  }
+                },
+                child: Text('验证邮箱', style: TextStyle(fontSize: 16)),
+                color: Theme.of(context).primaryColor,
+              );
+            }
+          }
+        ),
       ),
     ),
   );
