@@ -50,7 +50,7 @@ String display(int ts) {
     return "$month月/$day日 $hour:$minute";
   } else if (_now.difference(t).inDays > 1) {
     return "$weekday $hour:$minute";
-  } else if (_now.difference(t).inDays > 0) {
+  } else if (_now.day != t.day) {
     return "昨天 $hour:$minute";
   } else {
     return "$hour:$minute";
