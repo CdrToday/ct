@@ -93,7 +93,7 @@ Route router(settings) {
     return FadeRoute(page: Article(args: args));
   } else if (r == '/user/verify') {
     final MailArgs args = settings.arguments;
-    return SlideRoute(page: Verify(mail: args.mail));
+    return FadeRoute(page: Verify(mail: args.mail));
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Edit(args: args));

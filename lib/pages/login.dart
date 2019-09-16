@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/navigations/args.dart';
@@ -13,8 +14,15 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   String _value = '';
+  String _code = '';
+  int _time = 60;
+  
   void changeValue(String value) {
     setState(() { _value = value; });
+  }
+
+  void changeCode(String value) {
+    setState(() { _code = value; });
   }
 
   Widget build(BuildContext context) {
@@ -29,12 +37,12 @@ class _LoginState extends State<Login> {
             children: <Widget>[
               Text(
                 'cdr.today',
-                style: Theme.of(context).textTheme.display2
+                style: Theme.of(context).textTheme.display3
               ),
-              SizedBox(height: 150.0),
+              SizedBox(height: 80.0),
               TextField(
                 onChanged: changeValue,
-                decoration: InputDecoration(hintText: 'e-mail'),
+                decoration: InputDecoration(hintText: '邮箱'),
                 style: Theme.of(context).textTheme.title,
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -47,7 +55,6 @@ class _LoginState extends State<Login> {
           margin: EdgeInsets.symmetric(horizontal: kToolbarHeight),
         ),
       ),
-      // resizeToAvoidBottomInset : false,
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
     );
   }
@@ -63,15 +70,26 @@ sendCode(BuildContext context, String _email) {
           if (state is CodeSentFailed) {
             snacker(context, '邮件发送失败，请重试');
           } else if (state is CodeSentSucceed) {
-            Navigator.pushNamed(
-              context, '/user/verify',
-              arguments: MailArgs(mail: _email)
+            snacker(context, '邮件发送成功，请查收', color: Colors.black);
+            new Observable.timer(
+              "hi", new Duration(seconds: 1)
+            ).listen((i) {
+                Navigator.pushNamed(
+                  context, '/user/verify',
+                  arguments: MailArgs(mail: _email)
+                );
+              }
             );
           }
         },
         child: BlocBuilder<VerifyBloc, VerifyState>(
           builder: (context, state) {
             if (state is CodeSending) {
+              new Observable.timer(
+                "hi", new Duration(seconds: 10)
+              ).listen((i) {
+                  _bloc.dispatch(ResetCodeEvent());
+              });
               return CircularProgressIndicator();
             } else {
               return OutlineButton(
@@ -87,7 +105,7 @@ sendCode(BuildContext context, String _email) {
                     _bloc.dispatch(SendCodeEvent(mail: _email));
                   }
                 },
-                child: Text('发送验证码', style: TextStyle(fontSize: 16)),
+                child: Text("发送验证码", style: TextStyle(fontSize: 16)),
                 color: Theme.of(context).primaryColor,
               );
             }

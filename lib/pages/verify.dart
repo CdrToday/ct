@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 
@@ -20,22 +21,25 @@ class _VerifyState extends State<Verify> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Scaffold(
-        appBar: AppBar(title: Text('验证邮箱')),
+        appBar: AppBar(
+          title: Text('验证邮箱'),
+          leading: CloseButton(),
+        ),
         body: Container(
           child: Column(
             children: <Widget>[
               Text(
                 'cdr.today',
-                style: Theme.of(context).textTheme.display2
+                style: Theme.of(context).textTheme.display3
               ),
-              SizedBox(height: 150.0),
+              SizedBox(height: 80.0),
               TextField(
                 onChanged: changeValue,
                 decoration: InputDecoration(hintText: '验证码'),
                 style: Theme.of(context).textTheme.title
               ),
               SizedBox(height: 60.0),
-              verifyCode(context, _value, widget.mail)
+              verifyCode(context, _value)
             ],
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +52,7 @@ class _VerifyState extends State<Verify> {
   }
 }
 
-verifyCode(BuildContext context, String _code, String mail) {
+verifyCode(BuildContext context, String _code) {
   final VerifyBloc _bloc = BlocProvider.of<VerifyBloc>(context);
   
   return Builder(
@@ -59,11 +63,18 @@ verifyCode(BuildContext context, String _code, String mail) {
             snacker(context, '邮箱验证失败，请重试');
           } else if (state is CodeVerifiedSucceed) {
             Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);
+          } else if (state is CodeVerifiedTimeout) {
+            snacker(context, '邮箱验证超时，请重试');
           }
         },
         child: BlocBuilder<VerifyBloc, VerifyState>(
           builder: (context, state) {
-            if (state is CodeSending) {
+            if (state is CodeVerifying) {
+              new Observable.timer(
+                "hi", new Duration(seconds: 10)
+              ).listen((i) {
+                  _bloc.dispatch(ResetVerifyEvent());
+              });
               return CircularProgressIndicator();
             } else {
               return OutlineButton(
@@ -74,9 +85,11 @@ verifyCode(BuildContext context, String _code, String mail) {
                   ).hasMatch(_code);
                   
                   if (!codeValid) {
-                    snacker(context, "请输入正确的验证码，如: '99293e8e-5629-40d3-8747-10016474d49c'");
+                    snacker(
+                      context, "请输入正确的验证码，如: '99293e8e-5629-40d3-8747-10016474d49c'"
+                    );
                   } else {
-                    _bloc.dispatch(VerifyCodeEvent(mail: mail, code: _code));
+                    _bloc.dispatch(VerifyCodeEvent(code: _code));
                   }
                 },
                 child: Text('验证邮箱', style: TextStyle(fontSize: 16)),

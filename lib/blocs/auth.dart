@@ -30,18 +30,27 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
       var res = await r.auth(mail: event.mail);
       
       if (res.statusCode == 200) {
-        yield CodeSentSucceed();
+        yield CodeSentSucceed(mail: event.mail);
       } else {
         yield CodeSentFailed();
       }
     } else if (event is VerifyCodeEvent) {
-      yield CodeSending();
-      var res = await r.authVerify(mail: event.mail, code: event.code);
+      String mail = (currentState as CodeSentSucceed).mail;
+      yield CodeVerifying(mail: mail);
+      var res = await r.authVerify(mail: mail, code: event.code);
       
       if (res.statusCode == 200) {
         yield CodeVerifiedSucceed();
       } else {
-        yield CodeVerifiedFailed();
+        yield CodeVerifiedFailed(mail: mail);
+      }
+    } else if (event is ResetCodeEvent) {
+      if (currentState is CodeSending) {
+        yield CodeSentFailed();
+      }
+    } else if (event is ResetVerifyEvent) {
+      if (currentState is CodeVerifying) {
+        yield CodeVerifiedTimeout(mail: (currentState as CodeVerifying).mail);
       }
     }
   }
@@ -58,6 +67,17 @@ class UnVerified extends VerifyState {
 }
 
 class CodeSending extends VerifyState {
+  final String mail;
+  CodeSending({ this.mail });
+  
+  @override
+  String toString() => 'CodeSending';
+}
+
+class CodeVerifying extends VerifyState {
+  final String mail;
+  CodeVerifying({ this.mail });
+  
   @override
   String toString() => 'CodeSending';
 }
@@ -68,6 +88,9 @@ class CodeSentFailed extends VerifyState {
 }
 
 class CodeSentSucceed extends VerifyState {
+  final String mail;
+  CodeSentSucceed({ this.mail });
+  
   @override
   String toString() => 'CodeSentSucceed';
 }
@@ -78,8 +101,18 @@ class CodeVerifiedSucceed extends VerifyState {
 }
 
 class CodeVerifiedFailed extends VerifyState {
+  final String mail;
+  CodeVerifiedFailed({ this.mail });
+
   @override
   String toString() => 'CodeVerifiedFailed';
+}
+
+class CodeVerifiedTimeout extends VerifyState {
+  final String mail;
+  CodeVerifiedTimeout({ this.mail });
+  @override
+  String toString() => 'CodeVerifiedTimeout';
 }
 
 // --------------- events ----------------
@@ -94,10 +127,19 @@ class SendCodeEvent extends VerifyEvent {
 }
 
 class VerifyCodeEvent extends VerifyEvent {
-  final String mail;
   final String code;
-  VerifyCodeEvent({ this.mail, this.code });
+  VerifyCodeEvent({ this.code });
   
   @override
   String toString() => 'VerifyCodeEvent';
+}
+
+class ResetCodeEvent extends VerifyEvent {
+  @override
+  String toString() => 'ResetCodeEvent';
+}
+
+class ResetVerifyEvent extends VerifyEvent {
+  @override
+  String toString() => 'ResetVerifyEvent';
 }
