@@ -30,7 +30,7 @@ class _VerifyState extends State<Verify> {
             children: <Widget>[
               Text(
                 'cdr.today',
-                style: Theme.of(context).textTheme.display3
+                style: Theme.of(context).textTheme.display2
               ),
               SizedBox(height: 80.0),
               TextField(

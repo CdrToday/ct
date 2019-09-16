@@ -10,7 +10,7 @@ class Mine extends StatelessWidget {
         header(),
         profile(context),
         articles(context),
-        blog(context),
+        // community(context),
         author(context),
         version(context),
         Spacer()
@@ -48,22 +48,20 @@ Widget articles(BuildContext context) {
   );
 }
 
-Widget blog(BuildContext context) {
-  return BlocBuilder<UserBloc, UserState>(
-    builder: (context, state){
-      if (state is UserInited) {
-        return ListTile(
-          title: Text(
-            '我的博客',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subhead,
-          ),
-          onTap: () async {
-            await launch('https://cdr.today/${state.name}');
-          }
-        );
+Widget community(BuildContext context) {
+  return ListTile(
+    title: Text(
+      '我的社区',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.subhead,
+    ),
+    onTap: () async {
+      var url = 'mailto:cdr.today@foxmail.com?subject=hello';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
       }
-      return SizedBox.shrink();
     }
   );
 }

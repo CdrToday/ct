@@ -35,7 +35,13 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
         yield CodeSentFailed();
       }
     } else if (event is VerifyCodeEvent) {
-      String mail = (currentState as CodeSentSucceed).mail;
+      String mail;
+      if (currentState is CodeSentSucceed) {
+        mail = (currentState as CodeSentSucceed).mail;
+      } else if (currentState is CodeVerifiedFailed) {
+        mail = (currentState as CodeVerifiedFailed).mail;
+      }
+      
       yield CodeVerifying(mail: mail);
       var res = await r.authVerify(mail: mail, code: event.code);
       

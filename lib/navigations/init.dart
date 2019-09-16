@@ -20,15 +20,31 @@ class InitPage extends StatelessWidget {
       ),
       body: Post(edit: false),
       bottomSheet: Container(
-        child: IconButton(
-          icon: Icon(Icons.mode_edit),
-          onPressed: () {
-            Navigator.pushNamed(
-              context, '/user/edit',
-              arguments: ArticleArgs(edit: false)
-            );
-          },
-          color: Colors.black,
+        child: Row(
+          children: [
+            SizedBox.shrink(),
+            // IconButton(
+            //   icon: Icon(Icons.filter_list),
+            //   onPressed: () {
+            //     Navigator.pushNamed(
+            //       context, '/user/edit',
+            //       arguments: ArticleArgs(edit: false)
+            //     );
+            //   },
+            //   color: Colors.black,
+            // ),
+            IconButton(
+              icon: Icon(Icons.mode_edit),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context, '/user/edit',
+                  arguments: ArticleArgs(edit: false)
+                );
+              },
+              color: Colors.black,
+            ),
+          ],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
         alignment: AlignmentDirectional.centerEnd,
         constraints: BoxConstraints(maxHeight: 42.0),

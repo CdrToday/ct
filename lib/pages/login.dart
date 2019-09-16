@@ -37,7 +37,7 @@ class _LoginState extends State<Login> {
             children: <Widget>[
               Text(
                 'cdr.today',
-                style: Theme.of(context).textTheme.display3
+                style: Theme.of(context).textTheme.display
               ),
               SizedBox(height: 80.0),
               TextField(
