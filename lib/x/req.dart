@@ -23,19 +23,19 @@ class Requests {
   
   // methods
   Future<http.Response> rGet(String url) async {
-    return await http.get("$base$url", headers: headers);
+    return await http.get("$base$url", headers: headers).timeout(Duration(seconds: 10));
   }
 
   Future<http.Response> rPut(String url, {Map body}) async {
-    return await http.put("$base$url", headers: headers, body: json.encode(body));
+    return await http.put("$base$url", headers: headers, body: json.encode(body)).timeout(Duration(seconds: 10));
   }
   
   Future<http.Response> rPost(String url, {Map body}) async {
-    return await http.post("$base$url", headers: headers, body: json.encode(body));
+    return await http.post("$base$url", headers: headers, body: json.encode(body)).timeout(Duration(seconds: 10));
   }
 
   Future<http.Response> rDelete(String url) async {
-    return await http.delete("$base$url", headers: headers);
+    return await http.delete("$base$url", headers: headers).timeout(Duration(seconds: 10));
   }
 
   /* routes */

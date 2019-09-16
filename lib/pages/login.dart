@@ -85,11 +85,6 @@ sendCode(BuildContext context, String _email) {
         child: BlocBuilder<VerifyBloc, VerifyState>(
           builder: (context, state) {
             if (state is CodeSending) {
-              new Observable.timer(
-                "hi", new Duration(seconds: 10)
-              ).listen((i) {
-                  _bloc.dispatch(ResetCodeEvent());
-              });
               return CircularProgressIndicator();
             } else {
               return OutlineButton(

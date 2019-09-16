@@ -44,14 +44,6 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
       } else {
         yield CodeVerifiedFailed(mail: mail);
       }
-    } else if (event is ResetCodeEvent) {
-      if (currentState is CodeSending) {
-        yield CodeSentFailed();
-      }
-    } else if (event is ResetVerifyEvent) {
-      if (currentState is CodeVerifying) {
-        yield CodeVerifiedTimeout(mail: (currentState as CodeVerifying).mail);
-      }
     }
   }
 }
@@ -108,13 +100,6 @@ class CodeVerifiedFailed extends VerifyState {
   String toString() => 'CodeVerifiedFailed';
 }
 
-class CodeVerifiedTimeout extends VerifyState {
-  final String mail;
-  CodeVerifiedTimeout({ this.mail });
-  @override
-  String toString() => 'CodeVerifiedTimeout';
-}
-
 // --------------- events ----------------
 abstract class VerifyEvent extends Equatable {}
 
@@ -132,14 +117,4 @@ class VerifyCodeEvent extends VerifyEvent {
   
   @override
   String toString() => 'VerifyCodeEvent';
-}
-
-class ResetCodeEvent extends VerifyEvent {
-  @override
-  String toString() => 'ResetCodeEvent';
-}
-
-class ResetVerifyEvent extends VerifyEvent {
-  @override
-  String toString() => 'ResetVerifyEvent';
 }

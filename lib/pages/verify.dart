@@ -62,19 +62,12 @@ verifyCode(BuildContext context, String _code) {
           if (state is CodeVerifiedFailed) {
             snacker(context, '邮箱验证失败，请重试');
           } else if (state is CodeVerifiedSucceed) {
-            Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);
-          } else if (state is CodeVerifiedTimeout) {
-            snacker(context, '邮箱验证超时，请重试');
+            Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);;
           }
         },
         child: BlocBuilder<VerifyBloc, VerifyState>(
           builder: (context, state) {
             if (state is CodeVerifying) {
-              new Observable.timer(
-                "hi", new Duration(seconds: 10)
-              ).listen((i) {
-                  _bloc.dispatch(ResetVerifyEvent());
-              });
               return CircularProgressIndicator();
             } else {
               return OutlineButton(
