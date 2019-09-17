@@ -29,6 +29,7 @@ Widget blog() {
           color: Colors.black,
         );
       }
+      return SizedBox.shrink();
     }
   );
 }

@@ -14,15 +14,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   String _value = '';
-  String _code = '';
-  int _time = 60;
   
   void changeValue(String value) {
     setState(() { _value = value; });
-  }
-
-  void changeCode(String value) {
-    setState(() { _code = value; });
   }
 
   Widget build(BuildContext context) {

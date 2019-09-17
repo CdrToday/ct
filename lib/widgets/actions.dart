@@ -93,7 +93,7 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
       maxWidth: 540.0,
     );
 
-    if (file == null) return null;
+    if (file == null) return;
     file = await ImageCropper.cropImage(
       sourcePath: file.path,
       ratioX: 1.0,
@@ -103,7 +103,7 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
       toolbarTitle: '裁剪',
     );
 
-    if (file == null) return null;
+    if (file == null) return;
     String image = base64Encode(file.readAsBytesSync());
     
     alertLoading(ctx, text: '头像上传中...');

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 
@@ -62,7 +61,7 @@ verifyCode(BuildContext context, String _code) {
           if (state is CodeVerifiedFailed) {
             snacker(context, '邮箱验证失败，请重试');
           } else if (state is CodeVerifiedSucceed) {
-            Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);;
+            Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);
           }
         },
         child: BlocBuilder<VerifyBloc, VerifyState>(
