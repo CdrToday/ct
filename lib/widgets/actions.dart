@@ -2,12 +2,14 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
@@ -81,19 +83,33 @@ List<Widget> articleActions(BuildContext context, screenshotController) {
 // avatar actions
 List<Widget> avatarActions(BuildContext context, screenshotController) {
   void pickImage(BuildContext ctx) async {
+    Navigator.pop(ctx);
+
     final xReq.Requests r = await xReq.Requests.init();
-    
-    final file = await ImagePicker.pickImage(
+    File file = await ImagePicker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 540.0,
     );
 
     if (file == null) return null;
-    String image = base64Encode(file.readAsBytesSync());
-    alertLoading(context, text: '图片上传中...');
+    file = await ImageCropper.cropImage(
+      sourcePath: file.path,
+      ratioX: 1.0,
+      ratioY: 1.0,
+      maxWidth: 512,
+      maxHeight: 512,
+      toolbarTitle: '裁剪',
+    );
 
+    if (file == null) return null;
+    String image = base64Encode(file.readAsBytesSync());
+    
+    alertLoading(context, text: '头像上传中...');
     var res = await r.upload(image: image);
     if (res.statusCode != 200) snacker(context, '图片上传失败，请重试');
+    Navigator.pop(ctx);
+
+    snacker(ctx, '头像上传成功', color: Colors.black);
     
     UploadResult _data = UploadResult.fromJson(json.decode(res.body));
     //
@@ -110,33 +126,29 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
     :snacker(ctx, '保存失败');
   }
 
-  BottomSheet bottomSheet(BuildContext ctx) => BottomSheet(
-    builder: (context) {
-      return Container(
-        child: Column(
-          children: [
-            ListTile(
-              title: Text('更换头像', textAlign: TextAlign.center),
-              onTap: () => pickImage(ctx),
-            ),
-            Divider(indent: 15.0, endIndent: 15.0),
-            ListTile(
-              title: Text('保存头像', textAlign: TextAlign.center),
-              onTap: () => saveImage(ctx),
-            ),
-          ],
-        ),
-        height: 180.0,
-      );
-    },
-    onClosing: () => null,
+  CupertinoActionSheet bottomSheet(BuildContext ctx) => CupertinoActionSheet(
+    actions: [
+      CupertinoActionSheetAction(
+        child: Text('更换头像', style: Theme.of(ctx).textTheme.body1),
+        onPressed: () => pickImage(ctx),
+      ),
+      CupertinoActionSheetAction(
+        child: Text('保存头像', style: Theme.of(ctx).textTheme.body1),
+        onPressed: () => saveImage(ctx),
+      ),
+    ],
+    cancelButton: CupertinoActionSheetAction(
+      child: Text('取消', style: Theme.of(ctx).textTheme.body1),
+      isDefaultAction: true,
+      onPressed: () => Navigator.pop(ctx),
+    )
   );
   
   Builder changeImage = Builder(
     builder: (_context) => IconButton(
       icon: Icon(Icons.more_horiz),
       onPressed: () {
-        showModalBottomSheet(
+        showCupertinoModalPopup(
           context: context,
           builder: (context) => bottomSheet(_context),
         );

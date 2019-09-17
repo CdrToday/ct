@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:convert';
 import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/x/conf.dart';
@@ -42,18 +44,23 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
   Future<String> pickImage(ImageSource source) async {
     final xReq.Requests r = await xReq.Requests.init();
     
-    final file = await ImagePicker.pickImage(
+    File file = await ImagePicker.pickImage(
       source: source,
       maxWidth: 540.0,
     );
 
-    // return if not choose
     if (file == null) return null;
+    file = await ImageCropper.cropImage(
+      sourcePath: file.path,
+      ratioX: 1.0,
+      ratioY: 1.0,
+      toolbarTitle: '裁剪',
+    );
 
-    // upload
+    if (file == null) return null;
     String image = base64Encode(file.readAsBytesSync());
-    alertLoading(context, text: '图片上传中...');
 
+    alertLoading(context, text: '图片上传中...');
     var res = await r.upload(image: image);
     Navigator.pop(context);
     

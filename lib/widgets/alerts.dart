@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,16 +8,14 @@ Future<void> deleteArticle(BuildContext context, String id) async {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
+      return CupertinoAlertDialog(
         actions: <Widget>[
-          FlatButton(
-            child: Text('取消'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+          CupertinoDialogAction(
+            child: Text('取消', style: TextStyle(color: Colors.black)),
+            onPressed: () => Navigator.of(context).pop(),
           ),
-          FlatButton(
-            child: Text('确定'),
+          CupertinoDialogAction(
+            child: Text('确定', style: TextStyle(color: Colors.black)),
             onPressed: () {
               _bloc.dispatch(DeleteEdit(id: id));
               Navigator.pop(context);
@@ -24,9 +23,6 @@ Future<void> deleteArticle(BuildContext context, String id) async {
           ),
         ],
         title: Text('删除文章?'),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))
-        ),
       );
     },
   );
@@ -37,8 +33,8 @@ Future<void> alertLoading(BuildContext context, {String text}) async {
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return AlertDialog(
-        title: text == null? Text('Calling Elvis...'): Text(text),
+      return CupertinoAlertDialog(
+        title: text == null? Text('请求中...'): Text(text),
         content: Padding(
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -46,9 +42,6 @@ Future<void> alertLoading(BuildContext context, {String text}) async {
             children: [CircularProgressIndicator()],
           ),
           padding: EdgeInsets.symmetric(vertical: 20.0)
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))
         ),
       );
     },
