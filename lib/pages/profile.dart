@@ -53,6 +53,8 @@ Widget profile(BuildContext context, String name) {
       } else if (state is ProfileUpdatedSucceed) {
         Navigator.pop(context);
         snacker(context, "用户名修改成功", color: Colors.black);
+      } else if (state is ProfileAvatarUpdatedSucceed) {
+        snacker(context, "头像修改成功", color: Colors.black);
       } else if (state is ProfileUpdatedFailed) {
         snacker(context, "用户名已被使用");
       }

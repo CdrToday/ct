@@ -22,8 +22,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     p.state.listen((state){
         if (state is ProfileUpdatedSucceed) {
-          this.dispatch(InitUserEvent(mail: state.mail, name: state.name));
-        } 
+          this.dispatch(InitUserEvent(name: state.name));
+        } else if (state is ProfileAvatarUpdatedSucceed) {
+          this.dispatch(InitUserEvent(avatar: state.avatar));
+        }
     });
   }
 
@@ -61,7 +63,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         
         yield UserInited(
           mail: _data.data['mail'],
-          name: _data.data['name']
+          name: _data.data['name'],
+          avatar: _data.data['avatar']
         );
         return;
       } else if (res.statusCode == 408) {
@@ -74,7 +77,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       yield UserUnInited();
     } else if (event is InitUserEvent) {
-      yield UserInited(mail: event.mail, name: event.name);
+      if (currentState is UserInited) {
+        yield (currentState as UserInited).copyWith(
+          mail: event.mail, name: event.name, avatar: event.avatar
+        );
+      }
     } else if (event is LogoutEvent) {
       clear();
       yield UserUnInited();
@@ -114,7 +121,23 @@ class UserInited extends UserState {
   final String name;
   final String avatar;
   
-  UserInited({this.mail, this.name, this.avatar});
+  UserInited({
+      this.mail,
+      this.name,
+      this.avatar
+  }) : super([ mail, name, avatar ]);
+
+  UserInited copyWith({
+      String mail,
+      String name,
+      String avatar,
+  }) {
+    return UserInited(
+      mail: mail ?? this.mail,
+      name: name ?? this.name,
+      avatar: avatar ?? this.avatar,
+    );
+  }
 }
 
 

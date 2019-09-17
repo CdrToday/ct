@@ -75,6 +75,15 @@ class Requests {
     return res;
   }
 
+  //@updateName: PUT '/u/{mail:string}/i/avatar'
+  Future<http.Response> updateAvatar({String avatar}) async {
+    final Map body = {
+      'avatar': avatar
+    };
+    var res = await rPut("/u/$mail/i/avatar", body: body);
+    return res;
+  }
+
   //@newPost: POST '/u/{mail:string}/p'
   Future<http.Response> newPost({String document}) async {
     final Map body = {

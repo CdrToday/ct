@@ -9,6 +9,7 @@ Widget avatar() {
       if (state is UserInited) {
         if (state.avatar != null) {
           return CircleAvatar(
+            radius: 28.0,
             backgroundImage: NetworkImage(conf['image'] + state.avatar),
           );
         } else if (state.name != null) {

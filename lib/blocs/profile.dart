@@ -25,9 +25,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     xReq.Requests r = await xReq.Requests.init();
     if (event is UpdateProfileName) {
-      bool valid = RegExp(r"^[a-z]$").hasMatch(event.name);
+      bool valid = RegExp(r"^[a-z]+$").hasMatch(event.name);
       if (valid == false) {
         yield ProfileNameCheckedFailed();
+        yield EmptyProfileState();
         return;
       }
       
@@ -35,12 +36,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       if (res.statusCode == 200) {
         ProfileUpdateResult _data = ProfileUpdateResult.fromJson(json.decode(res.body));
-        yield ProfileUpdatedSucceed(
-          mail: _data.data['mail'],
-          name: _data.data['name']
-        );
+        yield ProfileUpdatedSucceed(name: _data.data['name']);
       } else {
         yield ProfileUpdatedFailed();
+      }
+      yield EmptyProfileState();
+    } else if (event is UpdateProfileAvatar) {
+      var res = await r.updateAvatar(avatar: event.avatar);
+      
+      if (res.statusCode == 200) {
+        ProfileUpdateResult _data = ProfileUpdateResult.fromJson(json.decode(res.body));
+        yield ProfileAvatarUpdatedSucceed(avatar: _data.data['avatar']);
+      } else {
+        yield ProfileAvatarUpdatedFailed();
       }
       yield EmptyProfileState();
     }
@@ -68,12 +76,24 @@ class ProfileUpdatedFailed extends ProfileState {
 }
 
 class ProfileUpdatedSucceed extends ProfileState {
-  final String mail;
   final String name;
 
-  ProfileUpdatedSucceed({this.mail, this.name});
+  ProfileUpdatedSucceed({this.name});
   @override
   String toString() => 'ProfileUpdatedSucceed';
+}
+
+class ProfileAvatarUpdatedSucceed extends ProfileState {
+  final String avatar;
+
+  ProfileAvatarUpdatedSucceed({this.avatar});
+  @override
+  String toString() => 'ProfileAvatarUpdatedSucceed';
+}
+
+class ProfileAvatarUpdatedFailed extends ProfileState {
+  @override
+  String toString() => 'ProfileAvatarUpdatedFailed';
 }
 
 // --------- events ---------
@@ -85,6 +105,14 @@ class UpdateProfileName extends ProfileEvent {
 
   @override
   String toString() => 'UpdateProfileName';
+}
+
+class UpdateProfileAvatar extends ProfileEvent {
+  final String avatar;
+  UpdateProfileAvatar({ this.avatar });
+
+  @override
+  String toString() => 'UpdateProfileAvatar';
 }
 
 // -------------- apis ---------------------

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/blocs/edit.dart';
+import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +64,6 @@ List<Widget> editActions(
   return [delete, post];
 }
 
-
 // article actions
 List<Widget> articleActions(BuildContext context, screenshotController) {
   Builder more = Builder(
@@ -82,6 +82,8 @@ List<Widget> articleActions(BuildContext context, screenshotController) {
 
 // avatar actions
 List<Widget> avatarActions(BuildContext context, screenshotController) {
+  final ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
+  
   void pickImage(BuildContext ctx) async {
     Navigator.pop(ctx);
 
@@ -104,15 +106,17 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
     if (file == null) return null;
     String image = base64Encode(file.readAsBytesSync());
     
-    alertLoading(context, text: '头像上传中...');
+    alertLoading(ctx, text: '头像上传中...');
     var res = await r.upload(image: image);
-    if (res.statusCode != 200) snacker(context, '图片上传失败，请重试');
-    Navigator.pop(ctx);
-
-    snacker(ctx, '头像上传成功', color: Colors.black);
     
+    if (res.statusCode != 200) {
+      snacker(ctx, '图片上传失败，请重试');
+      return;
+    }
+
     UploadResult _data = UploadResult.fromJson(json.decode(res.body));
-    //
+    _profileBloc.dispatch(UpdateProfileAvatar(avatar: _data.image));
+    Navigator.pop(ctx);
   }
 
   void saveImage(BuildContext ctx) async {
@@ -152,7 +156,8 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
           context: context,
           builder: (context) => bottomSheet(_context),
         );
-      }
+      },
+      color: Colors.white,
     )
   );
 
