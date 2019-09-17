@@ -18,6 +18,7 @@ import 'package:cdr_today/pages/splash.dart';
 import 'package:cdr_today/pages/profile.dart';
 import 'package:cdr_today/pages/avatar.dart';
 import 'package:cdr_today/pages/bucket.dart';
+import 'package:cdr_today/pages/name.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/init.dart';
 // navigations
@@ -106,9 +107,11 @@ Route router(settings) {
     return FadeRoute(page: Profile());
   } else if (r == '/mine/profile/avatar') {
     return FadeRoute(page: Avatar());
+  } else if (r == '/mine/profile/name') {
+    return FadeRoute(page: Name());
   }
   
   return MaterialPageRoute(
-    builder: (context) =>  Text('BUG 🤦🏻‍♂️')
+    builder: (context) =>  Center(child: Text('BUG'))
   );
 }

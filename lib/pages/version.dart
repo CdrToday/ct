@@ -29,7 +29,7 @@ class VersionPage extends StatelessWidget {
             ),
             Spacer(),
             Text(
-              'version 0.1.13',
+              'version 0.1.14',
               style: TextStyle(color: Colors.grey),
               textAlign: TextAlign.center
             ),

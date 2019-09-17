@@ -38,6 +38,8 @@ class Avatar extends StatelessWidget {
                 listener: (context, state) {
                   if (state is ProfileAvatarUpdatedFailed) {
                     snacker(context, "头像修改失败，请重试");
+                  } else if (state is ProfileAvatarUpdatedSucceed) {
+                    Navigator.pop(context);
                   }
                 },
                 child: BlocBuilder<UserBloc, UserState>(
@@ -70,7 +72,7 @@ class Avatar extends StatelessWidget {
                   }
                 ),
               ),
-              color: Colors.brown.shade800,
+              color: Colors.black,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(bottom: kToolbarHeight * 2.5)
