@@ -16,6 +16,7 @@ import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/version.dart';
 import 'package:cdr_today/pages/splash.dart';
 import 'package:cdr_today/pages/profile.dart';
+import 'package:cdr_today/pages/avatar.dart';
 import 'package:cdr_today/pages/bucket.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/init.dart';
@@ -97,12 +98,14 @@ Route router(settings) {
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Edit(args: args));
-  } else if (r == '/mine/profile') {
-    return FadeRoute(page: Profile());
   } else if (r == '/mine/bucket') {
     return FadeRoute(page: Bucket());
   } else if (r == '/mine/version') {
     return FadeRoute(page: VersionPage());
+  } else if (r == '/mine/profile') {
+    return FadeRoute(page: Profile());
+  } else if (r == '/mine/profile/avatar') {
+    return FadeRoute(page: Avatar());
   }
   
   return MaterialPageRoute(

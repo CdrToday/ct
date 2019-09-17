@@ -8,6 +8,7 @@ import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
+
 class UserBloc extends Bloc<UserEvent, UserState> {
   final VerifyBloc v;
   final ProfileBloc p;
@@ -44,7 +45,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
     xReq.Requests r = await xReq.Requests.init();
-    
+
     if (event is CheckUserEvent) {
       String mail = await getString('mail');
       String code = await getString('code');
@@ -53,9 +54,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield UserUnInited();
         return;
       }
-      
-      var res = await r.authVerify(mail: mail, code: code);
 
+      var res = await r.authVerify(mail: mail, code: code);
       if (res.statusCode == 200) {
         MailVerifyResult _data = MailVerifyResult.fromJson(json.decode(res.body));
         
@@ -63,9 +63,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           mail: _data.data['mail'],
           name: _data.data['name']
         );
-      } else {
-        yield UserUnInited();
+        return;
+      } else if (res.statusCode == 408) {
+        yield (currentState is UserBlocTimeout)
+        ? (currentState as UserBlocTimeout).copyWith(
+          times: (currentState as UserBlocTimeout).times + 1
+        ) : UserBlocTimeout(times: 0);
+        return;
       }
+
+      yield UserUnInited();
     } else if (event is InitUserEvent) {
       yield UserInited(mail: event.mail, name: event.name);
     } else if (event is LogoutEvent) {
@@ -91,13 +98,23 @@ class UserUnInited extends UserState {
   String toString() => 'UserUnInited';
 }
 
+class UserBlocTimeout extends UserState {
+  final int times;
+
+  UserBlocTimeout({ this.times }) : super([ times ]);
+  UserBlocTimeout copyWith({ int times }) {
+    return UserBlocTimeout(times: times ?? this.times);
+  }
+  @override
+  String toString() => 'UserBlocTimeout';
+}
+
 class UserInited extends UserState {
   final String mail;
   final String name;
+  final String avatar;
   
-  UserInited({
-      this.mail, this.name
-  }) : super([ mail, name ]);
+  UserInited({this.mail, this.name, this.avatar});
 }
 
 
@@ -112,7 +129,8 @@ class CheckUserEvent extends UserEvent {
 class InitUserEvent extends UserEvent {
   final String mail;
   final String name;
-  InitUserEvent({ this.mail, this.name });
+  final String avatar;
+  InitUserEvent({ this.mail, this.name, this.avatar });
   
   @override
   String toString() => 'InitUserEvent';

@@ -5,6 +5,7 @@ import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/widgets/modify.dart';
 import 'package:cdr_today/widgets/center.dart';
+import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 
 class Profile extends StatelessWidget {
@@ -21,6 +22,7 @@ class Profile extends StatelessWidget {
             body: Container(
               child: Column(
                 children: <Widget>[
+                  _avatar(context),
                   profile(context, state.name),
                   mail(context, state.mail),
                   Spacer(),
@@ -58,9 +60,28 @@ Widget profile(BuildContext context, String name) {
     child: Container(
       child: Card(
         child: ListTile(
-          title: Text('id'),
+          title: Text('名字'),
           trailing: Text(name),
           onTap: () => _neverSatisfied(context, 'id', 'name'),
+        )
+      ),
+      margin: EdgeInsets.only(top: 10.0)
+    )
+  );
+}
+
+Widget _avatar(BuildContext context) {
+  return Builder(
+    builder: (context) => Container(
+      child: Card(
+        child: ListTile(
+          title: Text('头像'),
+          trailing: avatar(),
+          onTap: () => Navigator.pushNamed(context, '/mine/profile/avatar'),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 16.0
+          )
         )
       ),
       margin: EdgeInsets.only(top: 10.0)
@@ -73,7 +94,7 @@ Widget mail(BuildContext context, String str) {
     builder: (context) => Container(
       child: Card(
         child: ListTile(
-          title: Text('e-mail'),
+          title: Text('邮箱'),
           trailing: Text(str),
           onTap: () {
             snacker(context, "暂不支持修改邮箱 🦄️" );

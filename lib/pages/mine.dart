@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cdr_today/blocs/user.dart';
+import 'package:cdr_today/widgets/avatar.dart';
 
 class Mine extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        header(),
-        profile(context),
+        header(context),
         articles(context),
         // community(context),
+        Divider(),
         author(context),
         version(context),
         Spacer()
@@ -20,20 +21,14 @@ class Mine extends StatelessWidget {
 }
 
 // ----------- tiles -------------
-Widget header() {
+Widget header(BuildContext context) {
   return DrawerHeader(
-    child: Center(child: Icon(Icons.gesture, color: Colors.black, size: 50.0))
-  );
-}
-
-Widget profile(BuildContext context) {
-  return  ListTile(
-    title: Text(
-      '个人信息',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.subhead,
+    child: Center(
+      child: GestureDetector(
+        child: avatar(),
+        onTap: () => Navigator.popAndPushNamed(context, '/mine/profile'),
+      ),
     ),
-    onTap: () => Navigator.popAndPushNamed(context, '/mine/profile')
   );
 }
 

@@ -2,6 +2,8 @@ PODS:
   - esys_flutter_share (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - image_gallery_saver (0.0.1):
+    - Flutter
   - image_picker (0.0.1):
     - Flutter
   - path_provider (0.0.1):
@@ -16,6 +18,7 @@ PODS:
 DEPENDENCIES:
   - esys_flutter_share (from `.symlinks/plugins/esys_flutter_share/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
+  - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - share (from `.symlinks/plugins/share/ios`)
@@ -27,6 +30,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/esys_flutter_share/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
+  image_gallery_saver:
+    :path: ".symlinks/plugins/image_gallery_saver/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   path_provider:
@@ -41,6 +46,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   esys_flutter_share: 403498dab005b36ce1f8d7aff377e81f0621b0b4
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  image_gallery_saver: 73b3cd8ad9c950c739878af9c311744d1bf5405d
   image_picker: 16e5fec1fbc87fd3b297c53e4048521eaf17cd06
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   share: 7d22fe8baedfe93aefd864bf0b73f29711fbb0a3

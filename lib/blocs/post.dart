@@ -28,7 +28,14 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     if (event is FetchSelfPosts) {
       // refresh posts
       if (event.refresh == true) {
-        var res = await r.getPost(page: 0);
+        
+        var res;
+        try {
+          res = await r.getPost(page: 0);
+        } catch (err) {
+          res = xReq.timeout;
+        }
+        
         if (res.statusCode == 200) {
           PostAPI data = PostAPI.fromJson(json.decode(res.body));
           yield FetchedSucceed(
@@ -38,6 +45,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           );
           return;
         }
+
         yield FetchedFailed();
         return;
       }
@@ -58,6 +66,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
       // get posts
       var res = await r.getPost(page: _currentPage);
+      
       if (res.statusCode == 200) {
         PostAPI data = PostAPI.fromJson(json.decode(res.body));
         yield data.posts.isEmpty

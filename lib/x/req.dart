@@ -3,6 +3,9 @@ import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/x/store.dart';
 import 'package:http/http.dart' as http;
 
+const Response = http.Response;
+http.Response timeout = http.Response('timeout', 408);
+
 class Requests {
   final String base = conf['base'];
   String mail, code;
@@ -22,20 +25,28 @@ class Requests {
   Requests({this.mail, this.code, this.headers});
   
   // methods
-  Future<http.Response> rGet(String url) async {
-    return await http.get("$base$url", headers: headers).timeout(Duration(seconds: 10));
+  Future<http.Response> rGet(String url) {
+    return http.get("$base$url", headers: headers).timeout(
+      Duration(seconds: 10), onTimeout: () => timeout,
+    );
   }
 
-  Future<http.Response> rPut(String url, {Map body}) async {
-    return await http.put("$base$url", headers: headers, body: json.encode(body)).timeout(Duration(seconds: 10));
+  Future<http.Response> rPut(String url, {Map body}) {
+    return http.put("$base$url", headers: headers, body: json.encode(body)).timeout(
+      Duration(seconds: 10), onTimeout: () => timeout,
+    );
   }
   
-  Future<http.Response> rPost(String url, {Map body}) async {
-    return await http.post("$base$url", headers: headers, body: json.encode(body)).timeout(Duration(seconds: 10));
+  Future<http.Response> rPost(String url, {Map body}) {
+    return http.post("$base$url", headers: headers, body: json.encode(body)).timeout(
+      Duration(seconds: 10), onTimeout: () => timeout,
+    );
   }
 
-  Future<http.Response> rDelete(String url) async {
-    return await http.delete("$base$url", headers: headers).timeout(Duration(seconds: 10));
+  Future<http.Response> rDelete(String url) {
+    return http.delete("$base$url", headers: headers).timeout(
+      Duration(seconds: 10), onTimeout: () => timeout,
+    );
   }
 
   /* routes */

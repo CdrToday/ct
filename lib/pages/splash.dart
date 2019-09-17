@@ -24,15 +24,17 @@ class _SplashPageState extends State<SplashPage> {
     final _bloc = BlocProvider.of<UserBloc>(context);
     _bloc.dispatch(CheckUserEvent());
     
-    return BlocListener<UserBloc, UserState>(
-      listener: (context, state) {
-        if (state is! SplashState) {
-          Navigator.of(context).pushReplacementNamed('/init');
-        }
-      },
-      child: Scaffold(
-        appBar: null,
-        body: Container(
+    return Scaffold(
+      appBar: null,
+      body: BlocListener<UserBloc, UserState>(
+        listener: (context, state) {
+          if (state is UserBlocTimeout) {
+            _bloc.dispatch(CheckUserEvent());
+          } else if (state is! SplashState) {
+            Navigator.of(context).pushReplacementNamed('/init');
+          }
+        },
+        child: Container(
           child: Column(
             children: [
               Spacer(),
