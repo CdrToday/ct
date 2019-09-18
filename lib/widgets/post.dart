@@ -71,7 +71,7 @@ class _PostState extends State<PostList> {
     if (widget.posts.length >= 10) {
       _scrollThreshold = 108.0;
       _scrollController = ScrollController(
-        initialScrollOffset: _scrollThreshold
+        // initialScrollOffset: _scrollThreshold
       );
       _scrollController.addListener(_onScroll);
       
@@ -83,7 +83,7 @@ class _PostState extends State<PostList> {
   Widget build(BuildContext context) {
     bool edit = widget.edit;
     List<dynamic> posts = widget.posts;
-    if (posts.length >= 10) posts = posts;
+    // if (posts.length >= 10) posts = posts;
 
     // Add refresh circle;
     return ListView.separated(
