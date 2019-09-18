@@ -6,7 +6,9 @@ import 'package:cdr_today/widgets/center.dart';
 
 class Post extends StatefulWidget {
   final bool edit;
-  Post({ this.edit });
+  final SliverAppBar appBar;
+  final SliverList title;
+  Post({ this.edit, this.appBar, this.title });
   
   @override
   _PostState createState() => _PostState();
@@ -31,10 +33,13 @@ class _PostState extends State<Post> {
               return CenterX(x: '暂无文章');
             }
             return PostList(
-              posts: state.posts, edit: widget.edit,
+              posts: state.posts,
+              edit: widget.edit,
+              appBar: widget.appBar,
+              title: widget.title,
               hasReachedMax: state.hasReachedMax,
             );
-          } 
+          }
           return CenterX();
         }
       )

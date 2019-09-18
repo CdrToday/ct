@@ -7,6 +7,7 @@ import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/post.dart';
+import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/profile.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
@@ -33,6 +34,7 @@ void main() {
 
 class App extends StatelessWidget {
   final VerifyBloc verifyBloc = VerifyBloc();
+  final PostBloc postBloc = PostBloc();
   final ProfileBloc profileBloc = ProfileBloc();
   
   @override
@@ -46,13 +48,16 @@ class App extends StatelessWidget {
           builder: (context) => EditBloc()
         ),
         BlocProvider<PostBloc>(
-          builder: (context) => PostBloc()
+          builder: (context) => postBloc
         ),
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc
         ),
         BlocProvider<ProfileBloc>(
           builder: (context) => profileBloc
+        ),
+        BlocProvider<RefreshBloc>(
+          builder: (context) => RefreshBloc(p: postBloc)
         ),
         BlocProvider<UserBloc>(
           builder: (context) => UserBloc(v: verifyBloc, p: profileBloc)

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/pages/mine.dart';
 import 'package:cdr_today/pages/post.dart';
+import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/widgets/drawer.dart';
 import 'package:cdr_today/navigations/args.dart';
 
@@ -16,8 +18,22 @@ class InitPage extends StatelessWidget {
           )
         ),
         centerTitle: true,
-        title: Text('文章列表'),
-        automaticallyImplyLeading: false
+        title: BlocBuilder<RefreshBloc, RefreshState>(
+          builder: (context, state) {
+            if (state is PostRefreshStart) {
+              return Container(
+                child: SizedBox(
+                  height: 16.0,
+                  width: 16.0,
+                  child: CircularProgressIndicator(strokeWidth: 2.0)
+                ),
+              );
+            }
+            return SizedBox.shrink();                      
+          }
+        ),
+        automaticallyImplyLeading: false,
+        // backgroundColor: Colors.white,
       ),
       body: Post(edit: false),
       bottomSheet: Container(
@@ -51,7 +67,8 @@ class InitPage extends StatelessWidget {
         constraints: BoxConstraints(maxHeight: 42.0),
         decoration: BoxDecoration(color: Colors.grey[200])
       ),
-      drawer: Drawer(child: MainDrawer())
+      drawer: Drawer(child: MainDrawer()),
+      backgroundColor: Colors.white,
     );
   }
 }

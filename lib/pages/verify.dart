@@ -43,7 +43,11 @@ class _VerifyState extends State<Verify> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
           ),
-          margin: EdgeInsets.symmetric(horizontal: kToolbarHeight)
+          margin: EdgeInsets.only(
+            left: kToolbarHeight,
+            right: kToolbarHeight,
+            bottom: kToolbarHeight * 2
+          )
         ),
       ),
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode())

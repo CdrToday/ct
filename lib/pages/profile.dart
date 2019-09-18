@@ -36,7 +36,10 @@ class Profile extends StatelessWidget {
           );
         } else {
           _bloc.dispatch(CheckUserEvent());
-          return CenterX(x: '重新登录中...');
+          return Container(
+            child: CenterX(x: '重新登录中...'),
+            color: Colors.white
+          );
         }
       }
     );
@@ -104,10 +107,10 @@ Widget logout(BuildContext context) {
           '退出登录',
           style: TextStyle(fontSize: 14.0)
         ),
-        onTap: () {
-          _bloc.dispatch(LogoutEvent());
-          Navigator.pop(context);
-          _pbloc.dispatch(CleanList());
+        onTap: () async {
+          await _pbloc.dispatch(CleanList());
+          await _bloc.dispatch(LogoutEvent());
+          Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
         }
       )
     ),

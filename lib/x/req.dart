@@ -92,7 +92,7 @@ class Requests {
     return await rPost("/u/$mail/post", body: body);
   }
 
-  //@getPosts: GET '/u/{mail:string}/p'
+  //@getPosts: GET '/u/{mail:string}/post'
   Future<http.Response> getPost({int page}) async {
     return await rGet("/u/$mail/post?p=$page");
   }

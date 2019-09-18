@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/blocs/post.dart';
+import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class PostItem extends StatelessWidget {
@@ -23,8 +24,9 @@ class PostItem extends StatelessWidget {
     
     return GestureDetector(
       child: ListTile(
-        title: Text(
-          title, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)
+        title: Container(
+          child: Text(title, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
+          padding: EdgeInsets.only(top: kToolbarHeight / 5),
         ),
         subtitle: Container(
           child: Text(display(x.timestamp), style: TextStyle(fontSize: 11.0)),
@@ -51,7 +53,9 @@ class PostList extends StatefulWidget {
   final List<dynamic> posts;
   final bool edit;
   final bool hasReachedMax;
-  PostList({ this.edit, this.posts, this.hasReachedMax });
+  final SliverAppBar appBar;
+  final SliverList title;
+  PostList({ this.edit, this.posts, this.hasReachedMax, this.appBar, this.title });
   
   @override
   _PostState createState() => _PostState();
@@ -60,63 +64,64 @@ class PostList extends StatefulWidget {
 class _PostState extends State<PostList> {
   bool _scrollLock = false;
   PostBloc _postBloc;
+  RefreshBloc _refreshBloc;
   // Divider's height is 15.0;
   // PostLoader's height is 90.0;
-  double _scrollThreshold;
+  double _scrollThreshold = 200.0;
+  double _scrollIncipiency = (- kToolbarHeight);
   ScrollController _scrollController;
   
   @override
   void initState() {
     super.initState();
     if (widget.posts.length >= 10) {
-      _scrollThreshold = 108.0;
-      _scrollController = ScrollController(
-        // initialScrollOffset: _scrollThreshold
-      );
+      _scrollController = ScrollController();
       _scrollController.addListener(_onScroll);
-      
     }
     _postBloc = BlocProvider.of<PostBloc>(context);
+    _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
     bool edit = widget.edit;
     List<dynamic> posts = widget.posts;
-    // if (posts.length >= 10) posts = posts;
 
-    // Add refresh circle;
-    return ListView.separated(
-      physics: const AlwaysScrollableScrollPhysics(),
-      padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0, bottom: 52.0),
-      itemCount: posts.length > 10 ? posts.length + 1 : posts.length,
-      itemBuilder: (BuildContext context, int index) {
-        // if (posts.length > 10 && index == 0) return PostLoader();
-        
-        if (index >= posts.length) {
-          if (widget.hasReachedMax == false) {
-            return PostLoader();
-          }
-          return PostBottom();
-        }
-        
-        String id = posts[index]['id'];
-        String document = posts[index]['document'];
-        int timestamp = posts[index]['timestamp'];
-
-        return PostItem(
-          x: ArticleArgs(
-            id: id,
-            edit: edit,
-            document: document,
-            timestamp: timestamp
+    return CustomScrollView(
+      slivers: <Widget>[
+        widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
+        widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              if (index == posts.length * 2) {
+                return widget.hasReachedMax == false
+                ? PostLoader() : PostBottom();
+              } else if (index.isEven) {
+                int i = (index / 2).toInt();
+                String id = posts[i]['id'];
+                String document = posts[i]['document'];
+                int timestamp = posts[i]['timestamp'];
+                
+                return PostItem(
+                  x: ArticleArgs(
+                    id: id,
+                    edit: edit,
+                    document: document,
+                    timestamp: timestamp
+                  )
+                );
+              }
+              
+              return Divider(indent: 15.0, endIndent: 10.0);
+            },
+            childCount: posts.length * 2 + 1
           )
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) => Divider(
-        indent: 15.0,
-        endIndent: 10.0
-      ),
+        ),
+        SliverPadding(
+          padding: EdgeInsets.only(bottom: kToolbarHeight)
+        )
+      ],
       controller: _scrollController,
     );
   }
@@ -134,34 +139,30 @@ class _PostState extends State<PostList> {
     
     scrollDelay.stream.delay(
       Duration(milliseconds: 1000)
-    ).listen((i) {
-        if (i == _scrollThreshold) _scrollController.animateTo(
-          i, curve: Curves.linear,
-          duration: Duration (milliseconds: 500)
-        );
+    ).listen((t) {
+        // dispatch events
+        _postBloc.dispatch(FetchSelfPosts(refresh: t));
 
-        _postBloc.dispatch(
-          FetchSelfPosts(refresh: i == _scrollThreshold ? true : false)
-        );
+        if (t == true) _refreshBloc.dispatch(PostRefreshEvent());
         
         Observable.timer(
-          i, new Duration(milliseconds: 1000)
-        ).listen((i) => setState(() { _scrollLock = false; }));
+          t, new Duration(milliseconds: 1000)
+        ).listen((t) => setState(() { _scrollLock = false; }));
       }
     );
 
     // top refresh
-    // if (currentScroll <=  _scrollThreshold) {
-    //   if (_scrollLock == true) {
-    //     return;
-    //   }
-    // 
-    //   setState(() { _scrollLock = true; });
-    //   scrollDelay.add(_scrollThreshold);
-    // }
+    if (currentScroll <= _scrollIncipiency) {
+      if (_scrollLock == true) {
+        return;
+      }
+    
+      setState(() { _scrollLock = true; });
+      scrollDelay.add(true);
+    }
     
     // bottom load
-    if (maxScroll - currentScroll <= (_scrollThreshold + 100.0)) {
+    if (currentScroll + _scrollThreshold >= maxScroll) {
       if (widget.hasReachedMax == true) {
         return;
       }
@@ -170,7 +171,7 @@ class _PostState extends State<PostList> {
         return;
       }
       setState(() { _scrollLock = true; });
-      scrollDelay.add(maxScroll - _scrollThreshold);
+      scrollDelay.add(false);
     }
   }
 }

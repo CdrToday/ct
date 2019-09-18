@@ -22,10 +22,6 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('登录'),
-          automaticallyImplyLeading: false
-        ),
         body: Container(
           child: Column(
             children: <Widget>[
