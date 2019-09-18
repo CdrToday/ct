@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/pages/mine.dart';
 import 'package:cdr_today/pages/post.dart';
+import 'package:cdr_today/widgets/drawer.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class InitPage extends StatelessWidget {
@@ -50,7 +51,7 @@ class InitPage extends StatelessWidget {
         constraints: BoxConstraints(maxHeight: 42.0),
         decoration: BoxDecoration(color: Colors.grey[200])
       ),
-      drawer: Drawer(child: Mine())
+      drawer: Drawer(child: MainDrawer())
     );
   }
 }

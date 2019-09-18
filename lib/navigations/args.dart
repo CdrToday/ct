@@ -28,3 +28,8 @@ class ModifyArgs {
   final String title;
   ModifyArgs({ this.index, this.title });
 }
+
+class NameArgs {
+  final String name;
+  NameArgs({ this.name });
+}

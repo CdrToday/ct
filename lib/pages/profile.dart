@@ -5,6 +5,7 @@ import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/snackers.dart';
+import 'package:cdr_today/navigations/args.dart';
 
 class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -48,7 +49,10 @@ Widget profile(BuildContext context, String name) {
       child: ListTile(
         title: Text('名字'),
         trailing: Text(name),
-        onTap: () => Navigator.pushNamed(context, '/mine/profile/name')
+        onTap: () => Navigator.pushNamed(
+          context, '/mine/profile/name',
+          arguments: NameArgs( name: name )
+        )
       )
     ),
     margin: EdgeInsets.only(top: 10.0)

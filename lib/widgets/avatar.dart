@@ -3,22 +3,51 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/conf.dart';
 
-Widget avatar() {
+class AvatarHero extends StatelessWidget {
+  final String tag;
+  final VoidCallback onTap;
+  final double width;
+
+  AvatarHero({ @required this.tag, this.onTap, this.width });
+  
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width * 2,
+      child: Hero(
+        tag: tag,
+        child: Material(
+          child: InkWell(
+            onTap: onTap,
+            child: avatar(width: width),
+            borderRadius: BorderRadius.all(
+              Radius.circular(33.0)
+            )
+          ),
+          color: Colors.transparent,
+        ),
+      )
+    );
+  }
+}
+
+Widget avatar({ double width }) {
   return BlocBuilder<UserBloc, UserState>(
     builder: (context, state) {
       if (state is UserInited) {
         if (state.avatar != null) {
           return CircleAvatar(
-            radius: 28.0,
+            radius: width ?? 28.0,
             backgroundImage: NetworkImage(conf['image'] + state.avatar),
           );
         } else if (state.name != null) {
           return CircleAvatar(
+            radius: width ?? 28.0,
             backgroundColor: Colors.brown.shade800,
             child: Text(state.name[0].toUpperCase())
           );
         } else {
           return CircleAvatar(
+            radius: width ?? 28.0,
             backgroundColor: Colors.brown.shade800,
             child: Text(state.mail[0].toUpperCase())
           );

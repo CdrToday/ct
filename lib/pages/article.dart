@@ -24,11 +24,14 @@ class Article extends StatelessWidget {
       ),
       body: Screenshot(
         controller: screenshotController,
-        child: Editor(
-          controller: controller,
-          focusNode: focusNode,
-          edit: false
-        )
+        child: Container(
+          child: Editor(
+            controller: controller,
+            focusNode: focusNode,
+            edit: false
+          ),
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
       ),
     );
   }

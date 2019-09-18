@@ -7,14 +7,44 @@ import 'package:url_launcher/url_launcher.dart';
 class Bucket extends StatelessWidget {
     Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('文章管理'),
-        leading: CloseButton(),
-        actions: [ blog() ],
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            snap: true,
+            floating: true,
+            elevation: 0.0,
+            forceElevated: false,
+            expandedHeight: kToolbarHeight * 3 / 2,
+            leading: CloseButton(),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Container(
+                  child: Text(
+                    '文章管理',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.left
+                  ),
+                  padding: EdgeInsets.only(
+                    left: kToolbarHeight / 2,
+                    bottom: kToolbarHeight / 3
+                  ),
+                  alignment: Alignment.bottomLeft,
+                  color: Colors.white,
+                );
+              }, childCount: 1
+            )
+          ),
+        ],
       ),
-      body: Post(edit: true)
+      backgroundColor: Colors.white,
     );
-  }  
+  }
 }
 
 Widget blog() {

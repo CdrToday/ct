@@ -83,7 +83,7 @@ class _PostState extends State<PostList> {
   Widget build(BuildContext context) {
     bool edit = widget.edit;
     List<dynamic> posts = widget.posts;
-    if (posts.length >= 10) posts = [posts[0]] + posts;
+    if (posts.length >= 10) posts = posts;
 
     // Add refresh circle;
     return ListView.separated(
@@ -91,7 +91,7 @@ class _PostState extends State<PostList> {
       padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0, bottom: 52.0),
       itemCount: posts.length > 10 ? posts.length + 1 : posts.length,
       itemBuilder: (BuildContext context, int index) {
-        if (posts.length > 10 && index == 0) return PostLoader();
+        // if (posts.length > 10 && index == 0) return PostLoader();
         
         if (index >= posts.length) {
           if (widget.hasReachedMax == false) {
@@ -121,11 +121,11 @@ class _PostState extends State<PostList> {
     );
   }
 
-  // @override
-  // void dispose() {
-  //   _scrollController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
@@ -151,14 +151,14 @@ class _PostState extends State<PostList> {
     );
 
     // top refresh
-    if (currentScroll <=  _scrollThreshold) {
-      if (_scrollLock == true) {
-        return;
-      }
-    
-      setState(() { _scrollLock = true; });
-      scrollDelay.add(_scrollThreshold);
-    }
+    // if (currentScroll <=  _scrollThreshold) {
+    //   if (_scrollLock == true) {
+    //     return;
+    //   }
+    // 
+    //   setState(() { _scrollLock = true; });
+    //   scrollDelay.add(_scrollThreshold);
+    // }
     
     // bottom load
     if (maxScroll - currentScroll <= (_scrollThreshold + 100.0)) {

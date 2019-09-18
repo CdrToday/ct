@@ -67,12 +67,13 @@ List<Widget> editActions(
 // article actions
 List<Widget> articleActions(BuildContext context, screenshotController) {
   Builder more = Builder(
-    builder: (_context) => IconButton(
+    builder: (ctx) => IconButton(
       icon: Icon(Icons.more_horiz),
       onPressed: () async {
         File image = await screenshotController.capture(pixelRatio: 1.5);
         String name = DateTime.now().toString();
-        Share.file(name, "$name.png", image.readAsBytesSync(), 'image/png');
+
+        await Share.file(name, "$name.png", image.readAsBytesSync(), 'image/png');
       }
     )
   );
