@@ -8,8 +8,19 @@ class AvatarHero extends StatelessWidget {
   final VoidCallback onTap;
   final double width;
   final bool rect;
+  final bool self;
+  final String url;
+  final List<String> baks;
 
-  AvatarHero({ @required this.tag, this.onTap, this.width, this.rect = false });
+  AvatarHero({
+      this.url,
+      this.baks,
+      this.onTap,
+      this.tag = '',
+      this.self = false,
+      this.width = 28.0,
+      this.rect = false,
+  });
   
   Widget build(BuildContext context) {
     return SizedBox(
@@ -19,10 +30,25 @@ class AvatarHero extends StatelessWidget {
         child: Material(
           child: InkWell(
             onTap: onTap,
-            child: avatar(width: width, rect: rect),
-            borderRadius: BorderRadius.all(
-              Radius.circular(33.0)
-            )
+            child: self ? BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UserInited) {
+                  return _avatar(
+                    width: width,
+                    rect: rect,
+                    url: state.avatar,
+                    baks: [state.name, state.mail]
+                  );
+                }
+                return _avatar(width: width, rect: rect);
+              }
+            ) : _avatar(
+              width: width,
+              rect: rect,
+              url: url,
+              baks: baks,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(33.0))
           ),
           color: Colors.transparent,
         ),
@@ -31,61 +57,51 @@ class AvatarHero extends StatelessWidget {
   }
 }
 
-Widget avatar({ double width, bool rect }) {
-  return BlocBuilder<UserBloc, UserState>(
-    builder: (context, state) {
-      if (state is UserInited) {
-        if (state.avatar != null) {
-          if (rect) {
-            return ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: Image.network(
-                conf['image'] + state.avatar,
-                fit:BoxFit.cover
-              ),
-            );
-          }
-          return CircleAvatar(
-            radius: width ?? 28.0,
-            backgroundImage: NetworkImage(conf['image'] + state.avatar),
-          );
-        } else if (state.name != null) {
-          if (rect) {
-            return Container(
-              child: Text(state.name[0].toUpperCase()),
-              color: Colors.brown.shade800,
-              width: width ?? 28.0,
-              height: width ?? 28.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              )
-            );
-          }
-          return CircleAvatar(
-            radius: width ?? 28.0,
-            backgroundColor: Colors.brown.shade800,
-            child: Text(state.name[0].toUpperCase())
-          );
-        } else {
-          if (rect) {
-            return Container(
-              child: Text(state.mail[0].toUpperCase()),
-              color: Colors.brown.shade800,
-              width: width ?? 28.0,
-              height: width ?? 28.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              )
-            );
-          }
-          return CircleAvatar(
-            radius: width ?? 28.0,
-            backgroundColor: Colors.brown.shade800,
-            child: Text(state.mail[0].toUpperCase())
-          );
-        }
-      }
-      return SizedBox.shrink();
+Widget _avatar({
+    double width,
+    bool rect,
+    String url,
+    List<String> baks,
+}) {
+  if (rect == null) rect = false;
+  if (width == null) width = 28.0;
+  if (baks == null) baks = [];
+  
+  if (url != null) {
+    if (rect) {
+      return ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        child: Image.network(conf['image'] + url, fit:BoxFit.cover),
+      );
     }
-  );
+    return CircleAvatar(
+      radius: width,
+      backgroundImage: NetworkImage(conf['image'] + url),
+    );
+  } 
+
+  // use baks string;
+  baks = baks + ['?'];
+  for (var i in baks) {
+    if (i == null) continue;
+    if (rect) {
+      return SizedBox(
+        child: Container(
+          child: Text(i[0], style: TextStyle(color: Colors.white, fontSize: width)),
+          decoration: BoxDecoration(
+            color: Colors.brown.shade800,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          alignment: Alignment.center
+        ),
+        height: width * 2,
+      );
+    }
+
+    return CircleAvatar(
+      radius: width,
+      backgroundColor: Colors.brown.shade800,
+      child: Text(i[0])
+    );
+  }
 }
