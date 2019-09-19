@@ -4,11 +4,6 @@ class RootArgs {
   RootArgs({ this.index, this.fetch });
 }
 
-class MailArgs {
-  final String mail;
-  MailArgs({ this.mail });
-}
-
 class ArticleArgs {
   final bool edit;
   final String id;

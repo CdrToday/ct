@@ -34,7 +34,7 @@ class Profile extends StatelessWidget {
                   ),
                   // _avatar(context),
                   profile(context, state.name),
-                  mail(context, state.mail),
+                  // mail(context, state.mail),
                   Spacer(),
                   logout(context),
                 ]

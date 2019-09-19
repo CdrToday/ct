@@ -7,8 +7,9 @@ class AvatarHero extends StatelessWidget {
   final String tag;
   final VoidCallback onTap;
   final double width;
+  final bool rect;
 
-  AvatarHero({ @required this.tag, this.onTap, this.width });
+  AvatarHero({ @required this.tag, this.onTap, this.width, this.rect });
   
   Widget build(BuildContext context) {
     return SizedBox(
@@ -18,7 +19,7 @@ class AvatarHero extends StatelessWidget {
         child: Material(
           child: InkWell(
             onTap: onTap,
-            child: avatar(width: width),
+            child: avatar(width: width, rect: rect),
             borderRadius: BorderRadius.all(
               Radius.circular(33.0)
             )
@@ -30,11 +31,19 @@ class AvatarHero extends StatelessWidget {
   }
 }
 
-Widget avatar({ double width }) {
+Widget avatar({ double width, bool rect }) {
   return BlocBuilder<UserBloc, UserState>(
     builder: (context, state) {
       if (state is UserInited) {
         if (state.avatar != null) {
+          if (rect) {
+            return Container(
+              child: Image.network(conf['image'] + state.avatar),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(30.0))
+              )
+            );
+          }
           return CircleAvatar(
             radius: width ?? 28.0,
             backgroundImage: NetworkImage(conf['image'] + state.avatar),

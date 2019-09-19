@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 
 class Verify extends StatefulWidget {
-  final String mail;
-  Verify({ Key key, this.mail }) : super(key: key);
+  Verify({ Key key }) : super(key: key);
   
   @override
   _VerifyState createState() => _VerifyState();
@@ -21,33 +21,21 @@ class _VerifyState extends State<Verify> {
     return GestureDetector(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('验证邮箱'),
           leading: CloseButton(),
+          actions: [verifyCode(context, _value)]
         ),
         body: Container(
-          child: Column(
-            children: <Widget>[
-              Text(
-                'cdr.today',
-                style: Theme.of(context).textTheme.display2
-              ),
-              SizedBox(height: 80.0),
-              TextField(
-                onChanged: changeValue,
-                decoration: InputDecoration(hintText: '验证码'),
-                style: Theme.of(context).textTheme.title
-              ),
-              SizedBox(height: 60.0),
-              verifyCode(context, _value)
-            ],
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: TextField(
+            onChanged: changeValue,
+            decoration: InputDecoration(hintText: '验证码'),
+            style: Theme.of(context).textTheme.title
           ),
           margin: EdgeInsets.only(
-            left: kToolbarHeight,
-            right: kToolbarHeight,
+            left: kToolbarHeight / 2,
+            right: kToolbarHeight / 2,
             bottom: kToolbarHeight * 2
-          )
+          ),
+          alignment: Alignment.center,
         ),
       ),
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
@@ -71,9 +59,13 @@ verifyCode(BuildContext context, String _code) {
         child: BlocBuilder<VerifyBloc, VerifyState>(
           builder: (context, state) {
             if (state is CodeVerifying) {
-              return CircularProgressIndicator();
+              return Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: CupertinoActivityIndicator(),
+              );
             } else {
-              return OutlineButton(
+              return IconButton(
+                icon: Icon(Icons.check),
                 onPressed: () {
                   FocusScope.of(context).requestFocus(new FocusNode());
                   bool codeValid = RegExp(
@@ -88,8 +80,6 @@ verifyCode(BuildContext context, String _code) {
                     _bloc.dispatch(VerifyCodeEvent(code: _code));
                   }
                 },
-                child: Text('验证邮箱', style: TextStyle(fontSize: 16)),
-                color: Theme.of(context).primaryColor,
               );
             }
           }

@@ -95,6 +95,7 @@ class _PostState extends State<PostList> {
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
               if (index == posts.length * 2) {
+                if (posts.length < 10) return PostBottom();
                 return widget.hasReachedMax == false
                 ? PostLoader() : PostBottom();
               } else if (index.isEven) {

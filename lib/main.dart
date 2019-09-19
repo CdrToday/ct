@@ -32,11 +32,11 @@ void main() {
   runApp(App());
 }
 
+final EditBloc editBloc = EditBloc();
+final PostBloc postBloc = PostBloc(e: editBloc);
+final VerifyBloc verifyBloc = VerifyBloc();
+final ProfileBloc profileBloc = ProfileBloc();
 class App extends StatelessWidget {
-  final VerifyBloc verifyBloc = VerifyBloc();
-  final PostBloc postBloc = PostBloc();
-  final ProfileBloc profileBloc = ProfileBloc();
-  
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -100,8 +100,7 @@ Route router(settings) {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Article(args: args));
   } else if (r == '/user/verify') {
-    final MailArgs args = settings.arguments;
-    return FadeRoute(page: Verify(mail: args.mail));
+    return FadeRoute(page: Verify());
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Edit(args: args));

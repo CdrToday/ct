@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:cdr_today/blocs/auth.dart';
@@ -20,32 +21,26 @@ class _LoginState extends State<Login> {
   }
 
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Scaffold(
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Text(
-                'cdr.today',
-                style: Theme.of(context).textTheme.display2
-              ),
-              SizedBox(height: 80.0),
-              TextField(
-                onChanged: changeValue,
-                decoration: InputDecoration(hintText: '邮箱'),
-                style: Theme.of(context).textTheme.title,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              SizedBox(height: 60.0),
-              sendCode(context, _value),
-            ],
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-          ),
-          margin: EdgeInsets.symmetric(horizontal: kToolbarHeight),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        actions: [ sendCode(context, _value)],
       ),
-      onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
+      body: Container(
+        child: TextField(
+          onChanged: changeValue,
+          decoration: InputDecoration(hintText: '邮箱'),
+          style: Theme.of(context).textTheme.headline,
+          keyboardType: TextInputType.emailAddress,
+          autofocus: true,
+        ),
+        padding: EdgeInsets.only(
+          left: kToolbarHeight / 2,
+          right: kToolbarHeight / 2,
+          bottom: kToolbarHeight * 2
+        ),
+        alignment: Alignment.center,
+        height: double.infinity,
+      ),
     );
   }
 }
@@ -60,24 +55,19 @@ sendCode(BuildContext context, String _email) {
           if (state is CodeSentFailed) {
             snacker(context, '邮件发送失败，请重试');
           } else if (state is CodeSentSucceed) {
-            snacker(context, '邮件发送成功，请查收', color: Colors.black);
-            new Observable.timer(
-              "hi", new Duration(seconds: 1)
-            ).listen((i) {
-                Navigator.pushNamed(
-                  context, '/user/verify',
-                  arguments: MailArgs(mail: _email)
-                );
-              }
-            );
+            Navigator.pushNamed(context, '/user/verify');
           }
         },
         child: BlocBuilder<VerifyBloc, VerifyState>(
           builder: (context, state) {
             if (state is CodeSending) {
-              return CircularProgressIndicator();
+              return Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: CupertinoActivityIndicator(),
+              );
             } else {
-              return OutlineButton(
+              return IconButton(
+                icon: Icon(Icons.check),
                 onPressed: () {
                   FocusScope.of(context).requestFocus(new FocusNode());
                   bool emailValid = RegExp(
@@ -90,8 +80,6 @@ sendCode(BuildContext context, String _email) {
                     _bloc.dispatch(SendCodeEvent(mail: _email));
                   }
                 },
-                child: Text("发送验证码", style: TextStyle(fontSize: 16)),
-                color: Theme.of(context).primaryColor,
               );
             }
           }

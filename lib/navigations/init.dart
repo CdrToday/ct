@@ -10,32 +10,34 @@ class InitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () => Scaffold.of(context).openDrawer()
-          )
-        ),
-        centerTitle: true,
-        title: BlocBuilder<RefreshBloc, RefreshState>(
-          builder: (context, state) {
-            if (state is PostRefreshStart) {
-              return Container(
-                child: SizedBox(
-                  height: 12.0,
-                  width: 12.0,
-                  child: CircularProgressIndicator(strokeWidth: 1.0)
-                ),
-              );
+      body: Post(
+        edit: false,
+        appBar: SliverAppBar(
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openDrawer()
+            )
+          ),
+          centerTitle: true,
+          title: BlocBuilder<RefreshBloc, RefreshState>(
+            builder: (context, state) {
+              if (state is PostRefreshStart) {
+                return Container(
+                  child: SizedBox(
+                    height: 12.0,
+                    width: 12.0,
+                    child: CircularProgressIndicator(strokeWidth: 1.0)
+                  ),
+                );
+              }
+              return SizedBox.shrink();                      
             }
-            return SizedBox.shrink();                      
-          }
+          ),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
         ),
-        automaticallyImplyLeading: false,
-        // backgroundColor: Colors.white,
       ),
-      body: Post(edit: false),
       bottomSheet: Container(
         child: Row(
           children: [

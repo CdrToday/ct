@@ -19,6 +19,7 @@ Widget header(BuildContext context) {
   return DrawerHeader(
     child: Center(
       child: AvatarHero(
+        rect: true,
         tag: 'mine',
         width: 28.0,
         onTap: () => Navigator.popAndPushNamed(context, '/mine/bucket'),

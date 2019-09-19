@@ -3,9 +3,25 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
 class PostBloc extends Bloc<PostEvent, PostState> {
+  final EditBloc e;
+  
+  PostBloc({ this.e }) {
+    e.state.listen((state) {
+        if (state is PublishSucceed) {
+          this.dispatch(FetchSelfPosts(refresh: true));
+        } else if (state is UpdateSucceed) {
+          this.dispatch(FetchSelfPosts(refresh: true));
+        }
+        // if (state is FetchedSucceed) {
+        //   this.dispatch(PostRefreshEndEvent());
+        // }
+    });
+  }
+  
   @override
   Stream<PostState> transform(
     Stream<PostEvent> events,
