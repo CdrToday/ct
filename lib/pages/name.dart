@@ -41,7 +41,6 @@ class _NameState extends State<Name> {
     
     return Scaffold(
       appBar: AppBar(
-        title: Text('名字'),
         leading: CloseButton(),
         actions: [
           Builder(

@@ -23,9 +23,9 @@ class InitPage extends StatelessWidget {
             if (state is PostRefreshStart) {
               return Container(
                 child: SizedBox(
-                  height: 16.0,
-                  width: 16.0,
-                  child: CircularProgressIndicator(strokeWidth: 2.0)
+                  height: 12.0,
+                  width: 12.0,
+                  child: CircularProgressIndicator(strokeWidth: 1.0)
                 ),
               );
             }

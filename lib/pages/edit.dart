@@ -39,10 +39,11 @@ class _EditState extends State<Edit> {
           context,
           id: widget.args.id,
           edit: widget.args.edit,
-          document: _controller.document
+          document: _controller.document,
         ),
-        title: Text('编辑'),
+        elevation: 0.0,
         leading: CloseButton(), //widget.args.edit ? BackButton() : CloseButton()
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor
       ),
       body: BlocListener<EditBloc, EditState>(
         listener: (context, state) {
@@ -51,11 +52,9 @@ class _EditState extends State<Edit> {
           } else if (state is PublishSucceed) {
             Navigator.pop(context);
             Navigator.maybePop(context);
-            _bloc.dispatch(CleanList());
           } else if (state is UpdateSucceed) {
             Navigator.pop(context);
             snacker(context, '更新成功。', color: Colors.black);
-            _bloc.dispatch(CleanList());
           } else if (state is PublishFailed) {
             Navigator.pop(context);
             snacker(context, '发布失败，请重试');
@@ -68,7 +67,6 @@ class _EditState extends State<Edit> {
           } else if (state is EmptyEditState) {
             return;
           } else {
-            _bloc.dispatch(CleanList());
             Navigator.pop(context);
             Navigator.maybePop(context);
           }

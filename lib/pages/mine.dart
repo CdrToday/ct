@@ -22,9 +22,9 @@ class Mine extends StatelessWidget {
           Divider(),
           articles(context),
           // community(context),
-          Divider(),
-          author(context),
-          version(context),
+          // Divider(),
+          // author(context),
+          // version(context),
           Spacer()
         ],
       )
@@ -38,7 +38,7 @@ Widget header(BuildContext context) {
     child: AvatarHero(
       tag: 'mine',
       width: 32.0,
-      onTap: () => Navigator.popAndPushNamed(context, '/mine/profile'),
+      onTap: () => Navigator.pushNamed(context, '/mine/profile'),
     ),
     alignment: Alignment.center,
     padding: EdgeInsets.only(

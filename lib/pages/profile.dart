@@ -14,14 +14,25 @@ class Profile extends StatelessWidget {
       builder: (context, state) {
         if (state is UserInited) {
           return Scaffold(
-            appBar: AppBar(
-              title: Text('个人信息'),
-              leading: CloseButton()
-            ),
+            appBar: AppBar(leading: CloseButton()),
             body: Container(
               child: Column(
                 children: <Widget>[
-                  _avatar(context),
+                  Container(
+                    child: Card(
+                      child: ListTile(
+                        title: Text('头像'),
+                        trailing: AvatarHero(tag: 'mine', width: 24.0),
+                        onTap: () => Navigator.pushNamed(context, '/mine/profile/avatar'),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 6.0,
+                          horizontal: 16.0
+                        )
+                      )
+                    ),
+                    margin: EdgeInsets.only(top: 10.0)
+                  ),
+                  // _avatar(context),
                   profile(context, state.name),
                   mail(context, state.mail),
                   Spacer(),
@@ -32,7 +43,8 @@ class Profile extends StatelessWidget {
                 top: 20.0, left: 10.0, right: 10.0,
                 bottom: kToolbarHeight
               ),
-            )
+            ),
+            resizeToAvoidBottomInset: false,
           );
         } else {
           _bloc.dispatch(CheckUserEvent());
@@ -63,12 +75,11 @@ Widget profile(BuildContext context, String name) {
 }
 
 Widget _avatar(BuildContext context) {
-  return Builder(
-    builder: (context) => Container(
+  return Container(
       child: Card(
         child: ListTile(
           title: Text('头像'),
-          trailing: avatar(),
+          trailing: AvatarHero(tag: 'mine', width: 28.0),
           onTap: () => Navigator.pushNamed(context, '/mine/profile/avatar'),
           contentPadding: EdgeInsets.symmetric(
             vertical: 8.0,
@@ -77,7 +88,6 @@ Widget _avatar(BuildContext context) {
         )
       ),
       margin: EdgeInsets.only(top: 10.0)
-    )
   );
 }
 
@@ -88,7 +98,6 @@ Widget mail(BuildContext context, String str) {
         child: ListTile(
           title: Text('邮箱'),
           trailing: Text(str),
-          onTap: () => snacker(context, "暂不支持修改邮箱 🦄️" )
         )
       ),
       margin: EdgeInsets.only(top: 10.0)

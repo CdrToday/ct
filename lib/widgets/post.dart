@@ -25,8 +25,8 @@ class PostItem extends StatelessWidget {
     return GestureDetector(
       child: ListTile(
         title: Container(
-          child: Text(title, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
-          padding: EdgeInsets.only(top: kToolbarHeight / 5),
+          child: Text(title, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400)),
+          padding: EdgeInsets.only(top: kToolbarHeight / 8),
         ),
         subtitle: Container(
           child: Text(display(x.timestamp), style: TextStyle(fontSize: 11.0)),
@@ -34,7 +34,7 @@ class PostItem extends StatelessWidget {
           alignment:  AlignmentDirectional.bottomEnd
         ),
         contentPadding: EdgeInsets.symmetric(
-          vertical: 10.0, horizontal: 15.0
+          vertical: 10.0, horizontal: 20.0
         )
       ),
       onTap: () {

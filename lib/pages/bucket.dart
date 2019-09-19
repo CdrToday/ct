@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/pages/post.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/refresh.dart';
+import 'package:cdr_today/widgets/avatar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,56 +12,39 @@ class Bucket extends StatelessWidget {
     return Scaffold(
       body: Post(
         edit: true,
-        title: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return index == 0
-              ? Row(
-                children: [
-                  Container(
-                    child: Text(
-                      '文章管理',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.left
-                    ),
-                    padding: EdgeInsets.only(
-                      left: kToolbarHeight / 3,
-                      bottom: kToolbarHeight / 3
-                    ),
-                    alignment: Alignment.bottomLeft,
-                    color: Colors.white,
-                  ),
-                  BlocBuilder<RefreshBloc, RefreshState>(
-                    builder: (context, state) {
-                      if (state is PostRefreshStart) {
-                        return Container(
-                          child: SizedBox(
-                            height: 16.0,
-                            width: 16.0,
-                            child: CircularProgressIndicator(strokeWidth: 2.0)
-                          ),
-                          margin: EdgeInsets.only(left: 10.0, bottom: kToolbarHeight / 3)
-                        );
-                      }
-                      return SizedBox.shrink();                      
-                    }
-                  ),
-                ]
-              ) : Divider();
-            }, childCount: 2,
-          ),
-        ),
         appBar: SliverAppBar(
           backgroundColor: Colors.white,
-          snap: true,
           floating: true,
-          elevation: 0.0,
-          forceElevated: false,
-          expandedHeight: kToolbarHeight * 1.2,
+          snap: true,
+          elevation: 0.4,
+          forceElevated: true,
+          expandedHeight: kToolbarHeight * 4,
           leading: CloseButton(),
+          title: BlocBuilder<RefreshBloc, RefreshState>(
+            builder: (context, state) {
+              if (state is PostRefreshStart) {
+                return Container(
+                  child: SizedBox(
+                    height: 12.0,
+                    width: 12.0,
+                    child: CircularProgressIndicator(strokeWidth: 1.0)
+                  ),
+                );
+              }
+              return SizedBox.shrink();                      
+            }
+          ),
+          actions: [ blog() ],
+          flexibleSpace: FlexibleSpaceBar(
+            title: Container(
+              child: AvatarHero(
+                tag: 'mine',
+                width: 22.0,
+                onTap: () => Navigator.pushNamed(context, '/mine/profile'),
+              ),
+              padding: EdgeInsets.only(bottom: kToolbarHeight / 1.5)
+            ),
+          )
         ),
       ),
       backgroundColor: Colors.white,
@@ -73,7 +57,7 @@ Widget blog() {
     builder: (context, state) {
       if (state is UserInited) {
         return IconButton(
-          icon: Icon(Icons.explore),
+          icon: Icon(Icons.public),
           onPressed: () async {
             await launch('https://cdr.today/${state.name}');
           },
