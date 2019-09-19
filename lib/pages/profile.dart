@@ -22,7 +22,7 @@ class Profile extends StatelessWidget {
                     child: Card(
                       child: ListTile(
                         title: Text('头像'),
-                        trailing: AvatarHero(tag: 'mine', width: 24.0),
+                        trailing: AvatarHero(self: true),
                         onTap: () => Navigator.pushNamed(context, '/mine/profile/avatar'),
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 6.0,
@@ -32,9 +32,7 @@ class Profile extends StatelessWidget {
                     ),
                     margin: EdgeInsets.only(top: 10.0)
                   ),
-                  // _avatar(context),
                   profile(context, state.name),
-                  // mail(context, state.mail),
                   Spacer(),
                   logout(context),
                 ]

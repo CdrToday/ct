@@ -134,16 +134,16 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
   CupertinoActionSheet bottomSheet(BuildContext ctx) => CupertinoActionSheet(
     actions: [
       CupertinoActionSheetAction(
-        child: Text('更换头像', style: Theme.of(ctx).textTheme.body1),
+        child: Text('更换', style: Theme.of(ctx).textTheme.title),
         onPressed: () => pickImage(ctx),
       ),
       CupertinoActionSheetAction(
-        child: Text('保存头像', style: Theme.of(ctx).textTheme.body1),
+        child: Text('保存', style: Theme.of(ctx).textTheme.title),
         onPressed: () => saveImage(ctx),
       ),
     ],
     cancelButton: CupertinoActionSheetAction(
-      child: Text('取消', style: Theme.of(ctx).textTheme.body1),
+      child: Text('取消', style: Theme.of(ctx).textTheme.title),
       isDefaultAction: true,
       onPressed: () => Navigator.pop(ctx),
     )

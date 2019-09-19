@@ -18,7 +18,7 @@ class AvatarHero extends StatelessWidget {
       this.onTap,
       this.tag = '',
       this.self = false,
-      this.width = 28.0,
+      this.width = 24.0,
       this.rect = false,
   });
   
@@ -63,8 +63,6 @@ Widget _avatar({
     String url,
     List<String> baks,
 }) {
-  if (rect == null) rect = false;
-  if (width == null) width = 28.0;
   if (baks == null) baks = [];
   
   if (url != null) {

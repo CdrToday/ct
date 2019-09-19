@@ -71,7 +71,7 @@ class Avatar extends StatelessWidget {
               color: Colors.black,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(bottom: kToolbarHeight * 2.3 )
+              margin: EdgeInsets.only(bottom: kToolbarHeight * 1.5 )
             ),
             controller: screenshotController,
           )

@@ -3,19 +3,27 @@ import 'package:flutter/material.dart';
 class CommunityTile extends StatelessWidget {
   final Widget avatar;
   final Widget name;
-  final Widget action;
+  final Widget trailing;
+  final VoidCallback onTap;
+  final EdgeInsets padding;
 
-  CommunityTile({ @required this.avatar, @required this.name, this.action });
+  CommunityTile({ this.avatar, this.name, this.trailing, this.onTap, this.padding });
   
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        avatar,
-        SizedBox(width: 10.0),
-        name,
-        Spacer(),
-        action ?? SizedBox.shrink(),
-      ]
+    return Container(
+      child: GestureDetector(
+        child: Row(
+          children: [
+            avatar ?? SizedBox.shrink(),
+            SizedBox(width: 10.0),
+            name ?? SizedBox.shrink(),
+            Spacer(),
+            trailing ?? SizedBox.shrink(),
+          ]
+        ),
+        onTap: onTap
+      ),
+      padding: padding
     );
   }
 }

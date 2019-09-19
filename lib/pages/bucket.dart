@@ -18,7 +18,7 @@ class Bucket extends StatelessWidget {
           snap: true,
           elevation: 0.4,
           forceElevated: true,
-          expandedHeight: kToolbarHeight * 4,
+          expandedHeight: kToolbarHeight * 3,
           leading: CloseButton(),
           title: BlocBuilder<RefreshBloc, RefreshState>(
             builder: (context, state) {
@@ -38,11 +38,10 @@ class Bucket extends StatelessWidget {
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
               child: AvatarHero(
-                tag: 'mine',
-                width: 22.0,
+                self: true, width: 22.0,
                 onTap: () => Navigator.pushNamed(context, '/mine/profile'),
               ),
-              padding: EdgeInsets.only(bottom: kToolbarHeight / 1.5)
+              padding: EdgeInsets.only(bottom: kToolbarHeight / 3)
             ),
           )
         ),
