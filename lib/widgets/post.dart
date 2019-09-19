@@ -74,10 +74,10 @@ class _PostState extends State<PostList> {
   @override
   void initState() {
     super.initState();
-    if (widget.posts.length >= 10) {
+    // if (widget.posts.length > 10) {
       _scrollController = ScrollController();
       _scrollController.addListener(_onScroll);
-    }
+    // }
     _postBloc = BlocProvider.of<PostBloc>(context);
     _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }
@@ -124,14 +124,15 @@ class _PostState extends State<PostList> {
         )
       ],
       controller: _scrollController,
+      physics: AlwaysScrollableScrollPhysics(),
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scrollController.dispose();
+  //   super.dispose();
+  // }
 
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
@@ -161,6 +162,9 @@ class _PostState extends State<PostList> {
       setState(() { _scrollLock = true; });
       scrollDelay.add(true);
     }
+
+    // return if no more
+    if (widget.posts.length < 10) return;
     
     // bottom load
     if (currentScroll + _scrollThreshold >= maxScroll) {

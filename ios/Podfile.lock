@@ -4,6 +4,19 @@ PODS:
   - Flutter (1.0.0)
   - flutter_statusbarcolor (0.0.1):
     - Flutter
+  - GoogleMobileVision/BarcodeDetector (1.6.0):
+    - GoogleMobileVision/Detector (~> 1.6)
+  - GoogleMobileVision/Detector (1.6.0):
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - GTMSessionFetcher/Core (~> 1.1)
+    - Protobuf (~> 3.1)
+  - GoogleToolboxForMac/Defines (2.2.1)
+  - GoogleToolboxForMac/Logger (2.2.1):
+    - GoogleToolboxForMac/Defines (= 2.2.1)
+  - "GoogleToolboxForMac/NSData+zlib (2.2.1)":
+    - GoogleToolboxForMac/Defines (= 2.2.1)
+  - GTMSessionFetcher/Core (1.2.2)
   - image_cropper (0.0.1):
     - Flutter
     - TOCropViewController (~> 2.5.0)
@@ -11,8 +24,14 @@ PODS:
     - Flutter
   - image_picker (0.0.1):
     - Flutter
+  - native_device_orientation (0.0.1):
+    - Flutter
   - path_provider (0.0.1):
     - Flutter
+  - Protobuf (3.9.0)
+  - qr_mobile_vision (0.0.1):
+    - Flutter
+    - GoogleMobileVision/BarcodeDetector
   - share (0.5.2):
     - Flutter
   - shared_preferences (0.0.1):
@@ -28,13 +47,19 @@ DEPENDENCIES:
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - qr_mobile_vision (from `.symlinks/plugins/qr_mobile_vision/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
   trunk:
+    - GoogleMobileVision
+    - GoogleToolboxForMac
+    - GTMSessionFetcher
+    - Protobuf
     - TOCropViewController
 
 EXTERNAL SOURCES:
@@ -50,8 +75,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_gallery_saver/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
+  native_device_orientation:
+    :path: ".symlinks/plugins/native_device_orientation/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  qr_mobile_vision:
+    :path: ".symlinks/plugins/qr_mobile_vision/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences:
@@ -63,10 +92,16 @@ SPEC CHECKSUMS:
   esys_flutter_share: 403498dab005b36ce1f8d7aff377e81f0621b0b4
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_statusbarcolor: 8afb1071ed8c58be929f1e32b36c629771fd2259
+  GoogleMobileVision: 31cfb4319fd0c03d80105680abd9eae9da5e3b47
+  GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
+  GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   image_cropper: f25bdfbf1ef970c9a0a0f78306fb6a0aaac7229e
   image_gallery_saver: 73b3cd8ad9c950c739878af9c311744d1bf5405d
   image_picker: 16e5fec1fbc87fd3b297c53e4048521eaf17cd06
+  native_device_orientation: e24d00be281de72996640885d80e706142707660
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
+  Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
+  qr_mobile_vision: be1c3c9f00796683610e8bab9bbab2920dd4ffca
   share: 7d22fe8baedfe93aefd864bf0b73f29711fbb0a3
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
   TOCropViewController: 00dc36c4e4a0f4a45efa91adbf22df8a4fae01d3

@@ -17,7 +17,7 @@ class InitPage extends StatelessWidget {
             builder: (context) => IconButton(
               icon: Icon(Icons.menu),
               onPressed: () => Scaffold.of(context).openDrawer()
-            )
+            ),
           ),
           centerTitle: true,
           title: BlocBuilder<RefreshBloc, RefreshState>(
@@ -36,6 +36,8 @@ class InitPage extends StatelessWidget {
           ),
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
+          snap: true,
+          floating: true,
         ),
       ),
       bottomSheet: Container(
@@ -69,7 +71,10 @@ class InitPage extends StatelessWidget {
         constraints: BoxConstraints(maxHeight: 42.0),
         decoration: BoxDecoration(color: Colors.grey[200])
       ),
-      drawer: Drawer(child: MainDrawer()),
+      drawer: Drawer(
+        child: MainDrawer(),
+        elevation: 1.0,
+      ),
       backgroundColor: Colors.white,
     );
   }

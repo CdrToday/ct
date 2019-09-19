@@ -19,6 +19,7 @@ import 'package:cdr_today/pages/splash.dart';
 import 'package:cdr_today/pages/profile.dart';
 import 'package:cdr_today/pages/avatar.dart';
 import 'package:cdr_today/pages/bucket.dart';
+import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
 import 'package:cdr_today/pages/mine.dart';
 // navigations
@@ -96,6 +97,8 @@ Route router(settings) {
     );
   } else if (r == '/root') {
     return FadeRoute(page: InitPage());
+  } else if (r == '/scan') {
+    return FadeRoute(page: Scan());
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Article(args: args));

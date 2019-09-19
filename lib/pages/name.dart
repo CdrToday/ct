@@ -47,21 +47,27 @@ class _NameState extends State<Name> {
             builder: (context) => BlocListener<ProfileBloc, ProfileState>(
               listener: (context, state) {
                 if (state is ProfileNameCheckedFailed) {
-                  Navigator.pop(context);
                   snacker(context, "只能使用纯小写字母");
                 } else if (state is ProfileUpdatedSucceed) {
-                  Navigator.pop(context);
                   Navigator.maybePop(context);
                 } else if (state is ProfileUpdatedFailed) {
-                  Navigator.pop(context);
                   snacker(context, "用户名已被使用");
                 }
               },
-              child: IconButton(
-                icon: Icon(Icons.check),
-                onPressed: () {
-                  _bloc.dispatch(UpdateProfileName(name: _value));
-                  alertLoading(context);
+              child: BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  if (state is ProfileUpdating) {
+                    return Padding(
+                      padding: EdgeInsets.only(right: 16.0),
+                      child: CupertinoActivityIndicator(),
+                    );
+                  }
+                  return IconButton(
+                    icon: Icon(Icons.check),
+                    onPressed: () {
+                      _bloc.dispatch(UpdateProfileName(name: _value));
+                    }
+                  );
                 }
               )
             )

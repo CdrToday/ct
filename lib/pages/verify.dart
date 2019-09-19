@@ -18,27 +18,30 @@ class _VerifyState extends State<Verify> {
   }
   
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: CloseButton(),
-          actions: [verifyCode(context, _value)]
-        ),
-        body: Container(
-          child: TextField(
-            onChanged: changeValue,
-            decoration: InputDecoration(hintText: '验证码'),
-            style: Theme.of(context).textTheme.title
-          ),
-          margin: EdgeInsets.only(
-            left: kToolbarHeight / 2,
-            right: kToolbarHeight / 2,
-            bottom: kToolbarHeight * 2
-          ),
-          alignment: Alignment.center,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: CloseButton(),
+        actions: [verifyCode(context, _value)]
       ),
-      onTap: () => FocusScope.of(context).requestFocus(new FocusNode())
+      body: Container(
+        child: TextField(
+          onChanged: changeValue,
+          decoration: InputDecoration(
+            hintText: '验证码',
+            helperText: '请输入您的验证码',
+            helperStyle: TextStyle(fontSize: 16.0)
+          ),
+          style: TextStyle(fontSize: 24.0),
+          keyboardType: TextInputType.emailAddress,
+          autofocus: true,
+        ),
+        padding: EdgeInsets.only(
+          left: kToolbarHeight / 2,
+          right: kToolbarHeight / 2,
+          bottom: kToolbarHeight / 3
+        ),
+        alignment: Alignment.center,
+      ),
     );
   }
 }

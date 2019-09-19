@@ -15,7 +15,7 @@ class VersionPage extends StatelessWidget {
             GestureDetector(
               child: Text(
                 'cdr.today',
-                style: Theme.of(context).textTheme.display2,
+                style: TextStyle(fontSize: 20.0),
                 textAlign: TextAlign.center
               ),
               onTap: () async {
@@ -29,7 +29,7 @@ class VersionPage extends StatelessWidget {
             ),
             Spacer(),
             Text(
-              'version 0.1.14',
+              'version 0.1.18',
               style: TextStyle(color: Colors.grey),
               textAlign: TextAlign.center
             ),

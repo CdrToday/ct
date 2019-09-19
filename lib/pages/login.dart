@@ -28,18 +28,23 @@ class _LoginState extends State<Login> {
       body: Container(
         child: TextField(
           onChanged: changeValue,
-          decoration: InputDecoration(hintText: '邮箱'),
-          style: Theme.of(context).textTheme.headline,
+          decoration: InputDecoration(
+            hintText: '邮箱',
+            helperText: '请输入您的邮箱',
+            helperStyle: TextStyle(fontSize: 16.0)
+          ),
+          style: TextStyle(
+            fontSize: 24.0,
+          ),
           keyboardType: TextInputType.emailAddress,
           autofocus: true,
         ),
         padding: EdgeInsets.only(
           left: kToolbarHeight / 2,
           right: kToolbarHeight / 2,
-          bottom: kToolbarHeight * 2
+          bottom: kToolbarHeight / 3
         ),
         alignment: Alignment.center,
-        height: double.infinity,
       ),
     );
   }

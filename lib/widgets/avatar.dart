@@ -9,7 +9,7 @@ class AvatarHero extends StatelessWidget {
   final double width;
   final bool rect;
 
-  AvatarHero({ @required this.tag, this.onTap, this.width, this.rect });
+  AvatarHero({ @required this.tag, this.onTap, this.width, this.rect = false });
   
   Widget build(BuildContext context) {
     return SizedBox(
@@ -37,11 +37,12 @@ Widget avatar({ double width, bool rect }) {
       if (state is UserInited) {
         if (state.avatar != null) {
           if (rect) {
-            return Container(
-              child: Image.network(conf['image'] + state.avatar),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(30.0))
-              )
+            return ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: Image.network(
+                conf['image'] + state.avatar,
+                fit:BoxFit.cover
+              ),
             );
           }
           return CircleAvatar(
@@ -49,12 +50,34 @@ Widget avatar({ double width, bool rect }) {
             backgroundImage: NetworkImage(conf['image'] + state.avatar),
           );
         } else if (state.name != null) {
+          if (rect) {
+            return Container(
+              child: Text(state.name[0].toUpperCase()),
+              color: Colors.brown.shade800,
+              width: width ?? 28.0,
+              height: width ?? 28.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              )
+            );
+          }
           return CircleAvatar(
             radius: width ?? 28.0,
             backgroundColor: Colors.brown.shade800,
             child: Text(state.name[0].toUpperCase())
           );
         } else {
+          if (rect) {
+            return Container(
+              child: Text(state.mail[0].toUpperCase()),
+              color: Colors.brown.shade800,
+              width: width ?? 28.0,
+              height: width ?? 28.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              )
+            );
+          }
           return CircleAvatar(
             radius: width ?? 28.0,
             backgroundColor: Colors.brown.shade800,
