@@ -9,6 +9,7 @@ import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/profile.dart';
+import 'package:cdr_today/blocs/community.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
@@ -39,6 +40,7 @@ final EditBloc editBloc = EditBloc();
 final PostBloc postBloc = PostBloc(e: editBloc);
 final VerifyBloc verifyBloc = VerifyBloc();
 final ProfileBloc profileBloc = ProfileBloc();
+final CommunityBloc communityBloc = CommunityBloc();
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<ProfileBloc>(
           builder: (context) => profileBloc
+        ),
+        BlocProvider<CommunityBloc>(
+          builder: (context) => communityBloc
         ),
         BlocProvider<RefreshBloc>(
           builder: (context) => RefreshBloc(p: postBloc)

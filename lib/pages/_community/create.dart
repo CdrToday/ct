@@ -54,17 +54,17 @@ class _CreateState extends State<Create> {
 
   createCommunity(BuildContext context) async {
     final xReq.Requests r = await xReq.Requests.init();
-    bool _idValid = RegExp(r"^[a-zA-Z0-9_]{1,10}$").hasMatch(_id);
+    bool _idValid = RegExp(r"^[a-zA-Z0-9_]{1,20}$").hasMatch(_id);
     if (!_idValid) {
-      snacker(context, '社区 ID 只能使用字母数字与下划线 "_"，长度需小于 10', secs: 2);
+      snacker(context, '社区 ID 只能使用字母数字与下划线 "_"，长度需小于 20', secs: 2);
       return;
     }
 
-    bool _nameValid = RegExp(r"^[\u4e00-\u9fa5_a-zA-Z0-9]{1,10}$").hasMatch(_name);
+    bool _nameValid = RegExp(r"^[\u4e00-\u9fa5_a-zA-Z0-9]{1,20}$").hasMatch(_name);
     if (!_nameValid) {
       snacker(
         context,
-        '社区名称能够使用字母数字与下划线 "_"，以及中文字符，长度需小于 10',
+        '社区名称能够使用字母数字与下划线 "_"，以及中文字符，长度需小于 20',
         secs: 2
       );
       return;
@@ -82,11 +82,11 @@ class _CreateState extends State<Create> {
 } 
 
 // ---------- API ---------
-class CreateCommunityResult {
-  final String msg;
-  CreateCommunityResult({ this.msg });
-  
-  factory CreateCommunityResult.fromJson(Map<String, dynamic> json) {
-    return CreateCommunityResult( msg: json['msg'] );
-  }
-}
+// class CreateCommunityResult {
+//   final String msg;
+//   CreateCommunityResult({ this.msg });
+//   
+//   factory CreateCommunityResult.fromJson(Map<String, dynamic> json) {
+//     return CreateCommunityResult( msg: json['msg'] );
+//   }
+// }

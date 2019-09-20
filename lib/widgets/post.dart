@@ -74,10 +74,8 @@ class _PostState extends State<PostList> {
   @override
   void initState() {
     super.initState();
-    // if (widget.posts.length > 10) {
-      _scrollController = ScrollController();
-      _scrollController.addListener(_onScroll);
-    // }
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
     _postBloc = BlocProvider.of<PostBloc>(context);
     _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }

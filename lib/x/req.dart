@@ -67,21 +67,23 @@ class Requests {
   }
 
   /// --- community ---
+  Future<http.Response> getCommunities() async {
+    return await rGet("/u/$mail/c");
+  }
+  
   Future<http.Response> createCommunity({String id, String name}) async {
     final Map body = {
       'id': id,
       'name': name
     };
-    var res = await rPost("/u/$mail/c/create", body: body);
-    return res;
+    return await rPost("/u/$mail/c/create", body: body);
   }
 
   Future<http.Response> joinCommunity({String id}) async {
     final Map body = {
       'id': id,
     };
-    var res = await rPost("/u/$mail/c/join", body: body);
-    return res;
+    return await rPost("/u/$mail/c/join", body: body);
   }
   
   /// --- account ---
@@ -90,8 +92,7 @@ class Requests {
     final Map body = {
       'name': name
     };
-    var res = await rPut("/u/$mail/i/name", body: body);
-    return res;
+    return await rPut("/u/$mail/i/name", body: body);
   }
 
   //@updateName: PUT '/u/{mail:string}/i/avatar'
@@ -99,8 +100,7 @@ class Requests {
     final Map body = {
       'avatar': avatar
     };
-    var res = await rPut("/u/$mail/i/avatar", body: body);
-    return res;
+    return await rPut("/u/$mail/i/avatar", body: body);
   }
 
   /// --- post ---

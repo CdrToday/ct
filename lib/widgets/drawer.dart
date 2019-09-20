@@ -2,19 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/name.dart';
+import 'package:cdr_today/widgets/community.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: null,
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.add_circle_outline),
-        //     color: Colors.black,
-        //     onPressed: () => Navigator.pushNamed(context, '/scan')
-        //   )
-        // ],
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -41,17 +35,20 @@ class MainDrawer extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 alignment: Alignment.centerLeft,
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.add_circle_outline,
-                  size: 20.0,
+              SizedBox(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.add_circle_outline,
+                    size: 20.0,
+                  ),
+                  color: Colors.grey[600],
+                  onPressed: () => Navigator.pushNamed(context, '/community/raise')
                 ),
-                color: Colors.grey[600],
-                onPressed: () => Navigator.pushNamed(context, '/community/raise')
-              ),
+                height: 32.0,
+              )
             ]
           ),
-          SizedBox(height: kToolbarHeight * 2)
+          Communities(),
         ],
       )
     );
