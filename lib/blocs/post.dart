@@ -110,7 +110,10 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
         return;
       }
-      yield (currentState as FetchedSucceed).copyWith();
+
+      yield (currentState as FetchedSucceed).copyWith(
+        refresh: (currentState as FetchedSucceed).refresh + 1
+      );
     } else if (event is CleanList) {
       yield UnFetched();
     }

@@ -39,7 +39,17 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
     xReq.Requests r = await xReq.Requests.init();
 
     if (event is FetchCommunity) {
-      yield CommunityFetchedSucceed(communities: await getCommunities());
+      if (currentState is EmptyCommunityState) {
+        yield CommunityFetchedSucceed(communities: await getCommunities());
+        return;
+      }
+      
+      yield (event.refresh == true)
+      ? (currentState as CommunityFetchedSucceed).copyWith(
+        communities: await getCommunities(),
+        refresh: (currentState as CommunityFetchedSucceed).refresh != null?
+        (currentState as CommunityFetchedSucceed).refresh + 1 : 1,
+      ) : CommunityFetchedSucceed(communities: await getCommunities());
     }
   }
 }
@@ -57,15 +67,19 @@ class EmptyCommunityState extends CommunityState {
 
 class CommunityFetchedSucceed extends CommunityState {
   final List<dynamic> communities;
+  final int refresh;
+  
   CommunityFetchedSucceed({
-      this.communities
-  }) : super([ communities ]);
+      this.communities, this.refresh,
+  }) : super([ communities, refresh ]);
 
   CommunityFetchedSucceed copyWith({
-      List<dynamic> communities
+      List<dynamic> communities,
+      int refresh,
   }) {
     return CommunityFetchedSucceed(
-      communities: communities ?? this.communities
+      communities: communities ?? this.communities,
+      refresh: refresh ?? this.refresh
     );
   }
 }
@@ -74,6 +88,9 @@ class CommunityFetchedSucceed extends CommunityState {
 abstract class CommunityEvent extends Equatable {}
 
 class FetchCommunity extends CommunityEvent {
+  final bool refresh;
+  FetchCommunity({ this.refresh });
+  
   @override
   toString() => "FetchCommunity";
 }
