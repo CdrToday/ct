@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/blocs/refresh.dart';
+import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/input.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
@@ -54,6 +57,9 @@ class _CreateState extends State<Create> {
 
   createCommunity(BuildContext context) async {
     final xReq.Requests r = await xReq.Requests.init();
+    final CommunityBloc _bloc = BlocProvider.of<CommunityBloc>(context);
+    final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
+    
     bool _idValid = RegExp(r"^[a-zA-Z0-9_]{1,20}$").hasMatch(_id);
     if (!_idValid) {
       snacker(context, '社区 ID 只能使用字母数字与下划线 "_"，长度需小于 20', secs: 2);
@@ -72,10 +78,12 @@ class _CreateState extends State<Create> {
     
     var res = await r.createCommunity(id: _id, name: _name);
     if (res.statusCode != 200) {
-      snacker(context, '创建失败，请重试');
+      snacker(context, '创建失败，请更换社区 ID 后重试');
       return;
     }
 
+    _bloc.dispatch(FetchCommunity());
+    _rbloc.dispatch(CommunityRefreshEvent());
     Navigator.maybePop(context);
     Navigator.maybePop(context);
   }

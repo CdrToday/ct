@@ -53,7 +53,9 @@ class _CommunitiesState extends State<Communities> {
   Widget build(BuildContext context) {
     return BlocBuilder<CommunityBloc, CommunityState>(
       builder: (context, state) {
+        
         if (state is CommunityFetchedSucceed) {
+          var cs = state.communities;
           return Expanded(
             child: CustomScrollView(
               slivers: <Widget>[
@@ -61,8 +63,8 @@ class _CommunitiesState extends State<Communities> {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       return CommunityTile(
-                        name: Text('hello'),
-                        avatar: AvatarHero(),
+                        name: Text(cs[index]['name']),
+                        avatar: AvatarHero(tag: cs[index]['id']),
                         padding: EdgeInsets.all(16.0)
                       );
                     },

@@ -65,7 +65,7 @@ class App extends StatelessWidget {
           builder: (context) => communityBloc
         ),
         BlocProvider<RefreshBloc>(
-          builder: (context) => RefreshBloc(p: postBloc)
+          builder: (context) => RefreshBloc(p: postBloc, c: communityBloc)
         ),
         BlocProvider<UserBloc>(
           builder: (context) => UserBloc(v: verifyBloc, p: profileBloc)

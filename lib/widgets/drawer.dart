@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/name.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/community.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -10,6 +11,7 @@ class MainDrawer extends StatelessWidget {
       appBar: AppBar(
         leading: null,
         automaticallyImplyLeading: false,
+        title: CommunityRefresh(),
       ),
       body: Column(
         children: <Widget>[

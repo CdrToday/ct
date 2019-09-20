@@ -3,15 +3,23 @@ import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/post.dart';
+import 'package:cdr_today/blocs/community.dart';
 
 class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   final PostBloc p;
+  final CommunityBloc c;
 
-  RefreshBloc({ this.p }) {
+  RefreshBloc({ this.p, this.c }) {
     p.state.listen((state) {
         if (state is FetchedSucceed) {
           this.dispatch(PostRefreshEndEvent());
         }
+    });
+
+    c.state.listen((state) {
+      if (state is CommunityFetchedSucceed) {
+        this.dispatch(CommunityRefreshEndEvent());
+      }
     });
   }
   
@@ -36,6 +44,10 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
       yield PostRefreshStart();
     } else if (event is PostRefreshEndEvent) {
       yield PostRefreshEnd();
+    } else if (event is CommunityRefreshEvent) {
+      yield CommunityRefreshStart();
+    } else if (event is CommunityRefreshEndEvent) {
+      yield CommunityRefreshEnd();
     }
 
     return;
@@ -63,6 +75,16 @@ class PostRefreshEnd extends RefreshState {
 }
 
 
+class CommunityRefreshStart extends RefreshState {
+  @override
+  String toString() => 'CommunityRefreshStart';
+}
+
+class CommunityRefreshEnd extends RefreshState {
+  @override
+  String toString() => 'CommunityRefreshEnd';
+}
+
 // -------------- events ----------------
 abstract class RefreshEvent extends Equatable {}
 
@@ -74,5 +96,15 @@ class PostRefreshEvent extends RefreshEvent {
 class PostRefreshEndEvent extends RefreshEvent {
   @override
   String toString() => 'PostRefreshEndEvent';
+}
+
+class CommunityRefreshEvent extends RefreshEvent {
+  @override
+  String toString() => 'CommunityRefreshEvent';
+}
+
+class CommunityRefreshEndEvent extends RefreshEvent {
+  @override
+  String toString() => 'CommunityRefreshEndEvent';
 }
 
