@@ -22,6 +22,8 @@ import 'package:cdr_today/pages/bucket.dart';
 import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
 import 'package:cdr_today/pages/mine.dart';
+import 'package:cdr_today/pages/raise.dart';
+import 'package:cdr_today/pages/community.dart' as community;
 // navigations
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/init.dart';
@@ -102,6 +104,12 @@ Route router(settings) {
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Article(args: args));
+  } else if (r == '/community/raise') {
+    return FadeRoute(page: Raise());
+  } else if (r == '/community/create') {
+    return FadeRoute(page: community.Create());
+  } else if (r == '/community/join') {
+    return FadeRoute(page: community.Join());
   } else if (r == '/user/verify') {
     return FadeRoute(page: Verify());
   } else if (r == '/user/edit') {

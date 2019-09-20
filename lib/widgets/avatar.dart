@@ -102,4 +102,10 @@ Widget _avatar({
       child: Text(i[0])
     );
   }
+
+  return CircleAvatar(
+      radius: width,
+      backgroundColor: Colors.brown.shade800,
+      child: Text('?')
+    );
 }

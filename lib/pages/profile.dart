@@ -4,7 +4,6 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/widgets/avatar.dart';
-import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Profile extends StatelessWidget {
@@ -72,23 +71,6 @@ Widget profile(BuildContext context, String name) {
   );
 }
 
-Widget _avatar(BuildContext context) {
-  return Container(
-      child: Card(
-        child: ListTile(
-          title: Text('头像'),
-          trailing: AvatarHero(tag: 'mine', width: 28.0),
-          onTap: () => Navigator.pushNamed(context, '/mine/profile/avatar'),
-          contentPadding: EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 16.0
-          )
-        )
-      ),
-      margin: EdgeInsets.only(top: 10.0)
-  );
-}
-
 Widget mail(BuildContext context, String str) {
   return Builder(
     builder: (context) => Container(
@@ -115,8 +97,8 @@ Widget logout(BuildContext context) {
           style: TextStyle(fontSize: 14.0)
         ),
         onTap: () async {
-          await _pbloc.dispatch(CleanList());
-          await _bloc.dispatch(LogoutEvent());
+          _pbloc.dispatch(CleanList());
+          _bloc.dispatch(LogoutEvent());
           Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
         }
       )

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/pages/mine.dart';
 import 'package:cdr_today/pages/post.dart';
-import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/widgets/drawer.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class InitPage extends StatelessWidget {
@@ -20,20 +18,7 @@ class InitPage extends StatelessWidget {
             ),
           ),
           centerTitle: true,
-          title: BlocBuilder<RefreshBloc, RefreshState>(
-            builder: (context, state) {
-              if (state is PostRefreshStart) {
-                return Container(
-                  child: SizedBox(
-                    height: 12.0,
-                    width: 12.0,
-                    child: CircularProgressIndicator(strokeWidth: 1.0)
-                  ),
-                );
-              }
-              return SizedBox.shrink();                      
-            }
-          ),
+          title: PostRefresh(),
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           snap: true,

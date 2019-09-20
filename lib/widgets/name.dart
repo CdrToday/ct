@@ -16,14 +16,17 @@ class Name extends StatelessWidget {
       
       for (var i in arr) {
         if (i == null) continue;
+        if (size != null) return Text(i, style: TextStyle(fontSize: size));
 
-        return size != null
-        ? Text(i, style: TextStyle(fontSize: size))
-        : Text(i, style: Theme.of(context).textTheme.title);
+        return Text(i, style: Theme.of(context).textTheme.title);
       }
+
+      return Text('?', style: Theme.of(context).textTheme.title);
     }
 
-    return self ? BlocBuilder<UserBloc, UserState>(
+    if (!self) return _name(list);
+
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserInited) {
           return list == null ? _name(
@@ -32,7 +35,9 @@ class Name extends StatelessWidget {
             [state.name] + list
           );
         }
+
+        return _name(['?']);
       }
-    ) : _name(list);
+    );
   }
 }

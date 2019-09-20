@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/name.dart';
-import 'package:cdr_today/widgets/community.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -26,9 +24,9 @@ class MainDrawer extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  '我的社区',
+                  '社区',
                   style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                     fontWeight: FontWeight.w500,
                     color: Colors.grey[600],
                   ),
@@ -38,15 +36,18 @@ class MainDrawer extends StatelessWidget {
                     colors: [Colors.grey[200], Colors.grey[50]]
                   ),
                 ),
-                height: 36.0,
+                height: 32.0,
                 width: MediaQuery.of(context).size.width * 2 / 3,
                 padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 alignment: Alignment.centerLeft,
               ),
               IconButton(
-                icon: Icon(Icons.add_circle_outline),
+                icon: Icon(
+                  Icons.add_circle_outline,
+                  size: 20.0,
+                ),
                 color: Colors.grey[600],
-                onPressed: () => Navigator.pushNamed(context, '/scan')
+                onPressed: () => Navigator.pushNamed(context, '/community/raise')
               ),
             ]
           ),
@@ -64,7 +65,7 @@ Widget header(BuildContext context) {
       SizedBox(height: 10.0),
       AvatarHero(
         self: true, width: 30.0,
-        onTap: () => Navigator.popAndPushNamed(context, '/mine/bucket'),
+        onTap: () => Navigator.pushNamed(context, '/mine/bucket'),
       ),
       SizedBox(height: 15.0),
       Name(self: true, size: 18.0),

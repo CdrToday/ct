@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/widgets/snackers.dart';
-import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Name extends StatefulWidget {

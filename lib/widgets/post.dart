@@ -99,7 +99,7 @@ class _PostState extends State<PostList> {
                 return widget.hasReachedMax == false
                 ? PostLoader() : PostBottom();
               } else if (index.isEven) {
-                int i = (index / 2).toInt();
+                int i = index ~/ 2;
                 String id = posts[i]['id'];
                 String document = posts[i]['document'];
                 int timestamp = posts[i]['timestamp'];

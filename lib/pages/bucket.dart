@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/pages/post.dart';
-import 'package:cdr_today/blocs/user.dart';
-import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/widgets/avatar.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 
 class Bucket extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -20,21 +17,7 @@ class Bucket extends StatelessWidget {
           forceElevated: true,
           expandedHeight: kToolbarHeight * 3,
           leading: CloseButton(),
-          title: BlocBuilder<RefreshBloc, RefreshState>(
-            builder: (context, state) {
-              if (state is PostRefreshStart) {
-                return Container(
-                  child: SizedBox(
-                    height: 12.0,
-                    width: 12.0,
-                    child: CircularProgressIndicator(strokeWidth: 1.0)
-                  ),
-                );
-              }
-              return SizedBox.shrink();                      
-            }
-          ),
-          actions: [ blog() ],
+          title: PostRefresh(),
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
               child: AvatarHero(
@@ -49,21 +32,4 @@ class Bucket extends StatelessWidget {
       backgroundColor: Colors.white,
     );
   }
-}
-
-Widget blog() {
-  return BlocBuilder<UserBloc, UserState>(
-    builder: (context, state) {
-      if (state is UserInited) {
-        return IconButton(
-          icon: Icon(Icons.public),
-          onPressed: () async {
-            await launch('https://cdr.today/${state.name}');
-          },
-          color: Colors.black,
-        );
-      }
-      return SizedBox.shrink();
-    }
-  );
 }
