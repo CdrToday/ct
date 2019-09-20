@@ -48,7 +48,7 @@ class App extends StatelessWidget {
           builder: (context) => ThemeBloc()
         ),
         BlocProvider<EditBloc>(
-          builder: (context) => EditBloc()
+          builder: (context) => editBloc
         ),
         BlocProvider<PostBloc>(
           builder: (context) => postBloc

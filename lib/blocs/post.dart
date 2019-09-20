@@ -14,11 +14,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         if (state is PublishSucceed) {
           this.dispatch(FetchSelfPosts(refresh: true));
         } else if (state is UpdateSucceed) {
+          print('aaa');
           this.dispatch(FetchSelfPosts(refresh: true));
         }
-        // if (state is FetchedSucceed) {
-        //   this.dispatch(PostRefreshEndEvent());
-        // }
     });
   }
   

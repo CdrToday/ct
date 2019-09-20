@@ -64,7 +64,10 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
     var res = await r.upload(image: image);
     Navigator.pop(context);
     
-    if (res.statusCode != 200) snacker(context, '图片上传失败，请重试');
+    if (res.statusCode != 200) {
+      snacker(context, '图片上传失败，请重试');
+      return '';
+    }
 
     // return data
     UploadResult _data = UploadResult.fromJson(json.decode(res.body));

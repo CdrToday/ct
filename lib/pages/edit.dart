@@ -51,7 +51,7 @@ class _EditState extends State<Edit> {
             Navigator.maybePop(context);
           } else if (state is UpdateSucceed) {
             Navigator.pop(context);
-            snacker(context, '更新成功。', color: Colors.black);
+            Navigator.maybePop(context);
           } else if (state is PublishFailed) {
             Navigator.pop(context);
             snacker(context, '发布失败，请重试');
