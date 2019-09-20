@@ -57,8 +57,8 @@ class InitPage extends StatelessWidget {
         decoration: BoxDecoration(color: Colors.grey[200])
       ),
       drawer: Drawer(
-        child: MainDrawer(),
-        elevation: 1.0,
+        child: SwipeDrawer(),
+        elevation: 2.0,
       ),
       backgroundColor: Colors.white,
     );

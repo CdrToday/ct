@@ -1,74 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:cdr_today/widgets/avatar.dart';
-import 'package:cdr_today/widgets/name.dart';
-import 'package:cdr_today/widgets/refresh.dart';
-import 'package:cdr_today/widgets/community.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:cdr_today/widgets/_drawer/member.dart';
+import 'package:cdr_today/widgets/_drawer/community.dart';
 
-class MainDrawer extends StatelessWidget {
+class SwipeDrawer extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: null,
-        automaticallyImplyLeading: false,
-        title: CommunityRefresh(),
+    return Swiper(
+      itemBuilder: (BuildContext context,int index){
+        return index == 1 ? SwipeCommunity() : SwipeMember();
+      },
+      itemCount: 2,
+      pagination: SwiperPagination(
+        margin: EdgeInsets.only(bottom: kToolbarHeight / 1.2),
+        builder: DotSwiperPaginationBuilder(
+          activeColor: Colors.grey[50],
+          color: Colors.grey[400],
+        )
       ),
-      body: Column(
-        children: <Widget>[
-          header(context),
-          Row(
-            children: [
-              Container(
-                child: Text(
-                  '社区',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                decoration: new BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.grey[200], Colors.grey[50]]
-                  ),
-                ),
-                height: 32.0,
-                width: MediaQuery.of(context).size.width * 2 / 3,
-                padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                alignment: Alignment.centerLeft,
-              ),
-              SizedBox(
-                child: IconButton(
-                  icon: Icon(
-                    Icons.add_circle_outline,
-                    size: 20.0,
-                  ),
-                  color: Colors.grey[600],
-                  onPressed: () => Navigator.pushNamed(context, '/community/raise')
-                ),
-                height: 32.0,
-              )
-            ]
-          ),
-          Communities(),
-        ],
-      )
     );
   }
-}
-
-// ----------- tiles -------------
-Widget header(BuildContext context) {
-  return Column(
-    children: [
-      SizedBox(height: 10.0),
-      AvatarHero(
-        self: true, width: 30.0,
-        onTap: () => Navigator.pushNamed(context, '/mine/bucket'),
-      ),
-      SizedBox(height: 15.0),
-      Name(self: true, size: 18.0),
-      SizedBox(height: 30.0),
-    ]
-  );
 }

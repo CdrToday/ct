@@ -104,8 +104,8 @@ Widget _avatar({
   }
 
   return CircleAvatar(
-      radius: width,
-      backgroundColor: Colors.brown.shade800,
-      child: Text('?')
-    );
+    radius: width,
+    backgroundColor: Colors.brown.shade800,
+    child: Text('?')
+  );
 }

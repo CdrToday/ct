@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
+import 'package:cdr_today/blocs/community.dart';
 
+// @usage: AvatarHero
 class Name extends StatelessWidget {
   final bool self;
   final double size;
@@ -25,7 +27,7 @@ class Name extends StatelessWidget {
     }
 
     if (!self) return _name(list);
-
+    
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserInited) {
@@ -37,6 +39,26 @@ class Name extends StatelessWidget {
         }
 
         return _name(['?']);
+      }
+    );
+  }
+}
+
+class CommunityName extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return BlocBuilder<CommunityBloc, CommunityState>(
+      builder: (context, state) {
+        if (state is CommunityFetchedSucceed) {
+          String name;
+          var cs = state.communities;
+          for (var i in cs) {
+            if (i['id'] == state.current) name = i['name'];
+          }
+
+          return Text(name ?? '?');
+        }
+
+        return Text('?');
       }
     );
   }

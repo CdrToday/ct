@@ -83,6 +83,7 @@ class CommunityFetchedSucceed extends CommunityState {
       List<dynamic> communities, int refresh,
   }) {
     return CommunityFetchedSucceed(
+      current: current ?? this.current,
       communities: communities ?? this.communities,
       refresh: refresh ?? this.refresh
     );

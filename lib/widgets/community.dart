@@ -74,7 +74,9 @@ class _CommunitiesState extends State<Communities> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
-                      if (index.isEven) {
+                      if (index == 0) return SizedBox(height: 8.0);
+
+                      if (index.isOdd) {
                         var i = index ~/ 2;
                         var tile = CommunityTile(
                           name: Text(cs[i]['name']),
@@ -99,7 +101,7 @@ class _CommunitiesState extends State<Communities> {
 
                       return Divider();
                     },
-                    childCount: state.communities.length * 2 - 1
+                    childCount: state.communities.length * 2
                   )
                 )
               ],
