@@ -28,9 +28,9 @@ class CommunityTile extends StatelessWidget {
             trailing ?? SizedBox.shrink(),
           ]
         ),
-        onTap: onTap
+        onTap: onTap,
       ),
-      padding: padding
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
     );
   }
 }
@@ -76,20 +76,25 @@ class _CommunitiesState extends State<Communities> {
                     (BuildContext context, int index) {
                       if (index.isEven) {
                         var i = index ~/ 2;
-                        return CommunityTile(
+                        var tile = CommunityTile(
                           name: Text(cs[i]['name']),
-                          avatar: AvatarHero(
-                            tag: cs[i]['id'],
-                            rect: true,
-                          ),
-                          padding: index == 0 ?
-                          EdgeInsets.only(
-                            top: 16.0,
-                            left: 16.0,
-                            right: 16.0,
-                            bottom: 8.0
-                          ) : EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
+                          avatar: AvatarHero(tag: cs[i]['id'], rect: true),
                         );
+
+                        return cs[i]['id'] == state.current ? Stack(
+                          children: [
+                            tile,
+                            Container(
+                              width: 3.0,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[800],
+                                borderRadius: BorderRadius.all(Radius.circular(90)),
+                              ),
+                            ),
+                          ],
+                          alignment: Alignment.centerLeft,
+                        ) : tile;
                       }
 
                       return Divider();

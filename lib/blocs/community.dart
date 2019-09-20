@@ -37,19 +37,24 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   @override
   Stream<CommunityState> mapEventToState(CommunityEvent event) async* {
     xReq.Requests r = await xReq.Requests.init();
-
+    
     if (event is FetchCommunity) {
+      var communities = await getCommunities();
+      
       if (currentState is EmptyCommunityState) {
-        yield CommunityFetchedSucceed(communities: await getCommunities());
+        yield CommunityFetchedSucceed(
+          current: communities[0]['id'],
+          communities: communities,
+          refresh: 0,
+        );
         return;
       }
       
       yield (event.refresh == true)
       ? (currentState as CommunityFetchedSucceed).copyWith(
-        communities: await getCommunities(),
-        refresh: (currentState as CommunityFetchedSucceed).refresh != null?
-        (currentState as CommunityFetchedSucceed).refresh + 1 : 1,
-      ) : CommunityFetchedSucceed(communities: await getCommunities());
+        communities: communities,
+        refresh: (currentState as CommunityFetchedSucceed).refresh + 1,
+      ) : CommunityFetchedSucceed(communities: communities);
     }
   }
 }
@@ -66,16 +71,16 @@ class EmptyCommunityState extends CommunityState {
 }
 
 class CommunityFetchedSucceed extends CommunityState {
+  final String current;
   final List<dynamic> communities;
   final int refresh;
   
   CommunityFetchedSucceed({
-      this.communities, this.refresh,
-  }) : super([ communities, refresh ]);
+      this.current, this.communities, this.refresh = 0,
+  }) : super([ current, communities, refresh ]);
 
   CommunityFetchedSucceed copyWith({
-      List<dynamic> communities,
-      int refresh,
+      List<dynamic> communities, int refresh,
   }) {
     return CommunityFetchedSucceed(
       communities: communities ?? this.communities,
