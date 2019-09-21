@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:rxdart/rxdart.dart';
@@ -26,7 +25,7 @@ class CommunityTile extends StatelessWidget {
             name ?? SizedBox.shrink(),
             Spacer(),
             trailing ?? SizedBox.shrink(),
-          ]
+          ],
         ),
         onTap: onTap,
       ),
@@ -35,36 +34,12 @@ class CommunityTile extends StatelessWidget {
   }
 }
 
-
-class Communities extends StatefulWidget {
-  @override
-  _CommunitiesState createState() => _CommunitiesState();
-}
-
-class _CommunitiesState extends State<Communities> {
-  List<dynamic> communities;
-  CommunityBloc _bloc;
-  RefreshBloc _rbloc;
-  bool _scrollLock = false;
-  double _scrollThreshold = 200.0;
-  double _scrollIncipiency = (- kToolbarHeight);
-  ScrollController _scrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
-    _bloc = BlocProvider.of<CommunityBloc>(context);
-    _rbloc = BlocProvider.of<RefreshBloc>(context);
-  }
-  
+class Communities extends StatelessWidget {
   Widget build(BuildContext context) {
+    final CommunityBloc _bloc = BlocProvider.of<CommunityBloc>(context);
     return BlocBuilder<CommunityBloc, CommunityState>(
       builder: (context, state) {
         if (state is EmptyCommunityState) {
-          _bloc.dispatch(FetchCommunity());
-          _rbloc.dispatch(CommunityRefreshEvent());
           return SizedBox.shrink();
         } else if (state is CommunityFetchedSucceed) {
           var cs = state.communities;
@@ -83,6 +58,7 @@ class _CommunitiesState extends State<Communities> {
                           avatar: AvatarHero(tag: cs[i]['id'], rect: true),
                         );
 
+                        // 
                         return cs[i]['id'] == state.current ? Stack(
                           children: [
                             tile,
@@ -96,7 +72,10 @@ class _CommunitiesState extends State<Communities> {
                             ),
                           ],
                           alignment: Alignment.centerLeft,
-                        ) : tile;
+                        ) : GestureDetector(
+                          child: tile,
+                          onTap: () => _bloc.dispatch(ChangeCurrentCommunity(id: cs[i]['id'])),
+                        );
                       }
 
                       return Divider();
@@ -105,7 +84,6 @@ class _CommunitiesState extends State<Communities> {
                   )
                 )
               ],
-              controller: _scrollController,
               physics: AlwaysScrollableScrollPhysics(),
             )
           );
@@ -113,27 +91,5 @@ class _CommunitiesState extends State<Communities> {
         return SizedBox.shrink();
       }
     );
-  }
-
-  void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    BehaviorSubject scrollDelay = BehaviorSubject();
-    
-    // top refresh
-    if (currentScroll <= _scrollIncipiency) {
-      if (_scrollLock == true) {
-        return;
-      }
-    
-      setState(() { _scrollLock = true; });
-
-      _bloc.dispatch(FetchCommunity(refresh: true));
-      _rbloc.dispatch(CommunityRefreshEvent());
-      
-      Observable.timer(
-        false, new Duration(milliseconds: 1000)
-      ).listen((i) => setState(() { _scrollLock = i; }));
-    }
   }
 }

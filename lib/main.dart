@@ -9,6 +9,7 @@ import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/profile.dart';
+import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/blocs/community.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
@@ -37,10 +38,12 @@ void main() {
 }
 
 final EditBloc editBloc = EditBloc();
-final PostBloc postBloc = PostBloc(e: editBloc);
 final VerifyBloc verifyBloc = VerifyBloc();
 final ProfileBloc profileBloc = ProfileBloc();
-final CommunityBloc communityBloc = CommunityBloc();
+final UserBloc userBloc = UserBloc(v: verifyBloc, p: profileBloc);
+final PostBloc postBloc = PostBloc(e: editBloc, u: userBloc);
+final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
+final MemberBloc memberBloc = MemberBloc(c: communityBloc);
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -64,11 +67,14 @@ class App extends StatelessWidget {
         BlocProvider<CommunityBloc>(
           builder: (context) => communityBloc
         ),
+        BlocProvider<MemberBloc>(
+          builder: (context) => memberBloc
+        ),
         BlocProvider<RefreshBloc>(
-          builder: (context) => RefreshBloc(p: postBloc, c: communityBloc)
+          builder: (context) => RefreshBloc(p: postBloc)
         ),
         BlocProvider<UserBloc>(
-          builder: (context) => UserBloc(v: verifyBloc, p: profileBloc)
+          builder: (context) => userBloc,
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeData>(

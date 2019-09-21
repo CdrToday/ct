@@ -17,20 +17,7 @@ class Profile extends StatelessWidget {
             body: Container(
               child: Column(
                 children: <Widget>[
-                  Container(
-                    child: Card(
-                      child: ListTile(
-                        title: Text('头像'),
-                        trailing: AvatarHero(self: true),
-                        onTap: () => Navigator.pushNamed(context, '/mine/profile/avatar'),
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 6.0,
-                          horizontal: 16.0
-                        )
-                      )
-                    ),
-                    margin: EdgeInsets.only(top: 10.0)
-                  ),
+                  avatar(context),
                   profile(context, state.name),
                   Spacer(),
                   logout(context),
@@ -53,6 +40,23 @@ class Profile extends StatelessWidget {
       }
     );
   }
+}
+  
+Widget avatar(BuildContext context) {
+  return Container(
+    child: Card(
+      child: ListTile(
+        title: Text('头像'),
+        trailing: AvatarHero(self: true),
+        onTap: () => Navigator.pushNamed(context, '/mine/profile/avatar'),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 6.0,
+          horizontal: 16.0
+        )
+      )
+    ),
+    margin: EdgeInsets.only(top: 10.0)
+  );
 }
 
 Widget profile(BuildContext context, String name) {

@@ -58,7 +58,6 @@ class _CreateState extends State<Create> {
   createCommunity(BuildContext context) async {
     final xReq.Requests r = await xReq.Requests.init();
     final CommunityBloc _bloc = BlocProvider.of<CommunityBloc>(context);
-    final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
     
     bool _idValid = RegExp(r"^[a-zA-Z0-9_]{1,20}$").hasMatch(_id);
     if (!_idValid) {
@@ -83,18 +82,7 @@ class _CreateState extends State<Create> {
     }
 
     _bloc.dispatch(FetchCommunity());
-    _rbloc.dispatch(CommunityRefreshEvent());
     Navigator.maybePop(context);
     Navigator.maybePop(context);
   }
-} 
-
-// ---------- API ---------
-// class CreateCommunityResult {
-//   final String msg;
-//   CreateCommunityResult({ this.msg });
-//   
-//   factory CreateCommunityResult.fromJson(Map<String, dynamic> json) {
-//     return CreateCommunityResult( msg: json['msg'] );
-//   }
-// }
+}

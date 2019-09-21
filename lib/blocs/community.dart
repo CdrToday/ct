@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
 Future<List<dynamic>> getCommunities() async {
@@ -12,13 +13,21 @@ Future<List<dynamic>> getCommunities() async {
   if (res.statusCode != 200) {
     return getCommunities();
   }
-
-  GetCommunitiesResult _data = GetCommunitiesResult.fromJson(json.decode(res.body));
-  return _data.communities;
+  
+  return json.decode(res.body)['communities'];
 }
 
 // ------- bloc -----
 class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
+  final UserBloc u;
+  CommunityBloc({ this.u }) {
+    u.state.listen((state) {
+        if (state is UserInited) {
+          this.dispatch(FetchCommunity());
+        }
+    });
+  }
+  
   @override
   Stream<CommunityState> transform(
     Stream<CommunityEvent> events,
@@ -26,7 +35,7 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   ) {
     return super.transform(
       (events as Observable<CommunityEvent>).debounceTime(
-        Duration(milliseconds: 500),
+        Duration(milliseconds: 100),
       ), next,
     );
   }
@@ -50,11 +59,14 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
         return;
       }
       
-      yield (event.refresh == true)
-      ? (currentState as CommunityFetchedSucceed).copyWith(
+      yield (currentState as CommunityFetchedSucceed).copyWith(
         communities: communities,
         refresh: (currentState as CommunityFetchedSucceed).refresh + 1,
-      ) : CommunityFetchedSucceed(communities: communities);
+      );
+    } else if (event is ChangeCurrentCommunity) {
+      yield (currentState as CommunityFetchedSucceed).copyWith(
+        current: event.id
+      );
     }
   }
 }
@@ -66,7 +78,6 @@ abstract class CommunityState extends Equatable {
 
 class EmptyCommunityState extends CommunityState {
   @override
-
   toString() => "EmptyCommunityState";
 }
 
@@ -80,7 +91,7 @@ class CommunityFetchedSucceed extends CommunityState {
   }) : super([ current, communities, refresh ]);
 
   CommunityFetchedSucceed copyWith({
-      List<dynamic> communities, int refresh,
+      List<dynamic> communities, int refresh, String current
   }) {
     return CommunityFetchedSucceed(
       current: current ?? this.current,
@@ -94,19 +105,13 @@ class CommunityFetchedSucceed extends CommunityState {
 abstract class CommunityEvent extends Equatable {}
 
 class FetchCommunity extends CommunityEvent {
-  final bool refresh;
-  FetchCommunity({ this.refresh });
-  
   @override
   toString() => "FetchCommunity";
 }
 
-// ---- api -----
-class GetCommunitiesResult {
-  final List<dynamic> communities;
-  GetCommunitiesResult({ this.communities });
-
-  factory GetCommunitiesResult.fromJson(Map<String, dynamic> json) {
-    return GetCommunitiesResult(communities: json['communities']);
-  }
+class ChangeCurrentCommunity extends CommunityEvent {
+  final String id;
+  ChangeCurrentCommunity({ this.id });
+  @override
+  toString() => "ChangeCurrentCommunity";
 }

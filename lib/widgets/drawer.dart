@@ -8,14 +8,16 @@ class SwipeDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Swiper(
       itemBuilder: (BuildContext context,int index){
-        return index == 1 ? SwipeCommunity() : SwipeMember();
+        return index == 0 ? SwipeCommunity() : SwipeMember();
       },
       itemCount: 2,
+      loop: false,
+      index: 0,
       pagination: SwiperPagination(
         margin: EdgeInsets.only(bottom: kToolbarHeight / 1.2),
         builder: DotSwiperPaginationBuilder(
-          activeColor: Colors.grey[50],
-          color: Colors.grey[400],
+          activeColor: Colors.grey[400],
+          color: Colors.grey[50],
         )
       ),
     );

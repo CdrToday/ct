@@ -4,18 +4,33 @@ import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/edit.dart';
+import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
+
+Future<List<dynamic>> getPosts({int page}) async {
+  final xReq.Requests r = await xReq.Requests.init();
+  var res = await r.getPost(page: page);
+
+  if (res.statusCode != 200) return getPosts(page: page);
+  return json.decode(res.body)['posts'];
+}
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   final EditBloc e;
+  final UserBloc u;
   
-  PostBloc({ this.e }) {
+  PostBloc({ this.e, this.u }) {
     e.state.listen((state) {
         if (state is PublishSucceed) {
           this.dispatch(FetchSelfPosts(refresh: true));
         } else if (state is UpdateSucceed) {
-          print('aaa');
           this.dispatch(FetchSelfPosts(refresh: true));
+        }
+    });
+
+    u.state.listen((state) {
+        if (state is UserInited) {
+          this.dispatch(FetchSelfPosts());
         }
     });
   }
@@ -38,45 +53,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
     xReq.Requests r = await xReq.Requests.init();
-    
     if (event is FetchSelfPosts) {
       // refresh posts
       if (event.refresh == true) {
-        var res = await r.getPost(page: 0);
-        
-        if (res.statusCode == 200) {
-          PostAPI data = PostAPI.fromJson(json.decode(res.body));
-          if (currentState is FetchedSucceed) {
-            yield (currentState as FetchedSucceed).copyWith(
-              page: 0,
-              posts: data.posts,
-              hasReachedMax: false,
-              refresh: (currentState as FetchedSucceed).refresh != null
-              ? (currentState as FetchedSucceed).refresh + 1
-              : 1
-            );
-            return;
-          }
-
-          yield FetchedSucceed(
-            page: 0,
-            posts: data.posts,
-            hasReachedMax: false,
-          );
-          
-          return;
-        }
-
-        if (currentState is UnFetched) {
-          yield FetchedFailed();
-        } else if (currentState is FetchedFailed) {
-          yield FetchedFailed();
-        }
-
+        var posts = await getPosts(page: 0);
         yield (currentState as FetchedSucceed).copyWith(
-          refresh: (currentState as FetchedSucceed).refresh != null
-          ? (currentState as FetchedSucceed).refresh + 1
-          : 1
+          page: 0,
+          posts: posts,
+          hasReachedMax: false,
+          refresh: (currentState as FetchedSucceed).refresh + 1,
         );
         return;
       }
@@ -96,24 +81,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
 
       // get posts
-      var res = await r.getPost(page: _currentPage);
+      var posts = await getPosts(page: _currentPage);
       
-      if (res.statusCode == 200) {
-        PostAPI data = PostAPI.fromJson(json.decode(res.body));
-        yield data.posts.isEmpty
-        ? (currentState as FetchedSucceed).copyWith(hasReachedMax: true)
-        : FetchedSucceed(
-          page: _currentPage,
-          posts: _posts + data.posts,
-          hasReachedMax: _hasReachedMax,
-        );
-
-        return;
-      }
-
-      yield (currentState as FetchedSucceed).copyWith(
-        refresh: (currentState as FetchedSucceed).refresh + 1
+      yield FetchedSucceed(
+        page: _currentPage,
+        posts: _posts + posts,
+        hasReachedMax: _hasReachedMax,
+        refresh: 0,
       );
+      return;
     } else if (event is CleanList) {
       yield UnFetched();
     }
@@ -128,12 +104,6 @@ abstract class PostState extends Equatable {
 class UnFetched extends PostState {
   @override
   String toString() => 'UnFetched';
-}
-
-class FetchedFailed extends PostState {
-  FetchedFailed(): super();
-  @override
-  String toString() => 'FetchedFailed';
 }
 
 class FetchedSucceed extends PostState {

@@ -33,7 +33,7 @@ dependencies:
   path_provider: ^1.3.0
   image_picker: ^0.6.1+4
   image_cropper: ^1.0.2
-  
+  azlistview: ^0.1.2
   qr_mobile_vision: ^0.2.2
   esys_flutter_share: ^1.0.2
   image_gallery_saver: ^1.2.2

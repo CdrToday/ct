@@ -70,6 +70,10 @@ class Requests {
   Future<http.Response> getCommunities() async {
     return await rGet("/u/$mail/c");
   }
+
+  Future<http.Response> getMembers({String id}) async {
+    return await rGet("/u/$mail/c/$id/members");
+  }
   
   Future<http.Response> createCommunity({String id, String name}) async {
     final Map body = {
