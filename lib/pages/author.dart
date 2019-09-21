@@ -26,7 +26,7 @@ Widget appBar(BuildContext context, AuthorArgs args) => SliverAppBar(
   backgroundColor: Colors.white,
   floating: true,
   snap: true,
-  elevation: 0.4,
+  elevation: 0.0,
   forceElevated: true,
   // expandedHeight: kToolbarHeight * 2,
   leading: CloseButton(),
@@ -75,7 +75,7 @@ Widget title(BuildContext context, AuthorArgs args) => SliverList(
                   Spacer(),
                 ]
               ),
-              padding: EdgeInsets.only(bottom: 20.0, top: 20.0)
+              padding: EdgeInsets.only(bottom: 30.0, top: 20.0)
             ),
             Divider(),
           ]

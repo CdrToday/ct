@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/post.dart';
@@ -13,7 +14,15 @@ class Profile extends StatelessWidget {
       builder: (context, state) {
         if (state is UserInited) {
           return Scaffold(
-            appBar: AppBar(leading: CloseButton()),
+            appBar: AppBar(
+              leading: CloseButton(),
+              actions: [
+                IconButton(
+                  icon: Icon(CupertinoIcons.settings),
+                  onPressed: () => {}
+                )
+              ]
+            ),
             body: Container(
               child: Column(
                 children: <Widget>[
