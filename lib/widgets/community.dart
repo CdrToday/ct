@@ -60,7 +60,6 @@ class Communities extends StatelessWidget {
                           avatar: AvatarHero(tag: cs[i]['id'], rect: true),
                         );
 
-                        // 
                         return cs[i]['id'] == state.current ? Stack(
                           children: [
                             tile,
@@ -82,7 +81,6 @@ class Communities extends StatelessWidget {
                           }
                         );
                       }
-
                       return Divider();
                     },
                     childCount: state.communities.length * 2

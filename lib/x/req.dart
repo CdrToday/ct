@@ -89,6 +89,13 @@ class Requests {
     };
     return await rPost("/u/$mail/c/join", body: body);
   }
+
+  /// --- author ----
+  //@getPosts: GET '/a/{mail:string}/post'
+  Future<http.Response> getAuthorPost({int page, String mail}) async {
+    print("/x/$mail/post?p=$page");
+    return await rGet("/a/$mail/post?p=$page");
+  }
   
   /// --- account ---
   //@updateName: PUT '/u/{mail:string}/i/name'

@@ -10,7 +10,9 @@ import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/blocs/member.dart';
+import 'package:cdr_today/blocs/drawer.dart';
 import 'package:cdr_today/blocs/community.dart';
+import 'package:cdr_today/blocs/_author.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
@@ -23,7 +25,7 @@ import 'package:cdr_today/pages/avatar.dart';
 import 'package:cdr_today/pages/bucket.dart';
 import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
-import 'package:cdr_today/pages/mine.dart';
+import 'package:cdr_today/pages/author.dart';
 import 'package:cdr_today/pages/raise.dart';
 import 'package:cdr_today/pages/community.dart' as community;
 // navigations
@@ -40,6 +42,7 @@ void main() {
 final EditBloc editBloc = EditBloc();
 final VerifyBloc verifyBloc = VerifyBloc();
 final ProfileBloc profileBloc = ProfileBloc();
+final AuthorPostBloc authorPostBloc = AuthorPostBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc, p: profileBloc);
 final PostBloc postBloc = PostBloc(e: editBloc, u: userBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
@@ -76,6 +79,12 @@ class App extends StatelessWidget {
         ),
         BlocProvider<UserBloc>(
           builder: (context) => userBloc,
+        ),
+        BlocProvider<DrawerBloc>(
+          builder: (context) => DrawerBloc(),
+        ),
+        BlocProvider<AuthorPostBloc>(
+          builder: (context) => AuthorPostBloc(),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeData>(
@@ -116,6 +125,9 @@ Route router(settings) {
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Article(args: args));
+  } else if (r == '/community/author') {
+    final AuthorArgs args = settings.arguments;
+    return FadeRoute(page: Author(args: args));
   } else if (r == '/community/raise') {
     return FadeRoute(page: Raise());
   } else if (r == '/community/create') {
@@ -127,8 +139,6 @@ Route router(settings) {
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Edit(args: args));
-  } else if (r == '/mine') {
-    return FadeRoute(page: Mine());
   } else if (r == '/mine/bucket') {
     return FadeRoute(page: Bucket());
   } else if (r == '/mine/version') {

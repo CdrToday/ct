@@ -65,7 +65,8 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
       );
     } else if (event is ChangeCurrentCommunity) {
       yield (currentState as CommunityFetchedSucceed).copyWith(
-        current: event.id
+        current: event.id,
+        refresh: (currentState as CommunityFetchedSucceed).refresh + 1,
       );
     }
   }

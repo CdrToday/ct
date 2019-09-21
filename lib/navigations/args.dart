@@ -28,3 +28,10 @@ class NameArgs {
   final String name;
   NameArgs({ this.name });
 }
+
+class AuthorArgs {
+  final String name;
+  final String avatar;
+  final String mail;
+  AuthorArgs({ this.name, this.avatar, this.mail });
+}

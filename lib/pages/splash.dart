@@ -28,9 +28,7 @@ class _SplashPageState extends State<SplashPage> {
       appBar: null,
       body: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
-          if (state is UserBlocTimeout) {
-            _bloc.dispatch(CheckUserEvent());
-          } else if (state is! SplashState) {
+          if (state is! SplashState) {
             Navigator.of(context).pushReplacementNamed('/init');
           }
         },

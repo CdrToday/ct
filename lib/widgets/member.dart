@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/community.dart';
+import 'package:cdr_today/navigations/args.dart';
 
 class CommunityMember extends StatelessWidget {
   final SliverAppBar appBar;
@@ -32,6 +33,14 @@ class CommunityMember extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                         horizontal: 32.0,
                         vertical: 8.0,
+                      ),
+                      onTap: () => Navigator.pushNamed(
+                        context, '/community/author',
+                        arguments: AuthorArgs(
+                          name: ms[index ~/ 2]['name'],
+                          avatar: ms[index ~/ 2]['avatar'],
+                          mail: ms[index ~/ 2]['mail'],
+                        )
                       )
                     ) : Divider();
                   },

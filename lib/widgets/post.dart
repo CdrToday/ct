@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/blocs/post.dart';
@@ -53,9 +54,17 @@ class PostList extends StatefulWidget {
   final List<dynamic> posts;
   final bool edit;
   final bool hasReachedMax;
+  final bool loading;
   final SliverAppBar appBar;
   final SliverList title;
-  PostList({ this.edit, this.posts, this.hasReachedMax, this.appBar, this.title });
+  PostList({
+      this.edit = false,
+      this.posts,
+      this.hasReachedMax,
+      this.appBar,
+      this.title,
+      this.loading = false
+  });
   
   @override
   _PostState createState() => _PostState();
@@ -83,13 +92,24 @@ class _PostState extends State<PostList> {
   @override
   Widget build(BuildContext context) {
     bool edit = widget.edit;
-    List<dynamic> posts = widget.posts;
-
+    List<dynamic> posts = widget.posts ?? [];
+    
     return CustomScrollView(
       slivers: <Widget>[
         widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
         widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
-        SliverList(
+        widget.loading ? SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return Container(
+                child: CupertinoActivityIndicator(),
+                padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height / 3
+                ),
+              );
+            }, childCount: 1,
+          )
+        ) : SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
               if (index == posts.length * 2) {

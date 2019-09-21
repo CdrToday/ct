@@ -9,6 +9,20 @@ import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
 
+Future<Map<String, String>> checkUser({String mail, String code}) async {
+  final xReq.Requests r = await xReq.Requests.init();
+  var res = await r.authVerify(mail: mail, code: code);
+  if (res.statusCode != 200) return checkUser(mail: mail, code: code);
+
+  var data = json.decode(res.body)['data'];
+  
+  return {
+    'name': data['name'],
+    'mail': data['mail'],
+    'avatar': data['avatar'],
+  };
+}
+
 class UserBloc extends Bloc<UserEvent, UserState> {
   final VerifyBloc v;
   final ProfileBloc p;
@@ -57,25 +71,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         return;
       }
 
-      var res = await r.authVerify(mail: mail, code: code);
-      if (res.statusCode == 200) {
-        MailVerifyResult _data = MailVerifyResult.fromJson(json.decode(res.body));
-        
-        yield UserInited(
-          mail: _data.data['mail'],
-          name: _data.data['name'],
-          avatar: _data.data['avatar']
-        );
-        return;
-      } else if (res.statusCode == 408) {
-        yield (currentState is UserBlocTimeout)
-        ? (currentState as UserBlocTimeout).copyWith(
-          times: (currentState as UserBlocTimeout).times + 1
-        ) : UserBlocTimeout(times: 0);
-        return;
-      }
-
-      yield UserUnInited();
+      var data = await checkUser(mail: mail, code:code);
+      yield UserInited(
+        mail: data['mail'],
+        name: data['name'],
+        avatar: data['avatar']
+      );
     } else if (event is InitUserEvent) {
       if (currentState is UserInited) {
         yield (currentState as UserInited).copyWith(
@@ -103,17 +104,6 @@ class SplashState extends UserState {
 class UserUnInited extends UserState {
   @override
   String toString() => 'UserUnInited';
-}
-
-class UserBlocTimeout extends UserState {
-  final int times;
-
-  UserBlocTimeout({ this.times }) : super([ times ]);
-  UserBlocTimeout copyWith({ int times }) {
-    return UserBlocTimeout(times: times ?? this.times);
-  }
-  @override
-  String toString() => 'UserBlocTimeout';
 }
 
 class UserInited extends UserState {
@@ -159,27 +149,7 @@ class InitUserEvent extends UserEvent {
   String toString() => 'InitUserEvent';
 }
 
-class UpdateUserName extends UserEvent {
-  final String name;
-  UpdateUserName({ this.name });
-
-  @override
-  String toString() => 'UpdateUserName';
-}
-
 class LogoutEvent extends UserEvent {
   @override
   String toString() => 'LogoutEvent';
-}
-
-
-// -------------- apis ---------------------
-class MailVerifyResult {
-  final String msg;
-  final Map<String, dynamic> data;
-  MailVerifyResult({ this.msg, this.data });
-
-  factory MailVerifyResult.fromJson(Map<String, dynamic> json) {
-    return MailVerifyResult( msg: json['msg'], data: json['data']);
-  }
 }

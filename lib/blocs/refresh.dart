@@ -18,6 +18,7 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
 
     c.state.listen((state) {
         if (state is CommunityFetchedSucceed) {
+          if (state.refresh == 0) return;
           this.dispatch(CommunityRefreshTrigger());
         }
     });
