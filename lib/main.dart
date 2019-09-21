@@ -44,6 +44,7 @@ final UserBloc userBloc = UserBloc(v: verifyBloc, p: profileBloc);
 final PostBloc postBloc = PostBloc(e: editBloc, u: userBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
 final MemberBloc memberBloc = MemberBloc(c: communityBloc);
+final RefreshBloc refreshBloc = RefreshBloc(p: postBloc, c: communityBloc);
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,7 @@ class App extends StatelessWidget {
           builder: (context) => memberBloc
         ),
         BlocProvider<RefreshBloc>(
-          builder: (context) => RefreshBloc(p: postBloc)
+          builder: (context) => refreshBloc,
         ),
         BlocProvider<UserBloc>(
           builder: (context) => userBloc,

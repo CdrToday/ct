@@ -35,7 +35,7 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   ) {
     return super.transform(
       (events as Observable<CommunityEvent>).debounceTime(
-        Duration(milliseconds: 100),
+        Duration(milliseconds: 500),
       ), next,
     );
   }

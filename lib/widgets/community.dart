@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:rxdart/rxdart.dart';
@@ -37,6 +38,7 @@ class CommunityTile extends StatelessWidget {
 class Communities extends StatelessWidget {
   Widget build(BuildContext context) {
     final CommunityBloc _bloc = BlocProvider.of<CommunityBloc>(context);
+    final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
     return BlocBuilder<CommunityBloc, CommunityState>(
       builder: (context, state) {
         if (state is EmptyCommunityState) {
@@ -74,7 +76,10 @@ class Communities extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                         ) : GestureDetector(
                           child: tile,
-                          onTap: () => _bloc.dispatch(ChangeCurrentCommunity(id: cs[i]['id'])),
+                          onTap: () {
+                            _rbloc.dispatch(CommunityRefreshTrigger());
+                            _bloc.dispatch(ChangeCurrentCommunity(id: cs[i]['id']));
+                          }
                         );
                       }
 

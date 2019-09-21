@@ -7,11 +7,18 @@ import 'package:cdr_today/blocs/community.dart';
 
 class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   final PostBloc p;
-
-  RefreshBloc({ this.p }) {
+  final CommunityBloc c;
+  
+  RefreshBloc({ this.p, this.c }) {
     p.state.listen((state) {
         if (state is FetchedSucceed) {
           this.dispatch(PostRefreshEndEvent());
+        }
+    });
+
+    c.state.listen((state) {
+        if (state is CommunityFetchedSucceed) {
+          this.dispatch(CommunityRefreshTrigger());
         }
     });
   }
@@ -37,6 +44,13 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
       yield PostRefreshStart();
     } else if (event is PostRefreshEndEvent) {
       yield PostRefreshEnd();
+    } else if (event is CommunityRefreshTrigger) {
+      if (currentState is CommunityRefreshing) {
+        yield RefreshIncipency();
+        return;
+      }
+
+      yield CommunityRefreshing();
     }
 
     return;
@@ -63,12 +77,22 @@ class PostRefreshEnd extends RefreshState {
   String toString() => 'PostRefreshEnd';
 }
 
+class CommunityRefreshing extends RefreshState {
+  @override
+  String toString() => 'CommunityRefreshing';
+}
+
 // -------------- events ----------------
 abstract class RefreshEvent extends Equatable {}
 
 class PostRefreshEvent extends RefreshEvent {
   @override
   String toString() => 'PostRefreshEvent';
+}
+
+class CommunityRefreshTrigger extends RefreshEvent {
+  @override
+  String toString() => 'CommunityRefreshTrigger';
 }
 
 class PostRefreshEndEvent extends RefreshEvent {
