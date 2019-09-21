@@ -26,7 +26,7 @@ class SwipeMember extends StatelessWidget {
           actions: [
             IconButton(
               icon: Icon(CupertinoIcons.settings),
-              onPressed: () => {},
+              onPressed: () => Navigator.pushNamed(context, '/community/settings'),
             )
           ]
         ),

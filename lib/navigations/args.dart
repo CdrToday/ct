@@ -35,3 +35,11 @@ class AuthorArgs {
   final String mail;
   AuthorArgs({ this.name, this.avatar, this.mail });
 }
+
+class CustomAvatarArgs {
+  final bool rect;
+  final String url;
+  final String tag;
+  final List<String> baks;
+  CustomAvatarArgs({ this.url, this.tag, this.baks, this.rect });
+}

@@ -122,6 +122,9 @@ Route router(settings) {
     return FadeRoute(page: InitPage());
   } else if (r == '/scan') {
     return FadeRoute(page: Scan());
+  } else if (r == '/avatar') {
+    final CustomAvatarArgs args = settings.arguments;
+    return FadeRoute(page: CustomAvatar(args: args));
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Article(args: args));
@@ -134,6 +137,8 @@ Route router(settings) {
     return FadeRoute(page: community.Create());
   } else if (r == '/community/join') {
     return FadeRoute(page: community.Join());
+  } else if (r == '/community/settings') {
+    return FadeRoute(page: community.Settings());
   } else if (r == '/user/verify') {
     return FadeRoute(page: Verify());
   } else if (r == '/user/edit') {

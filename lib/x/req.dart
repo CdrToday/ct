@@ -67,14 +67,17 @@ class Requests {
   }
 
   /// --- community ---
+  //@getMembers GET '/u/{mail:string}/c'
   Future<http.Response> getCommunities() async {
     return await rGet("/u/$mail/c");
   }
 
+  //@getMembers GET '/u/{mail:string}/{id:string}/members'
   Future<http.Response> getMembers({String id}) async {
     return await rGet("/u/$mail/c/$id/members");
   }
-  
+
+  //@createCommunity POST '/u/{mail:string}/c/create'
   Future<http.Response> createCommunity({String id, String name}) async {
     final Map body = {
       'id': id,
@@ -83,6 +86,7 @@ class Requests {
     return await rPost("/u/$mail/c/create", body: body);
   }
 
+  //@joinCommunity POST '/u/{mail:string}/c/join'
   Future<http.Response> joinCommunity({String id}) async {
     final Map body = {
       'id': id,
@@ -93,7 +97,6 @@ class Requests {
   /// --- author ----
   //@getPosts: GET '/a/{mail:string}/post'
   Future<http.Response> getAuthorPost({int page, String mail}) async {
-    print("/x/$mail/post?p=$page");
     return await rGet("/a/$mail/post?p=$page");
   }
   
