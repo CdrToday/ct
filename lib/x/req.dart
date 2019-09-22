@@ -4,7 +4,7 @@ import 'package:cdr_today/x/store.dart';
 import 'package:http/http.dart' as http;
 
 const Response = http.Response;
-http.Response timeout = http.Response('timeout', 408);
+final http.Response timeout = http.Response('timeout', 408);
 
 class Requests {
   final String base = conf['base'];
@@ -52,18 +52,51 @@ class Requests {
   /* routes */
   //@auth: GET '/a/{mail:string}'
   Future<http.Response> auth({String mail}) async {
-    return await rGet("/a/$mail");
+    return await rGet("/u/$mail");
   }
 
   //@authVerify: POST '/a/{mail:string}'
   Future<http.Response> authVerify({String mail, String code}) async {
     final Map body = { 'code': code };
-    var res = await rPost("/a/$mail", body: body);
+    var res = await rPost("/u/$mail", body: body);
     if (res.statusCode == 200) {
       setString('mail', mail);
       setString('code', code);
     }
     return res;
+  }
+
+  /// --- reddit ---
+  //@newReddit: POST '/u/{mail:string}/reddit'
+  Future<http.Response> newReddit({String type, String community, String document}) async {
+    final Map body = {
+      'type': type,
+      'document': document,
+      'community': community,
+    };
+    return await rPost("/u/$mail/reddit", body: body);
+  }
+
+  //@getPosts: GET '/u/:mail/c/:id/reddit'
+  Future<http.Response> getReddits({String community, int page}) async {
+    var res = await rGet("/u/$mail/c/$community/reddit?p=$page");
+    if (res.statusCode != 200) return getReddits(community: community, page: page);
+    return res;
+  }
+  
+  //@updatePost: PUT '/u/:mail/r/:id'
+  Future<http.Response> updateReddit({
+      String id, String document,
+  }) async {
+    final Map body = {
+      'document': document,
+    };
+    return await rPut("/u/$mail/r/$id", body: body);
+  }
+
+  //@deletePost: DELETE '/u/:mail/p/delete'
+  Future<http.Response> deleteReddit({ String id }) async {
+    return await rDelete("/u/$mail/r/$id");
   }
 
   /// --- community ---
@@ -102,7 +135,7 @@ class Requests {
   /// --- author ----
   //@getPosts: GET '/a/{mail:string}/post'
   Future<http.Response> getAuthorPost({int page, String mail}) async {
-    return await rGet("/a/$mail/post?p=$page");
+    return await rGet("/u/$mail/post?p=$page");
   }
   
   /// --- account ---

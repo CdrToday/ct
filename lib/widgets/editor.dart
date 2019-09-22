@@ -70,8 +70,7 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
     }
 
     // return data
-    UploadResult _data = UploadResult.fromJson(json.decode(res.body));
-    return _data.image;
+    return json.decode(res.body)['image'];
   }
   
   Widget buildImage(BuildContext context, String key) {
@@ -80,15 +79,5 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
       fit: BoxFit.fitWidth,
       width: MediaQuery.of(context).size.width - 32.0
     );
-  }
-}
-
-// ---------- API ---------
-class UploadResult {
-  final String image;
-  UploadResult({ this.image });
-  
-  factory UploadResult.fromJson(Map<String, dynamic> json) {
-    return UploadResult( image: json['image'] );
   }
 }

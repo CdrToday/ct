@@ -7,47 +7,8 @@ import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
-
-class PostItem extends StatelessWidget {
-  final ArticleArgs x;
-  
-  PostItem({ this.x });
-  @override
-  Widget build(BuildContext context) {
-    List<dynamic> json = jsonDecode(x.document);
-    String title;
-    for (var i in json) {
-      if (i['insert'].contains(new RegExp(r'\S'))) {
-        title = i['insert'];
-        break;
-      }
-    }
-    
-    return GestureDetector(
-      child: ListTile(
-        title: Container(
-          child: Text(title, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400)),
-          padding: EdgeInsets.only(top: kToolbarHeight / 8),
-        ),
-        subtitle: Container(
-          child: Text(display(x.timestamp), style: TextStyle(fontSize: 11.0)),
-          padding: EdgeInsets.only(top: 50.0),
-          alignment:  AlignmentDirectional.bottomEnd
-        ),
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 10.0, horizontal: 20.0
-        )
-      ),
-      onTap: () {
-        if (x.edit == true) {
-          Navigator.pushNamed(context, '/user/edit', arguments: x);
-        } else {
-          Navigator.pushNamed(context, '/article', arguments: x);
-        }
-      }
-    );
-  }
-}
+import 'package:cdr_today/widgets/_post/post.dart';
+import 'package:cdr_today/widgets/_post/reddit.dart';
 
 // post list
 class PostList extends StatefulWidget {
@@ -55,15 +16,17 @@ class PostList extends StatefulWidget {
   final bool edit;
   final bool hasReachedMax;
   final bool loading;
+  final bool community;
   final SliverAppBar appBar;
   final SliverList title;
   PostList({
       this.edit = false,
-      this.posts,
-      this.hasReachedMax,
-      this.appBar,
-      this.title,
-      this.loading = false
+      this.posts, // init in build.
+      this.hasReachedMax = false,
+      this.appBar = null,
+      this.title = null,
+      this.loading = false,
+      this.community = false
   });
   
   @override
@@ -122,7 +85,15 @@ class _PostState extends State<PostList> {
                 String document = posts[i]['document'];
                 int timestamp = posts[i]['timestamp'];
                 
-                return PostItem(
+                return widget.community ? RedditItem(
+                  x: ArticleArgs(
+                    id: id,
+                    edit: edit,
+                    document: document,
+                    timestamp: timestamp,
+                    author: posts[i]['author'],
+                  )
+                ) : PostItem(
                   x: ArticleArgs(
                     id: id,
                     edit: edit,

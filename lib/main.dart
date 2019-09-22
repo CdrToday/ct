@@ -11,6 +11,7 @@ import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/blocs/drawer.dart';
+import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/blocs/_author.dart';
 // pages
@@ -46,6 +47,7 @@ final AuthorPostBloc authorPostBloc = AuthorPostBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc, p: profileBloc);
 final PostBloc postBloc = PostBloc(e: editBloc, u: userBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
+final RedditBloc redditBloc = RedditBloc(c: communityBloc);
 final MemberBloc memberBloc = MemberBloc(c: communityBloc);
 final RefreshBloc refreshBloc = RefreshBloc(p: postBloc, c: communityBloc);
 class App extends StatelessWidget {
@@ -61,6 +63,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<PostBloc>(
           builder: (context) => postBloc
+        ),
+        BlocProvider<RedditBloc>(
+          builder: (context) => redditBloc
         ),
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc

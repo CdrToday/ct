@@ -20,7 +20,8 @@ class Edit extends StatefulWidget {
 class _EditState extends State<Edit> {
   ZefyrController _controller;
   FocusNode _focusNode;
-
+  bool _loading = false;
+  
   @override
   void initState() {
     super.initState();
@@ -28,16 +29,31 @@ class _EditState extends State<Edit> {
     _focusNode = FocusNode();
     _controller = ZefyrController(document);
   }
+
+  @override
+  dispose() {
+    super.dispose();
+  }
+
+  List<Widget> adaptar(BuildContext context) {
+    return widget.args.community != null ? editRedditActions(
+      context,
+      id: widget.args.id,
+      edit: widget.args.edit,
+      community: widget.args.community,
+      document: _controller.document,
+    ) : editActions(
+      context,
+      id: widget.args.id,
+      edit: widget.args.edit,
+      document: _controller.document,
+    );
+  }
   
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: editActions(
-          context,
-          id: widget.args.id,
-          edit: widget.args.edit,
-          document: _controller.document,
-        ),
+        actions: adaptar(context),
         elevation: 0.0,
         leading: CloseButton(), //widget.args.edit ? BackButton() : CloseButton()
         backgroundColor: Theme.of(context).scaffoldBackgroundColor

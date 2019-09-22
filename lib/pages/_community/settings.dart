@@ -79,7 +79,7 @@ Widget quit(BuildContext context, String id) {
 
             final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
             final CommunityBloc _cbloc = BlocProvider.of<CommunityBloc>(context);
-            
+
             _rbloc.dispatch(CommunityRefresher());
             _cbloc.dispatch(FetchCommunity());
             Navigator.maybePop(context);

@@ -4,7 +4,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/community.dart';
-import 'package:cdr_today/blocs/trigger.dart';
 
 class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   final PostBloc p;
