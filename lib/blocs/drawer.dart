@@ -7,6 +7,18 @@ import 'package:cdr_today/blocs/community.dart';
 
 // ------- bloc -----
 class DrawerBloc extends Bloc<DrawerEvent, DrawerState> {
+  final CommunityBloc c;
+  DrawerBloc({ this.c }) {
+    c.state.listen((state) {
+        if (state is CommunityFetchedSucceed) {
+          if (state.current == '') {
+            this.dispatch(NoSwipeDrawerEvent());
+            return;
+          }
+          this.dispatch(ChangeDrawerIndex(index: 0));
+        }
+    });
+  }
   
   @override
   DrawerState get initialState => DrawerIndex(index: 0);
@@ -15,6 +27,8 @@ class DrawerBloc extends Bloc<DrawerEvent, DrawerState> {
   Stream<DrawerState> mapEventToState(DrawerEvent event) async* {
     if (event is ChangeDrawerIndex) {
       yield DrawerIndex(index: event.index);
+    } else if (event is NoSwipeDrawerEvent) {
+      yield NoSwipeDrawer();
     }
   }
 }
@@ -33,6 +47,11 @@ class DrawerIndex extends DrawerState {
   toString() => 'DrawerIndex';
 }
 
+class NoSwipeDrawer extends DrawerState {
+  @override
+  toString() => 'NoSwipeDrawer';
+}
+
 // ------------- events -------------
 abstract class DrawerEvent extends Equatable {}
 
@@ -42,4 +61,9 @@ class ChangeDrawerIndex extends DrawerEvent {
   
   @override
   toString() => 'ChangeDrawerIndex';
+}
+
+class NoSwipeDrawerEvent extends DrawerEvent {
+  @override
+  toString() => 'NoSwipeDrawerEvent';
 }

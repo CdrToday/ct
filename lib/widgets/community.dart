@@ -57,7 +57,14 @@ class Communities extends StatelessWidget {
                         var i = index ~/ 2;
                         var tile = CommunityTile(
                           name: Text(cs[i]['name']),
-                          avatar: AvatarHero(tag: cs[i]['id'], rect: true),
+                          avatar: AvatarHero(
+                            baks: [
+                              cs[i]['name'],
+                              cs[i]['id']
+                            ],
+                            tag: cs[i]['id'],
+                            rect: true
+                          ),
                         );
 
                         return cs[i]['id'] == state.current ? Stack(
@@ -76,7 +83,7 @@ class Communities extends StatelessWidget {
                         ) : GestureDetector(
                           child: tile,
                           onTap: () {
-                            _rbloc.dispatch(CommunityRefreshTrigger());
+                            _rbloc.dispatch(CommunityRefresher());
                             _bloc.dispatch(ChangeCurrentCommunity(id: cs[i]['id']));
                           }
                         );

@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/community.dart';
+import 'package:cdr_today/blocs/trigger.dart';
 
 class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   final PostBloc p;
@@ -12,14 +13,14 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   RefreshBloc({ this.p, this.c }) {
     p.state.listen((state) {
         if (state is FetchedSucceed) {
-          this.dispatch(PostRefreshEndEvent());
+          this.dispatch(PostRefresher(refresh: false));
         }
     });
-
+    
     c.state.listen((state) {
         if (state is CommunityFetchedSucceed) {
           if (state.refresh == 0) return;
-          this.dispatch(CommunityRefreshTrigger());
+          this.dispatch(CommunityRefresher(refresh: false));
         }
     });
   }
@@ -37,22 +38,19 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   }
   
   @override
-  RefreshState get initialState => RefreshIncipency();
+  RefreshState get initialState => Refresher(post: false, community: false);
 
   @override
   Stream<RefreshState> mapEventToState(RefreshEvent event) async* {
-    if (event is PostRefreshEvent) {
-      yield PostRefreshStart();
-    } else if (event is PostRefreshEndEvent) {
-      yield PostRefreshEnd();
-    } else if (event is CommunityRefreshTrigger) {
-      if (currentState is CommunityRefreshing) {
-        yield RefreshIncipency();
-        return;
-      }
-
-      yield CommunityRefreshing();
-    }
+    if (event is PostRefresher) {
+      yield (currentState as Refresher).copyWith(
+        post: event.refresh ?? !(currentState as Refresher).post
+      );
+    } else if (event is CommunityRefresher) {
+      yield (currentState as Refresher).copyWith(
+        community: event.refresh ?? !(currentState as Refresher).community
+      );
+    } 
 
     return;
   }
@@ -63,40 +61,37 @@ abstract class RefreshState extends Equatable {
   RefreshState([List props = const []]) : super(props);
 }
 
-class RefreshIncipency extends RefreshState {
-  @override
-  String toString() => 'RefreshIncipency';
-}
+class Refresher extends RefreshState {
+  final bool post;
+  final bool community;
+  Refresher({
+      this.post,
+      this.community
+  }) : super([ post, community ]);
 
-class PostRefreshStart extends RefreshState {
-  @override
-  String toString() => 'PostRefreshStart';
-}
-
-class PostRefreshEnd extends RefreshState {
-  @override
-  String toString() => 'PostRefreshEnd';
-}
-
-class CommunityRefreshing extends RefreshState {
-  @override
-  String toString() => 'CommunityRefreshing';
+  Refresher copyWith({
+      bool post, bool community
+  }) {
+    return Refresher(
+      post: post ?? this.post,
+      community: community ?? this.community
+    );
+  }
 }
 
 // -------------- events ----------------
 abstract class RefreshEvent extends Equatable {}
 
-class PostRefreshEvent extends RefreshEvent {
+class PostRefresher extends RefreshEvent {
+  bool refresh;
+  PostRefresher({ this.refresh });
   @override
-  String toString() => 'PostRefreshEvent';
+  String toString() => 'PostRefresher';
 }
 
-class CommunityRefreshTrigger extends RefreshEvent {
+class CommunityRefresher extends RefreshEvent {
+  bool refresh;
+  CommunityRefresher({ this.refresh });
   @override
-  String toString() => 'CommunityRefreshTrigger';
-}
-
-class PostRefreshEndEvent extends RefreshEvent {
-  @override
-  String toString() => 'PostRefreshEndEvent';
+  String toString() => 'CommunityRefresher';
 }

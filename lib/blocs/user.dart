@@ -72,10 +72,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
 
       var data = await checkUser(mail: mail, code:code);
-      yield UserInited(
+      yield (currentState is UserInited) ? (currentState as UserInited).copyWith(
         mail: data['mail'],
         name: data['name'],
-        avatar: data['avatar']
+        avatar: data['avatar'],
+        refresh: (currentState as UserInited).refresh + 1
+      ):UserInited(
+        mail: data['mail'],
+        name: data['name'],
+        avatar: data['avatar'],
+        refresh: 0,
       );
     } else if (event is InitUserEvent) {
       if (currentState is UserInited) {
@@ -110,22 +116,26 @@ class UserInited extends UserState {
   final String mail;
   final String name;
   final String avatar;
+  final int refresh;
   
   UserInited({
       this.mail,
       this.name,
-      this.avatar
-  }) : super([ mail, name, avatar ]);
+      this.avatar,
+      this.refresh,
+  }) : super([ mail, name, avatar, refresh ]);
 
   UserInited copyWith({
       String mail,
       String name,
       String avatar,
+      int refresh,
   }) {
     return UserInited(
       mail: mail ?? this.mail,
       name: name ?? this.name,
       avatar: avatar ?? this.avatar,
+      refresh: refresh ?? this.refresh,
     );
   }
 }

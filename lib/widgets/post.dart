@@ -163,7 +163,7 @@ class _PostState extends State<PostList> {
         // dispatch events
         _postBloc.dispatch(FetchSelfPosts(refresh: t));
 
-        if (t == true) _refreshBloc.dispatch(PostRefreshEvent());
+        if (t == true) _refreshBloc.dispatch(PostRefresher());
         
         Observable.timer(
           t, new Duration(milliseconds: 1000)

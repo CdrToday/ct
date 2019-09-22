@@ -47,3 +47,29 @@ Future<void> alertLoading(BuildContext context, {String text}) async {
     },
   );
 }
+
+Future<void> alert(
+  BuildContext context, {
+    String id, String title, String ok, String cancel, VoidCallback action
+  }
+) async {
+  final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return CupertinoAlertDialog(
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text(cancel ?? '取消', style: TextStyle(color: Colors.black)),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          CupertinoDialogAction(
+            child: Text(ok ?? '确定', style: TextStyle(color: Colors.black)),
+            onPressed: action ?? () => Navigator.pop(context),
+          ),
+        ],
+        title: Text(title ?? ''),
+      );
+    },
+  );
+}

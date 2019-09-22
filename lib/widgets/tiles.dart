@@ -2,33 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 
-Widget articles(BuildContext context) {
-  return ListTile(
-    title: Text(
-      '文章管理',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.subhead,
-    ),
-    onTap: () => Navigator.popAndPushNamed(context, '/mine/bucket')
-  );
-}
+class Tile extends StatelessWidget {
+  final Widget title; 
+  final Widget trailing;
+  final VoidCallback onTap;
+  final EdgeInsets margin;
 
-Widget community(BuildContext context) {
-  return ListTile(
-    title: Text(
-      '我的社区',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.subhead,
-    ),
-    onTap: () async {
-      var url = 'mailto:cdr.today@foxmail.com?subject=hello';
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    }
-  );
+  Tile({
+      this.title,
+      this.trailing,
+      this.onTap,
+      this.margin,
+  });
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Card(
+        child: ListTile(
+          title: title,
+          trailing: trailing,
+          onTap: onTap,
+        )
+      ),
+      margin: margin ?? EdgeInsets.only(top: 10.0)
+    );
+  }
 }
 
 Widget author(BuildContext context) {

@@ -11,7 +11,7 @@ class PostRefresh extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RefreshBloc, RefreshState>(
       builder: (context, state) {
-        if (state is PostRefreshStart) {
+        if ((state as Refresher).post == true) {
           return Container(
             child: SizedBox(
               height: 12.0,
@@ -35,7 +35,7 @@ class CommunityRefresh extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RefreshBloc, RefreshState>(
       builder: (context, state) {
-        if (state is CommunityRefreshing) {
+        if ((state as Refresher).community == true) {
           return Container(
             child: SizedBox(
               height: 12.0,

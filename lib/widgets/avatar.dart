@@ -64,7 +64,6 @@ Widget _avatar({
     List<String> baks,
 }) {
   if (baks == null) baks = [];
-  
   if (url != null) {
     if (rect) {
       return ClipRRect(

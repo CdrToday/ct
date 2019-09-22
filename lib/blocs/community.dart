@@ -20,6 +20,7 @@ Future<List<dynamic>> getCommunities() async {
 // ------- bloc -----
 class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   final UserBloc u;
+  
   CommunityBloc({ this.u }) {
     u.state.listen((state) {
         if (state is UserInited) {
@@ -49,17 +50,22 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
     
     if (event is FetchCommunity) {
       var communities = await getCommunities();
-      
+
       if (currentState is EmptyCommunityState) {
-        yield CommunityFetchedSucceed(
+        yield communities.length > 0 ? CommunityFetchedSucceed(
           current: communities[0]['id'],
           communities: communities,
+          refresh: 0,
+        ) : CommunityFetchedSucceed(
+          current: '',
+          communities: [],
           refresh: 0,
         );
         return;
       }
       
       yield (currentState as CommunityFetchedSucceed).copyWith(
+        current: communities.length > 0 ? communities[0]['id'] : '',
         communities: communities,
         refresh: (currentState as CommunityFetchedSucceed).refresh + 1,
       );
