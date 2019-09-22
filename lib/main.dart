@@ -12,7 +12,6 @@ import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/blocs/drawer.dart';
 import 'package:cdr_today/blocs/community.dart';
-import 'package:cdr_today/blocs/trigger.dart';
 import 'package:cdr_today/blocs/_author.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
@@ -43,7 +42,6 @@ void main() {
 final EditBloc editBloc = EditBloc();
 final VerifyBloc verifyBloc = VerifyBloc();
 final ProfileBloc profileBloc = ProfileBloc();
-final TriggerBloc triggerBloc = TriggerBloc();
 final AuthorPostBloc authorPostBloc = AuthorPostBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc, p: profileBloc);
 final PostBloc postBloc = PostBloc(e: editBloc, u: userBloc);
@@ -66,9 +64,6 @@ class App extends StatelessWidget {
         ),
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc
-        ),
-        BlocProvider<TriggerBloc>(
-          builder: (context) => triggerBloc
         ),
         BlocProvider<ProfileBloc>(
           builder: (context) => profileBloc
