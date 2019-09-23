@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/widgets/cards.dart';
-import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 /// ## type List
@@ -19,7 +17,7 @@ class RedditItem extends StatelessWidget {
     for (var i in json) {
       if (i['insert'].contains(new RegExp(r'\S'))) {
         if (title == null) {
-          title = i['insert'].replaceAll(RegExp(r'\s'), '');;
+          title = i['insert'].replaceAll(RegExp(r'\s'), '');
           continue;
         }
       }

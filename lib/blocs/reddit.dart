@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
-import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 

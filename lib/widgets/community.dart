@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/avatar.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:cdr_today/x/req.dart' as xReq;
 
 class CommunityTile extends StatelessWidget {
   final Widget avatar;

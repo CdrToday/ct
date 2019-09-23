@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/refresh.dart';
@@ -24,8 +22,8 @@ class PostList extends StatefulWidget {
       this.edit = false,
       this.posts, // init in build.
       this.hasReachedMax = false,
-      this.appBar = null,
-      this.title = null,
+      this.appBar,
+      this.title,
       this.loading = false,
       this.community = false
   });
@@ -39,8 +37,6 @@ class _PostState extends State<PostList> {
   PostBloc _postBloc;
   RedditBloc _redditBloc;
   RefreshBloc _refreshBloc;
-  // Divider's height is 15.0;
-  // PostLoader's height is 90.0;
   double _scrollThreshold = 200.0;
   double _scrollIncipiency = (- kToolbarHeight);
   ScrollController _scrollController;
@@ -59,7 +55,27 @@ class _PostState extends State<PostList> {
   Widget build(BuildContext context) {
     bool edit = widget.edit;
     List<dynamic> posts = widget.posts ?? [];
-    
+    if (posts.length == 0) {
+      return CustomScrollView(
+        slivers: <Widget>[
+          widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
+          widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Container(
+                  child: Text('暂无文章'),
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height / 3
+                  ),
+                );
+              }, childCount: 1,
+            )
+          )
+        ]
+      );
+    }
     return CustomScrollView(
       slivers: <Widget>[
         widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
@@ -202,16 +218,16 @@ class PostLoader extends StatelessWidget {
 class PostBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox.shrink();
-    return Container(
-      child: Text(
-        '— ∞ —',
-        style: TextStyle(
-          color: Colors.grey[500],
-          fontSize: 13.0,
-        )
-      ),
-      alignment: Alignment.center,
-      padding: EdgeInsets.all(10.0),
-    );
+    // return Container(
+    //   child: Text(
+    //     '— ∞ —',
+    //     style: TextStyle(
+    //       color: Colors.grey[500],
+    //       fontSize: 13.0,
+    //     )
+    //   ),
+    //   alignment: Alignment.center,
+    //   padding: EdgeInsets.all(10.0),
+    // );
   }
 }

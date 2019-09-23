@@ -4,7 +4,7 @@ import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class EditBottomSheet extends StatelessWidget {
-  Widget cButton = BlocBuilder<CommunityBloc, CommunityState>(
+  final Widget cButton = BlocBuilder<CommunityBloc, CommunityState>(
     builder: (context, state) {
       return IconButton(
         icon: Icon(Icons.mode_edit),

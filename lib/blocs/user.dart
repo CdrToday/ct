@@ -60,8 +60,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
-    xReq.Requests r = await xReq.Requests.init();
-
     if (event is CheckUserEvent) {
       String mail = await getString('mail');
       String code = await getString('code');

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cdr_today/widgets/avatar.dart';
 
 class Tile extends StatelessWidget {
   final Widget title; 

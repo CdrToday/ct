@@ -97,21 +97,21 @@ class Refresher extends RefreshState {
 abstract class RefreshEvent extends Equatable {}
 
 class PostRefresh extends RefreshEvent {
-  bool refresh;
+  final bool refresh;
   PostRefresh({ this.refresh = true });
   @override
   String toString() => 'PostRefresh';
 }
 
 class CommunityRefresh extends RefreshEvent {
-  bool refresh;
+  final bool refresh;
   CommunityRefresh({ this.refresh = true });
   @override
   String toString() => 'CommunityRefresh';
 }
 
 class RedditRefresh extends RefreshEvent {
-  bool refresh;
+  final bool refresh;
   RedditRefresh({ this.refresh = true });
   @override
   String toString() => 'RedditRefresh';

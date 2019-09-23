@@ -8,11 +8,10 @@ class Join extends StatefulWidget {
 }
 
 class _JoinState extends State<Join> {
-  String _id;
-  
-  void changeId(String value) {
-    setState(() { _id = value; });
-  }
+  // String _id;
+  // void changeId(String value) {
+  //   setState(() { _id = value; });
+  // }
   
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +27,7 @@ class _JoinState extends State<Join> {
       ),
       body: Input(
         helper: '请输入社区 ID',
-        onChanged: changeId,
+        // onChanged: changeId,
       ),
       backgroundColor: Theme.of(context).primaryColorLight,
     );

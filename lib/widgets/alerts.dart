@@ -53,7 +53,6 @@ Future<void> alert(
     String id, String title, String ok, String cancel, VoidCallback action
   }
 ) async {
-  final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {

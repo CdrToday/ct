@@ -61,7 +61,7 @@ class Avatar extends StatelessWidget {
   final double width;
   final bool rect;
   final String url;
-  List<String> baks;
+  final List<String> baks;
   
   Avatar({
       this.width,
@@ -71,7 +71,7 @@ class Avatar extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
-    if (baks == null) baks = [];
+    // if (baks == null) _baks = [];
     if (url != null) {
       if (rect) {
         return ClipRRect(
@@ -89,8 +89,9 @@ class Avatar extends StatelessWidget {
     } 
 
     // use baks string;
-    baks = baks + ['?'];
-    for (var i in baks) {
+    var _baks;
+    baks != null ? _baks = baks : _baks = ['?'];
+    for (var i in _baks) {
       if (i == null) continue;
       if (rect) {
         return SizedBox(

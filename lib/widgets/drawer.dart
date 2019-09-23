@@ -1,4 +1,3 @@
-import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -12,8 +11,6 @@ class SwipeDrawer extends StatefulWidget {
 }
 
 class _SwipeDrawerState extends State<SwipeDrawer> {
-  int _index = 0;
-  
   @override
   Widget build(BuildContext context) {
     final DrawerBloc _bloc = BlocProvider.of<DrawerBloc>(context);
@@ -26,7 +23,7 @@ class _SwipeDrawerState extends State<SwipeDrawer> {
             },
             itemCount: 2,
             loop: false,
-            index: (state as DrawerIndex).index,
+            index: state.index,
             pagination: SwiperPagination(
               margin: EdgeInsets.only(bottom: kToolbarHeight / 1.2),
               builder: DotSwiperPaginationBuilder(

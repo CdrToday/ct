@@ -20,7 +20,6 @@ class Edit extends StatefulWidget {
 class _EditState extends State<Edit> {
   ZefyrController _controller;
   FocusNode _focusNode;
-  bool _loading = false;
   
   @override
   void initState() {

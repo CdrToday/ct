@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:cdr_today/x/conf.dart';
-import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/widgets/actions.dart';

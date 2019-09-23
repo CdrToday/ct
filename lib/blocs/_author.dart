@@ -30,7 +30,6 @@ class AuthorPostBloc extends Bloc<AuthorPostEvent, AuthorPostState> {
 
   @override
   Stream<AuthorPostState> mapEventToState(AuthorPostEvent event) async* {
-    xReq.Requests r = await xReq.Requests.init();
     if (event is FetchAuthorPosts) {
       if (event.mail == null) return;
       // refresh posts

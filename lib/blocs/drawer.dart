@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:bloc/bloc.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/community.dart';
 

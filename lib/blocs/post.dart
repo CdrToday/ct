@@ -52,7 +52,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
-    xReq.Requests r = await xReq.Requests.init();
     if (event is FetchSelfPosts) {
       // refresh posts
       if (event.refresh == true) {

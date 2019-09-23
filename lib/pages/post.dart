@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/_author.dart';
 import 'package:cdr_today/widgets/post.dart';
-import 'package:cdr_today/widgets/center.dart';
 
 class Post extends StatefulWidget {
   final bool edit;
@@ -17,7 +16,6 @@ class Post extends StatefulWidget {
 
 class _PostState extends State<Post> {
   Widget build(BuildContext context) {
-    final PostBloc _bloc = BlocProvider.of<PostBloc>(context);
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
         if (state is UnFetched) {

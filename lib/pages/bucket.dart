@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/pages/post.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/refresh.dart';
-import 'package:cdr_today/widgets/sheets.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Bucket extends StatelessWidget {

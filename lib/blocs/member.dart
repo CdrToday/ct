@@ -46,8 +46,6 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
 
   @override
   Stream<MemberState> mapEventToState(MemberEvent event) async* {
-    xReq.Requests r = await xReq.Requests.init();
-    
     if (event is FetchMember) {
       var members = await getMembers(id: event.id);
       yield (currentState as Members).copyWith(

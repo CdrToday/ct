@@ -46,8 +46,6 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
 
   @override
   Stream<CommunityState> mapEventToState(CommunityEvent event) async* {
-    xReq.Requests r = await xReq.Requests.init();
-    
     if (event is FetchCommunity) {
       var communities = await getCommunities();
 
