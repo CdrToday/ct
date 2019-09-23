@@ -7,6 +7,7 @@ class RootArgs {
 class ArticleArgs {
   final bool edit;
   final String id;
+  final String type;
   final String mail;
   final String avatar;
   final String author;
@@ -18,6 +19,7 @@ class ArticleArgs {
       this.id,
       this.mail,
       this.edit,
+      this.type,
       this.avatar,
       this.author,
       this.document,

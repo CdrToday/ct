@@ -25,7 +25,7 @@ class Input extends StatelessWidget {
         ),
         Container(
           child: Text(helper, style: TextStyle(color: Colors.grey)),
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0,),
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           alignment: Alignment.centerLeft
         )
       ]

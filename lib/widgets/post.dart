@@ -111,6 +111,7 @@ class _PostState extends State<PostList> {
                     mail: posts[i]['mail'],
                     document: document,
                     timestamp: timestamp,
+                    community: posts[i]['community'],
                     avatar: posts[i]['avatar'],
                     author: posts[i]['author'],
                   )

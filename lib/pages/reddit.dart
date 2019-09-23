@@ -28,6 +28,7 @@ class _RedditState extends State<Reddit> {
               for (var m in members) {
                 if (m['mail'] == r['author']) {
                   r['author'] = m['name'];
+                  r.putIfAbsent('mail', () => m['mail']);
                   r.putIfAbsent('avatar', () => m['avatar']);
                 }
               }

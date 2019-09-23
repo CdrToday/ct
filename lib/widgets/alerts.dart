@@ -50,7 +50,7 @@ Future<void> alertLoading(BuildContext context, {String text}) async {
 
 Future<void> alert(
   BuildContext context, {
-    String id, String title, String ok, String cancel, VoidCallback action
+    String title, String ok, String cancel, VoidCallback action
   }
 ) async {
   return showDialog<void>(
@@ -59,12 +59,12 @@ Future<void> alert(
       return CupertinoAlertDialog(
         actions: <Widget>[
           CupertinoDialogAction(
-            child: Text(cancel ?? '取消', style: TextStyle(color: Colors.black)),
+            child: Text(cancel ?? '取消'),
             onPressed: () => Navigator.of(context).pop(),
           ),
           CupertinoDialogAction(
-            child: Text(ok ?? '确定', style: TextStyle(color: Colors.black)),
-            onPressed: action ?? () => Navigator.pop(context),
+            child: Text(ok ?? '确定'),
+            onPressed: action ?? Navigator.pop(context),
           ),
         ],
         title: Text(title ?? ''),
