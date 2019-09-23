@@ -17,6 +17,7 @@ Future<List<dynamic>> getMembers({String id}) async {
 // ------- bloc -----
 class MemberBloc extends Bloc<MemberEvent, MemberState> {
   final CommunityBloc c;
+  
   MemberBloc({ this.c }) {
     c.state.listen((state) {
         if (state is CommunityFetchedSucceed) {
@@ -38,7 +39,10 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
   }
   
   @override
-  MemberState get initialState => EmptyMemberState();
+  MemberState get initialState => Members(
+    members: [],
+    refresh: 0,
+  );
 
   @override
   Stream<MemberState> mapEventToState(MemberEvent event) async* {
@@ -46,15 +50,9 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
     
     if (event is FetchMember) {
       var members = await getMembers(id: event.id);
-      
-      if (currentState is EmptyMemberState) {
-        yield MemberFetchedSucceed(members: members, refresh: 0);
-        return;
-      }
-      
-      yield (currentState as MemberFetchedSucceed).copyWith(
+      yield (currentState as Members).copyWith(
         members: members,
-        refresh: (currentState as MemberFetchedSucceed).refresh + 1,
+        refresh: (currentState as Members).refresh + 1,
       );
     }
   }
@@ -65,24 +63,18 @@ abstract class MemberState extends Equatable {
   MemberState([List props = const []]) : super(props);
 }
 
-class EmptyMemberState extends MemberState {
-  @override
-
-  toString() => "EmptyMemberState";
-}
-
-class MemberFetchedSucceed extends MemberState {
+class Members extends MemberState {
   final List<dynamic> members;
   final int refresh;
   
-  MemberFetchedSucceed({
+  Members({
       this.members, this.refresh = 0,
   }) : super([ members, refresh ]);
 
-  MemberFetchedSucceed copyWith({
+  Members copyWith({
       List<dynamic> members, int refresh,
   }) {
-    return MemberFetchedSucceed(
+    return Members(
       members: members ?? this.members,
       refresh: refresh ?? this.refresh
     );

@@ -82,7 +82,7 @@ class _CreateState extends State<Create> {
       return;
     }
 
-    _rbloc.dispatch(CommunityRefresher());
+    _rbloc.dispatch(CommunityRefresh());
     _cbloc.dispatch(FetchCommunity());
     Navigator.maybePop(context);
     Navigator.maybePop(context);

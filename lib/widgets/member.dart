@@ -17,7 +17,7 @@ class CommunityMember extends StatelessWidget {
         appBar,
         BlocBuilder<MemberBloc, MemberState>(
           builder: (context, state) {
-            if (state is MemberFetchedSucceed) {
+            if (state is Members) {
               var ms = state.members;
               return SliverList(
                 delegate: SliverChildBuilderDelegate(

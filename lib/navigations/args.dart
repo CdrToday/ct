@@ -7,14 +7,18 @@ class RootArgs {
 class ArticleArgs {
   final bool edit;
   final String id;
+  final String mail;
+  final String avatar;
   final String author;
   final String document;
   final String community;
   final int timestamp;
 
   ArticleArgs({
-      this.edit,
       this.id,
+      this.mail,
+      this.edit,
+      this.avatar,
       this.author,
       this.document,
       this.community,

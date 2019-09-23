@@ -41,6 +41,7 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
     var res = await r.upload(image: image);
     
     if (res.statusCode != 200) {
+      Navigator.pop(context);
       snacker(ctx, '图片上传失败，请重试');
       return;
     }

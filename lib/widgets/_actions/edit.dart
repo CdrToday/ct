@@ -3,6 +3,8 @@ import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/edit.dart';
+import 'package:cdr_today/blocs/refresh.dart';
+import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
@@ -58,6 +60,9 @@ List<Widget> editRedditActions(
     bool edit,
   }
 ) {
+  final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
+  final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
+  
   Widget delete = IconButton(
     icon: Icon(Icons.highlight_off),
     onPressed: () => deleteArticle(context, id)
@@ -65,7 +70,7 @@ List<Widget> editRedditActions(
 
   Widget empty = SizedBox.shrink();
   if (edit != true) delete = empty;
-
+  
   Builder post = Builder(
     builder: (context) => IconButton(
       icon: Icon(Icons.check),
@@ -96,6 +101,8 @@ List<Widget> editRedditActions(
           return;
         }
         
+        _bloc.dispatch(RedditRefresh(refresh: true));
+        _rbloc.dispatch(FetchReddits(refresh: true));
         Navigator.pop(context);
       }
     )

@@ -14,33 +14,33 @@ class RedditItem extends StatelessWidget {
   Widget build(BuildContext context) {
     List<dynamic> json = jsonDecode(x.document);
     String title;
+    String cover;
+
     for (var i in json) {
       if (i['insert'].contains(new RegExp(r'\S'))) {
-        title = i['insert'];
-        break;
+        if (title == null) {
+          title = i['insert'].replaceAll(RegExp(r'\s'), '');;
+          continue;
+        }
+      }
+
+      if (
+        cover == null
+        && i['attributes'] != null
+        && i['attributes']['embed'] != null
+        && i['attributes']['embed']['type'] == 'image'
+      ) {
+        cover = i['attributes']['embed']['source'];
+        continue;
       }
     }
 
     return WeChat(
+      avatar: x.avatar,
       author: x.author,
+      cover: cover,
       timestamp: x.timestamp,
       title: title,
-    );
-    return GestureDetector(
-      child: ListTile(
-        title: Container(
-          child: Text(title, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400)),
-          padding: EdgeInsets.only(top: kToolbarHeight / 8),
-        ),
-        subtitle: Container(
-          child: Text(display(x.timestamp), style: TextStyle(fontSize: 11.0)),
-          padding: EdgeInsets.only(top: 50.0),
-          alignment:  AlignmentDirectional.bottomEnd
-        ),
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 10.0, horizontal: 20.0
-        )
-      ),
       onTap: () {
         if (x.edit == true) {
           Navigator.pushNamed(context, '/user/edit', arguments: x);

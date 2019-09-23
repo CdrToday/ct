@@ -76,7 +76,10 @@ class Avatar extends StatelessWidget {
       if (rect) {
         return ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          child: Image.network(conf['image'] + url, fit:BoxFit.cover),
+          child: Image.network(
+            conf['image'] + url,
+            fit:BoxFit.cover,
+          ),
         );
       }
       return CircleAvatar(

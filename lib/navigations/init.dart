@@ -20,7 +20,7 @@ class InitPage extends StatelessWidget {
             ),
           ),
           centerTitle: true,
-          title: PostRefresh(),
+          title: RedditRefresher(),
           automaticallyImplyLeading: false,
           backgroundColor: Colors.grey[50],
           snap: true,

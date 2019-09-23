@@ -18,7 +18,7 @@ class Bucket extends StatelessWidget {
           elevation: 0.0,
           forceElevated: true,
           leading: CloseButton(),
-          title: PostRefresh(),
+          title: PostRefresher(),
         ),
         title: title(context)
       ),

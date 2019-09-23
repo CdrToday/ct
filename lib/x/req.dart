@@ -150,7 +150,7 @@ class Requests {
   //@updateName: PUT '/u/{mail:string}/i/avatar'
   Future<http.Response> updateAvatar({String avatar}) async {
     final Map body = {
-      'avatar': avatar
+      'avatar': avatar,
     };
     return await rPut("/u/$mail/i/avatar", body: body);
   }

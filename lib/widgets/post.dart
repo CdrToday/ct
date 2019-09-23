@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/blocs/post.dart';
+import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/_post/post.dart';
@@ -36,6 +37,7 @@ class PostList extends StatefulWidget {
 class _PostState extends State<PostList> {
   bool _scrollLock = false;
   PostBloc _postBloc;
+  RedditBloc _redditBloc;
   RefreshBloc _refreshBloc;
   // Divider's height is 15.0;
   // PostLoader's height is 90.0;
@@ -49,6 +51,7 @@ class _PostState extends State<PostList> {
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     _postBloc = BlocProvider.of<PostBloc>(context);
+    _redditBloc = BlocProvider.of<RedditBloc>(context);
     _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }
 
@@ -84,13 +87,15 @@ class _PostState extends State<PostList> {
                 String id = posts[i]['id'];
                 String document = posts[i]['document'];
                 int timestamp = posts[i]['timestamp'];
-                
+
                 return widget.community ? RedditItem(
                   x: ArticleArgs(
                     id: id,
                     edit: edit,
+                    mail: posts[i]['mail'],
                     document: document,
                     timestamp: timestamp,
+                    avatar: posts[i]['avatar'],
                     author: posts[i]['author'],
                   )
                 ) : PostItem(
@@ -103,7 +108,9 @@ class _PostState extends State<PostList> {
                 );
               }
               
-              return Divider(indent: 15.0, endIndent: 10.0);
+              return widget.community
+              ? SizedBox.shrink()
+              : Divider(indent: 15.0, endIndent: 10.0);
             },
             childCount: posts.length * 2 + 1
           )
@@ -132,9 +139,13 @@ class _PostState extends State<PostList> {
       Duration(milliseconds: 1000)
     ).listen((t) {
         // dispatch events
-        _postBloc.dispatch(FetchSelfPosts(refresh: t));
-
-        if (t == true) _refreshBloc.dispatch(PostRefresher());
+        if (widget.community) {
+          _refreshBloc.dispatch(RedditRefresh());
+          _redditBloc.dispatch(FetchReddits(refresh: t));
+        } else {
+          _refreshBloc.dispatch(PostRefresh());
+          _postBloc.dispatch(FetchSelfPosts(refresh: t));
+        }
         
         Observable.timer(
           t, new Duration(milliseconds: 1000)
@@ -190,6 +201,7 @@ class PostLoader extends StatelessWidget {
 
 class PostBottom extends StatelessWidget {
   Widget build(BuildContext context) {
+    return SizedBox.shrink();
     return Container(
       child: Text(
         '— ∞ —',

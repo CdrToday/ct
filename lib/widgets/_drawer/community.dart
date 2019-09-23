@@ -12,7 +12,7 @@ class SwipeCommunity extends StatelessWidget {
       appBar: AppBar(
         leading: null,
         automaticallyImplyLeading: false,
-        title: CommunityRefresh(),
+        title: CommunityRefresher(),
       ),
       body: Column(
         children: <Widget>[

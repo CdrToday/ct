@@ -47,9 +47,13 @@ final AuthorPostBloc authorPostBloc = AuthorPostBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc, p: profileBloc);
 final PostBloc postBloc = PostBloc(e: editBloc, u: userBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
-final RedditBloc redditBloc = RedditBloc(c: communityBloc);
 final MemberBloc memberBloc = MemberBloc(c: communityBloc);
-final RefreshBloc refreshBloc = RefreshBloc(p: postBloc, c: communityBloc);
+final RedditBloc redditBloc = RedditBloc(c: communityBloc);
+final RefreshBloc refreshBloc = RefreshBloc(
+  p: postBloc,
+  c: communityBloc,
+  r: redditBloc,
+);
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

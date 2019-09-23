@@ -42,13 +42,24 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
     xReq.Requests r = await xReq.Requests.init();
 
     if (event is FetchReddits) {
-      List<dynamic> reddits = json.decode((await r.getReddits(
-            community: event.community,
-            page: 0
-      )).body)['reddits'];
+      List<dynamic> reddits;
+      if (event.community == null) {
+        reddits = json.decode((await r.getReddits(
+              community: (currentState as Reddits).community,
+              page: 0
+        )).body)['reddits'];
+      } else {
+        reddits = json.decode((await r.getReddits(
+              community: event.community,
+              page: 0
+        )).body)['reddits'];
+      }
 
       yield (currentState as Reddits).copyWith(
-        reddits: reddits, page: 0
+        reddits: reddits,
+        community: event.community,
+        page: 0,
+        refresh: (currentState as Reddits).refresh + 1,
       );
     }
   }
@@ -62,6 +73,7 @@ abstract class RedditState extends Equatable {
 class Reddits extends RedditState {
   final int page;
   final int refresh;
+  final String community;
   final List<dynamic> reddits;
   final bool hasReachedMax;
 
@@ -69,12 +81,14 @@ class Reddits extends RedditState {
       this.page,
       this.reddits,
       this.refresh,
+      this.community,
       this.hasReachedMax,
-  }): super([reddits, hasReachedMax, refresh, page]);
+  }): super([reddits, community, hasReachedMax, refresh, page]);
   
   Reddits copyWith({
       int page,
       int refresh,
+      String community,
       List<dynamic> reddits,
       bool hasReachedMax
   }) {
@@ -82,12 +96,13 @@ class Reddits extends RedditState {
       page: page ?? this.page,
       reddits: reddits ?? this.reddits,
       refresh: refresh ?? this.refresh,
+      community: community ?? this.community,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
   
   @override
-  String toString() => 'FetchedSucceed';
+  String toString() => 'Reddits';
 }
 
 

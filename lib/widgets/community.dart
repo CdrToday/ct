@@ -83,7 +83,7 @@ class Communities extends StatelessWidget {
                         ) : GestureDetector(
                           child: tile,
                           onTap: () {
-                            _rbloc.dispatch(CommunityRefresher());
+                            _rbloc.dispatch(CommunityRefresh());
                             _bloc.dispatch(ChangeCurrentCommunity(id: cs[i]['id']));
                           }
                         );
