@@ -117,12 +117,12 @@ class _PostState extends State<PostList> {
                 ) : PostItem(
                   x: ArticleArgs(
                     id: id,
-                    mail: posts[i]['mail'],
+                    mail: posts[i]['author'],
                     document: document,
                     timestamp: timestamp,
                     community: posts[i]['community'],
-                    avatar: posts[i]['avatar'],
-                    author: posts[i]['author'],
+                    // avatar: posts[i]['avatar'],
+                    // author: posts[i]['author'],
                   )
                 );
               }

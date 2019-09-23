@@ -47,37 +47,10 @@ class _EditState extends State<Edit> {
         leading: CloseButton(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor
       ),
-      body: BlocListener<EditBloc, EditState>(
-        listener: (context, state) {
-          if (state is Posting) {
-            alertLoading(context);
-          } else if (state is PublishSucceed) {
-            Navigator.pop(context);
-            Navigator.maybePop(context);
-          } else if (state is UpdateSucceed) {
-            Navigator.pop(context);
-            Navigator.maybePop(context);
-          } else if (state is PublishFailed) {
-            Navigator.pop(context);
-            snacker(context, '发布失败，请重试');
-          } else if (state is DeleteFailed) {
-            Navigator.pop(context);
-            snacker(context, '删除失败，请重试');
-          } else if (state is UpdateFailed) {
-            Navigator.pop(context);
-            snacker(context, '更新失败，请重试');
-          } else if (state is EmptyEditState) {
-            return;
-          } else {
-            Navigator.pop(context);
-            Navigator.maybePop(context);
-          }
-        },
-        child: Editor(
-          focusNode: _focusNode,
-          controller: _controller,
-          edit: true,
-        ),
+      body: Editor(
+        focusNode: _focusNode,
+        controller: _controller,
+        edit: true,
       ),
     );
   }

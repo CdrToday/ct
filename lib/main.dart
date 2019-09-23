@@ -40,12 +40,11 @@ void main() {
   runApp(App());
 }
 
-final EditBloc editBloc = EditBloc();
 final VerifyBloc verifyBloc = VerifyBloc();
 final ProfileBloc profileBloc = ProfileBloc();
 final AuthorPostBloc authorPostBloc = AuthorPostBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc, p: profileBloc);
-final PostBloc postBloc = PostBloc(e: editBloc, u: userBloc);
+final PostBloc postBloc = PostBloc(u: userBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
 final MemberBloc memberBloc = MemberBloc(c: communityBloc);
 final RedditBloc redditBloc = RedditBloc(c: communityBloc);
@@ -61,9 +60,6 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider<ThemeBloc>(
           builder: (context) => ThemeBloc()
-        ),
-        BlocProvider<EditBloc>(
-          builder: (context) => editBloc
         ),
         BlocProvider<PostBloc>(
           builder: (context) => postBloc

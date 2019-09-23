@@ -4,9 +4,9 @@ import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/refresh.dart';
+import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/snackers.dart';
@@ -30,6 +30,7 @@ List<Widget> editActionsProvider(BuildContext context, {
   Widget post = Post(
     update: update,
     args: args,
+    toPreview: toPreview,
     zefyrController: zefyrController,
   );
   
@@ -49,13 +50,14 @@ class Post extends StatelessWidget {
   final bool update;
   final ArticleArgs args;
   final ZefyrController zefyrController;
-  Post({ this.update, this.zefyrController, this.args });
+  final VoidCallback toPreview;
+  Post({ this.update, this.zefyrController, this.args, this.toPreview });
 
   @override
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
-    final EditBloc _ebloc = BlocProvider.of<EditBloc>(context);
+    final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
     
     return Builder(
       builder: (context) => IconButton(
@@ -81,12 +83,10 @@ class Post extends StatelessWidget {
             }
           } else {
             if (update == true) {
-              _ebloc.dispatch(UpdateEdit(id: args.id, document: json));
+              res = await r.updatePost(document: json, id: args.id);
             } else {
-              _ebloc.dispatch(CompletedEdit(document: json));
+              res = await r.newPost(document: json);
             }
-
-            return;
           }
           
           if (res.statusCode != 200) {
@@ -96,15 +96,21 @@ class Post extends StatelessWidget {
 
             return;
           }
-          
-          _bloc.dispatch(RedditRefresh(refresh: true));
-          _rbloc.dispatch(FetchReddits(refresh: true));
+
+          if (args.community != null) {
+            _bloc.dispatch(RedditRefresh(refresh: true));
+            _rbloc.dispatch(FetchReddits(refresh: true));
+          } else {
+            _bloc.dispatch(PostRefresh(refresh: true));
+            _pbloc.dispatch(FetchSelfPosts(refresh: true));
+          }
 
           if (update == true) {
             snacker(context, '更新成功', color: Colors.black);
+            if (toPreview != null) toPreview();
             return;
           }
-
+          
           Navigator.maybePop(context);
         }
       )
@@ -154,24 +160,33 @@ class EditActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
-    final EditBloc _ebloc = BlocProvider.of<EditBloc>(context);
+    final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
     
     VoidCallback delete() async {
       final xReq.Requests r = await xReq.Requests.init();
-      
+
+      var res;
       if (args.community != null) {
-        var res = await r.deleteReddit(id: args.id);
-        if (res.statusCode == 200) {
+        res = await r.deleteReddit(id: args.id);
+      } else {
+        res = await r.deletePost(id: args.id);
+      }
+      
+      if (res.statusCode == 200) {
+        if (args.community != null) {
           _bloc.dispatch(RedditRefresh(refresh: true));
           _rbloc.dispatch(FetchReddits(refresh: true));
-          Navigator.maybePop(context);
         } else {
-          snacker(context, '删除失败，请重试');
+          _bloc.dispatch(PostRefresh(refresh: true));
+          _pbloc.dispatch(FetchSelfPosts(refresh: true));
         }
+        
         Navigator.maybePop(context);
       } else {
-        _ebloc.dispatch(DeleteEdit(id: args.id));
+        snacker(context, '删除失败，请重试');
       }
+      
+      Navigator.maybePop(context);
     }
 
     VoidCallback alertDelete(BuildContext ctx) {
