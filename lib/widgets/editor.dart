@@ -46,15 +46,13 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
     
     File file = await ImagePicker.pickImage(
       source: source,
-      maxWidth: 540.0,
+      maxWidth: 1024.0,
     );
 
     if (file == null) return null;
     file = await ImageCropper.cropImage(
       sourcePath: file.path,
-      ratioX: 1.0,
-      ratioY: 1.0,
-      toolbarTitle: '裁剪',
+      toolbarTitle: '',
     );
 
     if (file == null) return null;

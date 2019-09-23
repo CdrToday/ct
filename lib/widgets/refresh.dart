@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 
@@ -28,7 +29,6 @@ class PostRefresher extends StatelessWidget {
 
 class CommunityRefresher extends StatelessWidget {
   final Widget widget;
-
   CommunityRefresher({ this.widget });
 
   @override
@@ -69,6 +69,29 @@ class RedditRefresher extends StatelessWidget {
           );
         }
         return widget ?? SizedBox.shrink();
+      }
+    );
+  }
+}
+
+class EditRefresher extends StatelessWidget {
+  final bool empty;
+  final Widget widget;
+  EditRefresher({ this.empty = false, this.widget });
+  
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RefreshBloc, RefreshState>(
+      builder: (context, state) {
+        if ((state as Refresher).edit) {
+          if (empty == true) return SizedBox.shrink();
+          return Padding(
+            padding: EdgeInsets.only(right: 16.0),
+            child: CupertinoActivityIndicator(),
+          );
+        }
+
+        return widget;
       }
     );
   }

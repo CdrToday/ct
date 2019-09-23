@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/main.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/user.dart';
-import 'package:cdr_today/blocs/edit.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/profile.dart';

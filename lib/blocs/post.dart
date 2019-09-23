@@ -17,7 +17,7 @@ Future<List<dynamic>> getPosts({int page}) async {
 class PostBloc extends Bloc<PostEvent, PostState> {
   final UserBloc u;
   
-  PostBloc({ this.e, this.u }) {
+  PostBloc({ this.u }) {
     u.state.listen((state) {
         if (state is UserInited) {
           this.dispatch(FetchSelfPosts());

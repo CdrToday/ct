@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/widgets/editor.dart';
 import 'package:cdr_today/widgets/actions.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Article extends StatefulWidget {
@@ -29,25 +30,29 @@ class _ArticleState extends State<Article> {
   
   @override
   Widget build(BuildContext context) {
+    EditActionsProvider eap = EditActionsProvider(
+      context,
+      args: widget.args,
+      screenshotController: screenshotController,
+      zefyrController: controller,
+      toEdit: () {
+        Navigator.pop(context);
+        setState(() { _edit = true; });
+      },
+      toPreview: () => setState(() { _edit = false; }),
+      update: true,
+    );
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
         leading: CloseButton(),
-        actions: editActionsProvider(
-          context,
-          args: widget.args,
-          screenshotController: screenshotController,
-          zefyrController: controller,
-          toEdit: () {
-            Navigator.pop(context);
-            setState(() { _edit = true; });
-          },
-          toPreview: () {
-            setState(() { _edit = false; });
-          },
-          edit: _edit,
-          update: true,
-        ),
+        actions: _edit ? [
+          EditRefresher(widget: eap.cancel, empty: true),
+          EditRefresher(widget: eap.post),
+        ] : [
+          EditRefresher(widget: eap.more)
+        ],
       ),
       body: Screenshot(
         controller: screenshotController,

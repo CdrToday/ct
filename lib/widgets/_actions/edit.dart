@@ -15,35 +15,44 @@ import 'package:cdr_today/navigations/args.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
-List<Widget> editActionsProvider(BuildContext context, {
-    ArticleArgs args,
-    ScreenshotController screenshotController,
-    ZefyrController zefyrController,
-    VoidCallback toEdit, VoidCallback toPreview, bool edit, bool update,
-}) {
-  Widget more = More(
+class EditActionsProvider {
+  final BuildContext context;
+  final bool update;
+  final ArticleArgs args;
+  final VoidCallback toEdit;
+  final VoidCallback toPreview;
+  final ZefyrController zefyrController;
+  final ScreenshotController screenshotController;
+    
+  EditActionsProvider(
+    this.context, {
+      this.args,
+      this.screenshotController,
+      this.zefyrController,
+      this.toEdit,
+      this.toPreview,
+      this.update,
+    }
+  );
+
+  Widget get more => More(
     args: args,
     toEdit: toEdit,
     screenshotController: screenshotController,
   );
 
-  Widget post = Post(
+
+  Widget get post => Post(
     update: update,
     args: args,
     toPreview: toPreview,
     zefyrController: zefyrController,
   );
   
-  Widget cancel = IconButton(
+  Widget get cancel => IconButton(
     icon: Icon(Icons.highlight_off),
     onPressed: toPreview
   );
-
-  if (edit) {
-    return [cancel, post];
-  } else {
-    return [more];
-  }
 }
 
 class Post extends StatelessWidget {
@@ -72,6 +81,9 @@ class Post extends StatelessWidget {
             return;
           }
 
+          ///// refresh actions
+          _bloc.dispatch(Refresh(edit: true));
+          /////
           var res;
           if (args.community != null) {
             if (update == true) {
@@ -88,7 +100,10 @@ class Post extends StatelessWidget {
               res = await r.newPost(document: json);
             }
           }
-          
+
+          ///// stop refreshing actions
+          _bloc.dispatch(Refresh(edit: false));
+          ////
           if (res.statusCode != 200) {
             update == true
             ? snacker(context, '更新失败，请重试')
@@ -165,13 +180,19 @@ class EditActions extends StatelessWidget {
     VoidCallback delete() async {
       final xReq.Requests r = await xReq.Requests.init();
 
+      ///// refresh actions
+      _bloc.dispatch(Refresh(edit: true));
+      /////
       var res;
       if (args.community != null) {
         res = await r.deleteReddit(id: args.id);
       } else {
         res = await r.deletePost(id: args.id);
       }
-      
+
+      ///// refresh actions
+      _bloc.dispatch(Refresh(edit: false));
+      /////
       if (res.statusCode == 200) {
         if (args.community != null) {
           _bloc.dispatch(RedditRefresh(refresh: true));

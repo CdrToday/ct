@@ -21,7 +21,7 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
     final xReq.Requests r = await xReq.Requests.init();
     File file = await ImagePicker.pickImage(
       source: ImageSource.gallery,
-      maxWidth: 540.0,
+      maxWidth: 1024.0,
     );
 
     if (file == null) return;
@@ -29,9 +29,7 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
       sourcePath: file.path,
       ratioX: 1.0,
       ratioY: 1.0,
-      maxWidth: 512,
-      maxHeight: 512,
-      toolbarTitle: '裁剪',
+      toolbarTitle: '',
     );
 
     if (file == null) return;
@@ -66,17 +64,16 @@ List<Widget> avatarActions(BuildContext context, screenshotController) {
   CupertinoActionSheet bottomSheet(BuildContext ctx) => CupertinoActionSheet(
     actions: [
       CupertinoActionSheetAction(
-        child: Text('更换', style: Theme.of(ctx).textTheme.title),
+        child: Text('更换'),
         onPressed: () => pickImage(ctx),
       ),
       CupertinoActionSheetAction(
-        child: Text('保存', style: Theme.of(ctx).textTheme.title),
+        child: Text('保存'),
         onPressed: () => saveImage(ctx),
       ),
     ],
     cancelButton: CupertinoActionSheetAction(
-      child: Text('取消', style: Theme.of(ctx).textTheme.title),
-      isDefaultAction: true,
+      child: Text('取消'),
       onPressed: () => Navigator.pop(ctx),
     )
   );
