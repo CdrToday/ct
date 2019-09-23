@@ -26,7 +26,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     xReq.Requests r = await xReq.Requests.init();
     if (event is UpdateProfileName) {
       yield ProfileUpdating();
-      bool valid = RegExp(r"^[a-z]+$").hasMatch(event.name);
+      bool valid = RegExp(r"^[\u4e00-\u9fa5_a-zA-Z0-9]+$").hasMatch(event.name);
       if (valid == false) {
         yield ProfileNameCheckedFailed();
         yield EmptyProfileState();

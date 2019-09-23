@@ -15,10 +15,12 @@ class SwipeMember extends StatelessWidget {
           snap: true,
           elevation: 0.4,
           forceElevated: true,
-          expandedHeight: kToolbarHeight * 2,
+          expandedHeight: kToolbarHeight * 1.6,
           // title: PostRefresh(),
           flexibleSpace: FlexibleSpaceBar(
-            title: CommunityName(),
+            title: Container(
+              child: CommunityName(),
+            )
           ),
           actions: [
             IconButton(

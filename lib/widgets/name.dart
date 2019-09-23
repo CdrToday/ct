@@ -54,7 +54,6 @@ class CommunityName extends StatelessWidget {
           for (var i in cs) {
             if (i['id'] == state.current) name = i['name'];
           }
-
           return Text(name ?? '?');
         }
 

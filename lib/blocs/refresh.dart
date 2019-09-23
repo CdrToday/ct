@@ -27,7 +27,7 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
 
     r.state.listen((state) {
         if (state is Reddits) {
-          this.dispatch(RedditRefresh(refresh: false));
+          if (state.refresh != 0) this.dispatch(RedditRefresh(refresh: false));
         }
     });
   }

@@ -15,7 +15,7 @@ class _ScanState extends State<Scan> {
       body: SizedBox(
         child: new QrCamera(
           qrCodeCallback: (code) {
-            print(code);
+            // print(code);
           },
         )
       )

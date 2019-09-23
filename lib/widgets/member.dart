@@ -18,34 +18,36 @@ class CommunityMember extends StatelessWidget {
           builder: (context, state) {
             if (state is Members) {
               var ms = state.members;
-              return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    if (index == 0) return SizedBox(height: 8.0);
-                    return index.isOdd ? CommunityTile(
-                      avatar: AvatarHero(
-                        width: 20.0,
-                        url: ms[index ~/ 2]['avatar'],
-                        tag: ms[index ~/ 2]['avatar'],
-                      ),
-                      name: Text(ms[index ~/ 2]['name']),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 32.0,
-                        vertical: 8.0,
-                      ),
-                      onTap: () => Navigator.pushNamed(
-                        context, '/community/author',
-                        arguments: AuthorArgs(
-                          name: ms[index ~/ 2]['name'],
-                          avatar: ms[index ~/ 2]['avatar'],
-                          mail: ms[index ~/ 2]['mail'],
+              if (ms.length > 0) {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      if (index == 0) return SizedBox(height: 8.0);
+                      return index.isOdd ? CommunityTile(
+                        avatar: AvatarHero(
+                          width: 20.0,
+                          url: ms[index ~/ 2]['avatar'],
+                          tag: ms[index ~/ 2]['avatar'],
+                        ),
+                        name: Text(ms[index ~/ 2]['name']),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32.0,
+                          vertical: 8.0,
+                        ),
+                        onTap: () => Navigator.pushNamed(
+                          context, '/community/author',
+                          arguments: AuthorArgs(
+                            name: ms[index ~/ 2]['name'],
+                            avatar: ms[index ~/ 2]['avatar'],
+                            mail: ms[index ~/ 2]['mail'],
+                          )
                         )
-                      )
-                    ) : Divider();
-                  },
-                  childCount: state.members.length * 2,
-                )
-              );
+                      ) : Divider();
+                    },
+                    childCount: state.members.length * 2,
+                  )
+                );
+              }
             }
             return SliverList(
               delegate: SliverChildBuilderDelegate(

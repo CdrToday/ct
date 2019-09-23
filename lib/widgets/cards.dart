@@ -15,7 +15,7 @@ class WeChat extends StatelessWidget {
       this.cover,
       this.avatar,
       this.author = '?',
-      this.title,
+      this.title = '',
       this.timestamp = 0,
       this.onTap,
   });
@@ -32,7 +32,7 @@ class WeChat extends StatelessWidget {
               cover != null ? Center(
                 child: Image.network(
                   conf['image'] + cover,
-                  height: 150.0,
+                  height: 180.0,
                   fit: BoxFit.fitWidth,
                   width: double.infinity,
                 )
@@ -80,6 +80,9 @@ Widget head({String avatar, String author, int timestamp}) {
 }
 
 Widget content({String title}) {
+  if (title == null) {
+    return Container(height: 10.0);
+  }
   return Container(
     child: Column(
       children: [

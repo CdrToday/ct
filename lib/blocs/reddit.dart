@@ -45,12 +45,12 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
       if (event.community == null) {
         reddits = json.decode((await r.getReddits(
               community: (currentState as Reddits).community,
-              page: 0
+              page: 0,
         )).body)['reddits'];
       } else {
         reddits = json.decode((await r.getReddits(
               community: event.community,
-              page: 0
+              page: 0,
         )).body)['reddits'];
       }
 

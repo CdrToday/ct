@@ -12,10 +12,10 @@ import 'package:cdr_today/x/req.dart' as xReq;
 Future<Map<String, String>> checkUser({String mail, String code}) async {
   final xReq.Requests r = await xReq.Requests.init();
   var res = await r.authVerify(mail: mail, code: code);
-  if (res.statusCode != 200) return checkUser(mail: mail, code: code);
+  if (res.statusCode == 400) return { "err": "400" };
+  if (res.statusCode == 408) return checkUser(mail: mail, code: code);
 
   var data = json.decode(res.body)['data'];
-  
   return {
     'name': data['name'],
     'mail': data['mail'],
@@ -70,6 +70,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
 
       var data = await checkUser(mail: mail, code:code);
+      if (data['err'] != null) {
+        yield UserUnInited();
+        return;
+      }
+      
       yield (currentState is UserInited) ? (currentState as UserInited).copyWith(
         mail: data['mail'],
         name: data['name'],

@@ -67,7 +67,7 @@ class _PostState extends State<PostList> {
                   child: Text('暂无文章'),
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height / 3
+                    vertical: MediaQuery.of(context).size.height / 2.7
                   ),
                 );
               }, childCount: 1,
@@ -86,7 +86,7 @@ class _PostState extends State<PostList> {
               return Container(
                 child: CupertinoActivityIndicator(),
                 padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height / 3
+                  vertical: MediaQuery.of(context).size.height / 2.7
                 ),
               );
             }, childCount: 1,

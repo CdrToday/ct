@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/pages/reddit.dart';
+import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/drawer.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/sheets.dart';

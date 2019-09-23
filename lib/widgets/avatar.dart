@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lpinyin/lpinyin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/conf.dart';
@@ -71,6 +72,7 @@ class Avatar extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
+    // print(PinyinHelper.getShortPinyin('abc'));
     // if (baks == null) _baks = [];
     if (url != null) {
       if (rect) {
@@ -93,6 +95,8 @@ class Avatar extends StatelessWidget {
     baks != null ? _baks = baks : _baks = ['?'];
     for (var i in _baks) {
       if (i == null) continue;
+
+      i = PinyinHelper.getShortPinyin(i);
       if (rect) {
         return SizedBox(
           child: Container(
