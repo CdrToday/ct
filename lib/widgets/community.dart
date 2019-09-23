@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/avatar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class CommunityTile extends StatelessWidget {
   final Widget avatar;
-  final Widget name;
+  final String name;
   final Widget trailing;
   final VoidCallback onTap;
   final EdgeInsets padding;
@@ -20,7 +21,11 @@ class CommunityTile extends StatelessWidget {
           children: [
             avatar ?? SizedBox.shrink(),
             SizedBox(width: 10.0),
-            name ?? SizedBox.shrink(),
+            AutoSizeText(
+              name,
+              maxLines: 1,
+              style: TextStyle(fontSize: 18),
+            ) ?? SizedBox.shrink(),
             Spacer(),
             trailing ?? SizedBox.shrink(),
           ],
@@ -53,7 +58,7 @@ class Communities extends StatelessWidget {
                       if (index.isOdd) {
                         var i = index ~/ 2;
                         var tile = CommunityTile(
-                          name: Text(cs[i]['name']),
+                          name: cs[i]['name'],
                           avatar: AvatarHero(
                             baks: [
                               cs[i]['name'],

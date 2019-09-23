@@ -65,16 +65,6 @@ class _CreateState extends State<Create> {
       snacker(context, '社区 ID 只能使用字母数字与下划线 "_"，长度需小于 20', secs: 2);
       return;
     }
-
-    bool _nameValid = RegExp(r"^[\u4e00-\u9fa5_a-zA-Z0-9]{1,20}$").hasMatch(_name);
-    if (!_nameValid) {
-      snacker(
-        context,
-        '社区名称能够使用字母数字与下划线 "_"，以及中文字符，长度需小于 20',
-        secs: 2
-      );
-      return;
-    }
     
     var res = await r.createCommunity(id: _id, name: _name);
     if (res.statusCode != 200) {

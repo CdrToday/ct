@@ -16,7 +16,6 @@ class SwipeMember extends StatelessWidget {
           elevation: 0.4,
           forceElevated: true,
           expandedHeight: kToolbarHeight * 1.6,
-          // title: PostRefresh(),
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
               child: CommunityName(),

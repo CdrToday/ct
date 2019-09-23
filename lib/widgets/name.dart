@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/community.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 // @usage: AvatarHero
 class Name extends StatelessWidget {
@@ -54,7 +55,11 @@ class CommunityName extends StatelessWidget {
           for (var i in cs) {
             if (i['id'] == state.current) name = i['name'];
           }
-          return Text(name ?? '?');
+          return AutoSizeText(
+            name ?? '?',
+            style: TextStyle(fontSize: 20),
+            maxLines: 1,
+          );
         }
 
         return Text('?');

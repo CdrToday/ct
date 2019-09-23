@@ -4,6 +4,8 @@ import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/community.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 
 class CommunityMember extends StatelessWidget {
   final SliverAppBar appBar;
@@ -29,7 +31,7 @@ class CommunityMember extends StatelessWidget {
                           url: ms[index ~/ 2]['avatar'],
                           tag: ms[index ~/ 2]['avatar'],
                         ),
-                        name: Text(ms[index ~/ 2]['name']),
+                        name: (ms[index ~/ 2]['name']),
                         padding: EdgeInsets.symmetric(
                           horizontal: 32.0,
                           vertical: 8.0,
