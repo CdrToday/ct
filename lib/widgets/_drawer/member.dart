@@ -18,7 +18,7 @@ class SwipeMember extends StatelessWidget {
           expandedHeight: kToolbarHeight * 1.6,
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
-              child: CommunityName(),
+              child: CommunityName(limit: true),
             )
           ),
           actions: [

@@ -46,6 +46,9 @@ class Name extends StatelessWidget {
 }
 
 class CommunityName extends StatelessWidget {
+  final bool limit;
+  CommunityName({this.limit = false});
+  
   Widget build(BuildContext context) {
     return BlocBuilder<CommunityBloc, CommunityState>(
       builder: (context, state) {
@@ -55,10 +58,18 @@ class CommunityName extends StatelessWidget {
           for (var i in cs) {
             if (i['id'] == state.current) name = i['name'];
           }
-          return AutoSizeText(
-            name ?? '?',
-            style: TextStyle(fontSize: 20),
-            maxLines: 1,
+
+          if (name == null) name = '?';
+          if (limit) {
+            if (name.length > 15) name = name.substring(0, 15) + '...';
+          }
+          
+          return Container(
+            child: AutoSizeText(
+              name,
+              style: TextStyle(fontSize: 20),
+              maxLines: 1,
+            ),
           );
         }
 

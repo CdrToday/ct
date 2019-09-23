@@ -5,13 +5,13 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/conf.dart';
 
 class AvatarHero extends StatelessWidget {
-  final String tag;
-  final VoidCallback onTap;
-  final double width;
   final bool rect;
   final bool self;
+  final double width;
+  final String tag;
   final String url;
   final List<String> baks;
+  final VoidCallback onTap;
 
   AvatarHero({
       this.url,

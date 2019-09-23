@@ -25,27 +25,32 @@ class WeChat extends StatelessWidget {
     return GestureDetector(
       child: Container(
         child: Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              head(avatar: avatar, author: author, timestamp: timestamp),
-              cover != null ? Center(
-                child: Image.network(
-                  conf['image'] + cover,
-                  height: 180.0,
-                  fit: BoxFit.fitWidth,
-                  width: double.infinity,
-                )
-              ): SizedBox.shrink(),
-              content(title: title),
-            ]
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                head(avatar: avatar, author: author, timestamp: timestamp),
+                cover != null ? Center(
+                  child: Image.network(
+                    conf['image'] + cover,
+                    height: 180.0,
+                    fit: BoxFit.fitWidth,
+                    width: double.infinity,
+                  )
+                ): SizedBox.shrink(),
+                content(title: title),
+              ]
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0)
+            ),
           ),
           elevation: 0.2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12.0))
-          )
+          ),
         ),
-        padding: EdgeInsets.all(6.0),
+        margin: EdgeInsets.all(6.0),
       ),
       onTap: onTap,
     );
@@ -81,7 +86,7 @@ Widget head({String avatar, String author, int timestamp}) {
 
 Widget content({String title}) {
   if (title == null) {
-    return Container(height: 10.0);
+    return Container();
   }
   return Container(
     child: Column(

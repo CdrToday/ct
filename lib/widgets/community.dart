@@ -22,7 +22,9 @@ class CommunityTile extends StatelessWidget {
             avatar ?? SizedBox.shrink(),
             SizedBox(width: 10.0),
             AutoSizeText(
-              name,
+              name.length > 15
+              ? name.substring(0, 15) + '...'
+              : name,
               maxLines: 1,
               style: TextStyle(fontSize: 18),
             ) ?? SizedBox.shrink(),
