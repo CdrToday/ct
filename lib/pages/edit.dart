@@ -33,28 +33,18 @@ class _EditState extends State<Edit> {
   dispose() {
     super.dispose();
   }
-
-  List<Widget> adaptar(BuildContext context) {
-    return widget.args.community != null ? editRedditActions(
-      context,
-      id: widget.args.id,
-      edit: widget.args.edit,
-      community: widget.args.community,
-      document: _controller.document,
-    ) : editActions(
-      context,
-      id: widget.args.id,
-      edit: widget.args.edit,
-      document: _controller.document,
-    );
-  }
   
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: adaptar(context),
+        actions: Post.toList(
+          context,
+          args: widget.args,
+          update: false,
+          zefyrController: _controller,
+        ),
         elevation: 0.0,
-        leading: CloseButton(), //widget.args.edit ? BackButton() : CloseButton()
+        leading: CloseButton(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor
       ),
       body: BlocListener<EditBloc, EditState>(

@@ -33,13 +33,7 @@ class PostItem extends StatelessWidget {
           vertical: 10.0, horizontal: 20.0
         )
       ),
-      onTap: () {
-        if (x.edit == true) {
-          Navigator.pushNamed(context, '/user/edit', arguments: x);
-        } else {
-          Navigator.pushNamed(context, '/article', arguments: x);
-        }
-      }
+      onTap: () => Navigator.pushNamed(context, '/article', arguments: x),
     );
   }
 }

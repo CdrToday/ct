@@ -21,63 +21,16 @@ List<Widget> editActionsProvider(BuildContext context, {
     ZefyrController zefyrController,
     VoidCallback toEdit, VoidCallback toPreview, bool edit, bool update,
 }) {
-  final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
-  final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
-
-  Widget more = BlocBuilder<UserBloc, UserState>(
-    builder: (context, state) {
-      if (state is UserInited) {
-        if (state.mail == args.mail) {
-          return EditActions(
-            controller: screenshotController,
-            toEdit: toEdit,
-            args: args,
-          );
-        }
-      }
-
-      return SizedBox.shrink();
-    }
+  Widget more = More(
+    args: args,
+    toEdit: toEdit,
+    screenshotController: screenshotController,
   );
 
-  Widget post = Builder(
-    builder: (context) => IconButton(
-      icon: Icon(Icons.check),
-      onPressed: () async {
-        final xReq.Requests r = await xReq.Requests.init();
-        final String json = jsonEncode(zefyrController.document);
-
-        FocusScope.of(context).requestFocus(FocusNode());
-        if (!zefyrController.document.toPlainText().contains(RegExp(r'\S+'))) {
-          snacker(context, '请填写文章内容');
-          return;
-        }
-
-        var res;
-        if (update == true) {
-          res = await r.updateReddit(document: json, id: args.id);
-        } else {
-          res = await r.newReddit(
-            document: json, community: args.community, type: args.type
-          );
-        }
-        
-        if (res.statusCode != 200) {
-          update == true
-          ? snacker(context, '更新失败，请重试')
-          : snacker(context, '发布失败，请重试');
-
-          return;
-        }
-        
-        _bloc.dispatch(RedditRefresh(refresh: true));
-        _rbloc.dispatch(FetchReddits(refresh: true));
-
-        update == true
-          ? snacker(context, '更新成功', color: Colors.black)
-          : snacker(context, '发布成功', color: Colors.black);
-      }
-    )
+  Widget post = Post(
+    update: update,
+    args: args,
+    zefyrController: zefyrController,
   );
   
   Widget cancel = IconButton(
@@ -92,6 +45,105 @@ List<Widget> editActionsProvider(BuildContext context, {
   }
 }
 
+class Post extends StatelessWidget {
+  final bool update;
+  final ArticleArgs args;
+  final ZefyrController zefyrController;
+  Post({ this.update, this.zefyrController, this.args });
+
+  @override
+  Widget build(BuildContext context) {
+    final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
+    final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
+    final EditBloc _ebloc = BlocProvider.of<EditBloc>(context);
+    
+    return Builder(
+      builder: (context) => IconButton(
+        icon: Icon(Icons.check),
+        onPressed: () async {
+          final xReq.Requests r = await xReq.Requests.init();
+          final String json = jsonEncode(zefyrController.document);
+
+          FocusScope.of(context).requestFocus(FocusNode());
+          if (!zefyrController.document.toPlainText().contains(RegExp(r'\S+'))) {
+            snacker(context, '请填写文章内容');
+            return;
+          }
+
+          var res;
+          if (args.community != null) {
+            if (update == true) {
+              res = await r.updateReddit(document: json, id: args.id);
+            } else {
+              res = await r.newReddit(
+                document: json, community: args.community, type: args.type
+              );
+            }
+          } else {
+            if (update == true) {
+              _ebloc.dispatch(UpdateEdit(id: args.id, document: json));
+            } else {
+              _ebloc.dispatch(CompletedEdit(document: json));
+            }
+
+            return;
+          }
+          
+          if (res.statusCode != 200) {
+            update == true
+            ? snacker(context, '更新失败，请重试')
+            : snacker(context, '发布失败，请重试');
+
+            return;
+          }
+          
+          _bloc.dispatch(RedditRefresh(refresh: true));
+          _rbloc.dispatch(FetchReddits(refresh: true));
+
+          if (update == true) {
+            snacker(context, '更新成功', color: Colors.black);
+            return;
+          }
+
+          Navigator.maybePop(context);
+        }
+      )
+    );
+  }
+
+  static List<Widget> toList(BuildContext context, {
+      bool update, ArticleArgs args, ZefyrController zefyrController,
+  }) {
+    return [Post(update: update, args: args, zefyrController: zefyrController)];
+  }
+}
+
+class More extends StatelessWidget {
+  final ArticleArgs args;
+  final VoidCallback toEdit;
+  final ScreenshotController screenshotController;
+  More({ this.args, this.toEdit, this.screenshotController });
+  
+  @override
+  build(BuildContext context) {
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state is UserInited) {
+          if (state.mail == args.mail) {
+            return EditActions(
+              controller: screenshotController,
+              toEdit: toEdit,
+              args: args,
+            );
+          }
+        }
+
+        return SizedBox.shrink();
+      }
+    );
+  }
+}
+
 class EditActions extends StatelessWidget {
   final ScreenshotController controller;
   final VoidCallback toEdit;
@@ -102,6 +154,37 @@ class EditActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
+    final EditBloc _ebloc = BlocProvider.of<EditBloc>(context);
+    
+    VoidCallback delete() async {
+      final xReq.Requests r = await xReq.Requests.init();
+      
+      if (args.community != null) {
+        var res = await r.deleteReddit(id: args.id);
+        if (res.statusCode == 200) {
+          _bloc.dispatch(RedditRefresh(refresh: true));
+          _rbloc.dispatch(FetchReddits(refresh: true));
+          Navigator.maybePop(context);
+        } else {
+          snacker(context, '删除失败，请重试');
+        }
+        Navigator.maybePop(context);
+      } else {
+        _ebloc.dispatch(DeleteEdit(id: args.id));
+      }
+    }
+
+    VoidCallback alertDelete(BuildContext ctx) {
+      Navigator.pop(ctx);
+      alert(context, title: '删除文章?', action: delete);
+    } 
+
+    VoidCallback share() async {
+      Navigator.pop(context);
+      File image = await controller.capture(pixelRatio: 1.5);
+      String name = DateTime.now().toString();
+      await Share.file(name, "$name.png", image.readAsBytesSync(), 'image/png');
+    }
     
     return IconButton(
       icon: Icon(Icons.more_horiz),
@@ -112,12 +195,7 @@ class EditActions extends StatelessWidget {
             actions: [
               CupertinoActionSheetAction(
                 child: Text('分享'),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  File image = await controller.capture(pixelRatio: 1.5);
-                  String name = DateTime.now().toString();
-                  await Share.file(name, "$name.png", image.readAsBytesSync(), 'image/png');
-                }
+                onPressed: share,
               ),
               CupertinoActionSheetAction(
                 child: Text('编辑'),
@@ -125,28 +203,7 @@ class EditActions extends StatelessWidget {
               ),
               CupertinoActionSheetAction(
                 child: Text('删除'),
-                onPressed: () async {
-                  final xReq.Requests r = await xReq.Requests.init();
-                  Navigator.pop(ctx);
-                  alert(
-                    context,
-                    title: '删除文章？',
-                    action: () async {
-                      if (args.community != null) {
-                        var res = await r.deleteReddit(id: args.id);
-                        if (res.statusCode == 200) {
-                          _bloc.dispatch(RedditRefresh(refresh: true));
-                          _rbloc.dispatch(FetchReddits(refresh: true));
-                          Navigator.maybePop(context);
-                        } else {
-                          snacker(context, '删除失败，请重试');
-                        }
-
-                        Navigator.maybePop(context);
-                      }
-                    },
-                  );
-                }
+                onPressed: () => alertDelete(ctx),
               ),
             ],
             cancelButton: CupertinoActionSheetAction(
@@ -158,106 +215,4 @@ class EditActions extends StatelessWidget {
       }
     );
   }
-}
-
-// edit Actions
-List<Widget> editActions(
-  BuildContext context, {
-    NotusDocument document,
-    String id,
-    bool edit
-  }
-) {
-  final EditBloc _bloc = BlocProvider.of<EditBloc>(context);
-  
-  Widget delete = IconButton(
-    icon: Icon(Icons.highlight_off),
-    onPressed: () => deleteArticle(context, id)
-  );
-
-  Widget empty = SizedBox.shrink();
-  if (edit != true) delete = empty;
-
-  Builder post = Builder(
-    builder: (context) => IconButton(
-      icon: Icon(Icons.check),
-      onPressed: () {
-        String json = jsonEncode(document);
-
-        FocusScope.of(context).requestFocus(FocusNode());
-        if (!document.toPlainText().contains(RegExp(r'\S+'))) {
-          snacker(context, '请填写文章内容');
-          return;
-        }
-        
-        if (edit != true) {
-          _bloc.dispatch(CompletedEdit(document: json));
-        } else {
-          _bloc.dispatch(UpdateEdit(id: id, document: json));
-        }
-      }
-    )
-  );
-  
-  return [delete, post];
-}
-
-// edit Actions
-List<Widget> editRedditActions(
-  BuildContext context, {
-    NotusDocument document,
-    String community,
-    String id,
-    bool edit,
-  }
-) {
-  final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
-  final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
-  
-  Widget delete = IconButton(
-    icon: Icon(Icons.highlight_off),
-    onPressed: () => deleteArticle(context, id)
-  );
-
-  Widget empty = SizedBox.shrink();
-  if (edit != true) delete = empty;
-  
-  Builder post = Builder(
-    builder: (context) => IconButton(
-      icon: Icon(Icons.check),
-      onPressed: () async {
-        final xReq.Requests r = await xReq.Requests.init();
-        final String json = jsonEncode(document);
-
-        FocusScope.of(context).requestFocus(FocusNode());
-        if (!document.toPlainText().contains(RegExp(r'\S+'))) {
-          snacker(context, '请填写文章内容');
-          return;
-        }
-        
-        var res;
-        if (edit == false) {
-          res = await r.newReddit(
-            document: json, community: community, type: 'article'
-          );
-        } else {
-          res = await r.updateReddit(document: json, id: id);
-        }
-        
-        if (res.statusCode != 200) {
-          edit == false
-          ? snacker(context, '发送失败，请重试')
-          : snacker(context, '更新失败，请重试');
-
-          return;
-        }
-        
-        _bloc.dispatch(RedditRefresh(refresh: true));
-        _rbloc.dispatch(FetchReddits(refresh: true));
-        Navigator.pop(context);
-      }
-    )
-  );
-  
-  return [delete, post];
 }

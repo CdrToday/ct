@@ -107,7 +107,6 @@ class _PostState extends State<PostList> {
                 return widget.community ? RedditItem(
                   x: ArticleArgs(
                     id: id,
-                    edit: edit,
                     mail: posts[i]['mail'],
                     document: document,
                     timestamp: timestamp,
@@ -118,9 +117,12 @@ class _PostState extends State<PostList> {
                 ) : PostItem(
                   x: ArticleArgs(
                     id: id,
-                    edit: edit,
+                    mail: posts[i]['mail'],
                     document: document,
-                    timestamp: timestamp
+                    timestamp: timestamp,
+                    community: posts[i]['community'],
+                    avatar: posts[i]['avatar'],
+                    author: posts[i]['author'],
                   )
                 );
               }
