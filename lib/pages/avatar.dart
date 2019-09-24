@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/widgets/snackers.dart';
-import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/avatar.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/widgets/actions.dart' as actions;
 
 class Avatar extends StatelessWidget {
   final screenshotController = ScreenshotController();
@@ -15,7 +15,13 @@ class Avatar extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: null,
-        actions: avatarActions(context, screenshotController),
+        actions: [
+          ProfileRefresher(
+            widget: actions.Avatar(
+              screenshotController: screenshotController
+            )
+          )
+        ],
         leading: IconButton(
           icon: Icon(Icons.close),
           color: Colors.white,
@@ -30,16 +36,7 @@ class Avatar extends StatelessWidget {
         builder: (context) => Center(
           child: Screenshot(
             child: Container(
-              child: BlocListener<ProfileBloc, ProfileState>(
-                listener: (context, state) {
-                  if (state is ProfileAvatarUpdatedFailed) {
-                    snacker(context, "头像修改失败，请重试");
-                  } else if (state is ProfileAvatarUpdatedSucceed) {
-                    Navigator.pop(context);
-                  }
-                },
-                child: AvatarHero(self: true, rect: true),
-              ),
+              child: AvatarHero(self: true, rect: true),
               color: Colors.black,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,

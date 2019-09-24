@@ -20,7 +20,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   PostBloc({ this.u }) {
     u.state.listen((state) {
         if (state is UserInited) {
-          this.dispatch(FetchPosts());
+          this.dispatch(FetchPosts(refresh: true));
         }
     });
   }
@@ -73,10 +73,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         _currentPage = (currentState as Posts).page + 1;
         _posts = (currentState as Posts).posts;
       }
-
+      
       // get posts
       var posts = await getPosts(page: _currentPage);
-      
       yield Posts(
         page: _currentPage,
         posts: _posts + posts,
@@ -126,7 +125,7 @@ class Posts extends PostState {
   }
   
   @override
-  String toString() => 'FetchedSucceed';
+  String toString() => 'Posts';
 }
 
 // ----------- events ------------

@@ -42,26 +42,16 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   }
   
   @override
-  CommunityState get initialState => EmptyCommunityState();
+  CommunityState get initialState => Communities(
+    current: '',
+    communities: [],
+    refresh: 0,
+  );
 
   @override
   Stream<CommunityState> mapEventToState(CommunityEvent event) async* {
     if (event is FetchCommunities) {
       var communities = await getCommunities();
-
-      if (currentState is EmptyCommunityState) {
-        yield communities.length > 0 ? Communities(
-          current: communities[0]['id'],
-          communities: communities,
-          refresh: 0,
-        ) : Communities(
-          current: '',
-          communities: [],
-          refresh: 0,
-        );
-        return;
-      }
-      
       yield (currentState as Communities).copyWith(
         current: communities.length > 0 ? communities[0]['id'] : '',
         communities: communities,
@@ -79,11 +69,6 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
 // ------------- state ------------
 abstract class CommunityState extends Equatable {
   CommunityState([List props = const []]) : super(props);
-}
-
-class EmptyCommunityState extends CommunityState {
-  @override
-  toString() => "EmptyCommunityState";
 }
 
 class Communities extends CommunityState {

@@ -37,7 +37,9 @@ class EditActionsProvider {
 
   Widget get more => More(
     args: args,
+    update: update,
     toEdit: toEdit,
+    zefyrController: zefyrController,
     screenshotController: screenshotController,
   );
 
@@ -81,52 +83,32 @@ class Post extends StatelessWidget {
             return;
           }
 
+          if (update != true) {
+            toPreview();
+            return;
+          }
+          
           ///// refresh actions
           _bloc.dispatch(Refresh(edit: true));
           /////
           var res;
           if (args.community != null) {
-            if (update == true) {
-              res = await r.updateReddit(document: json, id: args.id);
-            } else {
-              res = await r.newReddit(
-                document: json, community: args.community, type: args.type
-              );
-            }
+            res = await r.updateReddit(document: json, id: args.id);
           } else {
-            if (update == true) {
-              res = await r.updatePost(document: json, id: args.id);
-            } else {
-              res = await r.newPost(document: json);
-            }
+            res = await r.updatePost(document: json, id: args.id);
           }
-
+          
           ///// stop refreshing actions
           _bloc.dispatch(Refresh(edit: false));
           ////
+
           if (res.statusCode != 200) {
-            update == true
-            ? snacker(context, '更新失败，请重试')
-            : snacker(context, '发布失败，请重试');
-
+            snacker(context, '更新失败，请重试');
             return;
           }
 
-          if (args.community != null) {
-            _bloc.dispatch(RedditRefresh(refresh: true));
-            _rbloc.dispatch(FetchReddits(refresh: true));
-          } else {
-            _bloc.dispatch(PostRefresh(refresh: true));
-            _pbloc.dispatch(FetchPosts(refresh: true));
-          }
-
-          if (update == true) {
-            snacker(context, '更新成功', color: Colors.black);
-            if (toPreview != null) toPreview();
-            return;
-          }
-          
-          Navigator.maybePop(context);
+          snacker(context, '更新成功', color: Colors.black);
+          if (toPreview != null) toPreview();
         }
       )
     );
@@ -140,21 +122,31 @@ class Post extends StatelessWidget {
 }
 
 class More extends StatelessWidget {
+  final bool update;
   final ArticleArgs args;
   final VoidCallback toEdit;
+  final ZefyrController zefyrController;
   final ScreenshotController screenshotController;
-  More({ this.args, this.toEdit, this.screenshotController });
+  More({
+      this.args,
+      this.update,
+      this.toEdit,
+      this.screenshotController,
+      this.zefyrController,
+  });
   
   @override
   build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserInited) {
-          if (state.mail == args.mail) {
+          if (state.mail == args.mail || args.mail == null) {
             return EditActions(
-              controller: screenshotController,
-              toEdit: toEdit,
               args: args,
+              update: update,
+              toEdit: toEdit,
+              controller: screenshotController,
+              zefyrController: zefyrController,
             );
           }
         }
@@ -166,16 +158,63 @@ class More extends StatelessWidget {
 }
 
 class EditActions extends StatelessWidget {
+  final bool update;
   final ScreenshotController controller;
   final VoidCallback toEdit;
   final ArticleArgs args;
-  EditActions({ this.controller, this.toEdit, this.args });
+  final ZefyrController zefyrController;
+  EditActions({
+      this.update,
+      this.controller,
+      this.toEdit,
+      this.args,
+      this.zefyrController
+  });
 
   @override
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
     final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
+
+    post() async {
+      final xReq.Requests r = await xReq.Requests.init();
+      final String json = jsonEncode(zefyrController.document);
+
+      FocusScope.of(context).requestFocus(FocusNode());
+      if (!zefyrController.document.toPlainText().contains(RegExp(r'\S+'))) {
+        snacker(context, '请填写文章内容');
+        return;
+      }
+
+      ///// refresh actions
+      _bloc.dispatch(Refresh(edit: true));
+      /////
+      
+      var res;
+      if (args.community != null){
+        res = await r.newReddit(
+          document: json, community: args.community, type: args.type
+        );
+      } else {
+        res = await r.newPost(document: json);
+      }
+
+      ///// stop refreshing
+      _bloc.dispatch(Refresh(edit: false));
+      /////
+      
+      if (args.community != null) {
+        _bloc.dispatch(RedditRefresh(refresh: true));
+        _rbloc.dispatch(FetchReddits(refresh: true));
+      } else {
+        _bloc.dispatch(PostRefresh(refresh: true));
+        _pbloc.dispatch(FetchPosts(refresh: true));
+      }
+
+      Navigator.maybePop(context);
+      Navigator.maybePop(context);
+    }
     
     delete() async {
       final xReq.Requests r = await xReq.Requests.init();
@@ -212,7 +251,21 @@ class EditActions extends StatelessWidget {
 
     alertDelete(BuildContext ctx) {
       Navigator.pop(ctx);
-      alert(context, title: '删除文章?', action: delete);
+      alert(
+        context,
+        title: '删除文章?',
+        ok: Text('删除', style: TextStyle(color: Colors.red)),
+        action: delete,
+      );
+    }
+
+    alertPost(BuildContext ctx) {
+      Navigator.pop(ctx);
+      alert(
+        context,
+        title: '发布文章?',
+        action: post,
+      );
     } 
 
     share() async {
@@ -227,7 +280,7 @@ class EditActions extends StatelessWidget {
       onPressed: () async {
         showCupertinoModalPopup(
           context: context,
-          builder: (ctx) => CupertinoActionSheet(
+          builder: (ctx) => update == true ? CupertinoActionSheet(
             actions: [
               CupertinoActionSheetAction(
                 child: Text('分享'),
@@ -246,6 +299,21 @@ class EditActions extends StatelessWidget {
               child: Text('取消'),
               onPressed: () => Navigator.pop(context)
             ),
+          ) : CupertinoActionSheet(
+            actions: [
+              CupertinoActionSheetAction(
+                child: Text('发布'),
+                onPressed: () => alertPost(ctx)
+              ),
+              CupertinoActionSheetAction(
+                child: Text('编辑'),
+                onPressed: toEdit,
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              child: Text('取消'),
+              onPressed: () => Navigator.pop(context)
+            )
           )
         );
       }

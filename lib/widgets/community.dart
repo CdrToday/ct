@@ -45,10 +45,9 @@ class CommunityList extends StatelessWidget {
     final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
     return BlocBuilder<CommunityBloc, CommunityState>(
       builder: (context, state) {
-        if (state is EmptyCommunityState) {
-          return SizedBox.shrink();
-        } else if (state is Communities) {
+        if (state is Communities) {
           var cs = state.communities;
+          if (cs.length == 0) return SizedBox.shrink();
           return Expanded(
             child: CustomScrollView(
               slivers: <Widget>[

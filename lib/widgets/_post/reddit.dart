@@ -38,13 +38,7 @@ class RedditItem extends StatelessWidget {
       cover: cover,
       timestamp: x.timestamp,
       title: title,
-      onTap: () {
-        if (x.edit == true) {
-          Navigator.pushNamed(context, '/user/edit', arguments: x);
-        } else {
-          Navigator.pushNamed(context, '/article', arguments: x);
-        }
-      }
+      onTap: () => Navigator.pushNamed(context, '/article', arguments: x),
     );
   }
 }

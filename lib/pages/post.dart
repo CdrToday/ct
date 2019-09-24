@@ -5,10 +5,9 @@ import 'package:cdr_today/blocs/_author.dart';
 import 'package:cdr_today/widgets/post.dart';
 
 class Post extends StatefulWidget {
-  final bool edit;
   final SliverAppBar appBar;
   final SliverList title;
-  Post({ this.edit, this.appBar, this.title });
+  Post({ this.appBar, this.title });
   
   @override
   _PostState createState() => _PostState();
@@ -21,7 +20,6 @@ class _PostState extends State<Post> {
         if (state is Posts) {
           return PostList(
             posts: state.posts,
-            edit: widget.edit,
             appBar: widget.appBar,
             title: widget.title,
             hasReachedMax: state.hasReachedMax,

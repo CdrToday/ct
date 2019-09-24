@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/widgets/snackers.dart';
+import 'package:cdr_today/widgets/actions.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Name extends StatefulWidget {
@@ -36,42 +37,14 @@ class _NameState extends State<Name> {
   }
   
   Widget build(BuildContext context) {
-    final ProfileBloc _bloc = BlocProvider.of<ProfileBloc>(context);
-    
     return Scaffold(
       appBar: AppBar(
         leading: CloseButton(),
         actions: [
-          Builder(
-            builder: (context) => BlocListener<ProfileBloc, ProfileState>(
-              listener: (context, state) {
-                if (state is ProfileNameCheckedFailed) {
-                  snacker(context, "只能使用纯小写字母");
-                } else if (state is ProfileUpdatedSucceed) {
-                  Navigator.maybePop(context);
-                } else if (state is ProfileUpdatedFailed) {
-                  snacker(context, "用户名已被使用");
-                }
-              },
-              child: BlocBuilder<ProfileBloc, ProfileState>(
-                builder: (context, state) {
-                  if (state is ProfileUpdating) {
-                    return Padding(
-                      padding: EdgeInsets.only(right: 16.0),
-                      child: CupertinoActivityIndicator(),
-                    );
-                  }
-                  return IconButton(
-                    icon: Icon(Icons.check),
-                    onPressed: () {
-                      _bloc.dispatch(UpdateProfileName(name: _value));
-                    }
-                  );
-                }
-              )
-            )
+          ProfileRefresher(
+            widget: UpdateName(name: _value),
           )
-        ],
+        ]
       ),
       body: Container(
         child: CupertinoTextField(

@@ -50,6 +50,8 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   RefreshState get initialState => Refresher(
     edit: false,
     post: false,
+    reddit: false,
+    profile: false,
     community: false,
   );
 
@@ -57,19 +59,21 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   Stream<RefreshState> mapEventToState(RefreshEvent event) async* {
     if (event is PostRefresh) {
       yield (currentState as Refresher).copyWith(
-        post: event.refresh ?? !(currentState as Refresher).post
+        post: event.refresh ?? (currentState as Refresher).post
       );
     } else if (event is CommunityRefresh) {
       yield (currentState as Refresher).copyWith(
-        community: event.refresh ?? !(currentState as Refresher).community
+        community: event.refresh ?? (currentState as Refresher).community
       );
     } else if (event is RedditRefresh) {
       yield (currentState as Refresher).copyWith(
-        reddit: event.refresh ?? !(currentState as Refresher).reddit
+        reddit: event.refresh ?? (currentState as Refresher).reddit
       );
     } else if (event is Refresh) {
+      print(event.profile);
       yield (currentState as Refresher).copyWith(
-        reddit: event.edit ?? !(currentState as Refresher).edit
+        edit: event.edit ?? (currentState as Refresher).edit,
+        profile: event.profile ?? (currentState as Refresher).profile,
       );
     }
 
@@ -97,7 +101,7 @@ class Refresher extends RefreshState {
   }) : super([ edit, post, reddit, profile, community ]);
 
   Refresher copyWith({
-      bool edit, bool post, bool community, bool reddit,
+      bool edit, bool post, bool community, bool reddit, bool profile
   }) {
     return Refresher(
       edit: edit ?? this.edit,
@@ -114,7 +118,8 @@ abstract class RefreshEvent extends Equatable {}
 
 class Refresh extends RefreshEvent {
   final bool edit;
-  Refresh({ this.edit });
+  final bool profile;
+  Refresh({ this.edit, this.profile });
 
   @override
   String toString() => 'Refresh';

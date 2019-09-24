@@ -12,14 +12,12 @@ import 'package:cdr_today/widgets/_post/reddit.dart';
 // post list
 class PostList extends StatefulWidget {
   final List<dynamic> posts;
-  final bool edit;
   final bool hasReachedMax;
   final bool loading;
   final bool community;
   final SliverAppBar appBar;
   final SliverList title;
   PostList({
-      this.edit = false,
       this.posts, // init in build.
       this.hasReachedMax = false,
       this.appBar,
@@ -55,23 +53,22 @@ class _PostState extends State<PostList> {
   Widget build(BuildContext context) {
     List<dynamic> posts = widget.posts ?? [];
     if (posts.length == 0) {
-      return CustomScrollView(
-        slivers: <Widget>[
-          widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
-          widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  child: Text('暂无文章'),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height / 2.7
-                  ),
-                );
-              }, childCount: 1,
-            )
-          )
+      return Column(
+        children: [
+          Expanded(
+            child: CustomScrollView(
+              slivers: <Widget>[
+                widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
+                widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
+              ]
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Text('暂无文章'),
+              padding: EdgeInsets.only(),
+            ),
+          ),
         ]
       );
     }
@@ -93,7 +90,10 @@ class _PostState extends State<PostList> {
         ) : SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              if (index == posts.length * 2) {
+              if (index == posts.length * 2 - 1) {
+                if (posts.length < 10) return SizedBox.shrink();
+                if (widget.hasReachedMax == true) return SizedBox.shrink();
+              } else if (index == posts.length * 2) {
                 if (posts.length < 10) return PostBottom();
                 return widget.hasReachedMax == false
                 ? PostLoader() : PostBottom();
@@ -150,7 +150,7 @@ class _PostState extends State<PostList> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     BehaviorSubject scrollDelay = BehaviorSubject();
-    
+
     scrollDelay.stream.delay(
       Duration(milliseconds: 1000)
     ).listen((t) {

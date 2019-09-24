@@ -25,21 +25,12 @@ Future<Map<String, String>> checkUser({String mail, String code}) async {
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final VerifyBloc v;
-  final ProfileBloc p;
   
-  UserBloc({this.v, this.p}) {
+  UserBloc({this.v}) {
     v.state.listen((state){
         if (state is CodeVerifiedSucceed) {
           this.dispatch(CheckUserEvent());
         } 
-    });
-
-    p.state.listen((state){
-        if (state is ProfileUpdatedSucceed) {
-          this.dispatch(InitUserEvent(name: state.name));
-        } else if (state is ProfileAvatarUpdatedSucceed) {
-          this.dispatch(InitUserEvent(avatar: state.avatar));
-        }
     });
   }
 
@@ -87,11 +78,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         refresh: 0,
       );
     } else if (event is InitUserEvent) {
-      if (currentState is UserInited) {
-        yield (currentState as UserInited).copyWith(
-          mail: event.mail, name: event.name, avatar: event.avatar
-        );
-      }
+      yield (currentState as UserInited).copyWith(
+        mail: event.mail,
+        name: event.name,
+        avatar: event.avatar,
+      );
     } else if (event is LogoutEvent) {
       clear();
       yield UserUnInited();

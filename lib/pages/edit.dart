@@ -16,10 +16,12 @@ class Edit extends StatefulWidget {
 class _EditState extends State<Edit> {
   ZefyrController _controller;
   FocusNode _focusNode;
+  bool _edit;
   
   @override
   void initState() {
     super.initState();
+    _edit = true;
     final document = _loadDocument();
     _focusNode = FocusNode();
     _controller = ZefyrController(document);
@@ -33,12 +35,24 @@ class _EditState extends State<Edit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: Post.toList(
-          context,
-          args: widget.args,
-          update: false,
-          zefyrController: _controller,
-        ),
+        actions: _edit == true ? [
+          Post(
+            args: widget.args,
+            update: false,
+            zefyrController: _controller,
+            toPreview: () => setState(() { _edit = false; })
+          )
+        ]: [
+          More(
+            args: widget.args,
+            update: false,
+            toEdit: () {
+              setState(() { _edit = true; });
+              Navigator.pop(context);
+            },
+            zefyrController: _controller,
+          )
+        ],
         elevation: 0.0,
         leading: CloseButton(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor

@@ -9,7 +9,6 @@ class Bucket extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Post(
-        edit: true,
         appBar: SliverAppBar(
           backgroundColor: Colors.white,
           floating: true,

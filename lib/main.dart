@@ -7,7 +7,6 @@ import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/refresh.dart';
-import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/blocs/drawer.dart';
 import 'package:cdr_today/blocs/reddit.dart';
@@ -40,9 +39,8 @@ void main() {
 }
 
 final VerifyBloc verifyBloc = VerifyBloc();
-final ProfileBloc profileBloc = ProfileBloc();
 final AuthorPostBloc authorPostBloc = AuthorPostBloc();
-final UserBloc userBloc = UserBloc(v: verifyBloc, p: profileBloc);
+final UserBloc userBloc = UserBloc(v: verifyBloc);
 final PostBloc postBloc = PostBloc(u: userBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
 final MemberBloc memberBloc = MemberBloc(c: communityBloc);
@@ -68,9 +66,6 @@ class App extends StatelessWidget {
         ),
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc
-        ),
-        BlocProvider<ProfileBloc>(
-          builder: (context) => profileBloc
         ),
         BlocProvider<CommunityBloc>(
           builder: (context) => communityBloc
