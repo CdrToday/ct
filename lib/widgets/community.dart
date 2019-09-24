@@ -39,7 +39,7 @@ class CommunityTile extends StatelessWidget {
   }
 }
 
-class Communities extends StatelessWidget {
+class CommunityList extends StatelessWidget {
   Widget build(BuildContext context) {
     final CommunityBloc _bloc = BlocProvider.of<CommunityBloc>(context);
     final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
@@ -47,7 +47,7 @@ class Communities extends StatelessWidget {
       builder: (context, state) {
         if (state is EmptyCommunityState) {
           return SizedBox.shrink();
-        } else if (state is CommunityFetchedSucceed) {
+        } else if (state is Communities) {
           var cs = state.communities;
           return Expanded(
             child: CustomScrollView(
@@ -70,7 +70,7 @@ class Communities extends StatelessWidget {
                             rect: true
                           ),
                         );
-
+                        
                         return cs[i]['id'] == state.current ? Stack(
                           children: [
                             tile,

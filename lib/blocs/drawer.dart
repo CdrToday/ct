@@ -8,7 +8,7 @@ class DrawerBloc extends Bloc<DrawerEvent, DrawerState> {
   final CommunityBloc c;
   DrawerBloc({ this.c }) {
     c.state.listen((state) {
-        if (state is CommunityFetchedSucceed) {
+        if (state is Communities) {
           if (state.current == '') {
             this.dispatch(NoSwipeDrawerEvent());
             return;

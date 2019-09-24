@@ -17,7 +17,7 @@ class RedditItem extends StatelessWidget {
     for (var i in json) {
       if (i['insert'].contains(RegExp(r'[\u4e00-\u9fa5_a-zA-Z0-9]'))) {
         if (title == null) {
-          title = i['insert'].replaceAll(RegExp(r'\s'), '');
+          title = i['insert'].replaceAll(RegExp(r'\n'), '');
         }
       }
 

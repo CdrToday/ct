@@ -117,7 +117,7 @@ class Post extends StatelessWidget {
             _rbloc.dispatch(FetchReddits(refresh: true));
           } else {
             _bloc.dispatch(PostRefresh(refresh: true));
-            _pbloc.dispatch(FetchSelfPosts(refresh: true));
+            _pbloc.dispatch(FetchPosts(refresh: true));
           }
 
           if (update == true) {
@@ -177,7 +177,7 @@ class EditActions extends StatelessWidget {
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
     final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
     
-    VoidCallback delete() async {
+    delete() async {
       final xReq.Requests r = await xReq.Requests.init();
 
       ///// refresh actions
@@ -199,7 +199,7 @@ class EditActions extends StatelessWidget {
           _rbloc.dispatch(FetchReddits(refresh: true));
         } else {
           _bloc.dispatch(PostRefresh(refresh: true));
-          _pbloc.dispatch(FetchSelfPosts(refresh: true));
+          _pbloc.dispatch(FetchPosts(refresh: true));
         }
         
         Navigator.maybePop(context);
@@ -210,12 +210,12 @@ class EditActions extends StatelessWidget {
       Navigator.maybePop(context);
     }
 
-    VoidCallback alertDelete(BuildContext ctx) {
+    alertDelete(BuildContext ctx) {
       Navigator.pop(ctx);
       alert(context, title: '删除文章?', action: delete);
     } 
 
-    VoidCallback share() async {
+    share() async {
       Navigator.pop(context);
       File image = await controller.capture(pixelRatio: 1.5);
       String name = DateTime.now().toString();

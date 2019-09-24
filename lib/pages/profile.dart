@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
-import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/navigations/args.dart';
@@ -100,7 +99,6 @@ Widget mail(BuildContext context, String str) {
 
 Widget logout(BuildContext context) {
   final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
-  final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
   
   return Container(
     child: Center(
@@ -110,7 +108,6 @@ Widget logout(BuildContext context) {
           style: TextStyle(fontSize: 14.0)
         ),
         onTap: () async {
-          _pbloc.dispatch(CleanList());
           _bloc.dispatch(LogoutEvent());
           Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
         }

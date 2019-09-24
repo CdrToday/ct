@@ -52,7 +52,6 @@ class CommunityRefresher extends StatelessWidget {
 
 class RedditRefresher extends StatelessWidget {
   final Widget widget;
-
   RedditRefresher({ this.widget });
 
   @override
@@ -92,6 +91,29 @@ class EditRefresher extends StatelessWidget {
         }
 
         return widget;
+      }
+    );
+  }
+}
+
+class ProfileRefresher extends StatelessWidget {
+  final Widget widget;
+  ProfileRefresher({ this.widget });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RefreshBloc, RefreshState>(
+      builder: (context, state) {
+        if ((state as Refresher).profile == true) {
+          return Container(
+            child: SizedBox(
+              height: 12.0,
+              width: 12.0,
+              child: CircularProgressIndicator(strokeWidth: 1.0)
+            ),
+          );
+        }
+        return widget ?? SizedBox.shrink();
       }
     );
   }

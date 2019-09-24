@@ -23,6 +23,7 @@ class _ArticleState extends State<Article> {
 
   @override
   initState() {
+    super.initState();
     focusNode = FocusNode();
     controller = ZefyrController(NotusDocument.fromJson(jsonDecode(widget.args.document)));
     screenshotController = ScreenshotController();

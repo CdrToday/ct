@@ -52,7 +52,7 @@ class CommunityName extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CommunityBloc, CommunityState>(
       builder: (context, state) {
-        if (state is CommunityFetchedSucceed) {
+        if (state is Communities) {
           String name;
           var cs = state.communities;
           for (var i in cs) {

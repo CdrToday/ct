@@ -17,7 +17,7 @@ class Settings extends StatelessWidget {
       ),
       body: BlocBuilder<CommunityBloc, CommunityState>(
         builder: (context, state) {
-          if (state is CommunityFetchedSucceed) {
+          if (state is Communities) {
             var cs = state.communities;
             var community;
             for (var i in cs) {
@@ -80,7 +80,7 @@ Widget quit(BuildContext context, String id) {
             final CommunityBloc _cbloc = BlocProvider.of<CommunityBloc>(context);
 
             _rbloc.dispatch(CommunityRefresh());
-            _cbloc.dispatch(FetchCommunity());
+            _cbloc.dispatch(FetchCommunities());
             Navigator.maybePop(context);
             Navigator.maybePop(context);
           }

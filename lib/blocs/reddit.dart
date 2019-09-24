@@ -11,7 +11,7 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
   
   RedditBloc({ this.c }) {
     c.state.listen((state) {
-        if (state is CommunityFetchedSucceed) {
+        if (state is Communities) {
           this.dispatch(FetchReddits(community: state.current));
         }
     });

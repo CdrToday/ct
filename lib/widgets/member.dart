@@ -4,8 +4,6 @@ import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/community.dart';
 import 'package:cdr_today/navigations/args.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-
 
 class CommunityMember extends StatelessWidget {
   final SliverAppBar appBar;

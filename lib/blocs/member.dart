@@ -20,7 +20,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
   
   MemberBloc({ this.c }) {
     c.state.listen((state) {
-        if (state is CommunityFetchedSucceed) {
+        if (state is Communities) {
           if (state.current != '') this.dispatch(FetchMember(id: state.current));
         }
     });

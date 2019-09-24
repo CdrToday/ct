@@ -53,7 +53,6 @@ class _PostState extends State<PostList> {
 
   @override
   Widget build(BuildContext context) {
-    bool edit = widget.edit;
     List<dynamic> posts = widget.posts ?? [];
     if (posts.length == 0) {
       return CustomScrollView(
@@ -121,8 +120,6 @@ class _PostState extends State<PostList> {
                     document: document,
                     timestamp: timestamp,
                     community: posts[i]['community'],
-                    // avatar: posts[i]['avatar'],
-                    // author: posts[i]['author'],
                   )
                 );
               }
@@ -163,7 +160,7 @@ class _PostState extends State<PostList> {
           _redditBloc.dispatch(FetchReddits(refresh: t));
         } else {
           _refreshBloc.dispatch(PostRefresh());
-          _postBloc.dispatch(FetchSelfPosts(refresh: t));
+          _postBloc.dispatch(FetchPosts(refresh: t));
         }
         
         Observable.timer(

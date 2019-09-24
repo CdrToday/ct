@@ -24,7 +24,7 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   CommunityBloc({ this.u }) {
     u.state.listen((state) {
         if (state is UserInited) {
-          this.dispatch(FetchCommunity());
+          this.dispatch(FetchCommunities());
         }
     });
   }
@@ -46,15 +46,15 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
 
   @override
   Stream<CommunityState> mapEventToState(CommunityEvent event) async* {
-    if (event is FetchCommunity) {
+    if (event is FetchCommunities) {
       var communities = await getCommunities();
 
       if (currentState is EmptyCommunityState) {
-        yield communities.length > 0 ? CommunityFetchedSucceed(
+        yield communities.length > 0 ? Communities(
           current: communities[0]['id'],
           communities: communities,
           refresh: 0,
-        ) : CommunityFetchedSucceed(
+        ) : Communities(
           current: '',
           communities: [],
           refresh: 0,
@@ -62,15 +62,15 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
         return;
       }
       
-      yield (currentState as CommunityFetchedSucceed).copyWith(
+      yield (currentState as Communities).copyWith(
         current: communities.length > 0 ? communities[0]['id'] : '',
         communities: communities,
-        refresh: (currentState as CommunityFetchedSucceed).refresh + 1,
+        refresh: (currentState as Communities).refresh + 1,
       );
     } else if (event is ChangeCurrentCommunity) {
-      yield (currentState as CommunityFetchedSucceed).copyWith(
+      yield (currentState as Communities).copyWith(
         current: event.id,
-        refresh: (currentState as CommunityFetchedSucceed).refresh + 1,
+        refresh: (currentState as Communities).refresh + 1,
       );
     }
   }
@@ -86,19 +86,19 @@ class EmptyCommunityState extends CommunityState {
   toString() => "EmptyCommunityState";
 }
 
-class CommunityFetchedSucceed extends CommunityState {
+class Communities extends CommunityState {
   final String current;
   final List<dynamic> communities;
   final int refresh;
   
-  CommunityFetchedSucceed({
+  Communities({
       this.current, this.communities, this.refresh = 0,
   }) : super([ current, communities, refresh ]);
 
-  CommunityFetchedSucceed copyWith({
+  Communities copyWith({
       List<dynamic> communities, int refresh, String current
   }) {
-    return CommunityFetchedSucceed(
+    return Communities(
       current: current ?? this.current,
       communities: communities ?? this.communities,
       refresh: refresh ?? this.refresh
@@ -109,9 +109,9 @@ class CommunityFetchedSucceed extends CommunityState {
 // ------------- events -------------
 abstract class CommunityEvent extends Equatable {}
 
-class FetchCommunity extends CommunityEvent {
+class FetchCommunities extends CommunityEvent {
   @override
-  toString() => "FetchCommunity";
+  toString() => "FetchCommunities";
 }
 
 class ChangeCurrentCommunity extends CommunityEvent {

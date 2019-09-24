@@ -18,13 +18,7 @@ class _PostState extends State<Post> {
   Widget build(BuildContext context) {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
-        if (state is UnFetched) {
-          return PostList(
-            appBar: widget.appBar,
-            title: widget.title,
-            loading: true,
-          );
-        } else if (state is FetchedSucceed) {
+        if (state is Posts) {
           return PostList(
             posts: state.posts,
             edit: widget.edit,

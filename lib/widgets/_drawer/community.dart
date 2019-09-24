@@ -22,7 +22,7 @@ class SwipeCommunity extends StatelessWidget {
             icon: Icons.add_circle_outline,
             action: () => Navigator.pushNamed(context, '/community/raise')
           ),
-          Communities(),
+          CommunityList(),
         ],
       )
     );

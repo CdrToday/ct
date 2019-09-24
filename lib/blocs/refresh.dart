@@ -13,13 +13,14 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   
   RefreshBloc({ this.p, this.c, this.r }) {
     p.state.listen((state) {
-        if (state is FetchedSucceed) {
+        if (state is Posts) {
+          if (state.refresh == 0) return;
           this.dispatch(PostRefresh(refresh: false));
         }
     });
     
     c.state.listen((state) {
-        if (state is CommunityFetchedSucceed) {
+        if (state is Communities) {
           if (state.refresh == 0) return;
           this.dispatch(CommunityRefresh(refresh: false));
         }
@@ -27,7 +28,8 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
 
     r.state.listen((state) {
         if (state is Reddits) {
-          if (state.refresh != 0) this.dispatch(RedditRefresh(refresh: false));
+          if (state.refresh == 0) return;
+          this.dispatch(RedditRefresh(refresh: false));
         }
     });
   }
@@ -84,13 +86,15 @@ class Refresher extends RefreshState {
   final bool edit;
   final bool post;
   final bool reddit;
+  final bool profile;
   final bool community;
   Refresher({
       this.edit,
       this.post,
       this.reddit,
+      this.profile,
       this.community
-  }) : super([ edit, post, reddit, community ]);
+  }) : super([ edit, post, reddit, profile, community ]);
 
   Refresher copyWith({
       bool edit, bool post, bool community, bool reddit,
@@ -99,6 +103,7 @@ class Refresher extends RefreshState {
       edit: edit ?? this.edit,
       post: post ?? this.post,
       reddit: reddit ?? this.reddit,
+      profile: profile ?? this.profile,
       community: community ?? this.community
     );
   }

@@ -12,7 +12,7 @@ class EditBottomSheet extends StatelessWidget {
           Navigator.pushNamed(
             context, '/user/edit',
             arguments: ArticleArgs(
-              community: (state as CommunityFetchedSucceed).current, edit: false
+              community: (state as Communities).current, edit: false
             )
           );
         },
