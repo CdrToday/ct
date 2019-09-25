@@ -28,9 +28,12 @@ class InitPage extends StatelessWidget {
       ),
       bottomSheet: EditBottomSheet(),
       backgroundColor: Colors.grey[100],
-      drawer: Drawer(
-        child: SwipeDrawer(),
-        elevation: 2.0,
+      drawer: SizedBox(
+        child: Drawer(
+          child: SwipeDrawer(),
+          elevation: 2.0,
+        ),
+        width: MediaQuery.of(context).size.width * 8 / 10
       ),
     );
   }

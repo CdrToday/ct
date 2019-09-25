@@ -72,9 +72,7 @@ class Avatar extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
-    // print(PinyinHelper.getShortPinyin('abc'));
-    // if (baks == null) _baks = [];
-    if (url != null) {
+    if (url != null && url != '') {
       if (rect) {
         return ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -94,13 +92,19 @@ class Avatar extends StatelessWidget {
     var _baks;
     baks != null ? _baks = baks : _baks = ['?'];
     for (var i in _baks) {
-      if (i == null) continue;
+      if (i == null || i == '') continue;
 
       i = PinyinHelper.getShortPinyin(i);
       if (rect) {
         return SizedBox(
           child: Container(
-            child: Text(i[0], style: TextStyle(color: Colors.white, fontSize: width)),
+            child: Text(
+              i[0],
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: width - 2
+              )
+            ),
             decoration: BoxDecoration(
               color: Colors.brown.shade800,
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -114,14 +118,25 @@ class Avatar extends StatelessWidget {
       return CircleAvatar(
         radius: width,
         backgroundColor: Colors.brown.shade800,
-        child: Text(i[0])
+        child: Text(
+          i[0].toUpperCase(),
+          style: TextStyle(
+            fontSize: width - 2,
+          )
+        ),
       );
     }
 
     return CircleAvatar(
       radius: width,
       backgroundColor: Colors.brown.shade800,
-      child: Text('?')
+      child: Text(
+        '?',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: width,
+        )
+      )
     );
   }
 }

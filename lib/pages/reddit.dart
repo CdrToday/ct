@@ -21,7 +21,7 @@ class _RedditState extends State<Reddit> {
       builder: (context, mstate) {
         List<dynamic> members = (mstate as Members).members;
         if (
-          members.length == 0
+          members.length == 0 && (mstate as Members).refresh == 0
         ) return PostList(
           appBar: widget.appBar,
           title: widget.title,

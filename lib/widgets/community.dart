@@ -21,14 +21,14 @@ class CommunityTile extends StatelessWidget {
           children: [
             avatar ?? SizedBox.shrink(),
             SizedBox(width: 10.0),
-            AutoSizeText(
-              name.length > 15
-              ? name.substring(0, 15) + '...'
-              : name,
-              maxLines: 1,
-              style: TextStyle(fontSize: 18),
+            Expanded(
+              child: AutoSizeText(
+                name,
+                maxLines: 1,
+                style: TextStyle(fontSize: 18),
+              ),
             ) ?? SizedBox.shrink(),
-            Spacer(),
+            trailing != null ? Spacer() : SizedBox.shrink(),
             trailing ?? SizedBox.shrink(),
           ],
         ),

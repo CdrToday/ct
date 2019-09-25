@@ -26,10 +26,10 @@ class DrawerBar extends StatelessWidget {
             ),
           ),
           height: 32.0,
-          width: MediaQuery.of(context).size.width * 2 / 3,
-          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+          padding: EdgeInsets.only(left: 16.0),
           alignment: Alignment.centerLeft,
         ),
+        Spacer(),
         icon != null ? SizedBox(
           child: IconButton(
             icon: Icon(

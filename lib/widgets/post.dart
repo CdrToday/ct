@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/post.dart';
@@ -42,43 +44,66 @@ class _PostState extends State<PostList> {
   double _scrollThreshold = 200.0;
   double _scrollIncipiency = (- kToolbarHeight);
   ScrollController _scrollController;
+  ScrollController _lsc;
+  GlobalKey stickyKey = GlobalKey();
+  double topHeight;
   
   @override
   void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+        setState(() { topHeight = stickyKey.currentContext.size.height; });
+    });
+    
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+    _lsc = ScrollController();
+    _lsc.addListener(_onScroll);
     _postBloc = BlocProvider.of<PostBloc>(context);
     _authorBloc = BlocProvider.of<AuthorPostBloc>(context);
     _redditBloc = BlocProvider.of<RedditBloc>(context);
     _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }
-
+  
   @override
   Widget build(BuildContext context) {
     List<dynamic> posts = widget.posts ?? [];
     if (posts.length == 0 || posts == null) {
       return Column(
         children: [
-          Expanded(
-            child: CustomScrollView(
-              slivers: <Widget>[
-                widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
-                widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
-              ]
-            ),
+          CustomScrollView(
+            slivers: <Widget>[
+              widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
+              widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
+            ],
+            controller: _scrollController,
+            physics: AlwaysScrollableScrollPhysics(),
+            shrinkWrap: true,
+            key: stickyKey,
           ),
-          Expanded(
-            child: Container(
-              child: widget.loading
-              ? CupertinoActivityIndicator()
-              : Text('暂无文章'),
-              alignment: Alignment.topCenter,
-            ),
+          AnimatedBuilder(
+            animation: _scrollController,
+            builder: (_, Widget child) {
+              if (topHeight == null) return Container();
+              return SingleChildScrollView(
+                child: Container(
+                  child: widget.loading
+                  ? CupertinoActivityIndicator()
+                  : Text('暂无文章'),
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(
+                    context
+                  ).size.height - topHeight - 100,
+                ),
+                controller: _lsc,
+                physics: AlwaysScrollableScrollPhysics(),
+              );
+            }
           ),
         ]
       );
     }
+  
     return CustomScrollView(
       slivers: <Widget>[
         widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
@@ -136,12 +161,6 @@ class _PostState extends State<PostList> {
     );
   }
 
-  // @override
-  // void dispose() {
-  //   _scrollController.dispose();
-  //   super.dispose();
-  // }
-
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
@@ -179,6 +198,7 @@ class _PostState extends State<PostList> {
     }
 
     // return if no more
+    if (widget.posts == null) return;
     if (widget.posts.length < 10) return;
     
     // bottom load
@@ -194,6 +214,12 @@ class _PostState extends State<PostList> {
       scrollDelay.add(false);
     }
   }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 }
 
 class PostLoader extends StatelessWidget {
@@ -208,16 +234,5 @@ class PostLoader extends StatelessWidget {
 class PostBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox.shrink();
-    // return Container(
-    //   child: Text(
-    //     '— ∞ —',
-    //     style: TextStyle(
-    //       color: Colors.grey[500],
-    //       fontSize: 13.0,
-    //     )
-    //   ),
-    //   alignment: Alignment.center,
-    //   padding: EdgeInsets.all(10.0),
-    // );
   }
 }

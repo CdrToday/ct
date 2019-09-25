@@ -59,17 +59,14 @@ class CommunityName extends StatelessWidget {
             if (i['id'] == state.current) name = i['name'];
           }
 
-          if (name == null) name = '?';
-          if (limit) {
-            if (name.length > 15) name = name.substring(0, 15) + '...';
-          }
-          
+          if (name == null) name = '';
           return Container(
             child: AutoSizeText(
               name,
               style: TextStyle(fontSize: 20),
               maxLines: 1,
             ),
+            width: MediaQuery.of(context).size.width * 1 / 3,
           );
         }
 
