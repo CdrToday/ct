@@ -99,10 +99,11 @@ class Avatar extends StatelessWidget {
         return SizedBox(
           child: Container(
             child: Text(
-              i[0],
+              i[0].toUpperCase(),
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: width - 2
+                fontSize: width / 1.2
               )
             ),
             decoration: BoxDecoration(
@@ -121,7 +122,7 @@ class Avatar extends StatelessWidget {
         child: Text(
           i[0].toUpperCase(),
           style: TextStyle(
-            fontSize: width - 2,
+            fontSize: width / 1.2,
           )
         ),
       );

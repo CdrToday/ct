@@ -61,7 +61,7 @@ Widget title(BuildContext context, AuthorArgs args) => SliverList(
                     width: 34.0,
                     url: args.avatar,
                     tag: args.avatar,
-                    baks: [args.name],
+                    baks: [args.name, args.mail],
                     onTap: () => Navigator.pushNamed(
                       context, '/avatar',
                       arguments: CustomAvatarArgs(

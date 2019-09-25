@@ -28,6 +28,10 @@ class CommunityMember extends StatelessWidget {
                           width: 20.0,
                           url: ms[index ~/ 2]['avatar'],
                           tag: ms[index ~/ 2]['avatar'],
+                          baks: [
+                            ms[index ~/ 2]['name'],
+                            ms[index ~/ 2]['mail'],
+                          ]
                         ),
                         name: (ms[index ~/ 2]['name']),
                         padding: EdgeInsets.symmetric(

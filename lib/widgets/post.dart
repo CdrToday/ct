@@ -76,16 +76,14 @@ class _PostState extends State<PostList> {
               widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
               widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
             ],
-            controller: _scrollController,
-            physics: AlwaysScrollableScrollPhysics(),
+            // physics: AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
             key: stickyKey,
           ),
-          AnimatedBuilder(
-            animation: _scrollController,
-            builder: (_, Widget child) {
+          Builder(
+            builder: (context) {
               if (topHeight == null) return Container();
-              return SingleChildScrollView(
+              return  SingleChildScrollView(
                 child: Container(
                   child: widget.loading
                   ? CupertinoActivityIndicator()
@@ -93,9 +91,12 @@ class _PostState extends State<PostList> {
                   alignment: Alignment.center,
                   height: MediaQuery.of(
                     context
-                  ).size.height - topHeight - 100,
+                  ).size.height - topHeight,
+                  padding: EdgeInsets.only(
+                    bottom: 50000 / MediaQuery.of(context).size.height,
+                  ),
                 ),
-                controller: _lsc,
+                controller: _scrollController,
                 physics: AlwaysScrollableScrollPhysics(),
               );
             }
@@ -192,7 +193,6 @@ class _PostState extends State<PostList> {
       if (_scrollLock == true) {
         return;
       }
-    
       setState(() { _scrollLock = true; });
       scrollDelay.add(true);
     }

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/refresh.dart';
@@ -15,6 +16,27 @@ class CommunityTile extends StatelessWidget {
   CommunityTile({ this.avatar, this.name, this.trailing, this.onTap, this.padding });
   
   Widget build(BuildContext context) {
+    String _name = name;
+    List<String> _nl = [
+      'David Bowie',
+      'Iggy Pop',
+      'Lou Reed',
+      'Kurt Cobain',
+      'Bob Dylan',
+      'John Lennon',
+      'Patti Smith',
+      'Joan Baez',
+      'Donovan',
+      'Chunk Berry',
+      'Elvis Presley',
+      'Leonard Cohen',
+      'Rodriguez',
+      'Neil Young'
+    ];
+    if (_name == '') {
+      var rng = new Random();
+      _name = _nl[rng.nextInt(13)];
+    }
     return Container(
       child: GestureDetector(
         child: Row(
@@ -23,7 +45,7 @@ class CommunityTile extends StatelessWidget {
             SizedBox(width: 10.0),
             Expanded(
               child: AutoSizeText(
-                name,
+                _name,
                 maxLines: 1,
                 style: TextStyle(fontSize: 18),
               ),

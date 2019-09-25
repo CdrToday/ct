@@ -63,6 +63,7 @@ class CommunityName extends StatelessWidget {
           return Container(
             child: AutoSizeText(
               name,
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20),
               maxLines: 1,
             ),

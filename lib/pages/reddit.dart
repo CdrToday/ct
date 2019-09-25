@@ -6,10 +6,9 @@ import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/member.dart';
 
 class Reddit extends StatefulWidget {
-  final bool edit;
   final SliverAppBar appBar;
   final SliverList title;
-  Reddit({ this.edit, this.appBar, this.title });
+  Reddit({ this.appBar, this.title });
   
   @override
   _RedditState createState() => _RedditState();
@@ -20,13 +19,13 @@ class _RedditState extends State<Reddit> {
     return BlocBuilder<MemberBloc, MemberState>(
       builder: (context, mstate) {
         List<dynamic> members = (mstate as Members).members;
-        if (
-          members.length == 0 && (mstate as Members).refresh == 0
-        ) return PostList(
-          appBar: widget.appBar,
-          title: widget.title,
-          loading: true,
-        );
+        if ((mstate as Members).refresh < 2) {
+          return PostList(
+            appBar: widget.appBar,
+            title: widget.title,
+            loading: true,
+          );
+        }
         
         return BlocBuilder<RedditBloc, RedditState>(
           builder: (context, state) {

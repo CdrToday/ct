@@ -43,7 +43,6 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   
   @override
   CommunityState get initialState => Communities(
-    current: '',
     communities: [],
     refresh: 0,
   );
