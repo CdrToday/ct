@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/post.dart';
+import 'package:cdr_today/blocs/_author.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
@@ -15,10 +16,12 @@ class PostList extends StatefulWidget {
   final bool hasReachedMax;
   final bool loading;
   final bool community;
+  final String mail;
   final SliverAppBar appBar;
   final SliverList title;
   PostList({
       this.posts, // init in build.
+      this.mail,
       this.hasReachedMax = false,
       this.appBar,
       this.title,
@@ -35,6 +38,7 @@ class _PostState extends State<PostList> {
   PostBloc _postBloc;
   RedditBloc _redditBloc;
   RefreshBloc _refreshBloc;
+  AuthorPostBloc _authorBloc;
   double _scrollThreshold = 200.0;
   double _scrollIncipiency = (- kToolbarHeight);
   ScrollController _scrollController;
@@ -45,6 +49,7 @@ class _PostState extends State<PostList> {
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     _postBloc = BlocProvider.of<PostBloc>(context);
+    _authorBloc = BlocProvider.of<AuthorPostBloc>(context);
     _redditBloc = BlocProvider.of<RedditBloc>(context);
     _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }
@@ -52,7 +57,7 @@ class _PostState extends State<PostList> {
   @override
   Widget build(BuildContext context) {
     List<dynamic> posts = widget.posts ?? [];
-    if (posts.length == 0) {
+    if (posts.length == 0 || posts == null) {
       return Column(
         children: [
           Expanded(
@@ -65,8 +70,10 @@ class _PostState extends State<PostList> {
           ),
           Expanded(
             child: Container(
-              child: Text('暂无文章'),
-              padding: EdgeInsets.only(),
+              child: widget.loading
+              ? CupertinoActivityIndicator()
+              : Text('暂无文章'),
+              alignment: Alignment.topCenter,
             ),
           ),
         ]
@@ -76,18 +83,7 @@ class _PostState extends State<PostList> {
       slivers: <Widget>[
         widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
         widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
-        widget.loading ? SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return Container(
-                child: CupertinoActivityIndicator(),
-                padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height / 2.7
-                ),
-              );
-            }, childCount: 1,
-          )
-        ) : SliverList(
+        SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
               if (index == posts.length * 2 - 1) {
@@ -153,19 +149,22 @@ class _PostState extends State<PostList> {
 
     scrollDelay.stream.delay(
       Duration(milliseconds: 1000)
-    ).listen((t) {
+    ).listen((b) {
         // dispatch events
-        if (widget.community) {
+        if (widget.mail != null) {
+          _refreshBloc.dispatch(Refresh(author: true));
+          _authorBloc.dispatch(FetchAuthorPosts(refresh: b, mail: widget.mail));
+        } else if (widget.community) {
           _refreshBloc.dispatch(RedditRefresh());
-          _redditBloc.dispatch(FetchReddits(refresh: t));
+          _redditBloc.dispatch(FetchReddits(refresh: b));
         } else {
           _refreshBloc.dispatch(PostRefresh());
-          _postBloc.dispatch(FetchPosts(refresh: t));
+          _postBloc.dispatch(FetchPosts(refresh: b));
         }
         
         Observable.timer(
-          t, new Duration(milliseconds: 1000)
-        ).listen((t) => setState(() { _scrollLock = false; }));
+          b, new Duration(milliseconds: 1000)
+        ).listen((b) => setState(() { _scrollLock = false; }));
       }
     );
 
@@ -200,16 +199,7 @@ class _PostState extends State<PostList> {
 class PostLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
-        child: SizedBox(
-          width: 30,
-          height: 30,
-          child: CircularProgressIndicator(
-            strokeWidth: 1.5,
-          ),
-        ),
-      ),
-      alignment: Alignment.center,
+      child: CupertinoActivityIndicator(),
       padding: EdgeInsets.all(30.0)
     );
   }

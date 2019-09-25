@@ -49,29 +49,16 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   Stream<PostState> mapEventToState(PostEvent event) async* {
     if (event is FetchPosts) {
       // refresh posts
-      if (event.refresh == true) {
-        var posts = await getPosts(page: 0);
-        yield (currentState as Posts).copyWith(
-          page: 0,
-          posts: posts,
-          hasReachedMax: false,
-          refresh: (currentState as Posts).refresh + 1,
-        );
-        return;
-      }
-
       int _currentPage = 0;
       List<dynamic> _posts = [];
-      bool _hasReachedMax = false;
       
       // load posts
       if (currentState is Posts) {
-        if ((currentState as Posts).hasReachedMax == true) {
-          return;
+        if (event.refresh != true) {
+          if ((currentState as Posts).hasReachedMax == true) return;
+          _currentPage = (currentState as Posts).page + 1;
+          _posts = (currentState as Posts).posts;
         }
-        
-        _currentPage = (currentState as Posts).page + 1;
-        _posts = (currentState as Posts).posts;
       }
       
       // get posts
@@ -79,10 +66,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       yield Posts(
         page: _currentPage,
         posts: _posts + posts,
-        hasReachedMax: _hasReachedMax,
-        refresh: 0,
+        hasReachedMax: posts.length == 0 ? true : false,
+        refresh: (currentState as Posts).refresh + 1,
       );
-      return;
     }
   }
 }

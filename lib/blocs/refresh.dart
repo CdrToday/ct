@@ -4,14 +4,16 @@ import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
+import 'package:cdr_today/blocs/_author.dart';
 import 'package:cdr_today/blocs/community.dart';
 
 class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   final PostBloc p;
   final RedditBloc r;
   final CommunityBloc c;
+  final AuthorPostBloc a;
   
-  RefreshBloc({ this.p, this.c, this.r }) {
+  RefreshBloc({ this.p, this.c, this.r, this.a }) {
     p.state.listen((state) {
         if (state is Posts) {
           if (state.refresh == 0) return;
@@ -32,6 +34,13 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
           this.dispatch(RedditRefresh(refresh: false));
         }
     });
+
+    a.state.listen((state) {
+        if (state is AuthorPosts) {
+          if (state.refresh == 0) return;
+          this.dispatch(Refresh(author: false));
+        }
+    });
   }
   
   @override
@@ -50,6 +59,7 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   RefreshState get initialState => Refresher(
     edit: false,
     post: false,
+    author: false,
     reddit: false,
     profile: false,
     community: false,
@@ -70,13 +80,12 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
         reddit: event.refresh ?? (currentState as Refresher).reddit
       );
     } else if (event is Refresh) {
-      print(event.profile);
       yield (currentState as Refresher).copyWith(
         edit: event.edit ?? (currentState as Refresher).edit,
+        author: event.author ?? (currentState as Refresher).author,
         profile: event.profile ?? (currentState as Refresher).profile,
       );
     }
-
     return;
   }
 }
@@ -89,23 +98,26 @@ abstract class RefreshState extends Equatable {
 class Refresher extends RefreshState {
   final bool edit;
   final bool post;
+  final bool author;
   final bool reddit;
   final bool profile;
   final bool community;
   Refresher({
       this.edit,
       this.post,
+      this.author,
       this.reddit,
       this.profile,
       this.community
-  }) : super([ edit, post, reddit, profile, community ]);
+  }) : super([ edit, post, reddit, profile, community, author ]);
 
   Refresher copyWith({
-      bool edit, bool post, bool community, bool reddit, bool profile
+      bool edit, bool post, bool community, bool reddit, bool profile, bool author
   }) {
     return Refresher(
       edit: edit ?? this.edit,
       post: post ?? this.post,
+      author: author ?? this.author,
       reddit: reddit ?? this.reddit,
       profile: profile ?? this.profile,
       community: community ?? this.community
@@ -118,8 +130,9 @@ abstract class RefreshEvent extends Equatable {}
 
 class Refresh extends RefreshEvent {
   final bool edit;
+  final bool author;
   final bool profile;
-  Refresh({ this.edit, this.profile });
+  Refresh({ this.edit, this.author, this.profile });
 
   @override
   String toString() => 'Refresh';

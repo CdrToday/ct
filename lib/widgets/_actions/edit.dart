@@ -108,6 +108,15 @@ class Post extends StatelessWidget {
           }
 
           snacker(context, '更新成功', color: Colors.black);
+
+          if (args.community != null) {
+            _bloc.dispatch(RedditRefresh(refresh: true));
+            _rbloc.dispatch(FetchReddits(refresh: true));
+          } else {
+            _bloc.dispatch(PostRefresh(refresh: true));
+            _pbloc.dispatch(FetchPosts(refresh: true));
+          }
+          
           if (toPreview != null) toPreview();
         }
       )
@@ -254,7 +263,7 @@ class EditActions extends StatelessWidget {
       alert(
         context,
         title: '删除文章?',
-        ok: Text('删除', style: TextStyle(color: Colors.red)),
+        ok: Text('确定', style: TextStyle(color: Colors.red)),
         action: delete,
       );
     }

@@ -20,6 +20,14 @@ class _RedditState extends State<Reddit> {
     return BlocBuilder<MemberBloc, MemberState>(
       builder: (context, mstate) {
         List<dynamic> members = (mstate as Members).members;
+        if (
+          members.length == 0
+        ) return PostList(
+          appBar: widget.appBar,
+          title: widget.title,
+          loading: true,
+        );
+        
         return BlocBuilder<RedditBloc, RedditState>(
           builder: (context, state) {
             List<dynamic> reddits = (state as Reddits).reddits;
@@ -39,6 +47,7 @@ class _RedditState extends State<Reddit> {
               title: widget.title,
               posts: reddits,
               community: true,
+              hasReachedMax: (state as Reddits).hasReachedMax,
             );
           }
         );

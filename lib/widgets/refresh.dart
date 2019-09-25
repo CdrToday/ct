@@ -5,7 +5,6 @@ import 'package:cdr_today/blocs/refresh.dart';
 
 class PostRefresher extends StatelessWidget {
   final Widget widget;
-
   PostRefresher({ this.widget });
 
   @override
@@ -13,13 +12,7 @@ class PostRefresher extends StatelessWidget {
     return BlocBuilder<RefreshBloc, RefreshState>(
       builder: (context, state) {
         if ((state as Refresher).post == true) {
-          return Container(
-            child: SizedBox(
-              height: 12.0,
-              width: 12.0,
-              child: CircularProgressIndicator(strokeWidth: 1.0)
-            ),
-          );
+          return CupertinoActivityIndicator();
         }
         return widget ?? SizedBox.shrink();
       }
@@ -59,13 +52,7 @@ class RedditRefresher extends StatelessWidget {
     return BlocBuilder<RefreshBloc, RefreshState>(
       builder: (context, state) {
         if ((state as Refresher).reddit == true) {
-          return Container(
-            child: SizedBox(
-              height: 12.0,
-              width: 12.0,
-              child: CircularProgressIndicator(strokeWidth: 1.0)
-            ),
-          );
+          return CupertinoActivityIndicator();
         }
         return widget ?? SizedBox.shrink();
       }
@@ -109,6 +96,23 @@ class ProfileRefresher extends StatelessWidget {
             padding: EdgeInsets.only(right: 16.0),
             child: CupertinoActivityIndicator(),
           );
+        }
+        return widget ?? SizedBox.shrink();
+      }
+    );
+  }
+}
+
+class AuthorRefresher extends StatelessWidget {
+  final Widget widget;
+  AuthorRefresher({ this.widget });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RefreshBloc, RefreshState>(
+      builder: (context, state) {
+        if ((state as Refresher).author == true) {
+          return CupertinoActivityIndicator();
         }
         return widget ?? SizedBox.shrink();
       }

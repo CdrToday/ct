@@ -20,17 +20,13 @@ class PostItem extends StatelessWidget {
     
     return GestureDetector(
       child: ListTile(
-        title: Container(
-          child: Text(title, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400)),
-          padding: EdgeInsets.only(top: kToolbarHeight / 8),
-        ),
+        title: Text(title, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400)),
         subtitle: Container(
           child: Text(display(x.timestamp), style: TextStyle(fontSize: 11.0)),
-          padding: EdgeInsets.only(top: 50.0),
           alignment:  AlignmentDirectional.bottomEnd
         ),
         contentPadding: EdgeInsets.symmetric(
-          vertical: 10.0, horizontal: 20.0
+          horizontal: 20.0
         )
       ),
       onTap: () => Navigator.pushNamed(context, '/article', arguments: x),

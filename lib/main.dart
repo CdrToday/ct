@@ -49,6 +49,7 @@ final RefreshBloc refreshBloc = RefreshBloc(
   p: postBloc,
   c: communityBloc,
   r: redditBloc,
+  a: authorPostBloc,
 );
 class App extends StatelessWidget {
   @override
@@ -79,11 +80,11 @@ class App extends StatelessWidget {
         BlocProvider<UserBloc>(
           builder: (context) => userBloc,
         ),
+        BlocProvider<AuthorPostBloc>(
+          builder: (context) => authorPostBloc,
+        ),
         BlocProvider<DrawerBloc>(
           builder: (context) => DrawerBloc(c: communityBloc),
-        ),
-        BlocProvider<AuthorPostBloc>(
-          builder: (context) => AuthorPostBloc(),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeData>(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/editor.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:zefyr/zefyr.dart';
 
@@ -36,21 +37,25 @@ class _EditState extends State<Edit> {
     return Scaffold(
       appBar: AppBar(
         actions: _edit == true ? [
-          Post(
-            args: widget.args,
-            update: false,
-            zefyrController: _controller,
-            toPreview: () => setState(() { _edit = false; })
+          EditRefresher(
+            widget: Post(
+              args: widget.args,
+              update: false,
+              zefyrController: _controller,
+              toPreview: () => setState(() { _edit = false; })
+            )
           )
         ]: [
-          More(
-            args: widget.args,
-            update: false,
-            toEdit: () {
-              setState(() { _edit = true; });
-              Navigator.pop(context);
-            },
-            zefyrController: _controller,
+          EditRefresher(
+            widget: More(
+              args: widget.args,
+              update: false,
+              toEdit: () {
+                setState(() { _edit = true; });
+                Navigator.pop(context);
+              },
+              zefyrController: _controller,
+            )
           )
         ],
         elevation: 0.0,

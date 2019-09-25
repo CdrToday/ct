@@ -28,9 +28,9 @@ Widget appBar(BuildContext context, AuthorArgs args) => SliverAppBar(
   snap: true,
   elevation: 0.0,
   forceElevated: true,
-  // expandedHeight: kToolbarHeight * 2,
   leading: CloseButton(),
-  title: PostRefresher(widget: Text(args.name)),
+  title: AuthorRefresher(widget: Text(args.name)),
+  centerTitle: true,
   actions: [
     IconButton(
       icon: Icon(Icons.mail, size: 20.0),

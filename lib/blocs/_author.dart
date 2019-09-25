@@ -26,48 +26,41 @@ class AuthorPostBloc extends Bloc<AuthorPostEvent, AuthorPostState> {
   }
   
   @override
-  AuthorPostState get initialState => AuthorPostsUnFetched();
+  AuthorPostState get initialState => AuthorPosts(
+    page: 0,
+    posts: [],
+    hasReachedMax: false,
+    refresh: 0,
+  );
 
   @override
   Stream<AuthorPostState> mapEventToState(AuthorPostEvent event) async* {
     if (event is FetchAuthorPosts) {
-      if (event.mail == null) return;
       // refresh posts
-      if (event.refresh == true) {
-        var posts = await getAuthorPosts(page: 0, mail: event.mail);
-        yield (currentState as AuthorPosts).copyWith(
-          page: 0,
-          posts: posts,
-          hasReachedMax: false,
-          refresh: (currentState as AuthorPosts).refresh + 1,
-        );
-        return;
-      }
-
       int _currentPage = 0;
       List<dynamic> _posts = [];
-      bool _hasReachedMax = false;
       
       // load posts
       if (currentState is AuthorPosts) {
-        if ((currentState as AuthorPosts).hasReachedMax == true) {
-          return;
+        if (event.refresh != true) {
+          if ((currentState as AuthorPosts).hasReachedMax == true) return;
+          _currentPage = (currentState as AuthorPosts).page + 1;
+          _posts = (currentState as AuthorPosts).posts;
         }
-        
-        _currentPage = (currentState as AuthorPosts).page + 1;
-        _posts = (currentState as AuthorPosts).posts;
       }
-
-      // get posts
-      var posts = await getAuthorPosts(page: _currentPage, mail: event.mail);
       
+      // get posts
+      var _mail = event.mail != null ? event.mail :(
+        currentState as AuthorPosts
+      ).mail;
+      var posts = await getAuthorPosts(page: _currentPage, mail: _mail);
       yield AuthorPosts(
+        mail: _mail,
         page: _currentPage,
         posts: _posts + posts,
-        hasReachedMax: _hasReachedMax,
-        refresh: 0,
+        hasReachedMax: posts.length == 0 ? true : false,
+        refresh: (currentState as AuthorPosts).refresh + 1,
       );
-      return;
     }
   }
 }
@@ -75,11 +68,6 @@ class AuthorPostBloc extends Bloc<AuthorPostEvent, AuthorPostState> {
 // ----------- state -------------
 abstract class AuthorPostState extends Equatable {
   AuthorPostState([List props = const []]) : super(props);
-}
-
-class AuthorPostsUnFetched extends AuthorPostState {
-  @override
-  String toString() => 'UnFetched';
 }
 
 class AuthorPosts extends AuthorPostState {
@@ -114,7 +102,7 @@ class AuthorPosts extends AuthorPostState {
   }
   
   @override
-  String toString() => 'FetchedSucceed';
+  String toString() => 'AuthorPosts';
 }
 
 // ----------- events ------------
@@ -126,5 +114,5 @@ class FetchAuthorPosts extends AuthorPostEvent {
   FetchAuthorPosts({ this.refresh, this.mail });
   
   @override
-  String toString() => 'AuthorPosts';
+  String toString() => 'FetchAuthorPosts';
 }

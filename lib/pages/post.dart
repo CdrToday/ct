@@ -46,19 +46,19 @@ class AuthorPostContainer extends StatefulWidget {
 }
 
 class _AuthorPostContainerState extends State<AuthorPostContainer> {
-  Widget build(BuildContext context) {
+
+  @override
+  initState() {
     final AuthorPostBloc _bloc = BlocProvider.of<AuthorPostBloc>(context);
+    _bloc.dispatch(FetchAuthorPosts(refresh: true, mail: widget.mail));
+  }
+  
+  Widget build(BuildContext context) {
     return BlocBuilder<AuthorPostBloc, AuthorPostState>(
       builder: (context, state) {
-        if (state is AuthorPostsUnFetched) {
-          _bloc.dispatch(FetchAuthorPosts(mail: widget.mail));
+        if (state is AuthorPosts) {
           return PostList(
-            appBar: widget.appBar,
-            title: widget.title,
-            loading: true,
-          );
-        } else if (state is AuthorPosts) {
-          return PostList(
+            mail: widget.mail,
             posts: state.posts,
             appBar: widget.appBar,
             title: widget.title,

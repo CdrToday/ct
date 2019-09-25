@@ -12,7 +12,10 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
   RedditBloc({ this.c }) {
     c.state.listen((state) {
         if (state is Communities) {
-          this.dispatch(FetchReddits(community: state.current));
+          // not init state.
+          if (state.current != null && state.current != '') {
+            this.dispatch(FetchReddits(community: state.current, refresh: true));
+          }
         }
     });
   }
@@ -41,23 +44,36 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
     xReq.Requests r = await xReq.Requests.init();
 
     if (event is FetchReddits) {
+      int _currentPage = 0;
+      List<dynamic> _reddits = [];
+
+      // load reddits
+      if (currentState is Reddits) {
+        if (event.refresh != true) {
+          if ((currentState as Reddits).hasReachedMax == true) return;
+          _currentPage = (currentState as Reddits).page + 1;
+          _reddits = (currentState as Reddits).reddits;
+        }
+      }
+
       List<dynamic> reddits;
       if (event.community == null) {
         reddits = json.decode((await r.getReddits(
               community: (currentState as Reddits).community,
-              page: 0,
+              page: _currentPage,
         )).body)['reddits'];
       } else {
         reddits = json.decode((await r.getReddits(
               community: event.community,
-              page: 0,
+              page: _currentPage,
         )).body)['reddits'];
       }
 
       yield (currentState as Reddits).copyWith(
-        reddits: reddits,
+        reddits: _reddits + reddits,
         community: event.community,
-        page: 0,
+        page: _currentPage,
+        hasReachedMax: reddits.length == 0 ? true : false,
         refresh: (currentState as Reddits).refresh + 1,
       );
     }
