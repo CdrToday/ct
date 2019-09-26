@@ -19,7 +19,7 @@ class _RedditState extends State<Reddit> {
     return BlocBuilder<MemberBloc, MemberState>(
       builder: (context, mstate) {
         List<dynamic> members = (mstate as Members).members;
-        if ((mstate as Members).refresh < 2) {
+        if ((mstate as Members).refresh < 1) {
           return PostList(
             appBar: widget.appBar,
             title: widget.title,

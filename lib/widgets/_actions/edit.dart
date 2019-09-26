@@ -263,7 +263,7 @@ class EditActions extends StatelessWidget {
       alert(
         context,
         title: '删除文章?',
-        ok: Text('确定', style: TextStyle(color: Colors.red)),
+        ok: Text('确定'),
         action: delete,
       );
     }

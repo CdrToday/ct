@@ -9,11 +9,13 @@ import 'package:cdr_today/navigations/args.dart';
 class Bucket extends StatelessWidget {
   final Widget leading;
   final Widget drawer;
+  final List<Widget> actions;
   final Widget bottomSheet;
   Bucket({
       this.drawer,
       this.bottomSheet,
       this.leading,
+      this.actions,
   });
   
   Widget build(BuildContext context) {
@@ -27,8 +29,12 @@ class Bucket extends StatelessWidget {
           forceElevated: true,
           leading: leading ?? CloseButton(),
           title: PostRefresher(),
+          actions: actions ?? [],
         ),
-        title: sliverProfile(context),
+        title: sliverProfile(
+          context,
+          showEdit: leading != null ? false : true,
+        ),
       ),
       drawer: drawer,
       backgroundColor: Colors.white,

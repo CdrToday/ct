@@ -38,8 +38,7 @@ class Settings extends StatelessWidget {
                 Builder(
                   builder: (context) => quit(context, community['id'])
                 ),
-                SizedBox(height: kToolbarHeight + 20.0),
-                
+                SizedBox(height: kToolbarHeight),
               ]
             );
           }
@@ -81,8 +80,9 @@ Widget quit(BuildContext context, String id) {
 
             _rbloc.dispatch(CommunityRefresh());
             _cbloc.dispatch(FetchCommunities());
-            Navigator.maybePop(context);
-            Navigator.maybePop(context);
+            Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
+            // Navigator.maybePop(context);
+            // Navigator.maybePop(context);
           }
         )
       )

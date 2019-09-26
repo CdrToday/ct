@@ -8,6 +8,7 @@ import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/drawer.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/sheets.dart';
+import 'package:cdr_today/widgets/actions.dart';
 
 class InitPage extends StatelessWidget {
   Widget drawer(context) => SizedBox(
@@ -25,34 +26,34 @@ class InitPage extends StatelessWidget {
     )
   );
   
-  Widget appBar(context) => SliverAppBar(
-    leading: leading(context),
-    centerTitle: true,
-    title: RedditRefresher(widget: CommunityName()),
-    automaticallyImplyLeading: false,
-    backgroundColor: Colors.grey[100],
-    snap: true,
-    floating: true,
-  );
-  
   Widget bottomSheet = EditBottomSheet();  
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CommunityBloc, CommunityState>(
       builder: (context, state) {
-        if (state is Communities) {
-          if (state.current == '') {
-            return Bucket(
-              drawer: drawer(context),
-              bottomSheet: bottomSheet,
-              leading: leading(context),
-            );
-          }
+        if ((state as Communities).current == '') {
+          return Bucket(
+            drawer: drawer(context),
+            bottomSheet: bottomSheet,
+            leading: leading(context),
+            actions: IndexAction().toList(),
+          );
         }
         return Scaffold(
           body: Reddit(
-            appBar: appBar(context),
+            appBar: SliverAppBar(
+              leading: leading(context),
+              centerTitle: true,
+              title: RedditRefresher(widget: CommunityName(qr: true)),
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.grey[100],
+              snap: true,
+              floating: true,
+              actions: IndexAction(
+                community: (state as Communities).current,
+              ).toList(),
+            ),
           ),
           backgroundColor: Colors.grey[100],
           bottomSheet: bottomSheet,

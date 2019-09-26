@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DrawerBar extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final String title;
   final VoidCallback action;
 
@@ -30,17 +30,17 @@ class DrawerBar extends StatelessWidget {
           alignment: Alignment.centerLeft,
         ),
         Spacer(),
-        icon != null ? SizedBox(
+        icon ?? SizedBox(
           child: IconButton(
             icon: Icon(
-              icon ?? Icons.add_circle_outline,
+              Icons.add_circle_outline,
               size: 20.0,
             ),
             color: Colors.grey[600],
             onPressed: action ?? null,
           ),
           height: 32.0,
-        ) : SizedBox.shrink()
+        )
       ]
     );
   }

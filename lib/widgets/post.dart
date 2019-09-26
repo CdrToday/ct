@@ -51,7 +51,9 @@ class _PostState extends State<PostList> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-        setState(() { topHeight = stickyKey.currentContext.size.height; });
+        if (stickyKey.currentContext != null) {
+          setState(() { topHeight = stickyKey.currentContext.size.height; });
+        }
     });
     
     super.initState();

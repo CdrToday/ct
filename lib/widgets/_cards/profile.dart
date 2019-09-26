@@ -4,7 +4,7 @@ import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 
 
-SliverList sliverProfile(BuildContext context) {
+SliverList sliverProfile(BuildContext context, {bool showEdit = true}) {
   return SliverList(
     delegate: SliverChildBuilderDelegate(
       (BuildContext context, int index) {
@@ -24,10 +24,13 @@ SliverList sliverProfile(BuildContext context) {
                     Spacer(),
                   ]
                 ),
-                padding: EdgeInsets.only(bottom: 10.0, top: 10.0)
+                padding: EdgeInsets.only(
+                  bottom: showEdit ? 10.0 : 50.0,
+                  top: 10.0
+                )
               ),
               Container(
-                child: IconButton(
+                child: showEdit ? IconButton(
                   icon: Icon(
                     Icons.mode_edit,
                     size: 20.0,
@@ -39,7 +42,7 @@ SliverList sliverProfile(BuildContext context) {
                     );
                   },
                   color: Colors.black,
-                ),
+                ) : SizedBox.shrink(),
                 alignment: Alignment.bottomRight
               ),
               Divider(),

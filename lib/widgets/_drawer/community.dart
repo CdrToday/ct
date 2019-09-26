@@ -8,6 +8,11 @@ import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/community.dart';
 
+enum ActionX {
+  join,
+  create
+}
+
 class SwipeCommunity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,8 +26,7 @@ class SwipeCommunity extends StatelessWidget {
           header(context),
           DrawerBar(
             title: '社区',
-            icon: Icons.add_circle_outline,
-            action: () => Navigator.pushNamed(context, '/community/raise')
+            action: () => Navigator.popAndPushNamed(context, '/community/raise')
           ),
           CommunityList(),
         ],

@@ -11,9 +11,7 @@ class EditBottomSheet extends StatelessWidget {
         onPressed: () {
           Navigator.pushNamed(
             context, '/user/edit',
-            arguments: ArticleArgs(
-              community: (state as Communities).current, edit: false
-            )
+            arguments: ArticleArgs(community: (state as Communities).current)
           );
         },
         color: Colors.black,

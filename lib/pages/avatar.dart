@@ -36,7 +36,11 @@ class Avatar extends StatelessWidget {
         builder: (context) => Center(
           child: Screenshot(
             child: Container(
-              child: AvatarHero(self: true, rect: true),
+              child: AvatarHero(
+                self: true,
+                rect: true,
+                width: MediaQuery.of(context).size.width / 2,
+              ),
               color: Colors.black,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,
@@ -78,7 +82,7 @@ class CustomAvatar extends StatelessWidget {
               tag: args.url,
               baks: args.baks,
               rect: args.rect,
-              width: MediaQuery.of(context).size.width
+              width: MediaQuery.of(context).size.width / 2
             ),
             color: Colors.black,
             width: MediaQuery.of(context).size.width,
