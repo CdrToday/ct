@@ -57,6 +57,7 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   
   @override
   RefreshState get initialState => Refresher(
+    qr: false,
     edit: false,
     post: false,
     author: false,
@@ -81,6 +82,7 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
       );
     } else if (event is Refresh) {
       yield (currentState as Refresher).copyWith(
+        qr: event.qr ?? (currentState as Refresher).qr,
         edit: event.edit ?? (currentState as Refresher).edit,
         author: event.author ?? (currentState as Refresher).author,
         profile: event.profile ?? (currentState as Refresher).profile,
@@ -96,6 +98,7 @@ abstract class RefreshState extends Equatable {
 }
 
 class Refresher extends RefreshState {
+  final bool qr;
   final bool edit;
   final bool post;
   final bool author;
@@ -103,18 +106,26 @@ class Refresher extends RefreshState {
   final bool profile;
   final bool community;
   Refresher({
+      this.qr,
       this.edit,
       this.post,
       this.author,
       this.reddit,
       this.profile,
       this.community
-  }) : super([ edit, post, reddit, profile, community, author ]);
+  }) : super([ qr, edit, post, reddit, profile, community, author ]);
 
   Refresher copyWith({
-      bool edit, bool post, bool community, bool reddit, bool profile, bool author
+      bool qr,
+      bool edit,
+      bool post,
+      bool community,
+      bool reddit,
+      bool profile,
+      bool author
   }) {
     return Refresher(
+      qr: qr ?? this.qr,
       edit: edit ?? this.edit,
       post: post ?? this.post,
       author: author ?? this.author,
@@ -129,10 +140,11 @@ class Refresher extends RefreshState {
 abstract class RefreshEvent extends Equatable {}
 
 class Refresh extends RefreshEvent {
+  final bool qr;
   final bool edit;
   final bool author;
   final bool profile;
-  Refresh({ this.edit, this.author, this.profile });
+  Refresh({ this.qr, this.edit, this.author, this.profile });
 
   @override
   String toString() => 'Refresh';

@@ -121,7 +121,7 @@ Route router(settings) {
   } else if (r == '/root') {
     return FadeRoute(page: InitPage());
   } else if (r == '/scan') {
-    return FadeRoute(page: Scan());
+    return SlideRoute(page: Scan());
   } else if (r == '/avatar') {
     final CustomAvatarArgs args = settings.arguments;
     return FadeRoute(page: CustomAvatar(args: args));

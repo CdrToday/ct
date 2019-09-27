@@ -119,3 +119,29 @@ class AuthorRefresher extends StatelessWidget {
     );
   }
 }
+
+class QrRefresher extends StatelessWidget {
+  final Widget widget;
+  QrRefresher({ this.widget });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RefreshBloc, RefreshState>(
+      builder: (context, state) {
+        if ((state as Refresher).qr == true) {
+          return Container(
+            child: SizedBox(
+              height: 16.0,
+              width: 16.0,
+              child: CircularProgressIndicator(
+                strokeWidth: 1.5,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
+              )
+            ),
+          );
+        }
+        return widget ?? SizedBox.shrink();
+      }
+    );
+  }
+}

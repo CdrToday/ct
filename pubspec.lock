@@ -99,6 +99,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.2"
+  fast_qr_reader_view:
+    dependency: "direct main"
+    description:
+      name: fast_qr_reader_view
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.5"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -200,13 +207,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.7"
-  native_device_orientation:
-    dependency: transitive
-    description:
-      name: native_device_orientation
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.2"
   notus:
     dependency: transitive
     description:
@@ -270,6 +270,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.0"
+  qr_code_scanner:
+    dependency: "direct main"
+    description:
+      name: qr_code_scanner
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.12"
+  qr_code_tools:
+    dependency: "direct main"
+    description:
+      name: qr_code_tools
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.6"
   qr_flutter:
     dependency: "direct main"
     description:
@@ -277,13 +291,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
-  qr_mobile_vision:
-    dependency: "direct main"
-    description:
-      name: qr_mobile_vision
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.2.2"
   quill_delta:
     dependency: "direct main"
     description:

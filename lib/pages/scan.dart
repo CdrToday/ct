@@ -1,25 +1,112 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:qr_mobile_vision/qr_camera.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:qr_code_tools/qr_code_tools.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/widgets/refresh.dart';
+import 'package:cdr_today/blocs/refresh.dart';
 
 class Scan extends StatefulWidget {
-  const Scan({ Key key }) : super(key: key);
-
   @override
-  State<StatefulWidget> createState() => _ScanState();
+  _ScanState createState() => new _ScanState();
 }
 
 class _ScanState extends State<Scan> {
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  var qrText = "";
+  QRViewController controller;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        child: new QrCamera(
-          qrCodeCallback: (code) {
-            // print(code);
-          },
-        )
-      )
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        brightness: Brightness.dark,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          child: Icon(
+            Icons.close,
+            color: Colors.white
+          ),
+          onTap: () => Navigator.maybePop(context),
+        ),
+        actions: [
+          GestureDetector(
+            child: Icon(
+              Icons.photo_library,
+              color: Colors.white
+            ),
+            onTap: _pickImage
+          ),
+          SizedBox(width: 16.0),
+        ],
+        title: QrRefresher(),
+        centerTitle: true,
+      ),
+      body: GestureDetector(
+        child: QRView(
+          key: qrKey,
+          onQRViewCreated: _onQRViewCreated,
+          overlay: QrScannerOverlayShape(
+            borderColor: Colors.white,
+            borderRadius: 10,
+            borderLength: 30,
+            borderWidth: 10,
+            cutOutSize: 300,
+          ),
+        ),
+        onTap: () => controller?.toggleFlash(),
+      ),
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
     );
   }
-}
 
+  void _pickImage() async {
+    final _bloc = BlocProvider.of<RefreshBloc>(context);
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    String data = await QrCodeToolsPlugin.decodeFrom(image.path);
+    
+    if (data == null) {
+      _bloc.dispatch(Refresh(qr: true));
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('确定'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  
+                }
+              ),
+            ],
+            title: Text('二维码识别失败，请重试'),
+          );
+        },
+      );
+    }
+    
+    _bloc.dispatch(Refresh(qr: false));
+  }
+  
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+        setState(() { qrText = scanData; });
+    });
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+}
