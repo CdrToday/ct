@@ -102,7 +102,9 @@ class Requests {
   /// --- community ---
   //@getMembers GET '/u/{mail:string}/c'
   Future<http.Response> getCommunities() async {
-    return await rGet("/u/$mail/c");
+    var res = await rGet("/u/$mail/c");
+    if (res.statusCode == 408) return getCommunities();
+    return res;
   }
 
   //@getMembers GET '/u/{mail:string}/{id:string}/members'

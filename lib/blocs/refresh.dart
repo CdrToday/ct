@@ -60,6 +60,7 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
     qr: false,
     edit: false,
     post: false,
+    common: false,
     author: false,
     reddit: false,
     profile: false,
@@ -85,6 +86,8 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
         qr: event.qr ?? (currentState as Refresher).qr,
         edit: event.edit ?? (currentState as Refresher).edit,
         author: event.author ?? (currentState as Refresher).author,
+        common: event.common ?? (currentState as Refresher).common,
+        cupertino: event.cupertino ?? (currentState as Refresher).cupertino,
         profile: event.profile ?? (currentState as Refresher).profile,
       );
     }
@@ -101,36 +104,54 @@ class Refresher extends RefreshState {
   final bool qr;
   final bool edit;
   final bool post;
+  final bool common;
   final bool author;
   final bool reddit;
   final bool profile;
+  final bool cupertino;
   final bool community;
   Refresher({
       this.qr,
       this.edit,
       this.post,
+      this.common,
       this.author,
       this.reddit,
       this.profile,
+      this.cupertino,
       this.community
-  }) : super([ qr, edit, post, reddit, profile, community, author ]);
+  }) : super([
+      qr,
+      edit,
+      post,
+      author,
+      common,
+      reddit,
+      profile,
+      cupertino,
+      community,
+  ]);
 
   Refresher copyWith({
       bool qr,
       bool edit,
       bool post,
-      bool community,
+      bool author,
+      bool common,
       bool reddit,
       bool profile,
-      bool author
+      bool cupertino,
+      bool community,
   }) {
     return Refresher(
       qr: qr ?? this.qr,
       edit: edit ?? this.edit,
       post: post ?? this.post,
+      common: common ?? this.common,
       author: author ?? this.author,
       reddit: reddit ?? this.reddit,
       profile: profile ?? this.profile,
+      cupertino: cupertino ?? this.cupertino,
       community: community ?? this.community
     );
   }
@@ -143,8 +164,17 @@ class Refresh extends RefreshEvent {
   final bool qr;
   final bool edit;
   final bool author;
+  final bool common;
   final bool profile;
-  Refresh({ this.qr, this.edit, this.author, this.profile });
+  final bool cupertino;
+  Refresh({
+      this.qr,
+      this.edit,
+      this.author,
+      this.common,
+      this.profile,
+      this.cupertino,
+  });
 
   @override
   String toString() => 'Refresh';

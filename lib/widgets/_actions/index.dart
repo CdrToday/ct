@@ -33,9 +33,6 @@ class IndexAction extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/scan');
-            }
           ),
         ),
         PopupMenuItem<ActionX>(
@@ -53,14 +50,6 @@ class IndexAction extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {
-              Navigator.popAndPushNamed(
-                context, '/user/edit',
-                arguments: community != null ? ArticleArgs(
-                  community: community
-                ) : ArticleArgs()
-              );
-            }
           ),
         ),
       ],
@@ -69,7 +58,19 @@ class IndexAction extends StatelessWidget {
       offset: Offset(20.0, 10.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.0))
-      )
+      ),
+      onSelected: (value) {
+        if (value == ActionX.scan) {
+          Navigator.pushNamed(context, '/scan');
+        } else {
+          Navigator.pushNamed(
+            context, '/user/edit',
+            arguments: community != null ? ArticleArgs(
+              community: community
+            ) : ArticleArgs()
+          );
+        }
+      }
     );
   }
 

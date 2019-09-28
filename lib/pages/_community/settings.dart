@@ -81,8 +81,6 @@ Widget quit(BuildContext context, String id) {
             _rbloc.dispatch(CommunityRefresh());
             _cbloc.dispatch(FetchCommunities());
             Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
-            // Navigator.maybePop(context);
-            // Navigator.maybePop(context);
           }
         )
       )

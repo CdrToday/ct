@@ -31,7 +31,6 @@ class UpdateName extends StatelessWidget {
           return;
         }
 
-
         ///////
         _bloc.dispatch(Refresh(profile: true));
         ///////

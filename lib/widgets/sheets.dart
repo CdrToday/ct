@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/navigations/args.dart';
@@ -6,15 +7,44 @@ import 'package:cdr_today/navigations/args.dart';
 class EditBottomSheet extends StatelessWidget {
   final Widget cButton = BlocBuilder<CommunityBloc, CommunityState>(
     builder: (context, state) {
-      return IconButton(
-        icon: Icon(Icons.mode_edit),
-        onPressed: () {
-          Navigator.pushNamed(
-            context, '/user/edit',
-            arguments: ArticleArgs(community: (state as Communities).current)
-          );
-        },
-        color: Colors.black,
+      return Padding(
+        child: GestureDetector(
+          child: Icon(
+            Icons.mode_edit,
+            color: Colors.black
+          ),
+          onTap: () {
+            showCupertinoModalPopup(
+              context: context,
+              builder: (context) => CupertinoActionSheet(
+                actions: [
+                  CupertinoActionSheetAction(
+                    child: Text('图片'),
+                    onPressed: () async {
+                    }
+                  ),
+                  CupertinoActionSheetAction(
+                    child: Text('文字'),
+                    onPressed: () async {
+                      Navigator.popAndPushNamed(
+                        context, '/user/edit',
+                        arguments: ArticleArgs()
+                      );
+                    }
+                  ),
+                ],
+                cancelButton: CupertinoActionSheetAction(
+                  child: Text('取消'),
+                  onPressed: () => Navigator.pop(context),
+                )
+              )
+            );
+          },
+          onLongPress: () {
+            Navigator.pushNamed(context, '/scan');
+          },
+        ),
+        padding: EdgeInsets.only(right: 12.0)
       );
     }
   );

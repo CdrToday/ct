@@ -8,11 +8,6 @@ import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/community.dart';
 
-enum ActionX {
-  join,
-  create
-}
-
 class SwipeCommunity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +21,9 @@ class SwipeCommunity extends StatelessWidget {
           header(context),
           DrawerBar(
             title: '社区',
-            action: () => Navigator.popAndPushNamed(context, '/community/raise')
+            action: () {
+              Navigator.popAndPushNamed(context, '/community/raise');
+            }
           ),
           CommunityList(),
         ],
@@ -41,12 +38,14 @@ Widget header(BuildContext context) {
     builder: (context, state) {
       bool flag = false;
       if ((state is Communities) && state.current == '') flag = true;
-      
+
       return Column(
         children: [
           SizedBox(height: 5.0),
           AvatarHero(
-            self: true, width: 30.0, tag: flag == true ? 'nil' : '',
+            self: true,
+            width: 30.0,
+            tag: flag == true ? 'nil' : '',
             onTap: flag == true ? () => Navigator.pop(
               context
             ) : () => Navigator.pushNamed(context, '/mine/bucket'),

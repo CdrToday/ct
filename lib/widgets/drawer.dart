@@ -18,7 +18,7 @@ class _SwipeDrawerState extends State<SwipeDrawer> {
       builder: (context, state) {
         if (state is DrawerIndex) {
           return Swiper(
-            itemBuilder: (BuildContext context,int index){
+            itemBuilder: (BuildContext context,int index) {
               return index == 0 ? SwipeCommunity() : SwipeMember();
             },
             itemCount: 2,

@@ -47,7 +47,7 @@ class Avatar extends StatelessWidget {
               margin: EdgeInsets.only(bottom: kToolbarHeight * 1.5 )
             ),
             controller: screenshotController,
-          )
+          ),
         ),
       ),
       backgroundColor: Colors.black,

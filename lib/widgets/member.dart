@@ -30,12 +30,12 @@ class CommunityMember extends StatelessWidget {
                           if (state is UserInited) {
                             if (state.mail == ms[index ~/ 2]['mail']) self = true;
                           }
-                          
+
                           return CommunityTile(
                             avatar: AvatarHero(
                               width: 20.0,
                               url: ms[index ~/ 2]['avatar'],
-                              tag: ms[index ~/ 2]['avatar'],
+                              tag: ms[index ~/ 2]['mail'],
                               baks: [
                                 ms[index ~/ 2]['name'],
                                 ms[index ~/ 2]['mail'],

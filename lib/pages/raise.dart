@@ -16,7 +16,7 @@ class Raise extends StatelessWidget {
                 leading: Icon(Icons.person_add),
                 title: Text('加入社区'),
                 trailing: Icon(Icons.chevron_right),
-                onTap: () => Navigator.pushNamed(context, '/community/join'),
+                onTap: () => Navigator.pushNamed(context, '/scan'),
               ),
             ),
             Card(

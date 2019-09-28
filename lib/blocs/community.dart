@@ -9,11 +9,6 @@ import 'package:cdr_today/x/req.dart' as xReq;
 Future<List<dynamic>> getCommunities() async {
   final xReq.Requests r = await xReq.Requests.init();
   var res = await r.getCommunities();
-
-  if (res.statusCode != 200) {
-    return getCommunities();
-  }
-  
   return json.decode(res.body)['communities'];
 }
 
@@ -53,7 +48,7 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
       var communities = await getCommunities();
       yield (currentState as Communities).copyWith(
         current: communities.length > 0 ? communities[0]['id'] : '',
-        communities: communities,
+        communities: communities.length > 0 ? communities : [],
         refresh: (currentState as Communities).refresh + 1,
       );
     } else if (event is ChangeCurrentCommunity) {
@@ -96,6 +91,11 @@ abstract class CommunityEvent extends Equatable {}
 class FetchCommunities extends CommunityEvent {
   @override
   toString() => "FetchCommunities";
+}
+
+class UpdateCommunities extends CommunityEvent {
+  @override
+  toString() => "UpdateCommunities";
 }
 
 class ChangeCurrentCommunity extends CommunityEvent {

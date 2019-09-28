@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/input.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
@@ -30,10 +31,15 @@ class _CreateState extends State<Create> {
         title: Text('创建社区'),
         leading: CloseButton(),
         actions: [
-          Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.check),
-              onPressed: () => createCommunity(context)
+          CupertinoRefresher(
+            widget: Builder(
+              builder: (context) => Padding(
+                child: GestureDetector(
+                  child: Icon(Icons.check),
+                  onTap: () => createCommunity(context)
+                ),
+                padding: EdgeInsets.only(right: 16.0),  
+              ),
             )
           )
         ]
@@ -65,13 +71,16 @@ class _CreateState extends State<Create> {
       snacker(context, '社区 ID 只能使用字母数字与下划线 "_"，长度需小于 20', secs: 2);
       return;
     }
+
     
+    _rbloc.dispatch(Refresh(cupertino: true));
     var res = await r.createCommunity(id: _id, name: _name);
     if (res.statusCode != 200) {
       snacker(context, '创建失败，请更换社区 ID 后重试');
       return;
     }
 
+    _rbloc.dispatch(Refresh(cupertino: false));
     _rbloc.dispatch(CommunityRefresh());
     _cbloc.dispatch(FetchCommunities());
     Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);

@@ -53,3 +53,21 @@ class CustomAvatarArgs {
   final List<String> baks;
   CustomAvatarArgs({ this.url, this.tag, this.baks, this.rect });
 }
+
+
+enum QrType {
+  community,
+  join
+}
+
+class QrCodeArgs {
+  final String code;
+  final String name;
+  final QrType type;
+
+  QrCodeArgs({
+      this.code,
+      this.name,
+      this.type,
+  });
+}

@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cdr_today/x/rng.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/alerts.dart';
-
+import 'package:cdr_today/navigations/args.dart';
 
 // @usage: AvatarHero
 class Name extends StatelessWidget {
@@ -18,6 +19,8 @@ class Name extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    
+    
     Widget _name(List<String> arr) {
       if (arr == null) arr = ['?'];
       
@@ -32,17 +35,17 @@ class Name extends StatelessWidget {
     }
 
     if (!self) return _name(list);
-    
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserInited) {
+          String name = state.name;
+          if (name == null || name == '') name = rngName();
           return list == null ? _name(
-            [state.name]
+            [name]
           ) : _name(
-            [state.name] + list
+            [name] + list
           );
         }
-
         return _name(['?']);
       }
     );
@@ -76,23 +79,13 @@ class CommunityName extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 1 / 3,
             ),
             onTap: qr ? () {
-              showDialog<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return CupertinoAlertDialog(
-                    content: Container(
-                      child: Center(
-                        child: QrImage(
-                          data: "/c/${state.current}",
-                          version: QrVersions.auto,
-                          size: MediaQuery.of(context).size.width / 2,
-                        ),
-                      ),
-                      height: MediaQuery.of(context).size.width / 2 + 100,
-                      width: MediaQuery.of(context).size.width / 2 + 100,
-                    ),
-                  );
-                },
+              Navigator.pushNamed(
+                context,
+                '/qrcode',
+                arguments: QrCodeArgs(
+                  code: state.current,
+                  name: name
+                )
               );
             } : () {},
           );

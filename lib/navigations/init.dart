@@ -50,9 +50,6 @@ class InitPage extends StatelessWidget {
               backgroundColor: Colors.grey[100],
               snap: true,
               floating: true,
-              actions: IndexAction(
-                community: (state as Communities).current,
-              ).toList(),
             ),
           ),
           backgroundColor: Colors.grey[100],

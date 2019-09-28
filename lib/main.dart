@@ -26,6 +26,7 @@ import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
 import 'package:cdr_today/pages/author.dart';
 import 'package:cdr_today/pages/raise.dart';
+import 'package:cdr_today/pages/qrcode.dart' as qr;
 import 'package:cdr_today/pages/community.dart' as community;
 // navigations
 import 'package:cdr_today/navigations/args.dart';
@@ -121,13 +122,19 @@ Route router(settings) {
   } else if (r == '/root') {
     return FadeRoute(page: InitPage());
   } else if (r == '/scan') {
-    return SlideRoute(page: Scan());
+    return FadeRoute(page: Scan());
   } else if (r == '/avatar') {
     final CustomAvatarArgs args = settings.arguments;
     return FadeRoute(page: CustomAvatar(args: args));
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Article(args: args));
+  } else if (r == '/qrcode') {
+    final QrCodeArgs args = settings.arguments;
+    return FadeRoute(page: qr.QrCode(args: args));
+  } else if (r == '/qrcode/join') {
+    final QrCodeArgs args = settings.arguments;
+    return FadeRoute(page: qr.Join(args: args));
   } else if (r == '/community/author') {
     final AuthorArgs args = settings.arguments;
     return FadeRoute(page: Author(args: args));

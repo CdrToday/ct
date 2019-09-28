@@ -130,14 +130,14 @@ class QrRefresher extends StatelessWidget {
       builder: (context, state) {
         if ((state as Refresher).qr == true) {
           return Container(
-            child: SizedBox(
-              height: 16.0,
-              width: 16.0,
-              child: CircularProgressIndicator(
-                strokeWidth: 1.5,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
-              )
+            height: 16.0,
+            width: 22.0,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
             ),
+            padding: EdgeInsets.only(right: 6.0),
+            alignment: Alignment.center
           );
         }
         return widget ?? SizedBox.shrink();
@@ -145,3 +145,41 @@ class QrRefresher extends StatelessWidget {
     );
   }
 }
+
+class CommonRefresher extends StatelessWidget {
+  final Widget widget;
+  CommonRefresher({ this.widget });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RefreshBloc, RefreshState>(
+      builder: (context, state) {
+        if ((state as Refresher).common == true) {
+          return CupertinoActivityIndicator();
+        }
+        return widget ?? SizedBox.shrink();
+      }
+    );
+  }
+}
+
+class CupertinoRefresher extends StatelessWidget {
+  final Widget widget;
+  CupertinoRefresher({ this.widget });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RefreshBloc, RefreshState>(
+      builder: (context, state) {
+        if ((state as Refresher).cupertino == true) {
+          return Padding(
+            child: CupertinoActivityIndicator(),
+            padding: EdgeInsets.only(right: 16.0),
+          );
+        }
+        return widget ?? SizedBox.shrink();
+      }
+    );
+  }
+}
+

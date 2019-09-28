@@ -8,6 +8,7 @@ import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/blocs/refresh.dart';
+import 'package:cdr_today/navigations/args.dart';
 
 class Scan extends StatefulWidget {
   @override
@@ -16,7 +17,6 @@ class Scan extends StatefulWidget {
 
 class _ScanState extends State<Scan> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  var qrText = "";
   QRViewController controller;
 
   @override
@@ -35,16 +35,19 @@ class _ScanState extends State<Scan> {
           onTap: () => Navigator.maybePop(context),
         ),
         actions: [
-          GestureDetector(
-            child: Icon(
-              Icons.photo_library,
-              color: Colors.white
+          Center(
+            child: QrRefresher(
+              widget: GestureDetector(
+                child: Icon(
+                  Icons.photo_library,
+                  color: Colors.white
+                ),
+                onTap: _pickImage
+              ),
             ),
-            onTap: _pickImage
           ),
           SizedBox(width: 16.0),
         ],
-        title: QrRefresher(),
         centerTitle: true,
       ),
       body: GestureDetector(
@@ -71,10 +74,9 @@ class _ScanState extends State<Scan> {
     final _bloc = BlocProvider.of<RefreshBloc>(context);
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (image == null) return;
-    String data = await QrCodeToolsPlugin.decodeFrom(image.path);
-    
-    if (data == null) {
-      _bloc.dispatch(Refresh(qr: true));
+    _bloc.dispatch(Refresh(qr: true));
+    String code = await QrCodeToolsPlugin.decodeFrom(image.path);
+    if (code == null) {
       showDialog<void>(
         context: context,
         builder: (BuildContext context) {
@@ -84,7 +86,6 @@ class _ScanState extends State<Scan> {
                 child: Text('确定'),
                 onPressed: () {
                   Navigator.pop(context);
-                  
                 }
               ),
             ],
@@ -93,14 +94,26 @@ class _ScanState extends State<Scan> {
         },
       );
     }
-    
+
+    Navigator.popAndPushNamed(
+      context, '/qrcode/join',
+      arguments: QrCodeArgs(
+        code: code
+      ),
+    );
+
     _bloc.dispatch(Refresh(qr: false));
   }
   
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-        setState(() { qrText = scanData; });
+        Navigator.pushNamed(
+          context, '/qrcode/join',
+          arguments: QrCodeArgs(
+            code: scanData
+          ),
+        );
     });
   }
 

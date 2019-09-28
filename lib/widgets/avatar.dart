@@ -17,43 +17,52 @@ class AvatarHero extends StatelessWidget {
       this.url,
       this.baks,
       this.onTap,
-      this.tag = '',
+      this.tag,
       this.self = false,
       this.width = 24.0,
       this.rect = false,
   });
   
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width * 2,
-      child: Hero(
-        tag: tag,
-        child: Material(
-          child: InkWell(
-            onTap: onTap,
-            child: self ? BlocBuilder<UserBloc, UserState>(
-              builder: (context, state) {
-                if (state is UserInited) {
-                  return Avatar(
+    
+    
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state is UserInited) {
+          String _selfTag = state.mail;
+          if (!self) _selfTag = '';
+          return SizedBox(
+            width: width * 2,
+            child: Hero(
+              tag: tag ?? _selfTag,
+              child: Material(
+                child: InkWell(
+                  onTap: onTap,
+                  child: self ? Avatar(
                     width: width,
                     rect: rect,
                     url: state.avatar,
-                    baks: [state.name, state.mail]
-                  );
-                }
-                return Avatar(width: width, rect: rect);
-              }
-            ) : Avatar(
-              width: width,
-              rect: rect,
-              url: url,
-              baks: baks,
+                    baks: [state.name, state.mail],
+                  ) : Avatar(
+                    width: width,
+                    rect: rect,
+                    url: url,
+                    baks: baks,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(33.0))
+                ),
+                color: Colors.transparent,
+              ),
             ),
-            borderRadius: BorderRadius.all(Radius.circular(33.0))
-          ),
-          color: Colors.transparent,
-        ),
-      )
+          );
+        }
+        return Avatar(
+          width: width,
+          rect: rect,
+          url: url,
+          baks: baks
+        );
+      }
     );
   }
 }
