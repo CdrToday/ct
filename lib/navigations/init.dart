@@ -20,9 +20,9 @@ class InitPage extends StatelessWidget {
   );
 
   Widget leading(context) => Builder(
-    builder: (context) => IconButton(
-      icon: Icon(Icons.menu),
-      onPressed: () => Scaffold.of(context).openDrawer()
+    builder: (context) => GestureDetector(
+      child: Icon(Icons.menu),
+      onTap: () => Scaffold.of(context).openDrawer()
     )
   );
   

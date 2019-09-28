@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/pages/post.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/cards.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 
@@ -27,7 +28,7 @@ class Bucket extends StatelessWidget {
           snap: true,
           elevation: 0.0,
           forceElevated: true,
-          leading: leading ?? CloseButton(),
+          leading: leading ?? Close(),
           title: PostRefresher(),
           actions: actions ?? [],
         ),

@@ -18,11 +18,11 @@ class EditBottomSheet extends StatelessWidget {
               context: context,
               builder: (context) => CupertinoActionSheet(
                 actions: [
-                  CupertinoActionSheetAction(
-                    child: Text('图片'),
-                    onPressed: () async {
-                    }
-                  ),
+                  // CupertinoActionSheetAction(
+                  //   child: Text('图片'),
+                  //   onPressed: () async {
+                  //   }
+                  // ),
                   CupertinoActionSheetAction(
                     child: Text('文字'),
                     onPressed: () async {

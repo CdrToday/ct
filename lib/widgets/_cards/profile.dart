@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/avatar.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 
 
 SliverList sliverProfile(BuildContext context, {bool showEdit = true}) {
@@ -30,18 +31,18 @@ SliverList sliverProfile(BuildContext context, {bool showEdit = true}) {
                 )
               ),
               Container(
-                child: showEdit ? IconButton(
+                child: showEdit ? NoRipple(
                   icon: Icon(
                     Icons.mode_edit,
                     size: 20.0,
+                    color: Colors.black,
                   ),
-                  onPressed: () {
+                  onTap: () {
                     Navigator.pushNamed(
                       context, '/user/edit',
                       arguments: ArticleArgs(edit: false)
                     );
                   },
-                  color: Colors.black,
                 ) : SizedBox.shrink(),
                 alignment: Alignment.bottomRight
               ),

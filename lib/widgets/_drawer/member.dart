@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cdr_today/x/scale.dart';
 import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/member.dart';
 
@@ -22,9 +23,14 @@ class SwipeMember extends StatelessWidget {
             )
           ),
           actions: [
-            IconButton(
-              icon: Icon(CupertinoIcons.settings),
-              onPressed: () => Navigator.pushNamed(context, '/community/settings'),
+            Padding(
+              child: GestureDetector(
+                child: Icon(CupertinoIcons.settings),
+                onTap: () {
+                  Navigator.pushNamed(context, '/community/settings');
+                }
+              ),
+              padding: ActionScale.padding
             )
           ]
         ),

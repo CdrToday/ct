@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/community.dart';
+import 'package:cdr_today/x/scale.dart';
 import 'package:cdr_today/widgets/bar.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/name.dart';
@@ -45,7 +46,7 @@ Widget header(BuildContext context) {
           AvatarHero(
             self: true,
             width: 30.0,
-            tag: flag == true ? 'nil' : '',
+            tag: flag == true ? 'nil' : null,
             onTap: flag == true ? () => Navigator.pop(
               context
             ) : () => Navigator.pushNamed(context, '/mine/bucket'),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/widgets/avatar.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/actions.dart' as actions;
@@ -22,13 +23,7 @@ class Avatar extends StatelessWidget {
             )
           )
         ],
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          color: Colors.white,
-          onPressed: () {
-            Navigator.maybePop(context);
-          },
-        ),
+        leading: Close(dark: true),
         backgroundColor: Colors.black,
         brightness: Brightness.dark,
       ),
@@ -64,13 +59,7 @@ class CustomAvatar extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: null,
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          color: Colors.white,
-          onPressed: () {
-            Navigator.maybePop(context);
-          },
-        ),
+        leading: Close(dark: true),
         backgroundColor: Colors.black,
         brightness: Brightness.dark,
       ),
@@ -79,7 +68,7 @@ class CustomAvatar extends StatelessWidget {
           child: Container(
             child: AvatarHero(
               url: args.url,
-              tag: args.url,
+              tag: args.tag,
               baks: args.baks,
               rect: args.rect,
               width: MediaQuery.of(context).size.width / 2

@@ -54,7 +54,6 @@ class CustomAvatarArgs {
   CustomAvatarArgs({ this.url, this.tag, this.baks, this.rect });
 }
 
-
 enum QrType {
   community,
   join

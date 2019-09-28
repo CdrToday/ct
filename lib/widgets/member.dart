@@ -58,7 +58,10 @@ class CommunityMember extends StatelessWidget {
                             )
                           );
                         }
-                      ) : Divider();
+                      ) : Divider(
+                        indent: 20.0,
+                        endIndent: 20.0
+                      );
                     },
                     childCount: state.members.length * 2,
                   )

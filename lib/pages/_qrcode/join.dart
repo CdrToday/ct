@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/widgets/refresh.dart';
@@ -24,22 +25,22 @@ class Join extends StatelessWidget {
           child: Icon(Icons.check),
           onTap: () async {
             final r = await xReq.Requests.init();
-            
+
             _rbloc.dispatch(Refresh(cupertino: true));
             var res = await r.joinCommunity(id: args.code);
+            
             if (res.statusCode != 200) {
               snacker(context, '加入失败，请重试');
               return;
+            } else {
+              print(json.decode(res.body)['msg']);
+              _rbloc.dispatch(Refresh(cupertino: false));
+              _rbloc.dispatch(CommunityRefresh());
+              _cbloc.dispatch(FetchCommunities());
+              Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
             }
 
-            _rbloc.dispatch(Refresh(cupertino: false));
-            
-            // fetch communities
-            _rbloc.dispatch(CommunityRefresh());
-            _cbloc.dispatch(FetchCommunities());
-            
-            _cbloc.dispatch(ChangeCurrentCommunity(id: args.code));
-            Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
+            return;
           }
         ),
       ),

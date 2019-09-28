@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/tiles.dart';
 import 'package:cdr_today/widgets/alerts.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/blocs/refresh.dart';
@@ -13,7 +14,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: Close(),
       ),
       body: BlocBuilder<CommunityBloc, CommunityState>(
         builder: (context, state) {
@@ -51,7 +52,6 @@ class Settings extends StatelessWidget {
 
 // TODO: Owner's view
 // ...
-
 // common
 Widget quit(BuildContext context, String id) {
   return Container(
@@ -66,17 +66,15 @@ Widget quit(BuildContext context, String id) {
           title: '退出社区?',
           action: () async {
             final xReq.Requests r = await xReq.Requests.init();
+            final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
+            final CommunityBloc _cbloc = BlocProvider.of<CommunityBloc>(context);
+              
             var res = await r.quitCommunity(id: id);
-            
             if (res.statusCode != 200) {
-              print(res.statusCode);
               snacker(context, '退出失败，请重试');
               Navigator.pop(context);
               return;
-            }
-
-            final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
-            final CommunityBloc _cbloc = BlocProvider.of<CommunityBloc>(context);
+            } 
 
             _rbloc.dispatch(CommunityRefresh());
             _cbloc.dispatch(FetchCommunities());

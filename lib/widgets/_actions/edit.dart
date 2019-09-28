@@ -9,6 +9,7 @@ import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/widgets/alerts.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/navigations/args.dart';
@@ -51,9 +52,9 @@ class EditActionsProvider {
     zefyrController: zefyrController,
   );
   
-  Widget get cancel => IconButton(
+  Widget get cancel => NoRipple(
     icon: Icon(Icons.highlight_off),
-    onPressed: toPreview
+    onTap: toPreview
   );
 }
 
@@ -71,9 +72,9 @@ class Post extends StatelessWidget {
     final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
     
     return Builder(
-      builder: (context) => IconButton(
+      builder: (context) => NoRipple(
         icon: Icon(Icons.check),
-        onPressed: () async {
+        onTap: () async {
           final xReq.Requests r = await xReq.Requests.init();
           final String json = jsonEncode(zefyrController.document);
 
@@ -284,9 +285,9 @@ class EditActions extends StatelessWidget {
       await Share.file(name, "$name.png", image.readAsBytesSync(), 'image/png');
     }
     
-    return IconButton(
+    return NoRipple(
       icon: Icon(Icons.more_horiz),
-      onPressed: () async {
+      onTap: () async {
         showCupertinoModalPopup(
           context: context,
           builder: (ctx) => update == true ? CupertinoActionSheet(

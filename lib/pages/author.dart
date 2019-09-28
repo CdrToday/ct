@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/pages/post.dart';
+import 'package:cdr_today/x/scale.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Author extends StatelessWidget {
@@ -28,20 +30,23 @@ Widget appBar(BuildContext context, AuthorArgs args) => SliverAppBar(
   snap: true,
   elevation: 0.0,
   forceElevated: true,
-  leading: CloseButton(),
+  leading: Close(),
   title: AuthorRefresher(widget: Text(args.name)),
   centerTitle: true,
   actions: [
-    IconButton(
-      icon: Icon(Icons.mail, size: 20.0),
-      onPressed: () async {
-        var url = 'mailto:${args.mail}?subject=hi! ${args.name}';
-        if (await canLaunch(url)) {
-          await launch(url);
-        } else {
-          throw 'Could not launch $url';
+    Padding(
+      child: GestureDetector(
+        child: Icon(Icons.mail, size: 20.0),
+        onTap: () async {
+          var url = 'mailto:${args.mail}?subject=hi! ${args.name}';
+          if (await canLaunch(url)) {
+            await launch(url);
+          } else {
+            throw 'Could not launch $url';
+          }
         }
-      }
+      ),
+      padding: ActionScale.padding
     )
   ],
 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cdr_today/x/scale.dart';
 
 class DrawerBar extends StatelessWidget {
   final Widget icon;
@@ -31,13 +32,16 @@ class DrawerBar extends StatelessWidget {
         ),
         Spacer(),
         icon ?? SizedBox(
-          child: IconButton(
-            icon: Icon(
-              Icons.add_circle_outline,
-              size: 20.0,
+          child: Padding(
+            child: GestureDetector(
+              child: Icon(
+                Icons.add_circle_outline,
+                size: ActionScale.size,
+                color: Colors.grey[600],
+              ),
+              onTap: action ?? null,
             ),
-            color: Colors.grey[600],
-            onPressed: action ?? null,
+            padding: ActionScale.padding,
           ),
           height: 32.0,
         )

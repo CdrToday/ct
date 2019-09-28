@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/editor.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:zefyr/zefyr.dart';
@@ -59,7 +60,7 @@ class _EditState extends State<Edit> {
           )
         ],
         elevation: 0.0,
-        leading: CloseButton(),
+        leading: Close(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor
       ),
       body: Editor(
