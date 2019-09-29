@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cdr_today/x/rng.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/community.dart';
-import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 // @usage: AvatarHero

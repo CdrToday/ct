@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/auth.dart';
-import 'package:cdr_today/blocs/profile.dart';
 import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 

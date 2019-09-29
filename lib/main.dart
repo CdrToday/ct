@@ -142,8 +142,6 @@ Route router(settings) {
     return FadeRoute(page: Raise());
   } else if (r == '/community/create') {
     return FadeRoute(page: community.Create());
-  } else if (r == '/community/join') {
-    return FadeRoute(page: community.Join());
   } else if (r == '/community/settings') {
     return FadeRoute(page: community.Settings());
   } else if (r == '/user/verify') {

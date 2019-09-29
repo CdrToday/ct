@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 String rngName () {
-  String _name;
   List<String> _nl = [
     'David Bowie',
     'Iggy Pop',

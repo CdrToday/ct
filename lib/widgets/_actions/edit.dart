@@ -210,6 +210,12 @@ class EditActions extends StatelessWidget {
         res = await r.newPost(document: json);
       }
 
+
+      if (res.statusCode != 200) {
+        snacker(context, '发布失败，请重试');
+        return;
+      }
+      
       ///// stop refreshing
       _bloc.dispatch(Refresh(edit: false));
       /////

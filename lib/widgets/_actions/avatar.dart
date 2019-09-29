@@ -7,7 +7,6 @@ import 'package:screenshot/screenshot.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/user.dart';

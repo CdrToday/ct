@@ -11,25 +11,25 @@ import 'package:cdr_today/widgets/sheets.dart';
 import 'package:cdr_today/widgets/actions.dart';
 
 class InitPage extends StatelessWidget {
-  Widget drawer(context) => SizedBox(
-    child: Drawer(
-      child: SwipeDrawer(),
-      elevation: 2.0,
-    ),
-    width: MediaQuery.of(context).size.width * 8 / 10
-  );
-
-  Widget leading(context) => Builder(
-    builder: (context) => GestureDetector(
-      child: Icon(Icons.menu),
-      onTap: () => Scaffold.of(context).openDrawer()
-    )
-  );
-  
-  Widget bottomSheet = EditBottomSheet();  
-
   @override
   Widget build(BuildContext context) {
+    Widget drawer(context) => SizedBox(
+      child: Drawer(
+        child: SwipeDrawer(),
+        elevation: 2.0,
+      ),
+      width: MediaQuery.of(context).size.width * 8 / 10
+    );
+
+    Widget leading(context) => Builder(
+      builder: (context) => GestureDetector(
+        child: Icon(Icons.menu),
+        onTap: () => Scaffold.of(context).openDrawer()
+      )
+    );
+    
+    Widget bottomSheet = EditBottomSheet();
+    
     return BlocBuilder<CommunityBloc, CommunityState>(
       builder: (context, state) {
         if ((state as Communities).current == '') {

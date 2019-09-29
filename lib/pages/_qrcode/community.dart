@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/qrcode.dart' as qrw;

@@ -49,6 +49,7 @@ class _AuthorPostContainerState extends State<AuthorPostContainer> {
 
   @override
   initState() {
+    super.initState();
     final AuthorPostBloc _bloc = BlocProvider.of<AuthorPostBloc>(context);
     _bloc.dispatch(FetchAuthorPosts(refresh: true, mail: widget.mail));
   }
