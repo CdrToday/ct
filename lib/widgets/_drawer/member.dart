@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/x/scale.dart';
 import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/member.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 
 class SwipeMember extends StatelessWidget {
   @override
@@ -23,14 +24,11 @@ class SwipeMember extends StatelessWidget {
             )
           ),
           actions: [
-            Padding(
-              child: GestureDetector(
-                child: Icon(CupertinoIcons.settings),
-                onTap: () {
-                  Navigator.pushNamed(context, '/community/settings');
-                }
-              ),
-              padding: ActionScale.padding
+            NoRipple(
+              icon: Icon(CupertinoIcons.settings),
+              onTap: () {
+                Navigator.pushNamed(context, '/community/settings');
+              },
             )
           ]
         ),

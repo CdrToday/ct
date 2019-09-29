@@ -52,7 +52,10 @@ class Requests {
   /* routes */
   //@auth: GET '/a/{mail:string}'
   Future<http.Response> auth({String mail}) async {
-    return await rGet("/u/$mail");
+    var res = await rGet("/u/$mail");
+    if (res.statusCode == 408) return auth(mail: mail);
+    
+    return res;
   }
 
   //@authVerify: POST '/a/{mail:string}'

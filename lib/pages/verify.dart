@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/widgets/snackers.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 
 class Verify extends StatefulWidget {
   Verify({ Key key }) : super(key: key);
@@ -67,9 +68,9 @@ verifyCode(BuildContext context, String _code) {
                 child: CupertinoActivityIndicator(),
               );
             } else {
-              return IconButton(
+              return NoRipple(
                 icon: Icon(Icons.check),
-                onPressed: () {
+                onTap: () {
                   FocusScope.of(context).requestFocus(new FocusNode());
                   bool codeValid = RegExp(
                     r"^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$"

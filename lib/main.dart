@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // blocs
 import 'package:cdr_today/blocs/main.dart';
@@ -26,15 +28,18 @@ import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
 import 'package:cdr_today/pages/author.dart';
 import 'package:cdr_today/pages/raise.dart';
+import 'package:cdr_today/pages/settings.dart';
 import 'package:cdr_today/pages/qrcode.dart' as qr;
 import 'package:cdr_today/pages/community.dart' as community;
 // navigations
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/init.dart';
 import 'package:cdr_today/navigations/txs.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 /* app */
-void main() {
+void main() async {
+  await WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   runApp(App());
 }
@@ -52,7 +57,15 @@ final RefreshBloc refreshBloc = RefreshBloc(
   r: redditBloc,
   a: authorPostBloc,
 );
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  final bool dark;
+  App({ this.dark });
+
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -95,13 +108,19 @@ class App extends StatelessWidget {
   }
 }
 
-Widget app(BuildContext context, ThemeData theme) {  
-  return MaterialApp(
-    theme: light(),
-    initialRoute: '/',
-    onGenerateRoute: router,
-    home: SplashPage(),
-    debugShowCheckedModeBanner: false
+Widget app(BuildContext context, ThemeData theme) {
+  return BlocBuilder<ThemeBloc, ThemeData>(
+    builder: (context, state) {
+      return MaterialApp(
+        theme: ThemeBloc.light,
+        // darkTheme:ThemeBloc.light,
+        // themeMode: ThemeMode.light,
+        initialRoute: '/',
+        onGenerateRoute: router,
+        home: SplashPage(),
+        debugShowCheckedModeBanner: false
+      );
+    }
   );
 }
 
@@ -149,6 +168,8 @@ Route router(settings) {
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Edit(args: args));
+  } else if (r == '/mine/settings') {
+    return FadeRoute(page: Settings());
   } else if (r == '/mine/bucket') {
     return FadeRoute(page: Bucket());
   } else if (r == '/mine/version') {

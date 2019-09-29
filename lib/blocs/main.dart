@@ -24,8 +24,8 @@ class SimpleBlocDelegate extends BlocDelegate {
 // theme bloc
 enum ThemeEvent { toggle }
 
-ThemeData light() {
-  return ThemeData(
+class ThemeBloc extends Bloc<ThemeEvent, ThemeData> {
+  static final ThemeData light = ThemeData(
     scaffoldBackgroundColor: Colors.grey[50],
     primaryColor: Colors.white,
     primaryColorLight: Colors.grey[100],
@@ -53,16 +53,35 @@ ThemeData light() {
       )
     )
   );
-}
 
-class ThemeBloc extends Bloc<ThemeEvent, ThemeData> {
-  final ThemeData light = ThemeData(
-    scaffoldBackgroundColor: Color(0xffeeeeee),
+  static final ThemeData dark = ThemeData(
+    scaffoldBackgroundColor: Colors.grey[50],
+    primaryColor: Colors.white,
+    primaryColorLight: Colors.grey[100],
+    primaryColorDark: Colors.black,
+    accentColor: Colors.grey[700],
+    splashColor: Colors.transparent,
     appBarTheme: AppBarTheme(
-      color: Colors.grey,
+      color: Colors.grey[50],
       elevation: 0.0,
     ),
-    iconTheme: IconThemeData(color: Colors.green)
+    textTheme: TextTheme(),
+    iconTheme: IconThemeData(color: Colors.green),
+    cardTheme: CardTheme(
+      color: Colors.white,
+      elevation: 0.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0))
+      )
+    ),
+    buttonTheme: ButtonThemeData(
+      textTheme: ButtonTextTheme.accent,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.black)
+      )
+    )
   );
   
   @override
@@ -72,9 +91,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeData> {
   Stream<ThemeData> mapEventToState(ThemeEvent event) async* {
     switch (event) {
       case ThemeEvent.toggle:
-        yield currentState == ThemeData.dark()
-        ? light
-        : ThemeData.dark();
+        yield currentState == dark ? light : dark;
       break;
     }
   }

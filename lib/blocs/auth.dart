@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
 // --------------- bloc ---------------
@@ -28,12 +30,20 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
     if (event is SendCodeEvent) {
       yield CodeSending();
       var res = await r.auth(mail: event.mail);
-      
+        
       if (res.statusCode == 200) {
-        yield CodeSentSucceed(mail: event.mail);
-      } else {
-        yield CodeSentFailed();
+        var body = json.decode(res.body);
+
+        if (body['msg'] == 'ok') {
+          yield CodeSentSucceed(mail: event.mail, created: false);
+          return;
+        }
+
+        await setString('code', body['code']);
+        yield CodeSentSucceed(mail: event.mail, created: true);
+        return;
       }
+      yield CodeSentFailed();
     } else if (event is VerifyCodeEvent) {
       String mail;
       if (currentState is CodeSentSucceed) {
@@ -87,7 +97,8 @@ class CodeSentFailed extends VerifyState {
 
 class CodeSentSucceed extends VerifyState {
   final String mail;
-  CodeSentSucceed({ this.mail });
+  final bool created;
+  CodeSentSucceed({ this.mail, this.created });
   
   @override
   String toString() => 'CodeSentSucceed';

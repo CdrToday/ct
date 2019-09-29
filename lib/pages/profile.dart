@@ -16,12 +16,21 @@ class Profile extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               leading: Close(),
+              actions: [
+                // NoRipple(
+                //   icon: Icon(CupertinoIcons.settings),
+                //   onTap: () {
+                //     Navigator.pushNamed(context, '/mine/settings');
+                //   },
+                // )
+              ],
             ),
             body: Container(
               child: Column(
                 children: <Widget>[
                   avatar(context),
                   profile(context, state.name),
+                  mail(context, state.mail),
                   Spacer(),
                   logout(context),
                 ]
@@ -58,7 +67,6 @@ Widget avatar(BuildContext context) {
         )
       )
     ),
-    margin: EdgeInsets.only(top: 10.0)
   );
 }
 

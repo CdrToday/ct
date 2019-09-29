@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/widgets/snackers.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 
 class Login extends StatefulWidget {
   Login({ Key key }) : super(key: key);
@@ -58,6 +60,10 @@ sendCode(BuildContext context, String _email) {
           if (state is CodeSentFailed) {
             snacker(context, '邮件发送失败，请重试');
           } else if (state is CodeSentSucceed) {
+            if (state.created) {
+              Navigator.pushNamed(context, '/init');
+              return;
+            }
             Navigator.pushNamed(context, '/user/verify');
           }
         },
@@ -69,9 +75,9 @@ sendCode(BuildContext context, String _email) {
                 child: CupertinoActivityIndicator(),
               );
             } else {
-              return IconButton(
+              return NoRipple(
                 icon: Icon(Icons.check),
-                onPressed: () {
+                onTap: () {
                   FocusScope.of(context).requestFocus(new FocusNode());
                   bool emailValid = RegExp(
                     r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"

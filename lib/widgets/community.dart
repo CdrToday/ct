@@ -113,7 +113,7 @@ class CommunityList extends StatelessWidget {
                           }
                         );
                       }
-                      return Divider();
+                      return Divider(indent: 16.0, endIndent: 16.0);
                     },
                     childCount: state.communities.length * 2
                   )

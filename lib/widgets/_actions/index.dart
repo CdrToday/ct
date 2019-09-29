@@ -15,6 +15,7 @@ class IndexAction extends StatelessWidget {
     return PopupMenuButton(
       icon: Icon(
         Icons.add_circle_outline,
+        size: 22.0,
         color: Colors.grey[800]
       ),
       itemBuilder: (BuildContext context) => <PopupMenuEntry<ActionX>>[
