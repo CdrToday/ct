@@ -40,7 +40,10 @@ class _NameState extends State<Name> {
         leading: CloseButton(),
         actions: [
           ProfileRefresher(
-            widget: UpdateName(name: _value),
+            widget: UpdateName(
+              name: _value,
+              enabled: !(widget.args.name == _value)
+            ),
           )
         ]
       ),

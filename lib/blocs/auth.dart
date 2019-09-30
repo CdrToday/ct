@@ -33,12 +33,13 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
         
       if (res.statusCode == 200) {
         var body = json.decode(res.body);
-
+        print(body);
         if (body['msg'] == 'ok') {
           yield CodeSentSucceed(mail: event.mail, created: false);
           return;
         }
 
+        await setString('mail', event.mail);
         await setString('code', body['code']);
         yield CodeSentSucceed(mail: event.mail, created: true);
         return;

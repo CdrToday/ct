@@ -24,6 +24,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       appBar: AppBar(
         actions: [ sendCode(context, _value)],
+        leading: null,
       ),
       body: Container(
         child: TextField(
@@ -61,7 +62,7 @@ sendCode(BuildContext context, String _email) {
             snacker(context, '邮件发送失败，请重试');
           } else if (state is CodeSentSucceed) {
             if (state.created) {
-              Navigator.pushNamed(context, '/init');
+              Navigator.pushNamed(context, '/root');
               return;
             }
             Navigator.pushNamed(context, '/user/verify');

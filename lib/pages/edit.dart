@@ -28,7 +28,7 @@ class _EditState extends State<Edit> {
     _focusNode = FocusNode();
     _controller = ZefyrController(document);
   }
-
+  
   @override
   dispose() {
     super.dispose();

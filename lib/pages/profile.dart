@@ -112,7 +112,7 @@ Widget logout(BuildContext context) {
         ),
         onTap: () async {
           _bloc.dispatch(LogoutEvent());
-          Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
+          Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
         }
       )
     ),

@@ -32,6 +32,7 @@ class InitPage extends StatelessWidget {
     return BlocBuilder<CommunityBloc, CommunityState>(
       builder: (context, state) {
         if ((state as Communities).current == '') {
+          // return user bucket
           return Bucket(
             drawer: drawer(context),
             bottomSheet: bottomSheet,
@@ -39,6 +40,7 @@ class InitPage extends StatelessWidget {
             actions: IndexAction().toList(),
           );
         }
+        // return reddit list
         return Scaffold(
           body: Reddit(
             appBar: SliverAppBar(

@@ -28,7 +28,9 @@ class EditBottomSheet extends StatelessWidget {
                     onPressed: () async {
                       Navigator.popAndPushNamed(
                         context, '/user/edit',
-                        arguments: ArticleArgs()
+                        arguments: ArticleArgs(
+                          community: (state as Communities).current
+                        )
                       );
                     }
                   ),

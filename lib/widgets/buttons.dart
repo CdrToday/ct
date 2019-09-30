@@ -19,7 +19,8 @@ class Close extends StatelessWidget {
 class NoRipple extends StatelessWidget {
   final Widget icon;
   final VoidCallback onTap;
-  NoRipple({ this.icon, this.onTap });
+  final EdgeInsets padding;
+  NoRipple({ this.icon, this.onTap, this.padding });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class NoRipple extends StatelessWidget {
         child: icon,
         onTap: onTap
       ),
-      padding: EdgeInsets.all(12.0)
+      padding: padding ?? EdgeInsets.all(12.0)
     );
   }
 }

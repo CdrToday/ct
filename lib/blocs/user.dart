@@ -27,7 +27,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   
   UserBloc({this.v}) {
     v.state.listen((state){
-        if (state is CodeVerifiedSucceed) {
+        if (state is CodeSentSucceed) {
+          if (state.created) this.dispatch(CheckUserEvent());
+        } else if (state is CodeVerifiedSucceed) {
           this.dispatch(CheckUserEvent());
         } 
     });

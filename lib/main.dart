@@ -35,7 +35,6 @@ import 'package:cdr_today/pages/community.dart' as community;
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/init.dart';
 import 'package:cdr_today/navigations/txs.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 /* app */
 void main() async {
@@ -131,13 +130,12 @@ Route router(settings) {
     return FadeRoute(
       page: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
-          if (state is UserInited) {
-            return InitPage();
-          }
-          return Login();
+          return (state is UserInited) ? InitPage() : Login();
         }
       )
     );
+  } else if (r == '/login') {
+    return FadeRoute(page: Login());
   } else if (r == '/root') {
     return FadeRoute(page: InitPage());
   } else if (r == '/scan') {
