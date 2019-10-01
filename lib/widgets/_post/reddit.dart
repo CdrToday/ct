@@ -36,6 +36,7 @@ class RedditItem extends StatelessWidget {
       avatar: x.avatar,
       author: x.author,
       cover: cover,
+      mail: x.mail,
       timestamp: x.timestamp,
       title: title,
       onTap: () => Navigator.pushNamed(context, '/article', arguments: x),

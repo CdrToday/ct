@@ -8,12 +8,14 @@ class WeChat extends StatelessWidget {
   final String avatar;
   final String author;
   final String title;
+  final String mail;
   final int timestamp;
   final VoidCallback onTap;
 
   WeChat({
       this.cover,
       this.avatar,
+      this.mail,
       this.author = '?',
       this.title = '',
       this.timestamp = 0,
@@ -28,7 +30,12 @@ class WeChat extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              head(avatar: avatar, author: author, timestamp: timestamp),
+              head(
+                mail: mail,
+                avatar: avatar,
+                author: author,
+                timestamp: timestamp
+              ),
               cover != null ? Center(
                 child: Image.network(
                   conf['image'] + cover,
@@ -52,13 +59,13 @@ class WeChat extends StatelessWidget {
   }
 }
 
-Widget head({String avatar, String author, int timestamp}) {
+Widget head({String avatar, String author, int timestamp, String mail}) {
   return Container(
     child: Row(
       children: [
         Avatar(
           url: avatar,
-          baks: [author],
+          baks: [author, mail],
           width: 12.0
         ),
         SizedBox(width: 10.0),
