@@ -55,6 +55,7 @@ final RefreshBloc refreshBloc = RefreshBloc(
   r: redditBloc,
   a: authorPostBloc,
 );
+
 class App extends StatefulWidget {
   final bool dark;
   App({ this.dark });

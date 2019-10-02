@@ -26,8 +26,6 @@ PODS:
   - shared_preferences (0.0.1):
     - Flutter
   - TOCropViewController (2.5.1)
-  - uni_links (0.0.1):
-    - Flutter
   - url_launcher (0.0.1):
     - Flutter
 
@@ -44,7 +42,6 @@ DEPENDENCIES:
   - qr_code_tools (from `.symlinks/plugins/qr_code_tools/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
-  - uni_links (from `.symlinks/plugins/uni_links/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
@@ -77,8 +74,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
-  uni_links:
-    :path: ".symlinks/plugins/uni_links/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
@@ -97,7 +92,6 @@ SPEC CHECKSUMS:
   share: 7d22fe8baedfe93aefd864bf0b73f29711fbb0a3
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
   TOCropViewController: 00dc36c4e4a0f4a45efa91adbf22df8a4fae01d3
-  uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
 PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0

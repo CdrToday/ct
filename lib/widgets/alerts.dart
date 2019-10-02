@@ -23,7 +23,7 @@ Future<void> alertLoading(BuildContext context, {String text}) async {
 
 alert(
   BuildContext context, {
-    String title, Text ok, Text cancel, VoidCallback action
+    String title, String content, Text ok, Text cancel, VoidCallback action
   }
 ) async {
   return showDialog<void>(
@@ -41,6 +41,19 @@ alert(
           ),
         ],
         title: Text(title ?? ''),
+        content: Padding(
+          child: Text(
+            content ?? '',
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 3,
+            style: TextStyle(
+              letterSpacing: 1.0,
+              height: 1.3,
+            )
+          ),
+          padding: EdgeInsets.only(top: 3.0)
+        )
       );
     },
   );

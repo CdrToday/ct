@@ -24,7 +24,11 @@ class Name extends StatelessWidget {
       
       for (var i in arr) {
         if (i == null) continue;
-        if (size != null) return Text(i, style: TextStyle(fontSize: size));
+        if (size != null) return Text(
+          i,
+          style: TextStyle(fontSize: size),
+          overflow: TextOverflow.ellipsis,
+        );
 
         return Text(i, style: Theme.of(context).textTheme.title);
       }
@@ -72,6 +76,7 @@ class CommunityName extends StatelessWidget {
                 name,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
               width: MediaQuery.of(context).size.width * 1 / 3,

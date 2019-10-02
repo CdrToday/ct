@@ -11,6 +11,7 @@ import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
+import 'package:cdr_today/x/permission.dart' as pms;
 
 // avatar actions
 class Avatar extends StatelessWidget {
@@ -18,11 +19,13 @@ class Avatar extends StatelessWidget {
   Avatar({ this.screenshotController });
   
   void pickImage(BuildContext context) async {
+    final xReq.Requests r = await xReq.Requests.init();
     final UserBloc _ubloc = BlocProvider.of<UserBloc>(context);
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
 
     Navigator.pop(context);
-    final xReq.Requests r = await xReq.Requests.init();
+    if (await pms.checkPhotos(context) != true) return;
+    
     File file = await ImagePicker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 1024.0,

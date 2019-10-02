@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/x/permission.dart' as pms;
 
 enum ActionX {
   scan,
@@ -60,8 +61,10 @@ class IndexAction extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.0))
       ),
-      onSelected: (value) {
+      onSelected: (value) async {
         if (value == ActionX.scan) {
+          if (await pms.checkCamera(context) == false) return;
+          
           Navigator.pushNamed(context, '/scan');
         } else {
           Navigator.pushNamed(

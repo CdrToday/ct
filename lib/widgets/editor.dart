@@ -8,6 +8,7 @@ import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
+import 'package:cdr_today/x/permission.dart' as pms;
 
 class Editor extends StatelessWidget {
   final bool edit;
@@ -19,13 +20,15 @@ class Editor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  ZefyrScaffold(
-      child: ZefyrEditor(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        controller: controller,
-        focusNode: focusNode,
-        mode: edit? ZefyrMode.edit : ZefyrMode.view,
-        imageDelegate: ImageDelegate(context: context),
-      ),
+      child: Builder(
+        builder: (ctx) => ZefyrEditor(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          controller: controller,
+          focusNode: focusNode,
+          mode: edit? ZefyrMode.edit : ZefyrMode.view,
+          imageDelegate: ImageDelegate(context: ctx),
+        )
+      )
     );
   }
 }
@@ -43,6 +46,11 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
   @override
   Future<String> pickImage(ImageSource source) async {
     final xReq.Requests r = await xReq.Requests.init();
+    if (source == ImageSource.gallery) {
+      if (await pms.checkPhotos(context) == false) return '';
+    } else {
+      if (await pms.checkCamera(context) == false) return '';
+    }
     
     File file = await ImagePicker.pickImage(
       source: source,

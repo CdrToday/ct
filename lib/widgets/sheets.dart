@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/x/permission.dart' as pms;
 
 class EditBottomSheet extends StatelessWidget {
   final Widget cButton = BlocBuilder<CommunityBloc, CommunityState>(
@@ -42,7 +43,8 @@ class EditBottomSheet extends StatelessWidget {
               )
             );
           },
-          onLongPress: () {
+          onLongPress: () async {
+            if (await pms.checkCamera(context) == false) return;
             Navigator.pushNamed(context, '/scan');
           },
         ),

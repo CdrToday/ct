@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/widgets/refresh.dart';
