@@ -83,6 +83,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         mail: event.mail,
         name: event.name,
         avatar: event.avatar,
+        local: event.local
       );
     } else if (event is LogoutEvent) {
       clear();
@@ -111,11 +112,13 @@ class UserInited extends UserState {
   final String mail;
   final String name;
   final String avatar;
+  final bool local;
   final int refresh;
   
   UserInited({
       this.mail,
       this.name,
+      this.local = false,
       this.avatar,
       this.refresh,
   }) : super([ mail, name, avatar, refresh ]);
@@ -124,6 +127,7 @@ class UserInited extends UserState {
       String mail,
       String name,
       String avatar,
+      bool local,
       int refresh,
   }) {
     return UserInited(
@@ -131,6 +135,7 @@ class UserInited extends UserState {
       name: name ?? this.name,
       avatar: avatar ?? this.avatar,
       refresh: refresh ?? this.refresh,
+      local: local ?? local
     );
   }
 }
@@ -148,7 +153,13 @@ class InitUserEvent extends UserEvent {
   final String mail;
   final String name;
   final String avatar;
-  InitUserEvent({ this.mail, this.name, this.avatar });
+  final bool local;
+  InitUserEvent({
+      this.mail,
+      this.name,
+      this.avatar,
+      this.local,
+  });
   
   @override
   String toString() => 'InitUserEvent';

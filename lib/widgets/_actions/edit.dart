@@ -187,8 +187,6 @@ class EditActions extends StatelessWidget {
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
     final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
 
-    print(args.community);
-    
     post() async {
       final xReq.Requests r = await xReq.Requests.init();
       final String json = jsonEncode(zefyrController.document);

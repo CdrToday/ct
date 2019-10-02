@@ -17,12 +17,12 @@ class Profile extends StatelessWidget {
             appBar: AppBar(
               leading: Close(),
               actions: [
-                // NoRipple(
-                //   icon: Icon(CupertinoIcons.settings),
-                //   onTap: () {
-                //     Navigator.pushNamed(context, '/mine/settings');
-                //   },
-                // )
+                NoRipple(
+                  icon: Icon(CupertinoIcons.settings),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/mine/settings');
+                  },
+                )
               ],
             ),
             body: Container(
@@ -32,7 +32,7 @@ class Profile extends StatelessWidget {
                   profile(context, state.name),
                   mail(context, state.mail),
                   Spacer(),
-                  logout(context),
+                  logout(context)
                 ]
               ),
               padding: EdgeInsets.only(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/widgets/actions.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 
@@ -37,7 +38,7 @@ class _NameState extends State<Name> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: Close(),
         actions: [
           ProfileRefresher(
             widget: UpdateName(

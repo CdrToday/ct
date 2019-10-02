@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // blocs
 import 'package:cdr_today/blocs/main.dart';
@@ -38,7 +37,7 @@ import 'package:cdr_today/navigations/txs.dart';
 
 /* app */
 void main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   runApp(App());
 }

@@ -9,9 +9,9 @@ class PostItem extends StatelessWidget {
   PostItem({ this.x });
   @override
   Widget build(BuildContext context) {
-    List<dynamic> json = jsonDecode(x.document);
+    List<dynamic> _json = jsonDecode(x.document);
     String title;
-    for (var i in json) {
+    for (var i in _json) {
       if (i['insert'].contains(new RegExp(r'\S'))) {
         title = i['insert'];
         break;

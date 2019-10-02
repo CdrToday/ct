@@ -66,7 +66,7 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
       snacker(context, '图片上传失败，请重试');
       return '';
     }
-
+    print(res.body);
     // return data
     return json.decode(res.body)['image'];
   }

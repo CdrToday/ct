@@ -33,7 +33,6 @@ class Join extends StatelessWidget {
               snacker(context, '加入失败，请重试');
               return;
             } else {
-              print(json.decode(res.body)['msg']);
               _rbloc.dispatch(Refresh(cupertino: false));
               _rbloc.dispatch(CommunityRefresh());
               _cbloc.dispatch(FetchCommunities());

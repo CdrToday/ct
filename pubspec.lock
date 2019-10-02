@@ -29,13 +29,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
-  azlistview:
-    dependency: "direct main"
-    description:
-      name: azlistview
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.2"
   bloc:
     dependency: "direct main"
     description:
@@ -242,6 +235,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.8.0+1"
+  permission_handler:
+    dependency: "direct main"
+    description:
+      name: permission_handler
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.2.2"
   petitparser:
     dependency: transitive
     description:
@@ -401,6 +401,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.6"
+  uni_links:
+    dependency: "direct main"
+    description:
+      name: uni_links
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   url_launcher:
     dependency: "direct main"
     description:

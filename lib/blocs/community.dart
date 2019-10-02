@@ -19,7 +19,7 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   CommunityBloc({ this.u }) {
     u.state.listen((state) {
         if (state is UserInited) {
-          this.dispatch(FetchCommunities());
+          if (state.local == false) this.dispatch(FetchCommunities());
         }
     });
   }

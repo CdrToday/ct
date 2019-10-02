@@ -50,7 +50,10 @@ class UpdateName extends StatelessWidget {
 
         ///////
         _bloc.dispatch(Refresh(profile: false));
-        _ubloc.dispatch(InitUserEvent(name: name));
+        _ubloc.dispatch(InitUserEvent(
+            name: name,
+            local: true
+        ));
         ///////
 
         Navigator.pop(context);
