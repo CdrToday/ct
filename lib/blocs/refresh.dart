@@ -71,15 +71,36 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   Stream<RefreshState> mapEventToState(RefreshEvent event) async* {
     if (event is PostRefresh) {
       yield (currentState as Refresher).copyWith(
-        post: event.refresh ?? (currentState as Refresher).post
+        post: event.refresh ?? (currentState as Refresher).post,
+        qr: false,
+        edit: false,
+        common: false,
+        author: false,
+        reddit: false,
+        profile: false,
+        community: false,
       );
     } else if (event is CommunityRefresh) {
       yield (currentState as Refresher).copyWith(
-        community: event.refresh ?? (currentState as Refresher).community
+        community: event.refresh ?? (currentState as Refresher).community,
+        qr: false,
+        edit: false,
+        post: false,
+        common: false,
+        author: false,
+        reddit: false,
+        profile: false,
       );
     } else if (event is RedditRefresh) {
       yield (currentState as Refresher).copyWith(
-        reddit: event.refresh ?? (currentState as Refresher).reddit
+        reddit: event.refresh ?? (currentState as Refresher).reddit,
+        qr: false,
+        edit: false,
+        post: false,
+        common: false,
+        author: false,
+        profile: false,
+        community: false,
       );
     } else if (event is Refresh) {
       yield (currentState as Refresher).copyWith(

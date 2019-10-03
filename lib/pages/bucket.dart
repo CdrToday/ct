@@ -37,6 +37,7 @@ class Bucket extends StatelessWidget {
       ),
       drawer: leading != null ? drawer : null,
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/x/permission.dart' as pms;
 
 class Scan extends StatefulWidget {
   @override
@@ -70,7 +71,9 @@ class _ScanState extends State<Scan> {
   }
 
   void _pickImage() async {
+    if (await pms.checkPhotos(context) == false) return;
     final _bloc = BlocProvider.of<RefreshBloc>(context);
+    
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (image == null) return;
     _bloc.dispatch(Refresh(qr: true));

@@ -56,6 +56,7 @@ class InitPage extends StatelessWidget {
           backgroundColor: Colors.grey[100],
           bottomSheet: bottomSheet,
           drawer: drawer(context),
+          resizeToAvoidBottomInset: false,
         );
       }
     );

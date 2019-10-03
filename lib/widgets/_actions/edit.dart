@@ -204,22 +204,19 @@ class EditActions extends StatelessWidget {
       var res;
       if (args.community != null){
         res = await r.newReddit(
-          document: json, community: args.community, type: args.type
+          document: json,
+          type: args.type,
+          community: args.community,
         );
       } else {
         res = await r.newPost(document: json);
       }
 
-
       if (res.statusCode != 200) {
         snacker(context, '发布失败，请重试');
         return;
       }
-      
-      ///// stop refreshing
-      _bloc.dispatch(Refresh(edit: false));
-      /////
-      
+
       if (args.community != null) {
         _bloc.dispatch(RedditRefresh(refresh: true));
         _rbloc.dispatch(FetchReddits(refresh: true));
@@ -234,10 +231,8 @@ class EditActions extends StatelessWidget {
     
     delete() async {
       final xReq.Requests r = await xReq.Requests.init();
-
-      ///// refresh actions
       _bloc.dispatch(Refresh(edit: true));
-      /////
+
       var res;
       if (args.community != null) {
         res = await r.deleteReddit(id: args.id);
@@ -245,9 +240,6 @@ class EditActions extends StatelessWidget {
         res = await r.deletePost(id: args.id);
       }
 
-      ///// refresh actions
-      _bloc.dispatch(Refresh(edit: false));
-      /////
       if (res.statusCode == 200) {
         if (args.community != null) {
           _bloc.dispatch(RedditRefresh(refresh: true));
@@ -256,12 +248,12 @@ class EditActions extends StatelessWidget {
           _bloc.dispatch(PostRefresh(refresh: true));
           _pbloc.dispatch(FetchPosts(refresh: true));
         }
-        
-        Navigator.maybePop(context);
       } else {
         snacker(context, '删除失败，请重试');
+        return;
       }
-      
+
+      Navigator.maybePop(context);
       Navigator.maybePop(context);
     }
 

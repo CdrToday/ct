@@ -77,7 +77,6 @@ class _PostState extends State<PostList> {
               widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
               widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
             ],
-            // physics: AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
             key: stickyKey,
           ),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 
 class VersionPage extends StatelessWidget {
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('版本信息'),
-        leading: CloseButton()
+        leading: Close(),
       ),
       body: Container(
         child: Column(
@@ -15,7 +15,7 @@ class VersionPage extends StatelessWidget {
             GestureDetector(
               child: Text(
                 'cdr.today',
-                style: TextStyle(fontSize: 20.0),
+                style: Theme.of(context).textTheme.display1,
                 textAlign: TextAlign.center
               ),
               onTap: () async {
@@ -29,7 +29,7 @@ class VersionPage extends StatelessWidget {
             ),
             Spacer(),
             Text(
-              'version 0.1.18',
+              'version 0.2.16',
               style: TextStyle(color: Colors.grey),
               textAlign: TextAlign.center
             ),
@@ -39,6 +39,7 @@ class VersionPage extends StatelessWidget {
         ),
         padding: EdgeInsets.only(bottom: kToolbarHeight)
       ),
+      extendBodyBehindAppBar: true,
     );
   }
 }

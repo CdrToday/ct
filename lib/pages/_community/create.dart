@@ -66,13 +66,16 @@ class _CreateState extends State<Create> {
     final CommunityBloc _cbloc = BlocProvider.of<CommunityBloc>(context);
     final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
     
-    bool _idValid = RegExp(r"^[a-zA-Z0-9_]{1,20}$").hasMatch(_id);
-    if (!_idValid) {
+    if (!RegExp(r"^[a-zA-Z0-9_]{1,20}$").hasMatch(_id)) {
       snacker(context, '社区 ID 只能使用字母数字与下划线 "_"，长度需小于 20', secs: 2);
       return;
     }
 
-    
+    if (!RegExp(r"^\S{1,10}$").hasMatch(_name)) {
+      snacker(context, '社区名不能为空，或以空格开头，长度应小于 10', secs: 2);
+      return;
+    }
+
     _rbloc.dispatch(Refresh(cupertino: true));
     var res = await r.createCommunity(id: _id, name: _name);
     if (res.statusCode != 200) {
@@ -84,7 +87,5 @@ class _CreateState extends State<Create> {
     _rbloc.dispatch(CommunityRefresh());
     _cbloc.dispatch(FetchCommunities());
     Navigator.pushNamedAndRemoveUntil(context, '/init', (_) => false);
-    // Navigator.maybePop(context);
-    // Navigator.maybePop(context);
   }
 }

@@ -27,20 +27,13 @@ class UpdateName extends StatelessWidget {
       onTap: () async {
         if (!enabled) return;
         final xReq.Requests r = await xReq.Requests.init();
-        // bool valid = RegExp(r"^[\u4e00-\u9fa5_a-zA-Z0-9]{0,10}$").hasMatch(name);
-        // if (!valid) {
-        //   snacker(
-        //     context,
-        //     '用户名可使用中文，数字，英文字母及下划线 "_", 长度应小于 10。',
-        //     secs: 2
-        //   );
-        //   return;
-        // }
+        bool valid = RegExp(r"^\S{1,10}$").hasMatch(name);
+        if (!valid) {
+          snacker(context, '用户名不能为空、或以空格开头, 长度应小于 10。', secs: 2);
+          return;
+        }
 
-        ///////
         _bloc.dispatch(Refresh(profile: true));
-        ///////
-
         var res = await r.updateName(name: name);
         if (res.statusCode != 200) {
           snacker(context, '更新失败，请重试');
@@ -48,13 +41,11 @@ class UpdateName extends StatelessWidget {
           return;
         }
 
-        ///////
         _bloc.dispatch(Refresh(profile: false));
         _ubloc.dispatch(InitUserEvent(
             name: name,
             local: true
         ));
-        ///////
 
         Navigator.pop(context);
       },

@@ -68,6 +68,7 @@ class _EditState extends State<Edit> {
         controller: _controller,
         edit: true,
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
   

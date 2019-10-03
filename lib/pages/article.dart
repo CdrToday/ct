@@ -66,6 +66,7 @@ class _ArticleState extends State<Article> {
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }
