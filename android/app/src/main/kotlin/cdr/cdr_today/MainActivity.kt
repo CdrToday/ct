@@ -1,4 +1,4 @@
-package com.example.cdr_today
+package cdr.cdr_today
 
 import android.os.Bundle
 
