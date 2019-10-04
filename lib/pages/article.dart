@@ -64,9 +64,9 @@ class _ArticleState extends State<Article> {
             edit: _edit,
           ),
           color: Theme.of(context).scaffoldBackgroundColor,
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
         ),
       ),
-      resizeToAvoidBottomInset: false,
     );
   }
 }

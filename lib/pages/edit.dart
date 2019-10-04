@@ -63,12 +63,14 @@ class _EditState extends State<Edit> {
         leading: Close(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor
       ),
-      body: Editor(
-        focusNode: _focusNode,
-        controller: _controller,
-        edit: true,
-      ),
-      resizeToAvoidBottomInset: false,
+      body: Container(
+        child: Editor(
+          focusNode: _focusNode,
+          controller: _controller,
+          edit: true,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+      )
     );
   }
   
