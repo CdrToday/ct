@@ -43,7 +43,7 @@ class _ArticleState extends State<Article> {
       toPreview: () => setState(() { _edit = false; }),
       update: true,
     );
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
@@ -64,7 +64,6 @@ class _ArticleState extends State<Article> {
             edit: _edit,
           ),
           color: Theme.of(context).scaffoldBackgroundColor,
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
         ),
       ),
     );

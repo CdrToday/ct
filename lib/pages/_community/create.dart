@@ -80,6 +80,7 @@ class _CreateState extends State<Create> {
     var res = await r.createCommunity(id: _id, name: _name);
     if (res.statusCode != 200) {
       snacker(context, '创建失败，请更换社区 ID 后重试');
+      _rbloc.dispatch(Refresh(cupertino: false));
       return;
     }
 

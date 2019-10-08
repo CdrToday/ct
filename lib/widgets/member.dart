@@ -46,16 +46,17 @@ class CommunityMember extends StatelessWidget {
                               horizontal: 32.0,
                               vertical: 8.0,
                             ),
-                            onTap: () => self ? Navigator.pushNamed(
-                              context, '/mine/bucket'
-                            ) : Navigator.pushNamed(
-                              context, '/community/author',
-                              arguments: AuthorArgs(
-                                name: ms[index ~/ 2]['name'],
-                                avatar: ms[index ~/ 2]['avatar'],
-                                mail: ms[index ~/ 2]['mail'],
-                              )
-                            )
+                            onTap: () {},
+                            // () => self ? Navigator.pushNamed(
+                            //   context, '/mine/bucket'
+                            // ) : Navigator.pushNamed(
+                            //   context, '/community/author',
+                            //   arguments: AuthorArgs(
+                            //     name: ms[index ~/ 2]['name'],
+                            //     avatar: ms[index ~/ 2]['avatar'],
+                            //     mail: ms[index ~/ 2]['mail'],
+                            //   )
+                            // )
                           );
                         }
                       ) : Divider(

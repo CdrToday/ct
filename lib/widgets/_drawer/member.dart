@@ -20,7 +20,8 @@ class SwipeMember extends StatelessWidget {
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
               child: CommunityName(limit: true),
-            )
+            ),
+            centerTitle: true,
           ),
           actions: [
             NoRipple(

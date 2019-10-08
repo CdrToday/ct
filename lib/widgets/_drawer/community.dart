@@ -15,6 +15,7 @@ class SwipeCommunity extends StatelessWidget {
         leading: null,
         automaticallyImplyLeading: false,
         title: CommunityRefresher(),
+        centerTitle: true,
       ),
       body: Column(
         children: <Widget>[
@@ -48,7 +49,7 @@ Widget header(BuildContext context) {
             tag: flag == true ? 'nil' : null,
             onTap: flag == true ? () => Navigator.pop(
               context
-            ) : () => Navigator.pushNamed(context, '/mine/bucket'),
+            ) : () => Navigator.pushNamed(context, '/mine/profile'),
           ),
           SizedBox(height: 15.0),
           Name(self: true, size: 18.0),

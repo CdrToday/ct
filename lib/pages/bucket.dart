@@ -29,6 +29,7 @@ class Bucket extends StatelessWidget {
           leading: leading ?? Close(),
           title: PostRefresher(),
           actions: actions ?? [],
+          centerTitle: true,
         ),
         title: sliverProfile(
           context,

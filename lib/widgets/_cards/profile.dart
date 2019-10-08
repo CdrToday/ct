@@ -4,7 +4,6 @@ import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 
-
 SliverList sliverProfile(BuildContext context, {bool showEdit = true}) {
   return SliverList(
     delegate: SliverChildBuilderDelegate(

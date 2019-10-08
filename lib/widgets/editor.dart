@@ -22,7 +22,7 @@ class Editor extends StatelessWidget {
     return  ZefyrScaffold(
       child: Builder(
         builder: (ctx) => ZefyrEditor(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.0),
           controller: controller,
           focusNode: focusNode,
           mode: edit? ZefyrMode.edit : ZefyrMode.view,
@@ -54,7 +54,7 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
     
     File file = await ImagePicker.pickImage(
       source: source,
-      maxWidth: 1024.0,
+      maxWidth: 512.0,
     );
 
     if (file == null) return null;
