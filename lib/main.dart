@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // blocs
 import 'package:cdr_today/blocs/main.dart';
@@ -34,6 +33,8 @@ import 'package:cdr_today/pages/community.dart' as community;
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/navigations/init.dart';
 import 'package:cdr_today/navigations/txs.dart';
+// utils
+import 'package:cdr_today/x/_style/theme.dart';
 
 /* app */
 void main() async {
@@ -100,28 +101,17 @@ class _AppState extends State<App> {
           builder: (context) => DrawerBloc(c: communityBloc),
         ),
       ],
-      child: BlocBuilder<ThemeBloc, ThemeData>(
-        builder: (context, theme) => app(context, theme)
+      child: CupertinoApp(
+        initialRoute: '/',
+        onGenerateRoute: router,
+        home: SplashPage(),
+        debugShowCheckedModeBanner: false,
+        theme: CtThemeData.gen()
       )
     );
   }
 }
 
-Widget app(BuildContext context, ThemeData theme) {
-  return BlocBuilder<ThemeBloc, ThemeData>(
-    builder: (context, state) {
-      return MaterialApp(
-        theme: ThemeBloc.light,
-        // darkTheme:ThemeBloc.light,
-        // themeMode: ThemeMode.light,
-        initialRoute: '/',
-        onGenerateRoute: router,
-        home: SplashPage(),
-        debugShowCheckedModeBanner: false
-      );
-    }
-  );
-}
 
 /* app router */
 Route router(settings) {
@@ -181,7 +171,5 @@ Route router(settings) {
     return FadeRoute(page: Name(args: args));
   }
   
-  return MaterialPageRoute(
-    builder: (context) =>  Center(child: Text('BUG'))
-  );
+  return FadeRoute(page: VersionPage());
 }
