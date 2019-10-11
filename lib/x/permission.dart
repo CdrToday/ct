@@ -36,7 +36,7 @@ class Camera {
     if (_p != PermissionStatus.granted) {
       await alert(
         context,
-        title: '相册权限',
+        title: '相机权限',
         content: 'cdr.today 需要访问你的相机来进行扫码或拍照，是否去应用设置中打开权限？',
         ok: Text('设置'),
         action: () async {

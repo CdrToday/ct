@@ -26,7 +26,7 @@ alert(
     String title, String content, Text ok, Text cancel, VoidCallback action
   }
 ) async {
-  return showDialog<void>(
+  return showCupertinoDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return CupertinoAlertDialog(

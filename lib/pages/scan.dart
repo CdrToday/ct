@@ -6,6 +6,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/refresh.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/x/permission.dart' as pms;
@@ -21,52 +22,36 @@ class _ScanState extends State<Scan> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        leading: CtClose(),
         backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        brightness: Brightness.dark,
-        automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          child: Icon(
-            Icons.close,
-            color: Colors.white
-          ),
-          onTap: () => Navigator.maybePop(context),
+        trailing: QrRefresher(
+          widget: CtNoRipple(
+            icon: Icons.photo,
+            onTap: _pickImage
+          )
         ),
-        actions: [
-          Center(
-            child: QrRefresher(
-              widget: GestureDetector(
-                child: Icon(
-                  Icons.photo_library,
-                  color: Colors.white
-                ),
-                onTap: _pickImage
-              ),
-            ),
-          ),
-          SizedBox(width: 16.0),
-        ],
-        centerTitle: true,
+        border: null,
       ),
-      body: GestureDetector(
-        child: QRView(
-          key: qrKey,
-          onQRViewCreated: _onQRViewCreated,
-          overlay: QrScannerOverlayShape(
-            borderColor: Colors.white,
-            borderRadius: 10,
-            borderLength: 30,
-            borderWidth: 10,
-            cutOutSize: 300,
-          ),
-        ),
-        onTap: () => controller?.toggleFlash(),
-      ),
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      backgroundColor: Colors.transparent,
+      child: Container(),
+      // child: GestureDetector(
+      //   child: QRView(
+      //     key: qrKey,
+      //     onQRViewCreated: _onQRViewCreated,
+      //     overlay: QrScannerOverlayShape(
+      //       borderColor: Colors.white,
+      //       borderRadius: 10,
+      //       borderLength: 30,
+      //       borderWidth: 10,
+      //       cutOutSize: 300,
+      //     ),
+      //   ),
+      //   onTap: () => controller?.toggleFlash(),
+      // ),
+      // extendBody: true,
+      // extendBodyBehindAppBar: true,
+      // backgroundColor: Colors.transparent,
     );
   }
 

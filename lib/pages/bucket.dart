@@ -4,41 +4,39 @@ import 'package:cdr_today/pages/post.dart';
 import 'package:cdr_today/widgets/cards.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
+import 'package:cdr_today/x/permission.dart' as pms;
 
 class Bucket extends StatelessWidget {
-  final Widget leading;
-  final Widget drawer;
-  final List<Widget> actions;
-  final Widget bottomSheet;
-  Bucket({
-      this.drawer,
-      this.bottomSheet,
-      this.leading,
-      this.actions,
-  });
-  
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Post(
-        appBar: SliverAppBar(
-          backgroundColor: Colors.white,
-          floating: true,
-          snap: true,
-          elevation: 0.0,
-          forceElevated: true,
-          leading: leading ?? Close(),
-          title: PostRefresher(),
-          actions: actions ?? [],
-          centerTitle: true,
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        // backgroundColor: Colors.transparent,
+        trailing: QrRefresher(
+          widget: CtNoRipple(
+            icon: CupertinoIcons.add_circled,
+            onTap: () => Navigator.pushNamed(context, '/community/create')
+          )
         ),
-        title: sliverProfile(
-          context,
-          showEdit: leading != null ? false : true,
-        ),
+        border: null,
       ),
-      drawer: leading != null ? drawer : null,
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
+      child: Column(
+        children: [
+
+          ProfileCard(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 12
+          ),
+          CtOutlineButton(
+            text: '加入社区',
+            onTap: () async {
+              // if (await pms.checkCamera(context) == false) return;
+              Navigator.pushNamed(context, '/scan');
+            }
+          )
+        ],
+      ),
+      resizeToAvoidBottomInset: false
     );
   }
 }

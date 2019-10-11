@@ -42,11 +42,7 @@ class UpdateName extends StatelessWidget {
         }
 
         _bloc.dispatch(Refresh(profile: false));
-        _ubloc.dispatch(InitUserEvent(
-            name: name,
-            local: true
-        ));
-
+        _ubloc.dispatch(InitUserEvent(name: name, local: true));
         Navigator.pop(context);
       },
       padding: EdgeInsets.only(right: 16.0)

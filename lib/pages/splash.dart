@@ -28,9 +28,9 @@ class _SplashPageState extends State<SplashPage> {
     return CupertinoPageScaffold(
       child: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
-          // if (state is! SplashState) {
-          //   Navigator.of(context).pushReplacementNamed('/init');
-          // }
+          if (state is! SplashState) {
+            Navigator.of(context).pushReplacementNamed('/init');
+          }
         },
         child: Container(
           child: Column(

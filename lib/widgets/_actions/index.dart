@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/x/permission.dart' as pms;
 
-enum ActionX {
-  scan,
-  edit
-}
+enum ActionX { scan, edit }
 
 class IndexAction extends StatelessWidget {
   final String community;

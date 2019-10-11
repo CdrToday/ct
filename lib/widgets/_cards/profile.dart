@@ -54,3 +54,23 @@ SliverList sliverProfile(BuildContext context, {bool showEdit = true}) {
     )
   );
 }
+
+class ProfileCard extends StatelessWidget {
+  @override
+  build(BuildContext context) {
+    return Container(
+      child: Row(
+        children:[
+          Spacer(),
+          AvatarHero(
+            width: 38.0,
+            self: true,
+            onTap: () => Navigator.pushNamed(context, '/mine/profile'),
+          ),
+          Spacer(),
+        ]
+      ),
+      height: MediaQuery.of(context).size.height -  / 3
+    );
+  }
+}

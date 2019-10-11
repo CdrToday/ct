@@ -26,38 +26,17 @@ class _CreateState extends State<Create> {
   }
   
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('创建社区'),
-        leading: CloseButton(),
-        actions: [
-          CupertinoRefresher(
-            widget: Builder(
-              builder: (context) => Padding(
-                child: GestureDetector(
-                  child: Icon(Icons.check),
-                  onTap: () => createCommunity(context)
-                ),
-                padding: EdgeInsets.only(right: 16.0),  
-              ),
-            )
-          )
-        ]
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text('创建社区'),
+        border: null,
+        // backgroundColor: CtColors.transparent
       ),
-      body: Column(
+      child: Column(
         children: [
-          Input(
-            helper: '社区 ID: 用于社区搜索，具有唯一性要求。',
-            onChanged: changeId,
-          ),
-          SizedBox(height: 10.0),
-          Input(
-            helper: '社区名称: 可随意设置。',
-            onChanged: changeName,
-          )
+          Input(helper: '请输入社区名称', onChanged: changeName)
         ],
       ),
-      backgroundColor: Theme.of(context).primaryColorLight,
     );
   }
 
