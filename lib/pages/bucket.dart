@@ -22,7 +22,6 @@ class Bucket extends StatelessWidget {
       ),
       child: Column(
         children: [
-
           ProfileCard(),
           SizedBox(
             height: MediaQuery.of(context).size.height / 12
@@ -30,7 +29,7 @@ class Bucket extends StatelessWidget {
           CtOutlineButton(
             text: '加入社区',
             onTap: () async {
-              // if (await pms.checkCamera(context) == false) return;
+              if (await pms.checkCamera(context) == false) return;
               Navigator.pushNamed(context, '/scan');
             }
           )

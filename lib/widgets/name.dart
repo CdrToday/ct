@@ -17,8 +17,6 @@ class Name extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    
-    
     Widget _name(List<String> arr) {
       if (arr == null) arr = ['?'];
       

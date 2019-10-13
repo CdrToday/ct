@@ -121,9 +121,8 @@ class Requests {
   }
 
   //@createCommunity POST '/u/{mail:string}/c/create'
-  Future<http.Response> createCommunity({String id, String name}) async {
+  Future<http.Response> createCommunity({String name}) async {
     final Map body = {
-      'id': id,
       'name': name
     };
     return await rPost("/u/$mail/c/create", body: body);

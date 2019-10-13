@@ -18,7 +18,7 @@ class PostList extends StatefulWidget {
   final bool loading;
   final bool community;
   final String mail;
-  final SliverAppBar appBar;
+  final CupertinoSliverNavigationBar appBar;
   final SliverList title;
   PostList({
       this.posts, // init in build.

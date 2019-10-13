@@ -21,6 +21,35 @@ Future<void> alertLoading(BuildContext context, {String text}) async {
   );
 }
 
+info(BuildContext context, String content) {
+  return showCupertinoDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return CupertinoAlertDialog(
+        content: Padding(
+          child: Text(
+            content ?? '',
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 3,
+            style: TextStyle(
+              letterSpacing: 1.0,
+              height: 1.3,
+            )
+          ),
+          padding: EdgeInsets.only(top: 3.0)
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: Text('确定'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ]
+      );
+    }
+  );
+}
+
 alert(
   BuildContext context, {
     String title, String content, Text ok, Text cancel, VoidCallback action
@@ -58,3 +87,4 @@ alert(
     },
   );
 }
+

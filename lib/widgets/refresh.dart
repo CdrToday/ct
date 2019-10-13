@@ -172,10 +172,7 @@ class CupertinoRefresher extends StatelessWidget {
     return BlocBuilder<RefreshBloc, RefreshState>(
       builder: (context, state) {
         if ((state as Refresher).cupertino == true) {
-          return Padding(
-            child: CupertinoActivityIndicator(),
-            padding: EdgeInsets.only(right: 16.0),
-          );
+          return CupertinoActivityIndicator();
         }
         return widget ?? SizedBox.shrink();
       }

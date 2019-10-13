@@ -70,7 +70,7 @@ class ProfileCard extends StatelessWidget {
           Spacer(),
         ]
       ),
-      height: MediaQuery.of(context).size.height -  / 3
+      height: MediaQuery.of(context).size.height  / 3
     );
   }
 }

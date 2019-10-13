@@ -1,12 +1,13 @@
 // @salute to reddit
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/member.dart';
 
 class Reddit extends StatefulWidget {
-  final SliverAppBar appBar;
+  final CupertinoSliverNavigationBar appBar;
   final SliverList title;
   Reddit({ this.appBar, this.title });
   
@@ -41,6 +42,7 @@ class _RedditState extends State<Reddit> {
               }
             }
 
+            // return Container();
             return PostList(
               appBar: widget.appBar,
               title: widget.title,

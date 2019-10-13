@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/_author.dart';
 import 'package:cdr_today/widgets/post.dart';
 
 class Post extends StatefulWidget {
-  final SliverAppBar appBar;
+  final CupertinoSliverNavigationBar appBar;
   final SliverList title;
   Post({ this.appBar, this.title });
   
@@ -36,7 +37,7 @@ class _PostState extends State<Post> {
 }
 
 class AuthorPostContainer extends StatefulWidget {
-  final SliverAppBar appBar;
+  final CupertinoSliverNavigationBar appBar;
   final SliverList title;
   final String mail;
   AuthorPostContainer({ this.appBar, this.title, this.mail });

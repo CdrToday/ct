@@ -8,6 +8,7 @@ import 'package:cdr_today/widgets/drawer.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/sheets.dart';
 import 'package:cdr_today/widgets/actions.dart';
+import 'package:cdr_today/x/_style/color.dart';
 
 class InitPage extends StatelessWidget {
   @override
@@ -35,29 +36,44 @@ class InitPage extends StatelessWidget {
           return Bucket();
         }
 
-        return CupertinoPageScaffold(
-          child: Center(
-            child: CupertinoActivityIndicator()
-          ),
-        );
         // return reddit list
-        // return Scaffold(
-        //   body: Reddit(
-        //     appBar: SliverAppBar(
-        //       leading: leading(context),
-        //       centerTitle: true,
-        //       title: RedditRefresher(widget: CommunityName(qr: true)),
-        //       automaticallyImplyLeading: false,
-        //       backgroundColor: Colors.grey[100],
-        //       snap: true,
-        //       floating: true,
-        //     ),
-        //   ),
-        //   backgroundColor: Colors.grey[100],
-        //   bottomSheet: bottomSheet,
-        //   drawer: drawer(context),
-        //   resizeToAvoidBottomInset: false,
-        // );
+        return CupertinoPageScaffold(
+          // navigationBar: CupertinoNavigationBar(
+          //   middle: Text('创建社区'),
+          //   border: null,
+          child: Reddit(
+            appBar: CupertinoSliverNavigationBar(
+              largeTitle: RedditRefresher(
+                widget: CommunityName(qr: true)
+              ),
+              // leading: leading(context),
+              //   // centerTitle: true,
+              //   // title: RedditRefresher(widget: CommunityName(qr: true)),
+              //   automaticallyImplyLeading: false,
+              //   // backgroundColor: Colors.grey[100],
+              //   // snap: true,
+              //   // floating: true,
+            ),
+          ),
+          //   // ),
+          //   // child: Container(),
+          //   // 
+          //   // body: Reddit(
+          //   //   appBar: SliverAppBar(
+          //   //     leading: leading(context),
+          //   //     centerTitle: true,
+          //   //     title: RedditRefresher(widget: CommunityName(qr: true)),
+          //   //     automaticallyImplyLeading: false,
+          //   //     backgroundColor: Colors.grey[100],
+          //   //     snap: true,
+          //   //     floating: true,
+          //   //   ),
+          //   // ),
+          //   // backgroundColor: Colors.grey[100],
+          //   // bottomSheet: bottomSheet,
+          //   // drawer: drawer(context),
+          resizeToAvoidBottomInset: false,
+        );
       }
     );
   }
