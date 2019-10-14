@@ -11,7 +11,6 @@ class Bucket extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        // backgroundColor: Colors.transparent,
         trailing: QrRefresher(
           widget: CtNoRipple(
             icon: CupertinoIcons.add_circled,

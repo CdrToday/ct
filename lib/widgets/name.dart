@@ -6,6 +6,7 @@ import 'package:cdr_today/x/rng.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/x/_style/color.dart';
 
 // @usage: AvatarHero
 class Name extends StatelessWidget {
@@ -72,21 +73,16 @@ class CommunityName extends StatelessWidget {
             child: Container(
               child: AutoSizeText(
                 name,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
+                style: TextStyle(color: CtColors.primary)
               ),
-              width: MediaQuery.of(context).size.width * 1 / 3,
             ),
             onTap: qr ? () {
               Navigator.pushNamed(
                 context,
                 '/qrcode',
-                arguments: QrCodeArgs(
-                  code: state.current,
-                  name: name
-                )
+                arguments: QrCodeArgs(code: state.current, name: name)
               );
             } : () {},
           );

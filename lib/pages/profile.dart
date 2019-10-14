@@ -19,9 +19,7 @@ class Profile extends StatelessWidget {
               actions: [
                 NoRipple(
                   icon: Icon(CupertinoIcons.settings),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/mine/settings');
-                  },
+                  onTap: () => Navigator.pushNamed(context, '/mine/settings')
                 )
               ],
             ),

@@ -52,7 +52,7 @@ class RedditRefresher extends StatelessWidget {
     return BlocBuilder<RefreshBloc, RefreshState>(
       builder: (context, state) {
         if ((state as Refresher).reddit == true) {
-          return CupertinoActivityIndicator();
+          return CupertinoActivityIndicator(radius: 8.0);
         }
         return widget ?? SizedBox.shrink();
       }
