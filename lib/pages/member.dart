@@ -8,6 +8,10 @@ class MemberPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: CommunityName(limit: true),
+        leading: CtClose(),
+      ),
       child: CommunityMember(
         // appBar: SliverAppBar(
         //   leading: null,

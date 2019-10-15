@@ -16,7 +16,10 @@ class CommunityListPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         middle: CommunityRefresher(widget: Text('社区')),
         leading: CtNoRipple(
-          icon: CupertinoIcons.profile_circled
+          icon: CupertinoIcons.person
+        ),
+        trailing: CtNoRipple(
+          icon: CupertinoIcons.add_circled
         ),
       ),
       child: Column(

@@ -5,6 +5,7 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/widgets/avatar.dart';
+import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Profile extends StatelessWidget {
@@ -30,10 +31,6 @@ class Profile extends StatelessWidget {
                   mail(context, state.mail),
                 ]
               ),
-              padding: EdgeInsets.only(
-                top: 20.0, left: 10.0, right: 10.0,
-                bottom: kToolbarHeight
-              ),
             ),
             resizeToAvoidBottomInset: false,
           );
@@ -53,14 +50,14 @@ Widget avatar(BuildContext context) {
   return Container(
     child: Card(
       child: ListTile(
-        title: Text('头像'),
+        title: Text(
+          '头像',
+          style: TextStyle(color: CtColors.primary)
+        ),
         trailing: AvatarHero(self: true),
         onTap: () => Navigator.pushNamed(context, '/mine/profile/avatar'),
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 6.0,
-          horizontal: 16.0
-        )
-      )
+      ),
+      color: CtColors.gray6
     ),
   );
 }
@@ -69,15 +66,21 @@ Widget profile(BuildContext context, String name) {
   return Container(
     child: Card(
       child: ListTile(
-        title: Text('名字'),
-        trailing: Text(name),
+        title: Text(
+          '名字',
+          style: TextStyle(color: CtColors.primary)
+        ),
+        trailing: Text(
+          name,
+          style: TextStyle(color: CtColors.primary)
+        ),
         onTap: () => Navigator.pushNamed(
           context, '/mine/profile/name',
           arguments: NameArgs( name: name )
-        )
-      )
+        ),
+      ),
+      color: CtColors.gray6
     ),
-    margin: EdgeInsets.only(top: 10.0)
   );
 }
 
@@ -86,11 +89,17 @@ Widget mail(BuildContext context, String str) {
     builder: (context) => Container(
       child: Card(
         child: ListTile(
-          title: Text('邮箱'),
-          trailing: Text(str),
-        )
+          title: Text(
+            '邮箱',
+            style: TextStyle(color: CtColors.primary)
+          ),
+          trailing: Text(
+            str,
+            style: TextStyle(color: CtColors.primary)
+          ),
+        ),
+        color: CtColors.gray6
       ),
-      margin: EdgeInsets.only(top: 10.0)
     )
   );
 }

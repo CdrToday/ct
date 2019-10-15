@@ -14,7 +14,7 @@ class CommunityMember extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        appBar,
+        // appBar,
         BlocBuilder<MemberBloc, MemberState>(
           builder: (context, state) {
             if (state is Members) {
@@ -43,7 +43,7 @@ class CommunityMember extends StatelessWidget {
                             ),
                             name: (ms[index ~/ 2]['name']),
                             padding: EdgeInsets.symmetric(
-                              horizontal: 32.0,
+                              horizontal: 16.0,
                               vertical: 8.0,
                             ),
                             onTap: () {},

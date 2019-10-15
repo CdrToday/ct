@@ -26,6 +26,7 @@ import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
 import 'package:cdr_today/pages/author.dart';
 import 'package:cdr_today/pages/raise.dart';
+import 'package:cdr_today/pages/member.dart';
 import 'package:cdr_today/pages/settings.dart';
 import 'package:cdr_today/pages/qrcode.dart' as qr;
 import 'package:cdr_today/pages/community.dart' as community;
@@ -145,6 +146,8 @@ Route router(settings) {
   } else if (r == '/community/author') {
     final AuthorArgs args = settings.arguments;
     return FadeRoute(page: Author(args: args));
+  } else if (r == '/community/member') {
+    return FadeRoute(page: MemberPage());
   } else if (r == '/community/raise') {
     return FadeRoute(page: Raise());
   } else if (r == '/community/create') {
