@@ -32,10 +32,10 @@ class CommunityMember extends StatelessWidget {
                           }
 
                           return CommunityTile(
-                            avatar: AvatarHero(
+                            avatar: Avatar(
                               width: 20.0,
                               url: ms[index ~/ 2]['avatar'],
-                              tag: ms[index ~/ 2]['mail'],
+                              // tag: ms[index ~/ 2]['mail'],
                               baks: [
                                 ms[index ~/ 2]['name'],
                                 ms[index ~/ 2]['mail'],

@@ -29,7 +29,7 @@ class Bucket extends StatelessWidget {
             text: '加入社区',
             onTap: () async {
               if (await pms.checkCamera(context) == false) return;
-              Navigator.pushNamed(context, '/scan');
+              Navigator.of(context, rootNavigator: true).pushNamed('/scan');
             }
           )
         ],

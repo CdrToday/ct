@@ -8,6 +8,7 @@ import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/community.dart';
+import 'package:cdr_today/x/permission.dart' as pms;
 
 class CommunityListPage extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -20,7 +21,11 @@ class CommunityListPage extends StatelessWidget {
           onTap: () => Navigator.of(context, rootNavigator: true).pushNamed('/community/member')
         ),
         trailing: CtNoRipple(
-          icon: CupertinoIcons.add_circled
+          icon: CupertinoIcons.add_circled,
+          onTap: () async {
+            if (await pms.checkCamera(context) == false) return;
+            Navigator.of(context, rootNavigator: true).pushNamed('/scan');
+          },
         ),
       ),
       child: Column(
