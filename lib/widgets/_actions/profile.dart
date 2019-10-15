@@ -19,11 +19,8 @@ class UpdateName extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final UserBloc _ubloc = BlocProvider.of<UserBloc>(context);
-    return NoRipple(
-      icon: Icon(
-        Icons.check,
-        color: enabled ? null : Colors.grey,
-      ),
+    return CtNoRipple(
+      icon: enabled ? Icons.check : null,
       onTap: () async {
         if (!enabled) return;
         final xReq.Requests r = await xReq.Requests.init();
@@ -45,7 +42,6 @@ class UpdateName extends StatelessWidget {
         _ubloc.dispatch(InitUserEvent(name: name, local: true));
         Navigator.pop(context);
       },
-      padding: EdgeInsets.only(right: 16.0)
     );
   }
 }

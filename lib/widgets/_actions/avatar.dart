@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:cdr_today/widgets/snackers.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
@@ -74,10 +75,10 @@ class Avatar extends StatelessWidget {
         child: Text('更换'),
         onPressed: () => pickImage(context),
       ),
-      CupertinoActionSheetAction(
-        child: Text('保存'),
-        onPressed: () => saveImage(context),
-      ),
+      // CupertinoActionSheetAction(
+      //   child: Text('保存'),
+      //   onPressed: () => saveImage(context),
+      // ),
     ],
     cancelButton: CupertinoActionSheetAction(
       child: Text('取消'),
@@ -88,15 +89,14 @@ class Avatar extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Builder(
-      builder: (context) => IconButton(
-        icon: Icon(Icons.more_horiz),
-        onPressed: () {
+      builder: (context) => CtNoRipple(
+        icon: Icons.more_horiz,
+        onTap: () {
           showCupertinoModalPopup(
             context: context,
             builder: (context) => bottomSheet(context),
           );
         },
-        color: Colors.white,
       )
     );
   }

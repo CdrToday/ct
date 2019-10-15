@@ -55,7 +55,7 @@ Widget avatar(BuildContext context) {
           style: TextStyle(color: CtColors.primary)
         ),
         trailing: AvatarHero(self: true),
-        onTap: () => Navigator.pushNamed(context, '/mine/profile/avatar'),
+        onTap: () => Navigator.of(context, rootNavigator: true).pushNamed('/mine/profile/avatar'),
       ),
       color: CtColors.gray6
     ),
@@ -74,9 +74,9 @@ Widget profile(BuildContext context, String name) {
           name,
           style: TextStyle(color: CtColors.primary)
         ),
-        onTap: () => Navigator.pushNamed(
-          context, '/mine/profile/name',
-          arguments: NameArgs( name: name )
+        onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(
+          '/mine/profile/name',
+          arguments: NameArgs( name: name ),
         ),
       ),
       color: CtColors.gray6

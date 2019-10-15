@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/buttons.dart';
@@ -11,21 +12,17 @@ class Avatar extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: null,
-        actions: [
-          ProfileRefresher(
-            widget: actions.Avatar(
-              screenshotController: screenshotController
-            )
-          )
-        ],
-        leading: Close(dark: true),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        trailing: ProfileRefresher(
+          widget: actions.Avatar(
+            screenshotController: screenshotController
+          ),
+        ),
         backgroundColor: Colors.black,
-        brightness: Brightness.dark,
+        leading: CtClose(),
       ),
-      body: Builder(
+      child: Builder(
         builder: (context) => Center(
           child: Screenshot(
             child: Container(

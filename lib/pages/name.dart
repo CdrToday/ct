@@ -4,6 +4,7 @@ import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/x/_style/color.dart';
 
 class Name extends StatefulWidget {
   final NameArgs args;
@@ -36,19 +37,17 @@ class _NameState extends State<Name> {
   }
   
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Close(),
-        actions: [
-          ProfileRefresher(
-            widget: UpdateName(
-              name: _value,
-              enabled: !(widget.args.name == _value)
-            ),
-          )
-        ]
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        leading: CtClose(),
+        trailing: ProfileRefresher(
+          widget: UpdateName(
+            name: _value,
+            enabled: !(widget.args.name == _value)
+          ),
+        ),
       ),
-      body: Container(
+      child: Container(
         child: CupertinoTextField(
           autofocus: true,
           onChanged: changeValue,
@@ -60,10 +59,9 @@ class _NameState extends State<Name> {
           ),
           controller: _controller,
         ),
-        color: Colors.white,
+        color: CtColors.gray4,
         padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
       ),
-      backgroundColor: Theme.of(context).primaryColorLight,
     );
   }
 }
