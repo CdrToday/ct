@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/widgets/tiles.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/blocs/user.dart';
 
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Close(),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        leading: CtClose(),
+        backgroundColor: Colors.transparent,
       ),
-      body: Column(
+      child: Column(
         children: [
           BasicTile(
             text: '服务条款',
@@ -38,10 +42,18 @@ class Settings extends StatelessWidget {
             text: '版本信息',
             onTap: () => Navigator.popAndPushNamed(context, '/mine/version')
           ),
+          BasicTile(
+            text: '退出登录',
+            onTap: () {
+              final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
+              _bloc.dispatch(LogoutEvent());
+              Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+            }
+          ),
         ],
         mainAxisAlignment: MainAxisAlignment.center
       ),
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
     );
   }
 }

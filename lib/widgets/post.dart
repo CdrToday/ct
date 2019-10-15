@@ -80,6 +80,8 @@ class _PostState extends State<PostList> {
             shrinkWrap: true,
             key: stickyKey,
           ),
+          SizedBox(height: 50.0),
+          /// [TODO]: why overflow?
           Builder(
             builder: (context) {
               if (topHeight == null) return Container();
@@ -91,7 +93,7 @@ class _PostState extends State<PostList> {
                   alignment: Alignment.center,
                   height: MediaQuery.of(
                     context
-                  ).size.height - topHeight,
+                  ).size.height - kToolbarHeight * 3,
                   padding: EdgeInsets.only(
                     bottom: 50000 / MediaQuery.of(context).size.height,
                   ),

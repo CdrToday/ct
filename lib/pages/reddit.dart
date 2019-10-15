@@ -3,8 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/post.dart';
+import 'package:cdr_today/widgets/buttons.dart';
+import 'package:cdr_today/widgets/name.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/member.dart';
+import 'package:cdr_today/widgets/_actions/edit.dart';
+
+class RedditPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: RedditRefresher(
+          widget: CommunityName(qr: true)
+        ),
+        trailing: EditAction(context),
+      ),
+      child: Reddit(),
+      resizeToAvoidBottomInset: false,
+    );
+  }
+}
 
 class Reddit extends StatefulWidget {
   final CupertinoSliverNavigationBar appBar;

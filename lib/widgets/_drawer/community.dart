@@ -6,26 +6,21 @@ import 'package:cdr_today/widgets/bar.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/refresh.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/community.dart';
 
-class SwipeCommunity extends StatelessWidget {
+class CommunityListPage extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: null,
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
         automaticallyImplyLeading: false,
-        title: CommunityRefresher(),
-        centerTitle: true,
+        middle: CommunityRefresher(widget: Text('社区')),
+        leading: CtNoRipple(
+          icon: CupertinoIcons.profile_circled
+        ),
       ),
-      body: Column(
+      child: Column(
         children: <Widget>[
-          header(context),
-          DrawerBar(
-            title: '社区',
-            action: () {
-              Navigator.popAndPushNamed(context, '/community/raise');
-            }
-          ),
           CommunityList(),
         ],
       )

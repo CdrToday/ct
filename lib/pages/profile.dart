@@ -13,24 +13,21 @@ class Profile extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserInited) {
-          return Scaffold(
-            appBar: AppBar(
-              leading: Close(),
-              actions: [
-                NoRipple(
-                  icon: Icon(CupertinoIcons.settings),
-                  onTap: () => Navigator.pushNamed(context, '/mine/settings')
-                )
-              ],
+          return CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              trailing: CtNoRipple(
+                icon: CupertinoIcons.settings,
+                onTap: () => Navigator.of(
+                  context, rootNavigator: true
+                ).pushNamed('/mine/settings')
+              )
             ),
-            body: Container(
+            child: Container(
               child: Column(
                 children: <Widget>[
                   avatar(context),
                   profile(context, state.name),
                   mail(context, state.mail),
-                  Spacer(),
-                  logout(context)
                 ]
               ),
               padding: EdgeInsets.only(
@@ -95,25 +92,5 @@ Widget mail(BuildContext context, String str) {
       ),
       margin: EdgeInsets.only(top: 10.0)
     )
-  );
-}
-
-Widget logout(BuildContext context) {
-  final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
-  
-  return Container(
-    child: Center(
-      child: GestureDetector(
-        child: Text(
-          '退出登录',
-          style: TextStyle(fontSize: 14.0)
-        ),
-        onTap: () async {
-          _bloc.dispatch(LogoutEvent());
-          Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
-        }
-      )
-    ),
-    margin: EdgeInsets.only(top: 20.0)
   );
 }

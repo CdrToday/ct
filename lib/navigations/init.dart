@@ -4,12 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/pages/reddit.dart';
 import 'package:cdr_today/pages/bucket.dart';
+import 'package:cdr_today/pages/profile.dart';
 import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/drawer.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/sheets.dart';
 import 'package:cdr_today/widgets/actions.dart';
+import 'package:cdr_today/widgets/_drawer/community.dart';
 import 'package:cdr_today/x/_style/color.dart';
 
 class InitPage extends StatelessWidget {
@@ -38,21 +40,19 @@ class InitPage extends StatelessWidget {
           tabBuilder: (BuildContext context, int index) {
             return CupertinoTabView(
               builder: (BuildContext context) {
+                if (index == 0) {
+                  return RedditPage();
+                } else if (index == 1) {
+                  return CommunityListPage();
+                } else if (index == 2) {
+                  return Profile();
+                }
+
                 return Container();
               }
             );
-          }
-        );
-        
-        return CupertinoPageScaffold(
-          child: Reddit(
-            appBar: CupertinoSliverNavigationBar(
-              largeTitle: Container(),
-              middle: RedditRefresher(widget: CommunityName(qr: true)),
-              trailing: CtNoRipple(icon: Icons.edit)
-            ),
-          ),
-          resizeToAvoidBottomInset: false,
+          },
+          resizeToAvoidBottomInset: false
         );
       }
     );

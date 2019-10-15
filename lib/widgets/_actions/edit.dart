@@ -8,6 +8,7 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
+import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/snackers.dart';
@@ -15,6 +16,28 @@ import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/navigations/args.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
+
+class EditAction extends StatelessWidget {
+  final BuildContext ctx;
+  EditAction(this.ctx);
+  
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CommunityBloc, CommunityState>(
+      builder: (context, state) {
+        return CtNoRipple(
+          icon: Icons.edit,
+          onTap: () async {
+            Navigator.of(context, rootNavigator: true).pushNamed(
+              '/user/edit',
+              arguments: ArticleArgs(community: (state as Communities).current)
+            );
+          }
+        );
+      }
+    );
+  }
+}
 
 class EditActionsProvider {
   final BuildContext context;

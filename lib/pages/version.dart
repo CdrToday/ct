@@ -1,31 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cdr_today/widgets/buttons.dart';
+import 'package:cdr_today/x/_style/text.dart';
 
 class VersionPage extends StatelessWidget {
   Widget build(context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Close(),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        leading: CtClose(),
       ),
-      body: Container(
+      child: Container(
         child: Column(
           children: [
             Spacer(),
-            GestureDetector(
-              child: Text(
-                'cdr.today',
-                style: Theme.of(context).textTheme.display1,
-                textAlign: TextAlign.center
-              ),
-              onTap: () async {
-                var url = 'mailto:cdr.today@foxmail.com?subject=意见反馈';
-                if (await canLaunch(url)) {
-                  await launch(url);
-                } else {
-                  throw 'Could not launch $url';
-                }
-              }
+            Text(
+              'cdr.today',
+              style: CtTextStyle.largeTitle,
+              textAlign: TextAlign.center
             ),
             Spacer(),
             Text(
@@ -39,7 +31,6 @@ class VersionPage extends StatelessWidget {
         ),
         padding: EdgeInsets.only(bottom: kToolbarHeight)
       ),
-      extendBodyBehindAppBar: true,
     );
   }
 }

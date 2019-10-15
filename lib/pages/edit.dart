@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/editor.dart';
@@ -35,35 +36,44 @@ class _EditState extends State<Edit> {
   }
   
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: _edit == true ? [
-          EditRefresher(
-            widget: Post(
-              args: widget.args,
-              update: false,
-              zefyrController: _controller,
-              toPreview: () => setState(() { _edit = false; })
-            )
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        leading: CtClose(),
+        trailing: QrRefresher(
+          widget: CtNoRipple(
+            icon: Icons.check,
           )
-        ]: [
-          EditRefresher(
-            widget: More(
-              args: widget.args,
-              update: false,
-              toEdit: () {
-                setState(() { _edit = true; });
-                Navigator.pop(context);
-              },
-              zefyrController: _controller,
-            )
-          )
-        ],
-        elevation: 0.0,
-        leading: Close(),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor
+        ),
+        border: null,
       ),
-      body: Editor(
+      // appBar: AppBar(
+      //   actions: _edit == true ? [
+      //     EditRefresher(
+      //       widget: Post(
+      //         args: widget.args,
+      //         update: false,
+      //         zefyrController: _controller,
+      //         toPreview: () => setState(() { _edit = false; })
+      //       )
+      //     )
+      //   ]: [
+      //     EditRefresher(
+      //       widget: More(
+      //         args: widget.args,
+      //         update: false,
+      //         toEdit: () {
+      //           setState(() { _edit = true; });
+      //           Navigator.pop(context);
+      //         },
+      //         zefyrController: _controller,
+      //       )
+      //     )
+      //   ],
+      //   elevation: 0.0,
+      //   leading: Close(),
+      //   backgroundColor: Theme.of(context).scaffoldBackgroundColor
+      // ),
+      child: Editor(
         focusNode: _focusNode,
         controller: _controller,
         edit: true,

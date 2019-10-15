@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,19 +20,18 @@ class _LoginState extends State<Login> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [ sendCode(context, _value)],
-        leading: null,
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        trailing: sendCode(context, _value),
       ),
-      body: Container(
-        child: TextField(
+      child: Container(
+        child: CupertinoTextField(
           onChanged: changeValue,
-          decoration: InputDecoration(
-            hintText: '邮箱',
-            helperText: '请输入您的邮箱',
-            helperStyle: TextStyle(fontSize: 16.0)
-          ),
+          // decoration: InputDecoration(
+          //   hintText: '邮箱',
+          //   helperText: '请输入您的邮箱',
+          //   helperStyle: TextStyle(fontSize: 16.0)
+          // ),
           style: TextStyle(
             fontSize: 24.0,
           ),
@@ -76,8 +74,8 @@ sendCode(BuildContext context, String _email) {
                 child: CupertinoActivityIndicator(),
               );
             } else {
-              return NoRipple(
-                icon: Icon(Icons.check),
+              return CtNoRipple(
+                icon: Icons.check,
                 onTap: () {
                   FocusScope.of(context).requestFocus(new FocusNode());
                   bool emailValid = RegExp(
