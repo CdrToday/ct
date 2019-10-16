@@ -79,10 +79,8 @@ class CommunityName extends StatelessWidget {
               ),
             ),
             onTap: qr ? () {
-              Navigator.pushNamed(
-                context,
-                '/qrcode',
-                arguments: QrCodeArgs(code: state.current, name: name)
+              Navigator.of(context, rootNavigator: true).pushNamed(
+                '/qrcode', arguments: QrCodeArgs(code: state.current, name: name)
               );
             } : () {},
           );

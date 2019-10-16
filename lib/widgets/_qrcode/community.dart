@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/avatar.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/x/_style/color.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -21,7 +23,7 @@ class Community extends StatelessWidget {
           children: [
             Row(
               children: [
-                AvatarHero(self: true, rect: true),
+                AvatarHero(self: true, rect: true, tag: 'no-tag'),
                 SizedBox(width: 10.0),
                 Name(self: true),
               ]
@@ -40,15 +42,15 @@ class Community extends StatelessWidget {
         width: MediaQuery.of(context).size.width - 80.0,
         height: MediaQuery.of(context).size.height * 3 / 5,
         padding: EdgeInsets.all(20.0),
-      )
+      ),
     );
   }
 
-  static List<Widget> actions({
+  static Widget action({
       BuildContext context, ScreenshotController controller
   }) {
-    Widget more = GestureDetector(
-      child: Icon(Icons.more_horiz),
+    Widget more = CtNoRipple(
+      icon: Icons.more_horiz,
       onTap: () {
         showCupertinoModalPopup(
           context: context,
@@ -73,6 +75,6 @@ class Community extends StatelessWidget {
       },
     );
 
-    return [more, SizedBox(width: 16.0)];
+    return more;
   }
 }
