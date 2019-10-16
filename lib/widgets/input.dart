@@ -21,7 +21,7 @@ class Input extends StatelessWidget {
             decoration: BoxDecoration(border: null),
             placeholder: placeholder,
           ),
-          color: CtColors.gray6,
+          color: CtColors.gray5,
           padding: EdgeInsets.all(8.0),
         ),
         Container(

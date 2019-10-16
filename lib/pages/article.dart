@@ -49,6 +49,7 @@ class _ArticleState extends State<Article> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
+        border: null,
         // actions: _edit ? [
         //   EditRefresher(widget: eap.cancel, empty: true),
         //   EditRefresher(widget: eap.post),

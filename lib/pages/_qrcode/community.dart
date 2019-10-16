@@ -19,7 +19,8 @@ class QrCode extends StatelessWidget {
         trailing: qrw.Community.action(
           context: context,
           controller: screenshotController,
-        )
+        ),
+        border: null
       ),
       child: Container(
         child: Screenshot(

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/avatar.dart';
+import 'package:cdr_today/x/_style/color.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class CommunityTile extends StatelessWidget {
@@ -99,7 +100,7 @@ class CommunityList extends StatelessWidget {
                               width: 3.0,
                               height: 32,
                               decoration: BoxDecoration(
-                                color: Colors.grey[800],
+                                color: CtColors.gray,
                                 borderRadius: BorderRadius.all(Radius.circular(90)),
                               ),
                             ),

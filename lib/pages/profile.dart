@@ -21,7 +21,8 @@ class Profile extends StatelessWidget {
                 onTap: () => Navigator.of(
                   context, rootNavigator: true
                 ).pushNamed('/mine/settings')
-              )
+              ),
+              border: null
             ),
             child: Container(
               child: Column(
@@ -38,7 +39,6 @@ class Profile extends StatelessWidget {
           _bloc.dispatch(CheckUserEvent());
           return Container(
             child: CenterX(x: '重新登录中...'),
-            color: Colors.white
           );
         }
       }
@@ -57,7 +57,9 @@ Widget avatar(BuildContext context) {
         trailing: AvatarHero(self: true),
         onTap: () => Navigator.of(context, rootNavigator: true).pushNamed('/mine/profile/avatar'),
       ),
-      color: CtColors.gray6
+      color: CtColors.gray6,
+      elevation: 0.0,
+      shape: BeveledRectangleBorder()
     ),
   );
 }
@@ -79,7 +81,9 @@ Widget profile(BuildContext context, String name) {
           arguments: NameArgs( name: name ),
         ),
       ),
-      color: CtColors.gray6
+      color: CtColors.gray6,
+      elevation: 0.0,
+      shape: BeveledRectangleBorder()
     ),
   );
 }
@@ -98,7 +102,9 @@ Widget mail(BuildContext context, String str) {
             style: TextStyle(color: CtColors.primary)
           ),
         ),
-        color: CtColors.gray6
+        color: CtColors.gray6,
+        elevation: 0.0,
+        shape: BeveledRectangleBorder()
       ),
     )
   );

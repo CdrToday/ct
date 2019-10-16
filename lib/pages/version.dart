@@ -9,6 +9,8 @@ class VersionPage extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
+        border: null,
+        backgroundColor: Colors.transparent
       ),
       child: Container(
         child: Column(

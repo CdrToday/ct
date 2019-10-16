@@ -53,32 +53,3 @@ class BasicTile extends StatelessWidget {
     );
   }
 }
-
-Widget author(BuildContext context) {
-  return ListTile(
-    title: Text(
-      '联系作者',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.subhead,
-    ),
-    onTap: () async {
-      var url = 'mailto:cdr.today@foxmail.com?subject=hello';
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    }
-  );
-}
-
-Widget version(BuildContext context) {
-  return  ListTile(
-    title: Text(
-      '版本信息',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.subhead,
-    ),
-    onTap: () => Navigator.popAndPushNamed(context, '/mine/version')
-  );
-}

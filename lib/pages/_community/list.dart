@@ -27,6 +27,7 @@ class CommunityListPage extends StatelessWidget {
             Navigator.of(context, rootNavigator: true).pushNamed('/scan');
           },
         ),
+        border: null
       ),
       child: Column(
         children: <Widget>[

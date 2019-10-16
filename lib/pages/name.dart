@@ -59,7 +59,7 @@ class _NameState extends State<Name> {
           ),
           controller: _controller,
         ),
-        color: CtColors.gray4,
+        color: CtColors.gray5,
         padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
       ),
     );

@@ -13,6 +13,7 @@ class Settings extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
         backgroundColor: Colors.transparent,
+        border: null,
       ),
       child: Column(
         children: [

@@ -19,6 +19,7 @@ class RedditPage extends StatelessWidget {
           widget: CommunityName(qr: true)
         ),
         trailing: EditAction(context),
+        border: null
       ),
       child: Reddit(),
       resizeToAvoidBottomInset: false,
