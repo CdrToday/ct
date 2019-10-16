@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/x/conf.dart';
+import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 
 class WeChat extends StatelessWidget {
@@ -51,6 +52,7 @@ class WeChat extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0))
           ),
+          color: CtColors.gray6
         ),
         margin: EdgeInsets.all(6.0),
       ),
@@ -69,13 +71,19 @@ Widget head({String avatar, String author, int timestamp, String mail}) {
           width: 12.0
         ),
         SizedBox(width: 10.0),
-        Text(author, style: TextStyle(fontSize: 14.0)),
+        Text(
+          author,
+          style: TextStyle(
+            fontSize: 14.0,
+            color: CtColors.primary
+          )
+        ),
         Spacer(),
         Text(
           display(timestamp),
           style: TextStyle(
             fontSize: 12.0,
-            color: Colors.grey,
+            color: CtColors.primary
           )
         )
       ]
@@ -98,6 +106,7 @@ Widget content({String title}) {
             title,
             style: TextStyle(
               fontSize: 16.0,
+              color: CtColors.primary
             ),
             textAlign: TextAlign.left,
           ),

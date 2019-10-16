@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/widgets/editor.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
@@ -44,18 +46,17 @@ class _ArticleState extends State<Article> {
       update: true,
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-        leading: CloseButton(),
-        actions: _edit ? [
-          EditRefresher(widget: eap.cancel, empty: true),
-          EditRefresher(widget: eap.post),
-        ] : [
-          EditRefresher(widget: eap.more)
-        ],
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        leading: CtClose(),
+        // actions: _edit ? [
+        //   EditRefresher(widget: eap.cancel, empty: true),
+        //   EditRefresher(widget: eap.post),
+        // ] : [
+        //   EditRefresher(widget: eap.more)
+        // ],
       ),
-      body: Screenshot(
+      child: Screenshot(
         controller: screenshotController,
         child: Container(
           child: Editor(
@@ -63,7 +64,7 @@ class _ArticleState extends State<Article> {
             focusNode: focusNode,
             edit: _edit,
           ),
-          color: Theme.of(context).scaffoldBackgroundColor,
+          // color: Theme.of(context).scaffoldBackgroundColor,
         ),
       ),
     );

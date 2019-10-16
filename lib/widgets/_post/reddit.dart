@@ -39,7 +39,9 @@ class RedditItem extends StatelessWidget {
       mail: x.mail,
       timestamp: x.timestamp,
       title: title,
-      onTap: () => Navigator.pushNamed(context, '/article', arguments: x),
+      onTap: () => Navigator.of(
+        context, rootNavigator: true
+      ).pushNamed('/article', arguments: x),
     );
   }
 }

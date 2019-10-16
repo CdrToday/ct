@@ -11,7 +11,6 @@ import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/buttons.dart';
-import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/navigations/args.dart';
 import 'package:screenshot/screenshot.dart';
@@ -95,15 +94,15 @@ class Post extends StatelessWidget {
     final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
     
     return Builder(
-      builder: (context) => NoRipple(
-        icon: Icon(Icons.check),
+      builder: (context) => CtNoRipple(
+        icon: Icons.check,
         onTap: () async {
           final xReq.Requests r = await xReq.Requests.init();
           final String json = jsonEncode(zefyrController.document);
 
           FocusScope.of(context).requestFocus(FocusNode());
           if (!zefyrController.document.toPlainText().contains(RegExp(r'\S+'))) {
-            snacker(context, '请填写文章内容');
+            info(context, '请填写文章内容');
             return;
           }
 
@@ -111,7 +110,7 @@ class Post extends StatelessWidget {
             toPreview();
             return;
           }
-          
+
           ///// refresh actions
           _bloc.dispatch(Refresh(edit: true));
           /////
@@ -127,11 +126,11 @@ class Post extends StatelessWidget {
           ////
 
           if (res.statusCode != 200) {
-            snacker(context, '更新失败，请重试');
+            info(context, '更新失败，请重试');
             return;
           }
 
-          snacker(context, '更新成功', color: Colors.black);
+          info(context, '更新成功');
 
           if (args.community != null) {
             _bloc.dispatch(RedditRefresh(refresh: true));
@@ -190,6 +189,77 @@ class More extends StatelessWidget {
   }
 }
 
+class Publish extends StatelessWidget {
+  final ArticleArgs args;
+  final ZefyrController zefyrController;
+  
+  Publish({
+      this.args,
+      this.zefyrController
+  });
+  
+  @override
+  Widget build(BuildContext context) {
+    final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
+    final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
+    final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
+
+    post() async {
+      final xReq.Requests r = await xReq.Requests.init();
+      final String json = jsonEncode(zefyrController.document);
+      FocusScope.of(context).requestFocus(FocusNode());
+      if (!zefyrController.document.toPlainText().contains(RegExp(r'\S+'))) {
+        info(context, '请填写文章内容');
+        return;
+      }
+
+      ///// refresh actions
+      _bloc.dispatch(Refresh(edit: true));
+      /////
+      
+      var res;
+      if (args.community != null){
+        res = await r.newReddit(
+          document: json,
+          type: args.type,
+          community: args.community,
+        );
+      } else {
+        res = await r.newPost(document: json);
+      }
+
+      if (res.statusCode != 200) {
+        info(context, '发布失败，请重试');
+        return;
+      }
+
+      if (args.community != null) {
+        _bloc.dispatch(RedditRefresh(refresh: true));
+        _rbloc.dispatch(FetchReddits(refresh: true));
+      } else {
+        _bloc.dispatch(PostRefresh(refresh: true));
+        _pbloc.dispatch(FetchPosts(refresh: true));
+      }
+
+      Navigator.maybePop(context);
+      Navigator.maybePop(context);
+    }
+
+    alertPost(BuildContext ctx) {
+      alert(
+        context,
+        title: '发布文章?',
+        action: post,
+      );
+    } 
+    
+    return CtNoRipple(
+      icon: Icons.check,
+      onTap: () => alertPost(context)
+    );
+  }
+}
+
 class EditActions extends StatelessWidget {
   final bool update;
   final ScreenshotController controller;
@@ -216,7 +286,7 @@ class EditActions extends StatelessWidget {
 
       FocusScope.of(context).requestFocus(FocusNode());
       if (!zefyrController.document.toPlainText().contains(RegExp(r'\S+'))) {
-        snacker(context, '请填写文章内容');
+        info(context, '请填写文章内容');
         return;
       }
 
@@ -236,7 +306,7 @@ class EditActions extends StatelessWidget {
       }
 
       if (res.statusCode != 200) {
-        snacker(context, '发布失败，请重试');
+        info(context, '发布失败，请重试');
         return;
       }
 
@@ -272,7 +342,7 @@ class EditActions extends StatelessWidget {
           _pbloc.dispatch(FetchPosts(refresh: true));
         }
       } else {
-        snacker(context, '删除失败，请重试');
+        info(context, '删除失败，请重试');
         return;
       }
 

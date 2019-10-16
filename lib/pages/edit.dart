@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cdr_today/widgets/actions.dart';
+import 'package:cdr_today/widgets/actions.dart' as actions;
 import 'package:cdr_today/widgets/editor.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
@@ -40,22 +40,25 @@ class _EditState extends State<Edit> {
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
         trailing: QrRefresher(
-          widget: CtNoRipple(
-            icon: Icons.check,
-          )
+          widget: EditRefresher(
+            widget: actions.Publish(
+              args: widget.args,
+              zefyrController: _controller,
+            )
+          ),
         ),
         border: null,
       ),
       // appBar: AppBar(
       //   actions: _edit == true ? [
-      //     EditRefresher(
-      //       widget: Post(
-      //         args: widget.args,
-      //         update: false,
-      //         zefyrController: _controller,
-      //         toPreview: () => setState(() { _edit = false; })
-      //       )
-      //     )
+      //    EditRefresher(
+      //      widget: Post(
+      //        args: widget.args,
+      //        update: false,
+      //        zefyrController: _controller,
+      //        toPreview: () => setState(() { _edit = false; })
+      //      )
+      //    )
       //   ]: [
       //     EditRefresher(
       //       widget: More(
