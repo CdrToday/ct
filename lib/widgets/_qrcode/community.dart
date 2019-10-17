@@ -6,7 +6,6 @@ import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/navigations/args.dart';
-import 'package:cdr_today/x/_style/color.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';

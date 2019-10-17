@@ -11,7 +11,6 @@ import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/blocs/drawer.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
-import 'package:cdr_today/blocs/_author.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
@@ -24,7 +23,6 @@ import 'package:cdr_today/pages/avatar.dart';
 import 'package:cdr_today/pages/bucket.dart';
 import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
-import 'package:cdr_today/pages/author.dart';
 import 'package:cdr_today/pages/raise.dart';
 import 'package:cdr_today/pages/member.dart';
 import 'package:cdr_today/pages/settings.dart';
@@ -45,7 +43,6 @@ void main() async {
 }
 
 final VerifyBloc verifyBloc = VerifyBloc();
-final AuthorPostBloc authorPostBloc = AuthorPostBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc);
 final PostBloc postBloc = PostBloc(u: userBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
@@ -55,7 +52,6 @@ final RefreshBloc refreshBloc = RefreshBloc(
   p: postBloc,
   c: communityBloc,
   r: redditBloc,
-  a: authorPostBloc,
 );
 
 class App extends StatefulWidget {
@@ -95,9 +91,6 @@ class _AppState extends State<App> {
         BlocProvider<UserBloc>(
           builder: (context) => userBloc,
         ),
-        BlocProvider<AuthorPostBloc>(
-          builder: (context) => authorPostBloc,
-        ),
         BlocProvider<DrawerBloc>(
           builder: (context) => DrawerBloc(c: communityBloc),
         ),
@@ -131,9 +124,6 @@ Route router(settings) {
     return FadeRoute(page: InitPage());
   } else if (r == '/scan') {
     return SlideRoute(page: Scan());
-  } else if (r == '/avatar') {
-    final CustomAvatarArgs args = settings.arguments;
-    return FadeRoute(page: CustomAvatar(args: args));
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Article(args: args));
@@ -143,9 +133,6 @@ Route router(settings) {
   } else if (r == '/qrcode/join') {
     final QrCodeArgs args = settings.arguments;
     return FadeRoute(page: qr.Join(args: args));
-  } else if (r == '/community/author') {
-    final AuthorArgs args = settings.arguments;
-    return FadeRoute(page: Author(args: args));
   } else if (r == '/community/member') {
     return FadeRoute(page: MemberPage());
   } else if (r == '/community/raise') {
@@ -166,7 +153,8 @@ Route router(settings) {
   } else if (r == '/mine/version') {
     return FadeRoute(page: VersionPage());
   } else if (r == '/mine/profile') {
-    return FadeRoute(page: Profile());
+    final ProfileArgs args = settings.arguments;
+    return FadeRoute(page: Profile(args: args));
   } else if (r == '/mine/profile/avatar') {
     return FadeRoute(page: Avatar());
   } else if (r == '/mine/profile/name') {

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:cdr_today/x/_style/color.dart';
 
 class CtTextStyle {
   static get largeTitle => TextStyle(fontSize: 34.0);

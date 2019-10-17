@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/auth.dart';
-import 'package:cdr_today/widgets/snackers.dart';
+import 'package:cdr_today/widgets/input.dart';
+import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 
 class Verify extends StatefulWidget {
@@ -19,29 +20,17 @@ class _VerifyState extends State<Verify> {
   }
   
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: CloseButton(),
-        actions: [verifyCode(context, _value)]
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        leading: CtClose(),
+        trailing: verifyCode(context, _value),
+        border: null,
+        backgroundColor: Colors.transparent
       ),
-      body: Container(
-        child: TextField(
-          onChanged: changeValue,
-          decoration: InputDecoration(
-            hintText: '验证码',
-            helperText: '请输入您的验证码',
-            helperStyle: TextStyle(fontSize: 16.0)
-          ),
-          style: TextStyle(fontSize: 24.0),
-          keyboardType: TextInputType.emailAddress,
-          autofocus: true,
-        ),
-        padding: EdgeInsets.only(
-          left: kToolbarHeight / 2,
-          right: kToolbarHeight / 2,
-          bottom: kToolbarHeight / 3
-        ),
-        alignment: Alignment.center,
+      child: Input(
+        onChanged: changeValue,
+        size: 24.0,
+        helper: '请输入您的验证码'
       ),
     );
   }
@@ -55,7 +44,7 @@ verifyCode(BuildContext context, String _code) {
       child: BlocListener<VerifyBloc, VerifyState>(
         listener: (context, state) {
           if (state is CodeVerifiedFailed) {
-            snacker(context, '邮箱验证失败，请重试');
+            info(context, '邮箱验证失败，请重试');
           } else if (state is CodeVerifiedSucceed) {
             Navigator.pushNamedAndRemoveUntil(context, '/root', (_) => false);
           }
@@ -63,13 +52,10 @@ verifyCode(BuildContext context, String _code) {
         child: BlocBuilder<VerifyBloc, VerifyState>(
           builder: (context, state) {
             if (state is CodeVerifying) {
-              return Padding(
-                padding: EdgeInsets.only(right: 16.0),
-                child: CupertinoActivityIndicator(),
-              );
+              return CupertinoActivityIndicator();
             } else {
-              return NoRipple(
-                icon: Icon(Icons.check),
+              return CtNoRipple(
+                icon: Icons.check,
                 onTap: () {
                   FocusScope.of(context).requestFocus(new FocusNode());
                   bool codeValid = RegExp(
@@ -77,7 +63,7 @@ verifyCode(BuildContext context, String _code) {
                   ).hasMatch(_code);
                   
                   if (!codeValid) {
-                    snacker(
+                    info(
                       context, "请输入正确的验证码，如: '99293e8e-5629-40d3-8747-10016474d49c'"
                     );
                   } else {

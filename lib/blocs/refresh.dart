@@ -4,16 +4,14 @@ import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
-import 'package:cdr_today/blocs/_author.dart';
 import 'package:cdr_today/blocs/community.dart';
 
 class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   final PostBloc p;
   final RedditBloc r;
   final CommunityBloc c;
-  final AuthorPostBloc a;
   
-  RefreshBloc({ this.p, this.c, this.r, this.a }) {
+  RefreshBloc({ this.p, this.c, this.r }) {
     p.state.listen((state) {
         if (state is Posts) {
           if (state.refresh == 0) return;
@@ -32,13 +30,6 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
         if (state is Reddits) {
           if (state.refresh == 0) return;
           this.dispatch(RedditRefresh(refresh: false));
-        }
-    });
-
-    a.state.listen((state) {
-        if (state is AuthorPosts) {
-          if (state.refresh == 0) return;
-          this.dispatch(Refresh(author: false));
         }
     });
   }
@@ -61,7 +52,6 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
     edit: false,
     post: false,
     common: false,
-    author: false,
     reddit: false,
     profile: false,
     community: false,
@@ -75,7 +65,6 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
         qr: false,
         edit: false,
         common: false,
-        author: false,
         reddit: false,
         profile: false,
         community: false,
@@ -87,7 +76,6 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
         edit: false,
         post: false,
         common: false,
-        author: false,
         reddit: false,
         profile: false,
       );
@@ -98,7 +86,6 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
         edit: false,
         post: false,
         common: false,
-        author: false,
         profile: false,
         community: false,
       );
@@ -106,7 +93,6 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
       yield (currentState as Refresher).copyWith(
         qr: event.qr ?? (currentState as Refresher).qr,
         edit: event.edit ?? (currentState as Refresher).edit,
-        author: event.author ?? (currentState as Refresher).author,
         common: event.common ?? (currentState as Refresher).common,
         cupertino: event.cupertino ?? (currentState as Refresher).cupertino,
         profile: event.profile ?? (currentState as Refresher).profile,
@@ -126,7 +112,6 @@ class Refresher extends RefreshState {
   final bool edit;
   final bool post;
   final bool common;
-  final bool author;
   final bool reddit;
   final bool profile;
   final bool cupertino;
@@ -136,7 +121,6 @@ class Refresher extends RefreshState {
       this.edit,
       this.post,
       this.common,
-      this.author,
       this.reddit,
       this.profile,
       this.cupertino,
@@ -145,7 +129,6 @@ class Refresher extends RefreshState {
       qr,
       edit,
       post,
-      author,
       common,
       reddit,
       profile,
@@ -157,7 +140,6 @@ class Refresher extends RefreshState {
       bool qr,
       bool edit,
       bool post,
-      bool author,
       bool common,
       bool reddit,
       bool profile,
@@ -169,7 +151,6 @@ class Refresher extends RefreshState {
       edit: edit ?? this.edit,
       post: post ?? this.post,
       common: common ?? this.common,
-      author: author ?? this.author,
       reddit: reddit ?? this.reddit,
       profile: profile ?? this.profile,
       cupertino: cupertino ?? this.cupertino,
@@ -184,14 +165,12 @@ abstract class RefreshEvent extends Equatable {}
 class Refresh extends RefreshEvent {
   final bool qr;
   final bool edit;
-  final bool author;
   final bool common;
   final bool profile;
   final bool cupertino;
   Refresh({
       this.qr,
       this.edit,
-      this.author,
       this.common,
       this.profile,
       this.cupertino,

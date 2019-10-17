@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/buttons.dart';
-import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/widgets/qrcode.dart' as qrw;
 
 class QrCode extends StatelessWidget {

@@ -30,12 +30,8 @@ SliverList sliverProfile(BuildContext context, {bool showEdit = true}) {
                 )
               ),
               Container(
-                child: showEdit ? NoRipple(
-                  icon: Icon(
-                    Icons.mode_edit,
-                    size: 20.0,
-                    color: Colors.black,
-                  ),
+                child: showEdit ? CtNoRipple(
+                  icon: Icons.mode_edit,
                   onTap: () {
                     Navigator.pushNamed(
                       context, '/user/edit',
@@ -65,7 +61,9 @@ class ProfileCard extends StatelessWidget {
           AvatarHero(
             width: 38.0,
             self: true,
-            onTap: () => Navigator.pushNamed(context, '/mine/profile'),
+            onTap: () => Navigator.pushNamed(
+              context, '/mine/profile', arguments: ProfileArgs(raw: true)
+            ),
           ),
           Spacer(),
         ]

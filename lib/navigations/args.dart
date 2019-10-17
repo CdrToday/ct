@@ -4,6 +4,11 @@ class RootArgs {
   RootArgs({ this.index, this.fetch });
 }
 
+class ProfileArgs {
+  final bool raw;
+  ProfileArgs({ this.raw });
+}
+
 class ArticleArgs {
   final bool edit;
   final String id;
@@ -37,13 +42,6 @@ class ModifyArgs {
 class NameArgs {
   final String name;
   NameArgs({ this.name });
-}
-
-class AuthorArgs {
-  final String name;
-  final String avatar;
-  final String mail;
-  AuthorArgs({ this.name, this.avatar, this.mail });
 }
 
 class CustomAvatarArgs {

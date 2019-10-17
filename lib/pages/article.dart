@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/widgets/editor.dart';
 import 'package:cdr_today/widgets/buttons.dart';
-import 'package:cdr_today/widgets/actions.dart';
-import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Article extends StatefulWidget {
@@ -33,29 +31,10 @@ class _ArticleState extends State<Article> {
   
   @override
   Widget build(BuildContext context) {
-    EditActionsProvider eap = EditActionsProvider(
-      context,
-      args: widget.args,
-      screenshotController: screenshotController,
-      zefyrController: controller,
-      toEdit: () {
-        Navigator.pop(context);
-        setState(() { _edit = true; });
-      },
-      toPreview: () => setState(() { _edit = false; }),
-      update: true,
-    );
-
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
         border: null,
-        // actions: _edit ? [
-        //   EditRefresher(widget: eap.cancel, empty: true),
-        //   EditRefresher(widget: eap.post),
-        // ] : [
-        //   EditRefresher(widget: eap.more)
-        // ],
       ),
       child: Screenshot(
         controller: screenshotController,
@@ -65,7 +44,6 @@ class _ArticleState extends State<Article> {
             focusNode: focusNode,
             edit: _edit,
           ),
-          // color: Theme.of(context).scaffoldBackgroundColor,
         ),
       ),
     );

@@ -4,7 +4,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/post.dart';
-import 'package:cdr_today/blocs/_author.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
@@ -39,7 +38,6 @@ class _PostState extends State<PostList> {
   PostBloc _postBloc;
   RedditBloc _redditBloc;
   RefreshBloc _refreshBloc;
-  AuthorPostBloc _authorBloc;
   double _scrollThreshold = 200.0;
   double _scrollIncipiency = (- kToolbarHeight);
   ScrollController _scrollController;
@@ -61,7 +59,6 @@ class _PostState extends State<PostList> {
     _lsc = ScrollController();
     _lsc.addListener(_onScroll);
     _postBloc = BlocProvider.of<PostBloc>(context);
-    _authorBloc = BlocProvider.of<AuthorPostBloc>(context);
     _redditBloc = BlocProvider.of<RedditBloc>(context);
     _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }
@@ -173,10 +170,7 @@ class _PostState extends State<PostList> {
       Duration(milliseconds: 1000)
     ).listen((b) {
         // dispatch events
-        if (widget.mail != null) {
-          _refreshBloc.dispatch(Refresh(author: true));
-          _authorBloc.dispatch(FetchAuthorPosts(refresh: b, mail: widget.mail));
-        } else if (widget.community) {
+        if (widget.community) {
           _refreshBloc.dispatch(RedditRefresh());
           _redditBloc.dispatch(FetchReddits(refresh: b));
         } else {

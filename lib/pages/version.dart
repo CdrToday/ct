@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/x/_style/text.dart';
 

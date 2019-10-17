@@ -19,12 +19,10 @@ class Edit extends StatefulWidget {
 class _EditState extends State<Edit> {
   ZefyrController _controller;
   FocusNode _focusNode;
-  bool _edit;
   
   @override
   void initState() {
     super.initState();
-    _edit = true;
     final document = _loadDocument();
     _focusNode = FocusNode();
     _controller = ZefyrController(document);
@@ -49,33 +47,6 @@ class _EditState extends State<Edit> {
         ),
         border: null,
       ),
-      // appBar: AppBar(
-      //   actions: _edit == true ? [
-      //    EditRefresher(
-      //      widget: Post(
-      //        args: widget.args,
-      //        update: false,
-      //        zefyrController: _controller,
-      //        toPreview: () => setState(() { _edit = false; })
-      //      )
-      //    )
-      //   ]: [
-      //     EditRefresher(
-      //       widget: More(
-      //         args: widget.args,
-      //         update: false,
-      //         toEdit: () {
-      //           setState(() { _edit = true; });
-      //           Navigator.pop(context);
-      //         },
-      //         zefyrController: _controller,
-      //       )
-      //     )
-      //   ],
-      //   elevation: 0.0,
-      //   leading: Close(),
-      //   backgroundColor: Theme.of(context).scaffoldBackgroundColor
-      // ),
       child: Editor(
         focusNode: _focusNode,
         controller: _controller,

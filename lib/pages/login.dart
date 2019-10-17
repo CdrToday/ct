@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/auth.dart';
-import 'package:cdr_today/widgets/snackers.dart';
+import 'package:cdr_today/widgets/alerts.dart';
+import 'package:cdr_today/widgets/input.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 
 class Login extends StatefulWidget {
@@ -23,27 +24,13 @@ class _LoginState extends State<Login> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         trailing: sendCode(context, _value),
+        backgroundColor: Colors.transparent,
+        border: null,
       ),
-      child: Container(
-        child: CupertinoTextField(
-          onChanged: changeValue,
-          // decoration: InputDecoration(
-          //   hintText: '邮箱',
-          //   helperText: '请输入您的邮箱',
-          //   helperStyle: TextStyle(fontSize: 16.0)
-          // ),
-          style: TextStyle(
-            fontSize: 24.0,
-          ),
-          keyboardType: TextInputType.emailAddress,
-          autofocus: true,
-        ),
-        padding: EdgeInsets.only(
-          left: kToolbarHeight / 2,
-          right: kToolbarHeight / 2,
-          bottom: kToolbarHeight / 3
-        ),
-        alignment: Alignment.center,
+      child: Input(
+        onChanged: changeValue,
+        size: 24.0,
+        helper: '请输入您的邮箱'
       ),
     );
   }
@@ -57,7 +44,7 @@ sendCode(BuildContext context, String _email) {
       child: BlocListener<VerifyBloc, VerifyState>(
         listener: (context, state) {
           if (state is CodeSentFailed) {
-            snacker(context, '邮件发送失败，请重试');
+            info(context, '邮件发送失败，请重试');
           } else if (state is CodeSentSucceed) {
             if (state.created) {
               Navigator.pushNamed(context, '/root');
@@ -69,10 +56,7 @@ sendCode(BuildContext context, String _email) {
         child: BlocBuilder<VerifyBloc, VerifyState>(
           builder: (context, state) {
             if (state is CodeSending) {
-              return Padding(
-                padding: EdgeInsets.only(right: 16.0),
-                child: CupertinoActivityIndicator(),
-              );
+              return CupertinoActivityIndicator();
             } else {
               return CtNoRipple(
                 icon: Icons.check,
@@ -83,7 +67,7 @@ sendCode(BuildContext context, String _email) {
                   ).hasMatch(_email);
                   
                   if (!emailValid) {
-                    snacker(context, '请输入正确的邮箱');
+                    info(context, '请输入正确的邮箱');
                   } else {
                     _bloc.dispatch(SendCodeEvent(mail: _email));
                   }

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/widgets/actions.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
+import 'package:cdr_today/widgets/input.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/x/_style/color.dart';
 
@@ -46,21 +47,13 @@ class _NameState extends State<Name> {
             enabled: !(widget.args.name == _value)
           ),
         ),
+        border: null,
       ),
-      child: Container(
-        child: CupertinoTextField(
-          autofocus: true,
-          onChanged: changeValue,
-          style: TextStyle(
-            fontSize: 18.0,
-          ),
-          decoration: BoxDecoration(
-            border: null,
-          ),
-          controller: _controller,
-        ),
-        color: CtColors.gray5,
-        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+      child: Input(
+        onChanged: changeValue,
+        controller: _controller,
+        center: false,
+        helper: '请输入要修改的名字'
       ),
     );
   }

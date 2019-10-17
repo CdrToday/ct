@@ -2,51 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/x/_style/color.dart';
 
-class Close extends StatelessWidget {
-  final bool dark;
-  Close({ this.dark = false });
-  
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Icon(
-        Icons.close,
-        color: dark ? Colors.white : null,
-      ),
-      onTap: () => Navigator.maybePop(context),
-    );
-  }
-}
-
-class NoRipple extends StatelessWidget {
-  final Widget icon;
-  final VoidCallback onTap;
-  final EdgeInsets padding;
-  NoRipple({ this.icon, this.onTap, this.padding });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      child: GestureDetector(
-        child: icon,
-        onTap: onTap
-      ),
-      padding: padding ?? EdgeInsets.all(12.0)
-    );
-  }
-}
-
 class CtNoRipple extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
   final EdgeInsets padding;
-  CtNoRipple({ this.icon, this.onTap, this.padding });
+  final Color color;
+  CtNoRipple({ this.icon, this.onTap, this.padding, this.color });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       child: GestureDetector(
-        child: Icon(icon, size: 22.0),
+        child: Icon(
+          icon,
+          size: 22.0,
+          color: color ?? CtColors.primary
+        ),
         onTap: onTap
       ),
       padding: padding ?? EdgeInsets.all(0.0)
@@ -85,10 +56,14 @@ class CtBack extends StatelessWidget {
 }
 
 class CtClose extends StatelessWidget {
+  final Color color;
+  CtClose({ this.color });
+  
   @override
   Widget build(BuildContext context) {
     return CtNoRipple(
       icon: CupertinoIcons.clear_circled,
+      color: color,
       onTap: () => Navigator.maybePop(context),
     );
   }

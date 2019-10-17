@@ -4,7 +4,6 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/community.dart';
-import 'package:cdr_today/navigations/args.dart';
 
 class CommunityMember extends StatelessWidget {
   final SliverAppBar appBar;
@@ -26,10 +25,10 @@ class CommunityMember extends StatelessWidget {
                       if (index == 0) return SizedBox(height: 8.0);
                       return index.isOdd ? BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
-                          bool self = false;
-                          if (state is UserInited) {
-                            if (state.mail == ms[index ~/ 2]['mail']) self = true;
-                          }
+                          // bool self = false;
+                          // if (state is UserInited) {
+                          //   if (state.mail == ms[index ~/ 2]['mail']) self = true;
+                          // }
 
                           return CommunityTile(
                             avatar: Avatar(

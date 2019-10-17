@@ -6,13 +6,7 @@ import 'package:cdr_today/pages/reddit.dart';
 import 'package:cdr_today/pages/bucket.dart';
 import 'package:cdr_today/pages/profile.dart';
 import 'package:cdr_today/pages/community.dart';
-import 'package:cdr_today/widgets/name.dart';
-import 'package:cdr_today/widgets/buttons.dart';
-import 'package:cdr_today/widgets/drawer.dart';
-import 'package:cdr_today/widgets/refresh.dart';
-import 'package:cdr_today/widgets/sheets.dart';
-import 'package:cdr_today/widgets/actions.dart';
-import 'package:cdr_today/x/_style/color.dart';
+import 'package:cdr_today/navigations/args.dart';
 
 class InitPage extends StatelessWidget {
   @override
@@ -45,7 +39,7 @@ class InitPage extends StatelessWidget {
                 } else if (index == 1) {
                   return CommunityListPage();
                 } else if (index == 2) {
-                  return Profile();
+                  return Profile(args: ProfileArgs(raw: false));
                 }
 
                 return Container();

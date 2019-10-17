@@ -74,8 +74,8 @@ class EditActionsProvider {
     zefyrController: zefyrController,
   );
   
-  Widget get cancel => NoRipple(
-    icon: Icon(Icons.highlight_off),
+  Widget get cancel => CtNoRipple(
+    icon: Icons.highlight_off,
     onTap: toPreview
   );
 }
@@ -376,8 +376,8 @@ class EditActions extends StatelessWidget {
       await Share.file(name, "$name.png", image.readAsBytesSync(), 'image/png');
     }
     
-    return NoRipple(
-      icon: Icon(Icons.more_horiz),
+    return CtNoRipple(
+      icon: Icons.more_horiz,
       onTap: () async {
         showCupertinoModalPopup(
           context: context,

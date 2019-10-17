@@ -103,23 +103,6 @@ class ProfileRefresher extends StatelessWidget {
   }
 }
 
-class AuthorRefresher extends StatelessWidget {
-  final Widget widget;
-  AuthorRefresher({ this.widget });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RefreshBloc, RefreshState>(
-      builder: (context, state) {
-        if ((state as Refresher).author == true) {
-          return CupertinoActivityIndicator();
-        }
-        return widget ?? SizedBox.shrink();
-      }
-    );
-  }
-}
-
 class QrRefresher extends StatelessWidget {
   final Widget widget;
   QrRefresher({ this.widget });

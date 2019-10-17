@@ -91,6 +91,7 @@ class Avatar extends StatelessWidget {
     return Builder(
       builder: (context) => CtNoRipple(
         icon: Icons.more_horiz,
+        color: Colors.white,
         onTap: () {
           showCupertinoModalPopup(
             context: context,

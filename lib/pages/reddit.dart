@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/post.dart';
-import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/blocs/reddit.dart';

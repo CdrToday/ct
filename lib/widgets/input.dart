@@ -6,8 +6,20 @@ class Input extends StatelessWidget {
   final void Function(String) onChanged;
   final String helper;
   final String placeholder;
+  final double size;
+  final TextInputType type;
+  final TextEditingController controller;
+  final bool center;
   
-  Input({ this.onChanged, this.helper, this.placeholder });
+  Input({
+      this.onChanged,
+      this.helper,
+      this.placeholder,
+      this.type,
+      this.size,
+      this.controller,
+      this.center = true
+  });
   
   @override
   Widget build(BuildContext context) {
@@ -17,19 +29,22 @@ class Input extends StatelessWidget {
           child: CupertinoTextField(
             autofocus: true,
             onChanged: onChanged,
-            style: TextStyle(fontSize: 18.0),
+            style: TextStyle(fontSize: size ?? 18.0),
             decoration: BoxDecoration(border: null),
             placeholder: placeholder,
+            keyboardType: type ?? null,
+            controller: controller ?? null,
           ),
-          color: CtColors.gray5,
+          color: CtColors.gray6,
           padding: EdgeInsets.all(8.0),
         ),
         Container(
-          child: Text(helper),
+          child: Text(helper ?? ''),
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           alignment: Alignment.centerLeft
         )
-      ]
+      ],
+      mainAxisAlignment: center ? MainAxisAlignment.center : MainAxisAlignment.start,
     );
   }
 }

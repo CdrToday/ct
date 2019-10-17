@@ -14,7 +14,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Close(),
+        leading: CtClose(),
       ),
       body: BlocBuilder<CommunityBloc, CommunityState>(
         builder: (context, state) {

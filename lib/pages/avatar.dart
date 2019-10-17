@@ -19,8 +19,9 @@ class Avatar extends StatelessWidget {
             screenshotController: screenshotController
           ),
         ),
-        backgroundColor: Colors.black,
-        leading: CtClose(),
+        backgroundColor: Colors.transparent,
+        leading: CtClose(color: Colors.white),
+        border: null,
       ),
       child: Builder(
         builder: (context) => Center(
@@ -32,46 +33,8 @@ class Avatar extends StatelessWidget {
                 width: MediaQuery.of(context).size.width / 2,
               ),
               color: Colors.black,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(bottom: kToolbarHeight * 1.5 )
             ),
             controller: screenshotController,
-          ),
-        ),
-      ),
-      backgroundColor: Colors.black,
-    );
-  }
-}
-
-class CustomAvatar extends StatelessWidget {
-  final CustomAvatarArgs args;
-  CustomAvatar({ this.args });
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: null,
-        leading: Close(dark: true),
-        backgroundColor: Colors.black,
-        brightness: Brightness.dark,
-      ),
-      body: Builder(
-        builder: (context) => Center(
-          child: Container(
-            child: AvatarHero(
-              url: args.url,
-              tag: args.tag,
-              baks: args.baks,
-              rect: args.rect,
-              width: MediaQuery.of(context).size.width / 2
-            ),
-            color: Colors.black,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(bottom: kToolbarHeight * 1.5 )
           ),
         ),
       ),

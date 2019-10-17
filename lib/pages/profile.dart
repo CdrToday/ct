@@ -9,6 +9,9 @@ import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Profile extends StatelessWidget {
+  final ProfileArgs args;
+  Profile({ this.args });
+  
   Widget build(BuildContext context) {
     final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
     return BlocBuilder<UserBloc, UserState>(
@@ -16,6 +19,7 @@ class Profile extends StatelessWidget {
         if (state is UserInited) {
           return CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
+              leading: args.raw ? CtClose() : null,
               trailing: CtNoRipple(
                 icon: CupertinoIcons.settings,
                 onTap: () => Navigator.of(
