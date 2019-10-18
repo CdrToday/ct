@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // blocs
 import 'package:cdr_today/blocs/main.dart';
@@ -100,7 +101,12 @@ class _AppState extends State<App> {
         onGenerateRoute: router,
         home: SplashPage(),
         debugShowCheckedModeBanner: false,
-        theme: CtThemeData.gen()
+        theme: CtThemeData.gen(),
+        localizationsDelegates: [
+          DefaultMaterialLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
+          DefaultWidgetsLocalizations.delegate,
+        ],
       )
     );
   }
