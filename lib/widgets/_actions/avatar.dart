@@ -7,7 +7,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:cdr_today/widgets/snackers.dart';
+import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/user.dart';
@@ -46,13 +46,13 @@ class Avatar extends StatelessWidget {
     _bloc.dispatch(Refresh(profile: true));
     var res = await r.upload(image: image);
     if (res.statusCode != 200) {
-      snacker(context, '图片上传失败，请重试');
+      info(context, '图片上传失败，请重试');
       return;
     }
 
     res = await r.updateAvatar(avatar: json.decode(res.body)['image']);
     if (res.statusCode != 200) {
-      snacker(context, '头像修改失败，请重试');
+      info(context, '头像修改失败，请重试');
       return;
     }
 
@@ -61,12 +61,18 @@ class Avatar extends StatelessWidget {
   }
 
   void saveImage(BuildContext context) async {
+    if (await pms.checkStorage(context) != true) {
+      Navigator.pop(context);
+      return;
+    }
+    
     File image = await screenshotController.capture(pixelRatio: 1.5);
     bool result = await ImageGallerySaver.saveImage(image.readAsBytesSync());
-
+    Navigator.pop(context);
+    
     result
-    ?snacker(context, '保存成功', color: Colors.black)
-    :snacker(context, '保存失败');
+    ?info(context, '保存成功')
+    :info(context, '保存失败, 请重试');
   }
 
   CupertinoActionSheet bottomSheet(BuildContext context) => CupertinoActionSheet(
@@ -75,10 +81,10 @@ class Avatar extends StatelessWidget {
         child: Text('更换'),
         onPressed: () => pickImage(context),
       ),
-      // CupertinoActionSheetAction(
-      //   child: Text('保存'),
-      //   onPressed: () => saveImage(context),
-      // ),
+      CupertinoActionSheetAction(
+        child: Text('保存'),
+        onPressed: () => saveImage(context),
+      ),
     ],
     cancelButton: CupertinoActionSheetAction(
       child: Text('取消'),

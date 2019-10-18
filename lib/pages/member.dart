@@ -11,6 +11,7 @@ class MemberPage extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         middle: CommunityName(limit: true),
         leading: CtClose(),
+        border: null,
       ),
       child: CommunityMember(
         // appBar: SliverAppBar(

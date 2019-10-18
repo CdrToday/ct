@@ -19,15 +19,13 @@ class Editor extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return  ZefyrScaffold(
-      child: Builder(
-        builder: (ctx) => ZefyrEditor(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          controller: controller,
-          focusNode: focusNode,
-          mode: edit? ZefyrMode.edit : ZefyrMode.view,
-          imageDelegate: ImageDelegate(context: ctx),
-        )
+    return ZefyrScaffold(
+      child: ZefyrEditor(
+        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        controller: controller,
+        focusNode: focusNode,
+        mode: edit? ZefyrMode.edit : ZefyrMode.view,
+        imageDelegate: ImageDelegate(context: context),
       )
     );
   }
@@ -74,8 +72,7 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
       snacker(context, '图片上传失败，请重试');
       return '';
     }
-    print(res.body);
-    // return data
+    
     return json.decode(res.body)['image'];
   }
   

@@ -92,10 +92,7 @@ class ProfileRefresher extends StatelessWidget {
     return BlocBuilder<RefreshBloc, RefreshState>(
       builder: (context, state) {
         if ((state as Refresher).profile == true) {
-          return Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CupertinoActivityIndicator(),
-          );
+          return CupertinoActivityIndicator();
         }
         return widget ?? SizedBox.shrink();
       }
