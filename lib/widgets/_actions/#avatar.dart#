@@ -29,7 +29,7 @@ class Avatar extends StatelessWidget {
     if (await pms.checkStorage(context) != true) return;
 
     File file = await ImagePicker.pickImage(
-      source: ImageSource.gallery,
+      psource: ImageSource.gallery,
       maxWidth: 512.0,
     );
 

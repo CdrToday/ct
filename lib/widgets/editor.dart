@@ -46,6 +46,7 @@ class ImageDelegate implements ZefyrImageDelegate<ImageSource> {
     final xReq.Requests r = await xReq.Requests.init();
     if (source == ImageSource.gallery) {
       if (await pms.checkPhotos(context) == false) return '';
+      if (await pms.checkStorage(context) == false) return '';
     } else {
       if (await pms.checkCamera(context) == false) return '';
     }
