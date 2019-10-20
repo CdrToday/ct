@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/x/_style/color.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class AvatarHero extends StatelessWidget {
   final bool rect;
@@ -87,15 +86,10 @@ class Avatar extends StatelessWidget {
       if (rect) {
         return ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          child: CachedNetworkImage(
-            imageUrl: conf['image'] + url,
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+          child: Image.network(
+            conf['image'] + url,
+            fit:BoxFit.cover,
           ),
-          // Image.network(
-          //   conf['image'] + url,
-          //   fit:BoxFit.cover,
-          // )
         );
       }
       return CircleAvatar(

@@ -14,6 +14,19 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/x/permission.dart' as pms;
 
+Future<void> retrieveLostData() async {
+  final LostDataResponse response =
+      await ImagePicker.retrieveLostData();
+  if (response == null) {
+    return;
+  }
+  if (response.file != null) {
+    print('ok');
+  } else {
+    print(response.exception);
+  }
+}
+
 // avatar actions
 class Avatar extends StatelessWidget {
   final ScreenshotController screenshotController;
@@ -24,16 +37,21 @@ class Avatar extends StatelessWidget {
     final UserBloc _ubloc = BlocProvider.of<UserBloc>(context);
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
 
-    Navigator.pop(context);
-    if (await pms.checkPhotos(context) != true) return;
-    if (await pms.checkStorage(context) != true) return;
+    if (await pms.checkPhotos(context) != true) {
+      Navigator.pop(context);
+      return;
+    }
+    
+    if (await pms.checkStorage(context) != true) {
+      Navigator.pop(context);
+      return;
+    }
 
     File file = await ImagePicker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 512.0,
     );
-
-    return;
+    
     if (file == null) return;
     file = await ImageCropper.cropImage(
       sourcePath: file.path,
@@ -58,6 +76,7 @@ class Avatar extends StatelessWidget {
       return;
     }
 
+    Navigator.pop(context);
     _ubloc.dispatch(InitUserEvent(avatar: json.decode(res.body)['avatar']));
     _bloc.dispatch(Refresh(profile: false));
   }
@@ -68,14 +87,16 @@ class Avatar extends StatelessWidget {
       return;
     }
 
-    Navigator.pop(context);
     File image = await screenshotController.capture(pixelRatio: 1.5);
     var result = await ImageGallerySaver.saveImage(image.readAsBytesSync());
-    print(result);
+
+    Navigator.pop(context);
     
-    result != null
-    ?info(context, '保存成功')
-    :info(context, '保存失败, 请重试');
+    if (result != null) {
+      info(context, '保存成功');
+    } else {
+      info(context, '保存失败, 请重试');
+    }
   }
 
   CupertinoActionSheet bottomSheet(BuildContext context) => CupertinoActionSheet(

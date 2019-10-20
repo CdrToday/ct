@@ -32,10 +32,7 @@ info(BuildContext context, String content) {
             softWrap: true,
             overflow: TextOverflow.ellipsis,
             maxLines: 3,
-            style: TextStyle(
-              letterSpacing: 1.0,
-              height: 1.3,
-            )
+            style: TextStyle(letterSpacing: 1.0, height: 1.3),
           ),
           padding: EdgeInsets.only(top: 3.0)
         ),
@@ -87,4 +84,3 @@ alert(
     },
   );
 }
-
