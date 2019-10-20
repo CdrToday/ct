@@ -25,8 +25,6 @@ class AvatarHero extends StatelessWidget {
   });
   
   Widget build(BuildContext context) {
-    
-    
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserInited) {
@@ -89,12 +87,14 @@ class Avatar extends StatelessWidget {
           child: Image.network(
             conf['image'] + url,
             fit:BoxFit.cover,
+            color: Colors.brown.shade800,
           ),
         );
       }
       return CircleAvatar(
         radius: width,
         backgroundImage: NetworkImage(conf['image'] + url),
+        backgroundColor: Colors.brown.shade800,
       );
     } 
 
@@ -120,7 +120,8 @@ class Avatar extends StatelessWidget {
               color: Colors.brown.shade800,
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
-            alignment: Alignment.center
+            alignment: Alignment.center,
+            color: Colors.brown.shade800,
           ),
           height: width * 2,
         );
