@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/x/_style/text.dart';
+import 'package:cdr_today/x/_style/color.dart';
 
 class VersionPage extends StatelessWidget {
   Widget build(context) {
@@ -9,7 +10,7 @@ class VersionPage extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
         border: null,
-        backgroundColor: Colors.transparent
+        backgroundColor: CtColors.tp
       ),
       child: Container(
         child: Column(

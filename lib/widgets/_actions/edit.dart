@@ -383,10 +383,10 @@ class EditActions extends StatelessWidget {
           context: context,
           builder: (ctx) => update == true ? CupertinoActionSheet(
             actions: [
-              CupertinoActionSheetAction(
-                child: Text('分享'),
-                onPressed: share,
-              ),
+              // CupertinoActionSheetAction(
+              //   child: Text('分享'),
+              //   onPressed: share,
+              // ),
               CupertinoActionSheetAction(
                 child: Text('编辑'),
                 onPressed: toEdit,

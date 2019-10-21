@@ -12,6 +12,12 @@ class MemberPage extends StatelessWidget {
         middle: CommunityName(limit: true),
         leading: CtClose(),
         border: null,
+        trailing: CtNoRipple(
+          icon: CupertinoIcons.settings,
+          onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(
+            '/community/settings'
+          ),
+        ),
       ),
       child: CommunityMember(
         // appBar: SliverAppBar(

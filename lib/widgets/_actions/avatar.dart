@@ -47,6 +47,7 @@ class Avatar extends StatelessWidget {
       return;
     }
 
+    Navigator.pop(context);
     File file = await ImagePicker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 512.0,
@@ -76,7 +77,6 @@ class Avatar extends StatelessWidget {
       return;
     }
 
-    Navigator.pop(context);
     _ubloc.dispatch(InitUserEvent(avatar: json.decode(res.body)['avatar']));
     _bloc.dispatch(Refresh(profile: false));
   }

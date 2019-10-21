@@ -5,6 +5,7 @@ import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/input.dart';
 import 'package:cdr_today/widgets/buttons.dart';
+import 'package:cdr_today/x/_style/color.dart';
 
 class Login extends StatefulWidget {
   Login({ Key key }) : super(key: key);
@@ -24,7 +25,7 @@ class _LoginState extends State<Login> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         trailing: sendCode(context, _value),
-        backgroundColor: Colors.transparent,
+        backgroundColor: CtColors.tp,
         border: null,
       ),
       child: Input(

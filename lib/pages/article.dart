@@ -5,7 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/widgets/editor.dart';
 import 'package:cdr_today/widgets/buttons.dart';
+import 'package:cdr_today/widgets/_actions/edit.dart';
 import 'package:cdr_today/navigations/args.dart';
+import 'package:cdr_today/blocs/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Article extends StatefulWidget {
   final ArticleArgs args;
@@ -17,6 +20,7 @@ class Article extends StatefulWidget {
 
 class _ArticleState extends State<Article> {
   bool _edit = false;
+  bool _flag = false;
   ZefyrController controller;
   ScreenshotController screenshotController;
   FocusNode focusNode;
@@ -31,21 +35,46 @@ class _ArticleState extends State<Article> {
   
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        leading: CtClose(),
-        border: null,
-      ),
-      child: Screenshot(
-        controller: screenshotController,
-        child: Container(
-          child: Editor(
-            controller: controller,
-            focusNode: focusNode,
-            edit: _edit,
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if ((state as UserInited).mail == widget.args.mail) _flag = true;
+
+        return CupertinoPageScaffold(
+          navigationBar: CupertinoNavigationBar(
+            leading: CtClose(),
+            border: null,
+            trailing: _flag == false? null : (
+              _edit == false ? More(
+                update: true,
+                args: widget.args,
+                zefyrController: controller,
+                toEdit: () {
+                  setState(() { _edit = true; });
+                  Navigator.pop(context);
+                },
+                screenshotController: screenshotController
+              ) : Post(
+                update: true,
+                args: widget.args,
+                zefyrController: controller,
+                toPreview: () {
+                  setState(() { _edit = false; });
+                },
+              )
+            )
           ),
-        ),
-      ),
+          child: Screenshot(
+            controller: screenshotController,
+            child: Container(
+              child: Editor(
+                controller: controller,
+                focusNode: focusNode,
+                edit: _edit,
+              ),
+            ),
+          )
+        );
+      }
     );
   }
 }

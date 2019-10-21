@@ -5,6 +5,7 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
+import 'package:cdr_today/x/_style/color.dart';
 
 class Settings extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class Settings extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
-        backgroundColor: Colors.transparent,
+        backgroundColor: CtColors.tp,
         border: null,
       ),
       child: Column(

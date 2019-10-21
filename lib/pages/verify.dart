@@ -5,6 +5,7 @@ import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/widgets/input.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/buttons.dart';
+import 'package:cdr_today/x/_style/color.dart';
 
 class Verify extends StatefulWidget {
   Verify({ Key key }) : super(key: key);
@@ -25,7 +26,7 @@ class _VerifyState extends State<Verify> {
         leading: CtClose(),
         trailing: verifyCode(context, _value),
         border: null,
-        backgroundColor: Colors.transparent
+        backgroundColor: CtColors.tp
       ),
       child: Input(
         onChanged: changeValue,

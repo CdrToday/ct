@@ -87,7 +87,6 @@ class Avatar extends StatelessWidget {
           child: Image.network(
             conf['image'] + url,
             fit:BoxFit.cover,
-            color: Colors.brown.shade800,
           ),
         );
       }
@@ -121,7 +120,6 @@ class Avatar extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             alignment: Alignment.center,
-            color: Colors.brown.shade800,
           ),
           height: width * 2,
         );

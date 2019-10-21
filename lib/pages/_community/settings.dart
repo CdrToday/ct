@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/tiles.dart';
 import 'package:cdr_today/widgets/alerts.dart';
@@ -7,16 +8,18 @@ import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
+import 'package:cdr_today/x/_style/color.dart';
 
 // members' view
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
+        border: null,
       ),
-      body: BlocBuilder<CommunityBloc, CommunityState>(
+      child: BlocBuilder<CommunityBloc, CommunityState>(
         builder: (context, state) {
           if (state is Communities) {
             var cs = state.communities;
@@ -27,13 +30,21 @@ class Settings extends StatelessWidget {
             
             return Column(
               children: [
-                Tile(
-                  title: Text('id'),
-                  trailing: Text(community['id']),
+                SizedBox(
+                  height: 10.0
                 ),
-                Tile(
-                  title: Text('名字'),
-                  trailing: Text(community['name']),
+                Container(
+                  child: Card(
+                    child: ListTile(
+                      title: Text(
+                        '名字', style: TextStyle(color: CtColors.primary)
+                      ),
+                      trailing: Text(community['name']),
+                    ),
+                    color: CtColors.gray6,
+                    elevation: 0.0,
+                    shape: BeveledRectangleBorder()
+                  ),
                 ),
                 Spacer(),
                 Builder(
