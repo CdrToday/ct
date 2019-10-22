@@ -16,6 +16,7 @@ class Bucket extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, '/community/create')
           )
         ),
+        leading: null,
         border: null,
       ),
       child: Column(

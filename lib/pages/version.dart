@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/x/_style/text.dart';
 import 'package:cdr_today/x/_style/color.dart';
+import 'package:cdr_today/x/conf.dart';
 
 class VersionPage extends StatelessWidget {
   Widget build(context) {
@@ -17,13 +18,13 @@ class VersionPage extends StatelessWidget {
           children: [
             Spacer(),
             Text(
-              'cdr.today',
+              conf['name'],
               style: CtTextStyle.largeTitle,
               textAlign: TextAlign.center
             ),
             Spacer(),
             Text(
-              'version 0.2.16',
+              conf['version'],
               style: TextStyle(color: Colors.grey),
               textAlign: TextAlign.center
             ),

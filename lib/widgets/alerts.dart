@@ -67,7 +67,7 @@ alert(
           ),
         ],
         title: Text(title ?? ''),
-        content: Padding(
+        content: content == null ? null : Padding(
           child: Text(
             content ?? '',
             softWrap: true,

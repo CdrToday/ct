@@ -37,9 +37,13 @@ class Settings extends StatelessWidget {
                   child: Card(
                     child: ListTile(
                       title: Text(
-                        '名字', style: TextStyle(color: CtColors.primary)
+                        '名字',
+                        style: TextStyle(color: CtColors.primary)
                       ),
-                      trailing: Text(community['name']),
+                      trailing: Text(
+                        community['name'],
+                        style: TextStyle(color: CtColors.primary)
+                      ),
                     ),
                     color: CtColors.gray6,
                     elevation: 0.0,

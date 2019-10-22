@@ -81,7 +81,7 @@ class _PostState extends State<PostList> {
           /// [TODO]: why overflow?
           Builder(
             builder: (context) {
-              if (topHeight == null) return Container();
+              // if (topHeight == null) return Container();
               return  SingleChildScrollView(
                 child: Container(
                   child: widget.loading

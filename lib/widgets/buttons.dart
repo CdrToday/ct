@@ -7,7 +7,8 @@ class CtNoRipple extends StatelessWidget {
   final VoidCallback onTap;
   final EdgeInsets padding;
   final Color color;
-  CtNoRipple({ this.icon, this.onTap, this.padding, this.color });
+  final double size;
+  CtNoRipple({ this.icon, this.onTap, this.padding, this.color, this.size });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class CtNoRipple extends StatelessWidget {
       child: GestureDetector(
         child: Icon(
           icon,
-          size: 22.0,
+          size: size ?? 22.0,
           color: color ?? CtColors.primary
         ),
         onTap: onTap

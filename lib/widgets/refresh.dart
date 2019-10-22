@@ -29,13 +29,7 @@ class CommunityRefresher extends StatelessWidget {
     return BlocBuilder<RefreshBloc, RefreshState>(
       builder: (context, state) {
         if ((state as Refresher).community == true) {
-          return Container(
-            child: SizedBox(
-              height: 12.0,
-              width: 12.0,
-              child: CircularProgressIndicator(strokeWidth: 1.0)
-            ),
-          );
+          return CupertinoActivityIndicator(radius: 8.0);
         }
         return widget ?? SizedBox.shrink();
       }
@@ -71,10 +65,7 @@ class EditRefresher extends StatelessWidget {
       builder: (context, state) {
         if ((state as Refresher).edit) {
           if (empty == true) return SizedBox.shrink();
-          return Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CupertinoActivityIndicator(),
-          );
+          return CupertinoActivityIndicator();
         }
 
         return widget;

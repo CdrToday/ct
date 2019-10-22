@@ -26,6 +26,7 @@ class EditAction extends StatelessWidget {
       builder: (context, state) {
         return CtNoRipple(
           icon: Icons.edit,
+          size: 18.0,
           onTap: () async {
             Navigator.of(context, rootNavigator: true).pushNamed(
               '/user/edit',

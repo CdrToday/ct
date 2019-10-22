@@ -42,7 +42,7 @@ class Settings extends StatelessWidget {
           ),
           BasicTile(
             text: '版本信息',
-            onTap: () => Navigator.popAndPushNamed(context, '/mine/version')
+            onTap: () => Navigator.pushNamed(context, '/mine/version')
           ),
           BasicTile(
             text: '退出登录',

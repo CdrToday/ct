@@ -28,11 +28,17 @@ class  _CommunityPopMenuState extends State<CommunityPopMenu> {
         itemBuilder: (BuildContext context) => <PopupMenuEntry<Action>>[
           PopupMenuItem<Action>(
             value: Action.scan,
-            child: Text('扫码', textAlign: TextAlign.center),
+            child: Text(
+              '扫码',
+              style: TextStyle(color: CtColors.primary)
+            ),
           ),
           PopupMenuItem<Action>(
             value: Action.create,
-            child: Text('创建', textAlign: TextAlign.center),
+            child: Text(
+              '创建',
+              style: TextStyle(color: CtColors.primary)
+            ),
           ),
         ],
         color: CtColors.gray6

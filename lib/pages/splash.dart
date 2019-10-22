@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/style.dart';
+import 'package:cdr_today/x/conf.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -35,19 +36,19 @@ class _SplashPageState extends State<SplashPage> {
         child: Container(
           child: Column(
             children: [
-              Spacer(),
+              // Spacer(),
               Text(
-                'cdr.today',
+                conf['name'],
                 textAlign: TextAlign.center,
                 style: CtTextStyle.largeTitle
               ),
-              Spacer(),
-              Text(
-                'Louder than Words.',
-                textAlign: TextAlign.center,
-                style: CtTextStyle.footnote
-              ),
-              SizedBox(height: 20.0)
+              // Spacer(),
+              // Text(
+              //   'Louder than Words.',
+              //   textAlign: TextAlign.center,
+              //   style: CtTextStyle.footnote
+              // ),
+              // SizedBox(height: 20.0)
             ],
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -16,6 +17,13 @@ class Community extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> _args = {
+      'code': args.code,
+      'name': args.name
+    };
+
+    final String code = jsonEncode(_args);
+    
     return Card(
       child: Container(
         child: Column(
@@ -28,7 +36,7 @@ class Community extends StatelessWidget {
               ]
             ),
             QrImage(
-              data: args.code,
+              data: code,
               version: QrVersions.auto,
             ),
             AutoSizeText(
