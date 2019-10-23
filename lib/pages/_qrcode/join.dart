@@ -4,7 +4,7 @@ import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/x/_style/text.dart';
 import 'package:cdr_today/widgets/refresh.dart';
-import 'package:cdr_today/widgets/snackers.dart';
+import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/blocs/refresh.dart';
@@ -31,7 +31,7 @@ class Join extends StatelessWidget {
           var res = await r.joinCommunity(id: args.code);
           
           if (res.statusCode != 200) {
-            snacker(context, '加入失败，请重试');
+            info(context, '加入失败，请重试');
             return;
           } else {
             _rbloc.dispatch(Refresh(cupertino: false));

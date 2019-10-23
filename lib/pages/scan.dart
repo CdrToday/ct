@@ -12,6 +12,7 @@ import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/x/permission.dart' as pms;
+import 'package:cdr_today/x/_style/color.dart';
 
 class Scan extends StatefulWidget {
   @override
@@ -26,12 +27,15 @@ class _ScanState extends State<Scan> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        leading: CtClose(),
+        leading: CtClose(
+          color: CtColors.gray6
+        ),
         backgroundColor: Colors.transparent,
         trailing: QrRefresher(
           widget: CtNoRipple(
             icon: Icons.photo,
-            onTap: _pickImage
+            onTap: _pickImage,
+            color: CtColors.gray6
           )
         ),
         border: null,

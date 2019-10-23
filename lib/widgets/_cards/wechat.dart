@@ -54,7 +54,10 @@ class WeChat extends StatelessWidget {
           ),
           color: CtColors.gray6
         ),
-        margin: EdgeInsets.all(6.0),
+        margin: EdgeInsets.symmetric(
+          vertical: 5.0,
+          horizontal: 10.0
+        )
       ),
       onTap: onTap,
     );
@@ -88,16 +91,15 @@ Widget head({String avatar, String author, int timestamp, String mail}) {
         )
       ]
     ),
-    padding: EdgeInsets.only(
-      left: 12.0, right: 12.0, top: 12.0, bottom: 12.0
-    ),
+    padding: EdgeInsets.symmetric(
+      vertical: 6.0,
+      horizontal: 12.0
+    )
   );
 }
 
 Widget content({String title}) {
-  if (title == null) {
-    return Container();
-  }
+  if (title == null) return Container(height: 15.0);
   return Container(
     child: Column(
       children: [
@@ -115,9 +117,10 @@ Widget content({String title}) {
       ],
     ),
     alignment: Alignment.centerLeft,
-    padding: EdgeInsets.only(
-      left: 20.0, right: 20.0, top: 12.0, bottom: 20.0,
-    ),
+    padding: EdgeInsets.symmetric(
+      vertical: 10.0,
+      horizontal: 20.0
+    )
   );
 }
 

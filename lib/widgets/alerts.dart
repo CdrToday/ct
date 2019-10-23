@@ -84,3 +84,32 @@ alert(
     },
   );
 }
+
+alertInput(
+  BuildContext context, {
+    String title, Widget content, Text ok, Text cancel, VoidCallback action
+  }
+) async {
+  return showCupertinoDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return CupertinoAlertDialog(
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: cancel ?? Text('取消'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          CupertinoDialogAction(
+            child: ok ?? Text('确定'),
+            onPressed: action ?? () => Navigator.pop(context),
+          ),
+        ],
+        title: Text(title ?? ''),
+        content: Padding(
+          child: content,
+          padding: EdgeInsets.only(top: 6.0)
+        )
+      );
+    },
+  );
+}
