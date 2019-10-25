@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/x/time.dart';
 import 'package:cdr_today/x/conf.dart';
+import 'package:cdr_today/x/rng.dart';
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 
@@ -70,12 +71,12 @@ Widget head({String avatar, String author, int timestamp, String mail}) {
       children: [
         Avatar(
           url: avatar,
-          baks: [author, mail],
+          baks: [author, rngName()],
           width: 12.0
         ),
         SizedBox(width: 10.0),
         Text(
-          author,
+          author != '' ? author: rngName(),
           style: TextStyle(
             fontSize: 14.0,
             color: CtColors.primary

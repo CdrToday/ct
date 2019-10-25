@@ -28,14 +28,14 @@ class _ScanState extends State<Scan> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(
-          color: CtColors.gray6
+          color: CtColors.pure_white,
         ),
         backgroundColor: Colors.transparent,
         trailing: QrRefresher(
           widget: CtNoRipple(
             icon: Icons.photo,
             onTap: _pickImage,
-            color: CtColors.gray6
+            color: CtColors.pure_white,
           )
         ),
         border: null,

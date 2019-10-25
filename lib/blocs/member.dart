@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
+import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
@@ -16,9 +17,10 @@ Future<List<dynamic>> getMembers({String id}) async {
 
 // ------- bloc -----
 class MemberBloc extends Bloc<MemberEvent, MemberState> {
+  final UserBloc u;
   final CommunityBloc c;
   
-  MemberBloc({ this.c }) {
+  MemberBloc({ this.c, this.u }) {
     c.state.listen((state) {
         if (state is Communities) {
           if (
@@ -27,6 +29,14 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
           ) this.dispatch(FetchMember(id: state.current));
         }
     });
+
+    u.state.listen(
+      (state) {
+        if (
+          (state is UserInited) && state.local
+        ) this.dispatch(FetchMember(id: (currentState as Members).id));
+      }
+    );
   }
   
   @override
@@ -43,6 +53,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
   
   @override
   MemberState get initialState => Members(
+    id: '',
     members: [],
     refresh: 0,
   );
@@ -52,6 +63,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
     if (event is FetchMember) {
       var members = await getMembers(id: event.id);
       yield (currentState as Members).copyWith(
+        id: event.id,
         members: members,
         refresh: (currentState as Members).refresh + 1,
       );
@@ -67,15 +79,17 @@ abstract class MemberState extends Equatable {
 class Members extends MemberState {
   final List<dynamic> members;
   final int refresh;
+  final String id;
   
   Members({
-      this.members, this.refresh = 0,
-  }) : super([ members, refresh ]);
+      this.id = '', this.members, this.refresh = 0,
+  }) : super([ id, members, refresh ]);
 
   Members copyWith({
-      List<dynamic> members, int refresh,
+      List<dynamic> members, int refresh, String id,
   }) {
     return Members(
+      id: id ?? this.id,
       members: members ?? this.members,
       refresh: refresh ?? this.refresh
     );

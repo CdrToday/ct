@@ -86,7 +86,7 @@ class Avatar extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(10)),
           child: Image.network(
             conf['image'] + url,
-            fit:BoxFit.cover,
+            fit: BoxFit.cover,
           ),
         );
       }

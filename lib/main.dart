@@ -47,7 +47,7 @@ final VerifyBloc verifyBloc = VerifyBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc);
 final PostBloc postBloc = PostBloc(u: userBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
-final MemberBloc memberBloc = MemberBloc(c: communityBloc);
+final MemberBloc memberBloc = MemberBloc(c: communityBloc, u: userBloc);
 final RedditBloc redditBloc = RedditBloc(c: communityBloc);
 final RefreshBloc refreshBloc = RefreshBloc(
   p: postBloc,

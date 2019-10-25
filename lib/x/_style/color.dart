@@ -13,6 +13,7 @@ class CtColors {
   static var dark = WidgetsBinding.instance.window.platformBrightness == Brightness.dark
   ? true : false;
 
+  static get pure_white => rgb(242, 242, 247);
   static get primary => dark ? rgb(242, 242, 247) : rgb(28, 28, 30);
   static get blue => dark ? rgb(10, 232, 255) : rgb(0, 122, 255);
   static get green => dark ? rgb(48, 209, 88) : rgb(52, 199, 89);
