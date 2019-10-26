@@ -15,7 +15,7 @@ PODS:
   - MTBBarcodeScanner (5.0.11)
   - path_provider (0.0.1):
     - Flutter
-  - permission_handler (3.2.2):
+  - permission_handler (3.3.0):
     - Flutter
   - qr_code_scanner (0.0.2):
     - Flutter
@@ -86,7 +86,7 @@ SPEC CHECKSUMS:
   image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
-  permission_handler: d59f41439f5bc6c4d1005f3355e98f05ddc68ece
+  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
   qr_code_scanner: 16107718bdad7d708cdf6a5eacdca24b56cdf471
   qr_code_tools: bd0c76036813e6251a1df7d130b9c366fe961444
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523

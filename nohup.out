@@ -75,3 +75,6 @@ Your emulator is out of date, please update by launching Android Studio:
  - Click "OK"
 
 emulator: Saving state on exit with session uptime 11247235 ms
+emulator: ERROR: Unknown AVD name [avd], use -list-avds to see valid list.
+HOME is defined but there is no file avd.ini in $HOME/.android/avd
+(Note: Directories are searched in the order $ANDROID_AVD_HOME, $ANDROID_SDK_HOME/avd and $HOME/.android/avd)
