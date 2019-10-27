@@ -40,8 +40,10 @@ class ModifyArgs {
 }
 
 class NameArgs {
+  final String id;
   final String name;
-  NameArgs({ this.name });
+  final bool community;
+  NameArgs({ this.name, this.id = '', this.community = false });
 }
 
 class CustomAvatarArgs {

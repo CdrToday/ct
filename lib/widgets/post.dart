@@ -82,15 +82,20 @@ class _PostState extends State<PostList> {
           Builder(
             builder: (context) {
               // if (topHeight == null) return Container();
-              return  SingleChildScrollView(
+              double _height = MediaQuery.of(context).size.height;
+              double height = _height > 750 ? (
+                _height - kToolbarHeight * 4
+              ) : (
+                _height - kToolbarHeight * 3
+              );
+
+              return SingleChildScrollView(
                 child: Container(
                   child: widget.loading
                   ? CupertinoActivityIndicator()
                   : Text('暂无文章'),
                   alignment: Alignment.center,
-                  height: MediaQuery.of(
-                    context
-                  ).size.height - kToolbarHeight * 3,
+                  height: height,
                   padding: EdgeInsets.only(
                     bottom: 50000 / MediaQuery.of(context).size.height,
                   ),

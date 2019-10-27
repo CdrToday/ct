@@ -7,6 +7,7 @@ import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/member.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/_actions/edit.dart';
 
 class RedditPage extends StatelessWidget {
@@ -16,6 +17,10 @@ class RedditPage extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         middle: RedditRefresher(
           widget: CommunityName(qr: true)
+        ),
+        leading: CtNoRipple(
+          icon: CupertinoIcons.person,
+          onTap: () => Navigator.of(context, rootNavigator: true).pushNamed('/community/member')
         ),
         trailing: EditAction(context),
         border: null
@@ -62,7 +67,6 @@ class _RedditState extends State<Reddit> {
               }
             }
 
-            // return Container();
             return PostList(
               appBar: widget.appBar,
               title: widget.title,

@@ -98,6 +98,7 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
         profile: event.profile ?? (currentState as Refresher).profile,
       );
     }
+
     return;
   }
 }

@@ -23,7 +23,7 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
         }
     });
   }
-  
+
   @override
   Stream<CommunityState> transform(
     Stream<CommunityEvent> events,
@@ -54,7 +54,14 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
     } else if (event is ChangeCurrentCommunity) {
       yield (currentState as Communities).copyWith(
         current: event.id,
-        refresh: (currentState as Communities).refresh + 1,
+        refresh: -1,
+      );
+      yield (currentState as Communities).copyWith(refresh: 0);
+    } else if (event is RefreshCommunities) {
+      var communities = await getCommunities();
+      yield (currentState as Communities).copyWith(
+        communities: communities,
+        refresh: (currentState as Communities).refresh + 1
       );
     }
   }
@@ -96,6 +103,11 @@ class FetchCommunities extends CommunityEvent {
 class UpdateCommunities extends CommunityEvent {
   @override
   toString() => "UpdateCommunities";
+}
+
+class RefreshCommunities extends CommunityEvent {
+  @override
+  toString() => "RefreshCommunities";
 }
 
 class ChangeCurrentCommunity extends CommunityEvent {

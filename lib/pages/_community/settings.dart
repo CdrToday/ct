@@ -9,6 +9,8 @@ import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/x/_style/color.dart';
+import 'package:cdr_today/x/store.dart';
+import 'package:cdr_today/navigations/args.dart';
 
 // members' view
 class Settings extends StatelessWidget {
@@ -27,7 +29,7 @@ class Settings extends StatelessWidget {
             for (var i in cs) {
               if (i['id'] == state.current) community = i;
             }
-            
+
             return Column(
               children: [
                 SizedBox(
@@ -64,10 +66,23 @@ class Settings extends StatelessWidget {
                         community['name'],
                         style: TextStyle(color: CtColors.primary)
                       ),
+                      onTap: () async {
+                        var mail = await getString('mail');
+                        if (mail == community['owner']) {
+                          Navigator.of(context).pushNamed(
+                            '/mine/profile/name',
+                            arguments: NameArgs(
+                              name: community['name'],
+                              community: true,
+                              id: community['id'],
+                            )
+                          );
+                        }
+                      }
                     ),
                     color: CtColors.gray6,
                     elevation: 0.0,
-                    shape: BeveledRectangleBorder()
+                    shape: BeveledRectangleBorder(),
                   ),
                 ),
                 Spacer(),

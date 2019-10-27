@@ -16,7 +16,7 @@ class CtNoRipple extends StatelessWidget {
       child: GestureDetector(
         child: Icon(
           icon,
-          size: size ?? 22.0,
+          size: size ?? 26.0,
           color: color ?? CtColors.primary
         ),
         onTap: onTap

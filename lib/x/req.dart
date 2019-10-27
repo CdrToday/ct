@@ -27,25 +27,25 @@ class Requests {
   // methods
   Future<http.Response> rGet(String url) {
     return http.get("$base$url", headers: headers).timeout(
-      Duration(seconds: 10), onTimeout: () => timeout,
+      Duration(seconds: 5), onTimeout: () => timeout,
     );
   }
 
   Future<http.Response> rPut(String url, {Map body}) {
     return http.put("$base$url", headers: headers, body: json.encode(body)).timeout(
-      Duration(seconds: 10), onTimeout: () => timeout,
+      Duration(seconds: 5), onTimeout: () => timeout,
     );
   }
   
   Future<http.Response> rPost(String url, {Map body}) {
     return http.post("$base$url", headers: headers, body: json.encode(body)).timeout(
-      Duration(seconds: 10), onTimeout: () => timeout,
+      Duration(seconds: 5), onTimeout: () => timeout,
     );
   }
 
   Future<http.Response> rDelete(String url) {
     return http.delete("$base$url", headers: headers).timeout(
-      Duration(seconds: 10), onTimeout: () => timeout,
+      Duration(seconds: 5), onTimeout: () => timeout,
     );
   }
 
@@ -134,6 +134,15 @@ class Requests {
       'id': id,
     };
     return await rPost("/u/$mail/c/join", body: body);
+  }
+
+  //@updateCommunityName: PUT '/u/{mail:string}/c/name'
+  Future<http.Response> updateCommunityName({String name, String id}) async {
+    final Map body = {
+      'name': name,
+      'id': id
+    };
+    return await rPut("/u/$mail/c/name", body: body);
   }
 
   /// --- author ----

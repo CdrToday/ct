@@ -21,7 +21,11 @@ class Editor extends StatelessWidget {
   Widget build(BuildContext context) {
     return ZefyrScaffold(
       child: ZefyrEditor(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: EdgeInsets.only(
+          left: 24.0,
+          right: 24.0,
+          bottom: 50.0
+        ),
         controller: controller,
         focusNode: focusNode,
         mode: edit? ZefyrMode.edit : ZefyrMode.view,

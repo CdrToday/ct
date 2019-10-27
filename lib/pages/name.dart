@@ -44,7 +44,9 @@ class _NameState extends State<Name> {
         trailing: ProfileRefresher(
           widget: UpdateName(
             name: _value,
-            enabled: !(widget.args.name == _value)
+            enabled: !(widget.args.name == _value),
+            community: widget.args.community,
+            id: widget.args.id
           ),
         ),
         border: null,

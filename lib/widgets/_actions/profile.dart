@@ -3,22 +3,22 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/refresh.dart';
+import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdateName extends StatelessWidget {
+  final String id;
   final String name;
   final bool enabled;
-  UpdateName({ this.name, this.enabled });
-
-  static List<Widget> asList({String name}) {
-    return [UpdateName(name: name)];
-  }
+  final bool community;
+  UpdateName({ this.name, this.enabled, this.community = false, this.id = '' });
   
   @override
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final UserBloc _ubloc = BlocProvider.of<UserBloc>(context);
+    final CommunityBloc _cbloc = BlocProvider.of<CommunityBloc>(context);
     return CtNoRipple(
       icon: enabled ? Icons.check : null,
       onTap: () async {
@@ -31,7 +31,10 @@ class UpdateName extends StatelessWidget {
         }
 
         _bloc.dispatch(Refresh(profile: true));
-        var res = await r.updateName(name: name);
+        var res = community
+        ? await r.updateCommunityName(name: name, id: id)
+        : await r.updateName(name: name);
+        
         if (res.statusCode != 200) {
           info(context, '更新失败，请重试');
           _bloc.dispatch(Refresh(profile: false));
@@ -39,7 +42,11 @@ class UpdateName extends StatelessWidget {
         }
 
         _bloc.dispatch(Refresh(profile: false));
-        _ubloc.dispatch(InitUserEvent(name: name, local: true));
+        if (community) {
+          _cbloc.dispatch(RefreshCommunities());
+        } else {
+          _ubloc.dispatch(InitUserEvent(name: name, local: true));
+        }
         Navigator.pop(context);
       },
     );
