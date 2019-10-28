@@ -6,14 +6,6 @@ import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
-Future<List<dynamic>> getPosts({int page}) async {
-  final xReq.Requests r = await xReq.Requests.init();
-  var res = await r.getPost(page: page);
-
-  if (res.statusCode != 200) return getPosts(page: page);
-  return json.decode(res.body)['posts'];
-}
-
 class PostBloc extends Bloc<PostEvent, PostState> {
   final UserBloc u;
   
@@ -47,6 +39,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
+    final xReq.Requests r = await xReq.Requests.init();
+    
     if (event is FetchPosts) {
       // refresh posts
       int _currentPage = 0;
@@ -62,7 +56,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
       
       // get posts
-      var posts = await getPosts(page: _currentPage);
+      var res = await r.getPost(page: _currentPage);
+      List<dynamic> posts = res.statusCode == 200 ? json.decode(res.body)['posts'] : [];
       yield Posts(
         page: _currentPage,
         posts: _posts + posts,

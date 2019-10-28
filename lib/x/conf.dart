@@ -5,6 +5,6 @@ Map<String, dynamic> conf = {
   // 'base': 'http://192.168.31.102:6000/api/v0',
   // 'base': 'http://127.0.0.1:6000/api/v0',
   'image': 'https://ct-1253442844.cos.ap-shanghai.myqcloud.com/images/',
-  'name': '兰亭',
-  'version': '0.3.1'
+  'name': 'Ct',
+  'version': '0.3.2'
 };

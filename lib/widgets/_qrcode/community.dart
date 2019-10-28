@@ -10,6 +10,7 @@ import 'package:cdr_today/navigations/args.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:cdr_today/x/permission.dart' as pms;
 
 class Community extends StatelessWidget {
   final QrCodeArgs args;
@@ -46,9 +47,9 @@ class Community extends StatelessWidget {
           ],
           mainAxisAlignment: MainAxisAlignment.spaceAround
         ),
-        width: MediaQuery.of(context).size.width - 80.0,
-        height: MediaQuery.of(context).size.height * 3 / 5,
-        padding: EdgeInsets.all(20.0),
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.width / 2 + 2 * kToolbarHeight,
+        margin: EdgeInsets.all(30.0),
       ),
     );
   }
@@ -66,6 +67,7 @@ class Community extends StatelessWidget {
               CupertinoActionSheetAction(
                 child: Text('分享'),
                 onPressed: () async {
+                  if (await pms.checkPhotos(context) == false) return;
                   Navigator.pop(context);
                   File image = await controller.capture(pixelRatio: 1.5);
                   String name = DateTime.now().toString();

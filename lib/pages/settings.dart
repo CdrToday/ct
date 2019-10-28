@@ -45,6 +45,17 @@ class Settings extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, '/mine/version')
           ),
           BasicTile(
+            text: '检查更新',
+            onTap: () async {
+              var url = 'https://cdr-today.github.io/x/download';
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                throw 'Could not launch $url';
+              }
+            }
+          ),
+          BasicTile(
             text: '退出登录',
             onTap: () {
               final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
