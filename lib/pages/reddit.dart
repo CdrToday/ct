@@ -60,10 +60,16 @@ class _RedditState extends State<Reddit> {
             for (var r in reddits) {
               for (var m in members) {
                 if (m['mail'] == r['author']) {
-                  r['author'] = m['name'];
+                  r['author'] = m['name'] == '' ? '' : m['name'];
                   r.putIfAbsent('mail', () => m['mail']);
                   r.putIfAbsent('avatar', () => m['avatar']);
                 }
+              }
+
+              if (
+                RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(r['author'])
+              ) {
+                r['author'] = '';
               }
             }
 

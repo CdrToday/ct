@@ -6,10 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/main.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/user.dart';
-import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/member.dart';
-import 'package:cdr_today/blocs/drawer.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
 // pages
@@ -24,7 +22,6 @@ import 'package:cdr_today/pages/avatar.dart';
 import 'package:cdr_today/pages/bucket.dart';
 import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
-import 'package:cdr_today/pages/raise.dart';
 import 'package:cdr_today/pages/member.dart';
 import 'package:cdr_today/pages/settings.dart';
 import 'package:cdr_today/pages/qrcode.dart' as qr;
@@ -45,12 +42,10 @@ void main() async {
 
 final VerifyBloc verifyBloc = VerifyBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc);
-final PostBloc postBloc = PostBloc(u: userBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
 final MemberBloc memberBloc = MemberBloc(c: communityBloc, u: userBloc);
 final RedditBloc redditBloc = RedditBloc(c: communityBloc);
 final RefreshBloc refreshBloc = RefreshBloc(
-  p: postBloc,
   c: communityBloc,
   r: redditBloc,
 );
@@ -71,9 +66,6 @@ class _AppState extends State<App> {
         BlocProvider<ThemeBloc>(
           builder: (context) => ThemeBloc()
         ),
-        BlocProvider<PostBloc>(
-          builder: (context) => postBloc
-        ),
         BlocProvider<RedditBloc>(
           builder: (context) => redditBloc
         ),
@@ -92,9 +84,6 @@ class _AppState extends State<App> {
         BlocProvider<UserBloc>(
           builder: (context) => userBloc,
         ),
-        BlocProvider<DrawerBloc>(
-          builder: (context) => DrawerBloc(c: communityBloc),
-        ),
       ],
       child: CupertinoApp(
         initialRoute: '/',
@@ -111,7 +100,6 @@ class _AppState extends State<App> {
     );
   }
 }
-
 
 /* app router */
 Route router(settings) {
@@ -138,34 +126,32 @@ Route router(settings) {
     return FadeRoute(page: qr.QrCode(args: args));
   } else if (r == '/qrcode/join') {
     final QrCodeArgs args = settings.arguments;
-    return FadeRoute(page: qr.Join(args: args));
+    return SlideRoute(page: qr.Join(args: args));
   } else if (r == '/community/member') {
-    return FadeRoute(page: MemberPage());
-  } else if (r == '/community/raise') {
-    return FadeRoute(page: Raise());
+    return SlideRoute(page: MemberPage());
   } else if (r == '/community/create') {
-    return FadeRoute(page: community.Create());
+    return SlideRoute(page: community.Create());
   } else if (r == '/community/settings') {
-    return FadeRoute(page: community.Settings());
+    return SlideRoute(page: community.Settings());
   } else if (r == '/user/verify') {
-    return FadeRoute(page: Verify());
+    return SlideRoute(page: Verify());
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
-    return FadeRoute(page: Edit(args: args));
+    return SlideRoute(page: Edit(args: args));
   } else if (r == '/mine/settings') {
-    return FadeRoute(page: Settings());
+    return SlideRoute(page: Settings());
   } else if (r == '/mine/bucket') {
-    return FadeRoute(page: Bucket());
+    return SlideRoute(page: Bucket());
   } else if (r == '/mine/version') {
-    return FadeRoute(page: VersionPage());
+    return SlideRoute(page: VersionPage());
   } else if (r == '/mine/profile') {
     final ProfileArgs args = settings.arguments;
-    return FadeRoute(page: Profile(args: args));
+    return SlideRoute(page: Profile(args: args));
   } else if (r == '/mine/profile/avatar') {
-    return FadeRoute(page: Avatar());
+    return SlideRoute(page: Avatar());
   } else if (r == '/mine/profile/name') {
     final NameArgs args = settings.arguments;
-    return FadeRoute(page: Name(args: args));
+    return SlideRoute(page: Name(args: args));
   }
   
   return FadeRoute(page: VersionPage());

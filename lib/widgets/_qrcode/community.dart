@@ -24,6 +24,8 @@ class Community extends StatelessWidget {
     };
 
     final String code = jsonEncode(_args);
+    final double _width = MediaQuery.of(context).size.width;
+    final double _cw = _width > 375 ? _width / 2 : _width * 2 / 3;
     
     return Card(
       child: Container(
@@ -47,8 +49,8 @@ class Community extends StatelessWidget {
           ],
           mainAxisAlignment: MainAxisAlignment.spaceAround
         ),
-        width: MediaQuery.of(context).size.width / 2,
-        height: MediaQuery.of(context).size.width / 2 + 2 * kToolbarHeight,
+        width: _cw,
+        height: _cw + 2 * kToolbarHeight,
         margin: EdgeInsets.all(30.0),
       ),
     );

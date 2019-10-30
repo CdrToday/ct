@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/refresh.dart';
-import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/alerts.dart';
@@ -66,14 +65,6 @@ class EditActionsProvider {
     zefyrController: zefyrController,
     screenshotController: screenshotController,
   );
-
-
-  Widget get post => Post(
-    update: update,
-    args: args,
-    toPreview: toPreview,
-    zefyrController: zefyrController,
-  );
   
   Widget get cancel => CtNoRipple(
     icon: Icons.highlight_off,
@@ -92,7 +83,6 @@ class Post extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
-    final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
     
     return Builder(
       builder: (context) => CtNoRipple(
@@ -132,14 +122,8 @@ class Post extends StatelessWidget {
           }
 
           info(context, '更新成功');
-
-          if (args.community != null) {
-            _bloc.dispatch(RedditRefresh(refresh: true));
-            _rbloc.dispatch(FetchReddits(refresh: true));
-          } else {
-            _bloc.dispatch(PostRefresh(refresh: true));
-            _pbloc.dispatch(FetchPosts(refresh: true));
-          }
+          _bloc.dispatch(RedditRefresh(refresh: true));
+          _rbloc.dispatch(FetchReddits(refresh: true));
           
           if (toPreview != null) toPreview();
         }
@@ -203,7 +187,6 @@ class Publish extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
-    final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
 
     post() async {
       final xReq.Requests r = await xReq.Requests.init();
@@ -218,45 +201,26 @@ class Publish extends StatelessWidget {
       _bloc.dispatch(Refresh(edit: true));
       /////
       
-      var res;
-      if (args.community != null){
-        res = await r.newReddit(
-          document: json,
-          type: args.type,
-          community: args.community,
-        );
-      } else {
-        res = await r.newPost(document: json);
-      }
+      var res = await r.newReddit(
+        document: json,
+        type: args.type,
+        community: args.community,
+      );
 
       if (res.statusCode != 200) {
         info(context, '发布失败，请重试');
         return;
       }
 
-      if (args.community != null) {
-        _bloc.dispatch(RedditRefresh(refresh: true));
-        _rbloc.dispatch(FetchReddits(refresh: true));
-      } else {
-        _bloc.dispatch(PostRefresh(refresh: true));
-        _pbloc.dispatch(FetchPosts(refresh: true));
-      }
+      _bloc.dispatch(RedditRefresh(refresh: true));
+      _rbloc.dispatch(FetchReddits(refresh: true));
 
-      Navigator.maybePop(context);
       Navigator.maybePop(context);
     }
 
-    alertPost(BuildContext ctx) {
-      alert(
-        context,
-        title: '发布文章?',
-        action: post,
-      );
-    } 
-    
     return CtNoRipple(
       icon: Icons.check,
-      onTap: () => alertPost(context)
+      onTap: post
     );
   }
 }
@@ -279,7 +243,6 @@ class EditActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
-    final PostBloc _pbloc = BlocProvider.of<PostBloc>(context);
 
     post() async {
       final xReq.Requests r = await xReq.Requests.init();
@@ -291,32 +254,36 @@ class EditActions extends StatelessWidget {
         return;
       }
 
-      ///// refresh actions
       _bloc.dispatch(Refresh(edit: true));
-      /////
-      
-      var res;
-      if (args.community != null){
-        res = await r.newReddit(
+      var res = await r.newReddit(
           document: json,
           type: args.type,
           community: args.community,
         );
-      } else {
-        res = await r.newPost(document: json);
-      }
 
       if (res.statusCode != 200) {
         info(context, '发布失败，请重试');
         return;
       }
 
-      if (args.community != null) {
+      _bloc.dispatch(RedditRefresh(refresh: true));
+      _rbloc.dispatch(FetchReddits(refresh: true));
+
+      Navigator.maybePop(context);
+      Navigator.maybePop(context);
+    }
+
+    toTop() async {
+      final xReq.Requests r = await xReq.Requests.init();
+      _bloc.dispatch(Refresh(edit: true));
+
+      var res = await r.updateRedditTime(id: args.id);
+      if (res.statusCode == 200) {
         _bloc.dispatch(RedditRefresh(refresh: true));
         _rbloc.dispatch(FetchReddits(refresh: true));
       } else {
-        _bloc.dispatch(PostRefresh(refresh: true));
-        _pbloc.dispatch(FetchPosts(refresh: true));
+        info(context, '置顶失败，请重试');
+        return;
       }
 
       Navigator.maybePop(context);
@@ -327,21 +294,11 @@ class EditActions extends StatelessWidget {
       final xReq.Requests r = await xReq.Requests.init();
       _bloc.dispatch(Refresh(edit: true));
 
-      var res;
-      if (args.community != null) {
-        res = await r.deleteReddit(id: args.id);
-      } else {
-        res = await r.deletePost(id: args.id);
-      }
+      var res = await r.deleteReddit(id: args.id);
 
       if (res.statusCode == 200) {
-        if (args.community != null) {
-          _bloc.dispatch(RedditRefresh(refresh: true));
-          _rbloc.dispatch(FetchReddits(refresh: true));
-        } else {
-          _bloc.dispatch(PostRefresh(refresh: true));
-          _pbloc.dispatch(FetchPosts(refresh: true));
-        }
+        _bloc.dispatch(RedditRefresh(refresh: true));
+        _rbloc.dispatch(FetchReddits(refresh: true));
       } else {
         info(context, '删除失败，请重试');
         return;
@@ -388,6 +345,10 @@ class EditActions extends StatelessWidget {
               //   child: Text('分享'),
               //   onPressed: share,
               // ),
+              CupertinoActionSheetAction(
+                child: Text('置顶'),
+                onPressed: toTop,
+              ),
               CupertinoActionSheetAction(
                 child: Text('编辑'),
                 onPressed: toEdit,

@@ -97,6 +97,13 @@ class Requests {
     return await rPut("/u/$mail/r/$id", body: body);
   }
 
+  //@updatePost: POST '/u/:mail/r/:id/time'
+  Future<http.Response> updateRedditTime({
+      String id
+  }) async {
+    return await rPost("/u/$mail/r/$id/time");
+  }
+
   //@deletePost: DELETE '/u/:mail/p/delete'
   Future<http.Response> deleteReddit({ String id }) async {
     return await rDelete("/u/$mail/r/$id");

@@ -4,6 +4,7 @@ import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/x/rng.dart';
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/widgets/avatar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class WeChat extends StatelessWidget {
   final String cover;
@@ -38,15 +39,15 @@ class WeChat extends StatelessWidget {
                 author: author,
                 timestamp: timestamp
               ),
-              cover != null ? Center(
-                child: Image.network(
-                  conf['image'] + cover,
-                  height: 180.0,
-                  fit: BoxFit.fitWidth,
-                  width: double.infinity,
-                )
-              ): SizedBox.shrink(),
-              content(title: title),
+              // cover != null ? Center(
+              //   child: Image.network(
+              //     conf['image'] + cover,
+              //     height: 180.0,
+              //     fit: BoxFit.fitWidth,
+              //     width: double.infinity,
+              //   )
+              // ): SizedBox.shrink(),
+              content(context, title: title == null? '一张图片' : title),
             ]
           ),
           elevation: 0.2,
@@ -99,21 +100,24 @@ Widget head({String avatar, String author, int timestamp, String mail}) {
   );
 }
 
-Widget content({String title}) {
+Widget content(BuildContext context, {String title}) {
   if (title == null) return Container(height: 15.0);
   return Container(
     child: Column(
       children: [
         Container(
-          child: Text(
+          child: AutoSizeText(
             title,
             style: TextStyle(
               fontSize: 16.0,
               color: CtColors.primary
             ),
             textAlign: TextAlign.left,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis
           ),
-          alignment: Alignment.centerLeft
+          alignment: Alignment.centerLeft,
+          width: MediaQuery.of(context).size.width - 60,
         ),
       ],
     ),

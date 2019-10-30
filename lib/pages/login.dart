@@ -39,7 +39,6 @@ class _LoginState extends State<Login> {
 
 sendCode(BuildContext context, String _email) {
   final VerifyBloc _bloc = BlocProvider.of<VerifyBloc>(context);
-  
   return Builder(
     builder: (context) => Container(
       child: BlocListener<VerifyBloc, VerifyState>(

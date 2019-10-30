@@ -2,23 +2,14 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
-import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
 
 class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
-  final PostBloc p;
   final RedditBloc r;
   final CommunityBloc c;
   
-  RefreshBloc({ this.p, this.c, this.r }) {
-    p.state.listen((state) {
-        if (state is Posts) {
-          if (state.refresh == 0) return;
-          this.dispatch(PostRefresh(refresh: false));
-        }
-    });
-    
+  RefreshBloc({ this.c, this.r }) {
     c.state.listen((state) {
         if (state is Communities) {
           if (state.refresh == 0) return;

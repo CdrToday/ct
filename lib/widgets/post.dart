@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
@@ -35,7 +34,6 @@ class PostList extends StatefulWidget {
 
 class _PostState extends State<PostList> {
   bool _scrollLock = false;
-  PostBloc _postBloc;
   RedditBloc _redditBloc;
   RefreshBloc _refreshBloc;
   double _scrollThreshold = 200.0;
@@ -58,7 +56,6 @@ class _PostState extends State<PostList> {
     _scrollController.addListener(_onScroll);
     _lsc = ScrollController();
     _lsc.addListener(_onScroll);
-    _postBloc = BlocProvider.of<PostBloc>(context);
     _redditBloc = BlocProvider.of<RedditBloc>(context);
     _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }
@@ -175,13 +172,8 @@ class _PostState extends State<PostList> {
       Duration(milliseconds: 1000)
     ).listen((b) {
         // dispatch events
-        if (widget.community) {
-          _refreshBloc.dispatch(RedditRefresh());
-          _redditBloc.dispatch(FetchReddits(refresh: b));
-        } else {
-          _refreshBloc.dispatch(PostRefresh());
-          _postBloc.dispatch(FetchPosts(refresh: b));
-        }
+        _refreshBloc.dispatch(RedditRefresh());
+        _redditBloc.dispatch(FetchReddits(refresh: b));
         
         Observable.timer(
           b, new Duration(milliseconds: 1000)
