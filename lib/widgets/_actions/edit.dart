@@ -106,11 +106,7 @@ class Post extends StatelessWidget {
           _bloc.dispatch(Refresh(edit: true));
           /////
           var res;
-          if (args.community != null) {
-            res = await r.updateReddit(document: json, id: args.id);
-          } else {
-            res = await r.updatePost(document: json, id: args.id);
-          }
+          res = await r.updateReddit(document: json, id: args.id);
           
           ///// stop refreshing actions
           _bloc.dispatch(Refresh(edit: false));
@@ -121,7 +117,7 @@ class Post extends StatelessWidget {
             return;
           }
 
-          info(context, '更新成功');
+          // info(context, '更新成功');
           _bloc.dispatch(RedditRefresh(refresh: true));
           _rbloc.dispatch(FetchReddits(refresh: true));
           
