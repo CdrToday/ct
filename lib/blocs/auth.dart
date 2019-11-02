@@ -44,6 +44,7 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
         return;
       }
       yield CodeSentFailed();
+      return;
     } else if (event is VerifyCodeEvent) {
       String mail;
       if (currentState is CodeSentSucceed) {

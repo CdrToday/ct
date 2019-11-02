@@ -128,7 +128,7 @@ Route router(settings) {
     final QrCodeArgs args = settings.arguments;
     return SlideRoute(page: qr.Join(args: args));
   } else if (r == '/community/member') {
-    return SlideRoute(page: MemberPage(), start: Offset(0, 1));
+    return FadeRoute(page: MemberPage());
   } else if (r == '/community/create') {
     return SlideRoute(page: community.Create());
   } else if (r == '/community/settings') {
@@ -139,7 +139,7 @@ Route router(settings) {
     final ArticleArgs args = settings.arguments;
     return SlideRoute(page: Edit(args: args));
   } else if (r == '/mine/settings') {
-    return SlideRoute(page: Settings());
+    return FadeRoute(page: Settings());
   } else if (r == '/mine/bucket') {
     return SlideRoute(page: Bucket());
   } else if (r == '/mine/version') {
