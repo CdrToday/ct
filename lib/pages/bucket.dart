@@ -10,7 +10,6 @@ import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
-
 class Bucket extends StatefulWidget {
   _BucketState createState() => _BucketState();
 }
@@ -41,6 +40,7 @@ class _BucketState extends State<Bucket> {
       ),
       child: Column(
         children: [
+          SizedBox(height: MediaQuery.of(context).size.height / 24),
           ProfileCard(),
           SizedBox(
             height: MediaQuery.of(context).size.height / 12

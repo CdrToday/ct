@@ -30,5 +30,6 @@ class CtColors {
   static get gray4 => dark ? rgb(58, 58, 60) : rgb(209, 209, 214);
   static get gray5 => dark ? rgb(44, 44, 46) : rgb(229, 229, 234);
   static get gray6 => dark ? rgb(28, 28, 30) : rgb(242, 242, 247);
+  static get gray7 => dark ? rgb(14, 14, 15) : rgb(249, 249, 250);
   static get tp => dark ? rgb(44, 44, 46, o: 0.1) : rgb(229, 229, 234, o: 0.1);
 }

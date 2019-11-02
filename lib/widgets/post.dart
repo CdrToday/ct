@@ -110,6 +110,7 @@ class _PostState extends State<PostList> {
       slivers: <Widget>[
         widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
         widget.title ?? SliverPadding(padding: EdgeInsets.all(0)),
+        SliverPadding(padding: EdgeInsets.all(3.0)),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {

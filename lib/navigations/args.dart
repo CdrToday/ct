@@ -42,8 +42,9 @@ class ModifyArgs {
 class NameArgs {
   final String id;
   final String name;
-  final bool community;
-  NameArgs({ this.name, this.id = '', this.community = false });
+  final String profile;
+  final String idTarget;
+  NameArgs({ this.name, this.id = '', this.profile = 'name', this.idTarget });
 }
 
 class CustomAvatarArgs {

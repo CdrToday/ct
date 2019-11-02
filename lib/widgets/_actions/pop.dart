@@ -42,11 +42,15 @@ class  _CommunityPopMenuState extends State<CommunityPopMenu> {
             alertInput(
               context,
               title: '加入社区',
-              content: CupertinoTextField(
-                autofocus: true,
-                onChanged: changeValue,
-                style: TextStyle(fontSize: 16.0),
-                decoration: BoxDecoration(border: null),
+              content: Container(
+                child: CupertinoTextField(
+                  autofocus: true,
+                  onChanged: changeValue,
+                  style: TextStyle(fontSize: 16.0),
+                  decoration: BoxDecoration(border: null),
+                ),
+                color: CtColors.gray7,
+                margin: EdgeInsets.only(top: 8.0),
               ),
               ok: Text('加入'),
               action: () async {

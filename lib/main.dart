@@ -128,7 +128,7 @@ Route router(settings) {
     final QrCodeArgs args = settings.arguments;
     return SlideRoute(page: qr.Join(args: args));
   } else if (r == '/community/member') {
-    return SlideRoute(page: MemberPage());
+    return SlideRoute(page: MemberPage(), start: Offset(0, 1));
   } else if (r == '/community/create') {
     return SlideRoute(page: community.Create());
   } else if (r == '/community/settings') {
@@ -148,7 +148,7 @@ Route router(settings) {
     final ProfileArgs args = settings.arguments;
     return SlideRoute(page: Profile(args: args));
   } else if (r == '/mine/profile/avatar') {
-    return SlideRoute(page: Avatar());
+    return FadeRoute(page: Avatar());
   } else if (r == '/mine/profile/name') {
     final NameArgs args = settings.arguments;
     return SlideRoute(page: Name(args: args));

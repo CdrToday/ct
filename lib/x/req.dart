@@ -152,6 +152,15 @@ class Requests {
     return await rPut("/u/$mail/c/name", body: body);
   }
 
+  //@updateCommunityId: PUT '/u/{mail:string}/c/id'
+  // Future<http.Response> updateCommunityId({String idTarget, String id}) async {
+  //   final Map body = {
+  //     'id': id,
+  //     'idTarget': idTarget
+  //   };
+  //   return await rPut("/u/$mail/c/id", body: body);
+  // }
+
   /// --- author ----
   //@getPosts: GET '/a/{mail:string}/post'
   Future<http.Response> getAuthorPost({int page, String mail}) async {

@@ -7,12 +7,12 @@ import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UpdateName extends StatelessWidget {
+class UpdateProfile extends StatelessWidget {
   final String id;
-  final String name;
+  final String input;
+  final String profile;
   final bool enabled;
-  final bool community;
-  UpdateName({ this.name, this.enabled, this.community = false, this.id = '' });
+  UpdateProfile({ this.input, this.enabled, this.profile = 'name', this.id = '' });
   
   @override
   Widget build(BuildContext context) {
@@ -24,16 +24,26 @@ class UpdateName extends StatelessWidget {
       onTap: () async {
         if (!enabled) return;
         final xReq.Requests r = await xReq.Requests.init();
-        bool valid = RegExp(r"^\S[\S\s]{1,11}$").hasMatch(name);
+        bool valid = RegExp(r"^\S[\S\s]{1,11}$").hasMatch(input);
         if (!valid) {
-          info(context, '用户名不能为空、或以空格开头, 长度应小于 12。');
+          info(
+            context, profile == 'id'
+            ? 'id 不能为空、或以空格开头, 长度应小于 12。'
+            : '名字不能为空、或以空格开头, 长度应小于 12。'
+          );
           return;
         }
 
         _bloc.dispatch(Refresh(profile: true));
-        var res = community
-        ? await r.updateCommunityName(name: name, id: id)
-        : await r.updateName(name: name);
+
+        var res;
+        if (profile == 'name') {
+          res = await r.updateName(name: input);
+        } else if (profile == 'community') {
+          res = await r.updateCommunityName(name: input, id: id);
+        } else {
+          // res = await r.updateCommunityId(idTarget: input, id: id);
+        }
         
         if (res.statusCode != 200) {
           info(context, '更新失败，请重试');
@@ -42,10 +52,10 @@ class UpdateName extends StatelessWidget {
         }
 
         _bloc.dispatch(Refresh(profile: false));
-        if (community) {
-          _cbloc.dispatch(RefreshCommunities());
+        if (profile == 'name') {
+          _ubloc.dispatch(InitUserEvent(name: input, local: true));
         } else {
-          _ubloc.dispatch(InitUserEvent(name: name, local: true));
+          _cbloc.dispatch(RefreshCommunities());
         }
         Navigator.pop(context);
       },

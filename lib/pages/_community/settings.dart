@@ -32,29 +32,38 @@ class Settings extends StatelessWidget {
 
             return Column(
               children: [
-                SizedBox(
-                  height: 8.0
-                ),
+                SizedBox(height: 8.0),
                 Container(
                   child: Card(
                     child: ListTile(
                       title: Text(
-                        '编号',
+                        'id',
                         style: TextStyle(color: CtColors.primary)
                       ),
                       trailing: Text(
                         community['id'],
                         style: TextStyle(color: CtColors.primary)
                       ),
+                      // onTap: () async {
+                      //   var mail = await getString('mail');
+                      //   if (mail == community['owner']) {
+                      //     Navigator.of(context).pushNamed(
+                      //       '/mine/profile/name',
+                      //       arguments: NameArgs(
+                      //         name: community['id'],
+                      //         profile: 'id',
+                      //         id: community['id'],
+                      //       )
+                      //     );
+                      //   }
+                      // }
                     ),
                     color: CtColors.gray6,
                     elevation: 0.0,
                     shape: BeveledRectangleBorder()
                   ),
                 ),
-                SizedBox(
-                  height: 8.0
-                ),
+                SizedBox(height: 8.0),
                 Container(
                   child: Card(
                     child: ListTile(
@@ -73,7 +82,7 @@ class Settings extends StatelessWidget {
                             '/mine/profile/name',
                             arguments: NameArgs(
                               name: community['name'],
-                              community: true,
+                              profile: 'community',
                               id: community['id'],
                             )
                           );

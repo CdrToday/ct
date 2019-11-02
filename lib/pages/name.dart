@@ -42,10 +42,10 @@ class _NameState extends State<Name> {
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
         trailing: ProfileRefresher(
-          widget: UpdateName(
-            name: _value,
+          widget: UpdateProfile(
+            input: _value,
             enabled: !(widget.args.name == _value),
-            community: widget.args.community,
+            profile: widget.args.profile,
             id: widget.args.id
           ),
         ),
@@ -55,7 +55,7 @@ class _NameState extends State<Name> {
         onChanged: changeValue,
         controller: _controller,
         center: false,
-        helper: '请输入要修改的名字'
+        helper: widget.args.profile == 'id' ? '请输入要修改的 id' : '请输入要修改的名字'
       ),
     );
   }
