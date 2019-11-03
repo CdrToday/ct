@@ -11,7 +11,7 @@ import 'package:cdr_today/x/req.dart' as xReq;
 Future<Map<String, String>> checkUser({String mail, String code}) async {
   final xReq.Requests r = await xReq.Requests.init();
   var res = await r.authVerify(mail: mail, code: code);
-  if (res.statusCode == 400) return { "err": "400" };
+  // if (res.statusCode == 400) return { "err": "400" };
   if (res.statusCode == 408) return checkUser(mail: mail, code: code);
 
   var data = json.decode(res.body)['data'];

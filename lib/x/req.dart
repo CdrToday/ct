@@ -28,25 +28,25 @@ class Requests {
   Future<http.Response> rGet(String url) {
     return http.get("$base$url", headers: headers).timeout(
       Duration(seconds: 5), onTimeout: () => timeout,
-    ).catchError(() => timeout);
+    ).catchError((e) => timeout);
   }
 
   Future<http.Response> rPut(String url, {Map body}) {
     return http.put("$base$url", headers: headers, body: json.encode(body)).timeout(
       Duration(seconds: 5), onTimeout: () => timeout,
-    ).catchError(() => timeout);
+    ).catchError((e) => timeout);
   }
   
   Future<http.Response> rPost(String url, {Map body}) {
     return http.post("$base$url", headers: headers, body: json.encode(body)).timeout(
       Duration(seconds: 5), onTimeout: () => timeout,
-    ).catchError(() => timeout);
+    ).catchError((e) => timeout);
   }
 
   Future<http.Response> rDelete(String url) {
     return http.delete("$base$url", headers: headers).timeout(
       Duration(seconds: 5), onTimeout: () => timeout,
-    ).catchError(() => timeout);
+    ).catchError((e) => timeout);
   }
 
   /* routes */
