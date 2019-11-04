@@ -54,7 +54,7 @@ class Join extends StatelessWidget {
       child: Center(
         child: Container(
           child: AutoSizeText(
-            '加入 ${args.name} ?',
+            '加入 "${args.name}" ?',
             textAlign: TextAlign.center,
             maxLines: 1,
             style: TextStyle(

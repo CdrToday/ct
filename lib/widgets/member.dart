@@ -77,7 +77,7 @@ class CommunityMember extends StatelessWidget {
             );
           }
         ),
-        SliverPadding(padding: EdgeInsets.all(20.0))
+        SliverPadding(padding: EdgeInsets.all(8.0))
       ]
     );
   }

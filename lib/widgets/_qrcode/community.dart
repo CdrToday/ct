@@ -33,9 +33,14 @@ class Community extends StatelessWidget {
           children: [
             Row(
               children: [
-                AvatarHero(self: true, rect: true, tag: 'no-tag'),
+                AvatarHero(
+                  self: true,
+                  rect: true,
+                  tag: 'no-tag',
+                  width: _width / 20,
+                ),
                 SizedBox(width: 10.0),
-                Name(self: true),
+                Name(self: true, size: _width / 25),
               ]
             ),
             QrImage(
@@ -43,15 +48,15 @@ class Community extends StatelessWidget {
               version: QrVersions.auto,
             ),
             AutoSizeText(
-              '邀请你加入 ${args.name}',
+              '邀请你加入 "${args.name}"',
               maxLines: 1,
             )
           ],
           mainAxisAlignment: MainAxisAlignment.spaceAround
         ),
         width: _cw,
-        height: _cw + 2 * kToolbarHeight,
-        margin: EdgeInsets.all(30.0),
+        height: _cw + 2 * kToolbarHeight - _width / 20,
+        margin: EdgeInsets.all(18.0),
       ),
     );
   }

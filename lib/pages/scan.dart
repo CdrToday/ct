@@ -21,6 +21,8 @@ class Scan extends StatefulWidget {
 
 class _ScanState extends State<Scan> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  bool scanLock = false;
+  
   QRViewController controller;
 
   @override
@@ -87,19 +89,24 @@ class _ScanState extends State<Scan> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
+        if (scanLock == true) return;
+        
         Map<String, dynamic> args = jsonDecode(scanData);
         if (scanData == null) {
           info(context, '二维码识别失败，请重试');
           return;
         }
 
-        Navigator.pushNamed(
+        setState(() { scanLock = true; });
+        
+        Navigator.popAndPushNamed(
           context, '/qrcode/join',
           arguments: QrCodeArgs(
             code: args['code'],
             name: args['name']
           ),
         );
+        return;
     });
   }
 
