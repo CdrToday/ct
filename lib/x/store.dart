@@ -6,7 +6,7 @@ Future<String> getString(String key) async {
   return value;
 }
 
-void setString(String key, String value) async {
+void setString(String key, dynamic value) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString(key, value);
 }

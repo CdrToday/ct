@@ -87,7 +87,7 @@ class _ScanState extends State<Scan> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-        Map<String, String> args = jsonDecode(scanData);
+        Map<String, dynamic> args = jsonDecode(scanData);
         if (scanData == null) {
           info(context, '二维码识别失败，请重试');
           return;

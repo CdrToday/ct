@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/widgets/actions.dart' as actions;
 import 'package:cdr_today/widgets/editor.dart';
 import 'package:cdr_today/widgets/buttons.dart';
@@ -23,9 +24,17 @@ class _EditState extends State<Edit> {
   @override
   void initState() {
     super.initState();
-    final document = _loadDocument();
     _focusNode = FocusNode();
-    _controller = ZefyrController(document);
+    _controller = ZefyrController(_loadDocument(''));
+    
+    getString("_article").then((res) {
+        if (res != null) {
+          var document = _loadDocument(res);
+          setState(() {
+              _controller = ZefyrController(document);
+          });
+        }
+    });
   }
   
   @override
@@ -36,7 +45,13 @@ class _EditState extends State<Edit> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        leading: CtClose(),
+        leading: CtClose(
+          onTap: () async {
+            final String json = jsonEncode(_controller.document);
+            await setString('_article', json);
+            Navigator.maybePop(context);
+          }
+        ),
         trailing: QrRefresher(
           widget: EditRefresher(
             widget: actions.Publish(
@@ -55,9 +70,14 @@ class _EditState extends State<Edit> {
     );
   }
   
-  NotusDocument _loadDocument() {
+  NotusDocument _loadDocument(String article) {
     if (widget.args.edit == true) {
       return NotusDocument.fromJson(jsonDecode(widget.args.document));
+    }
+
+    if (article != '' && article != null) {
+      print(article);
+      return NotusDocument.fromJson(json.decode(article));
     }
     
     var data = r'[{"insert":"\n","attributes":{"heading":1}}]';
