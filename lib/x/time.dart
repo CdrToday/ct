@@ -45,9 +45,9 @@ String display(int ts) {
   }
   
   if (_now.year.toString() != year) {
-    return "$year年$month月/$day日 $hour:$minute";
+    return "$year年$month月$day日 $hour:$minute";
   } else if (_now.difference(t).inDays > 6) {
-    return "$month月/$day日 $hour:$minute";
+    return "$month月$day日 $hour:$minute";
   } else if (_now.difference(t).inDays > 1) {
     return "$weekday $hour:$minute";
   } else if (_now.day != t.day) {

@@ -4,6 +4,7 @@ import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/reddit.dart';
@@ -208,6 +209,7 @@ class Publish extends StatelessWidget {
         return;
       }
 
+      await setString('_article', '');
       _bloc.dispatch(RedditRefresh(refresh: true));
       _rbloc.dispatch(FetchReddits(refresh: true));
 

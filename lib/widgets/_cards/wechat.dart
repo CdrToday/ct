@@ -72,7 +72,7 @@ Widget head({String avatar, String author, int timestamp, String mail}) {
       children: [
         Avatar(
           url: avatar,
-          baks: [author, rngName()],
+          baks: [author],
           width: 12.0
         ),
         SizedBox(width: 10.0),

@@ -37,7 +37,7 @@ class CommunityMember extends StatelessWidget {
                               // tag: ms[index ~/ 2]['mail'],
                               baks: [
                                 ms[index ~/ 2]['name'],
-                                ms[index ~/ 2]['mail'],
+                                // ms[index ~/ 2]['mail'],
                               ]
                             ),
                             name: (ms[index ~/ 2]['name']),

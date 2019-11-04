@@ -5,6 +5,7 @@ import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/x/_style/color.dart';
+import 'package:cdr_today/x/rng.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class CommunityTile extends StatelessWidget {
@@ -18,26 +19,7 @@ class CommunityTile extends StatelessWidget {
   
   Widget build(BuildContext context) {
     String _name = name;
-    List<String> _nl = [
-      'David Bowie',
-      'Iggy Pop',
-      'Lou Reed',
-      'Kurt Cobain',
-      'Bob Dylan',
-      'John Lennon',
-      'Patti Smith',
-      'Joan Baez',
-      'Donovan',
-      'Chunk Berry',
-      'Elvis Presley',
-      'Leonard Cohen',
-      'Rodriguez',
-      'Neil Young'
-    ];
-    if (_name == '') {
-      var rng = new Random();
-      _name = _nl[rng.nextInt(13)];
-    }
+    if (_name == '') _name = rngName();
     return Container(
       child: GestureDetector(
         child: Row(
@@ -45,10 +27,10 @@ class CommunityTile extends StatelessWidget {
             avatar ?? SizedBox.shrink(),
             SizedBox(width: 10.0),
             Expanded(
-              child: AutoSizeText(
+              child: Text(
                 _name,
                 maxLines: 1,
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 14.0),
               ),
             ) ?? SizedBox.shrink(),
             trailing != null ? Spacer() : SizedBox.shrink(),

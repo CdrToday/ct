@@ -36,7 +36,7 @@ class _PostState extends State<PostList> {
   bool _scrollLock = false;
   RedditBloc _redditBloc;
   RefreshBloc _refreshBloc;
-  double _scrollThreshold = 200.0;
+  double _scrollThreshold = 500.0;
   double _scrollIncipiency = (- kToolbarHeight);
   ScrollController _scrollController;
   ScrollController _lsc;
@@ -220,7 +220,7 @@ class PostLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: CupertinoActivityIndicator(),
-      padding: EdgeInsets.all(30.0)
+      padding: EdgeInsets.only(top: 30.0)
     );
   }
 }
