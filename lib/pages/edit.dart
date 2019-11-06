@@ -30,9 +30,7 @@ class _EditState extends State<Edit> {
     getString("_article").then((res) {
         if (res != null) {
           var document = _loadDocument(res);
-          setState(() {
-              _controller = ZefyrController(document);
-          });
+          setState(() { _controller = ZefyrController(document); });
         }
     });
   }
@@ -76,7 +74,6 @@ class _EditState extends State<Edit> {
     }
 
     if (article != '' && article != null) {
-      print(article);
       return NotusDocument.fromJson(json.decode(article));
     }
     

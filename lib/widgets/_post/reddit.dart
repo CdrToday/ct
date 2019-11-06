@@ -38,6 +38,7 @@ class RedditItem extends StatelessWidget {
       cover: cover,
       mail: x.mail,
       timestamp: x.timestamp,
+      long: x.document.length > 80 ? true : false,
       title: title,
       onTap: () => Navigator.of(
         context, rootNavigator: true

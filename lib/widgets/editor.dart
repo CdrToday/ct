@@ -24,7 +24,7 @@ class Editor extends StatelessWidget {
         padding: EdgeInsets.only(
           left: 24.0,
           right: 24.0,
-          bottom: 50.0
+          bottom: 24.0
         ),
         controller: controller,
         focusNode: focusNode,

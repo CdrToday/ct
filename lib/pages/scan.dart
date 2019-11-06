@@ -22,6 +22,7 @@ class Scan extends StatefulWidget {
 class _ScanState extends State<Scan> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool scanLock = false;
+  bool flashOn = false;
   
   QRViewController controller;
 
@@ -54,7 +55,10 @@ class _ScanState extends State<Scan> {
             cutOutSize: 300,
           ),
         ),
-        onTap: () => controller?.toggleFlash(),
+        onTap: () {
+          controller?.toggleFlash();
+          setState(() { flashOn = !flashOn; });
+        }
       ),
       backgroundColor: Colors.transparent,
     );
@@ -112,6 +116,7 @@ class _ScanState extends State<Scan> {
 
   @override
   void dispose() {
+    if (flashOn) controller?.toggleFlash();
     controller?.dispose();
     super.dispose();
   }

@@ -13,12 +13,14 @@ class WeChat extends StatelessWidget {
   final String title;
   final String mail;
   final int timestamp;
+  final bool long;
   final VoidCallback onTap;
 
   WeChat({
       this.cover,
       this.avatar,
       this.mail,
+      this.long = false,
       this.author = '?',
       this.title = '',
       this.timestamp = 0,
@@ -37,17 +39,10 @@ class WeChat extends StatelessWidget {
                 mail: mail,
                 avatar: avatar,
                 author: author,
-                timestamp: timestamp
+                timestamp: timestamp,
+                long: long,
               ),
-              // cover != null ? Center(
-              //   child: Image.network(
-              //     conf['image'] + cover,
-              //     height: 180.0,
-              //     fit: BoxFit.fitWidth,
-              //     width: double.infinity,
-              //   )
-              // ): SizedBox.shrink(),
-              content(context, title: title == null? '一张图片' : title),
+              content(context, title: title == null? '发表图片' : title),
             ]
           ),
           elevation: 0.2,
@@ -66,7 +61,9 @@ class WeChat extends StatelessWidget {
   }
 }
 
-Widget head({String avatar, String author, int timestamp, String mail}) {
+Widget head({
+    String avatar, String author, int timestamp, String mail, bool long,
+}) {
   return Container(
     child: Row(
       children: [
@@ -84,6 +81,14 @@ Widget head({String avatar, String author, int timestamp, String mail}) {
           )
         ),
         Spacer(),
+        long? Padding(
+          child: Icon(
+            Icons.gesture,
+            size: 18.0,
+            color: CtColors.primary
+          ),
+          padding: EdgeInsets.only(right: 5.0)
+        ): SizedBox.shrink(),
         Text(
           display(timestamp),
           style: TextStyle(
@@ -128,4 +133,3 @@ Widget content(BuildContext context, {String title}) {
     )
   );
 }
-
