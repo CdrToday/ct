@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/refresh.dart';
@@ -6,7 +5,6 @@ import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/x/rng.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class CommunityTile extends StatelessWidget {
   final Widget avatar;

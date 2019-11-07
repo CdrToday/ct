@@ -46,7 +46,7 @@ class _EditState extends State<Edit> {
         leading: CtClose(
           onTap: () async {
             final String json = jsonEncode(_controller.document);
-            await setString('_article', json);
+            setString('_article', json);
             Navigator.maybePop(context);
           }
         ),

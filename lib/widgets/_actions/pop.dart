@@ -17,7 +17,6 @@ class CommunityPopMenu extends StatefulWidget {
 }
 
 class  _CommunityPopMenuState extends State<CommunityPopMenu> {
-  Action _selection;
   String _value = '';
 
   void changeValue(String value) {

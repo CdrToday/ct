@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+// import 'dart:io';
 import 'package:zefyr/zefyr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +14,7 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/navigations/args.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
+// import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class EditAction extends StatelessWidget {
   final BuildContext ctx;
@@ -209,7 +209,7 @@ class Publish extends StatelessWidget {
         return;
       }
 
-      await setString('_article', '');
+      setString('_article', '');
       _bloc.dispatch(RedditRefresh(refresh: true));
       _rbloc.dispatch(FetchReddits(refresh: true));
 
@@ -325,12 +325,12 @@ class EditActions extends StatelessWidget {
       );
     } 
 
-    share() async {
-      Navigator.pop(context);
-      File image = await controller.capture(pixelRatio: 1.5);
-      String name = DateTime.now().toString();
-      await Share.file(name, "$name.png", image.readAsBytesSync(), 'image/png');
-    }
+    // share() async {
+    //   Navigator.pop(context);
+    //   File image = await controller.capture(pixelRatio: 1.5);
+    //   String name = DateTime.now().toString();
+    //   await Share.file(name, "$name.png", image.readAsBytesSync(), 'image/png');
+    // }
     
     return CtNoRipple(
       icon: Icons.more_horiz,

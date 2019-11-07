@@ -19,7 +19,6 @@ class _InitPageState extends State<InitPage> {
   
   @override
   Widget build(BuildContext context) {
-    final _bloc = BlocProvider.of<CommunityBloc>(context);
     return BlocListener<CommunityBloc, CommunityState>(
       listener: (context, state) {
         if ((state as Communities).refresh == -1) {

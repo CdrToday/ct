@@ -4,7 +4,6 @@ import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
-import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/actions.dart' as actions;
 
 class Avatar extends StatelessWidget {

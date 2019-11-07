@@ -8,7 +8,6 @@ import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/community.dart';
 import 'package:cdr_today/widgets/_actions/pop.dart';
-import 'package:cdr_today/x/permission.dart' as pms;
 
 class CommunityListPage extends StatelessWidget {
   Widget build(BuildContext context) {

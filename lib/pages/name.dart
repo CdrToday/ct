@@ -5,7 +5,6 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/widgets/input.dart';
 import 'package:cdr_today/navigations/args.dart';
-import 'package:cdr_today/x/_style/color.dart';
 
 class Name extends StatefulWidget {
   final NameArgs args;
