@@ -15,12 +15,14 @@ class PostList extends StatefulWidget {
   final bool hasReachedMax;
   final bool loading;
   final bool community;
+  final String type;
   final String mail;
   final CupertinoSliverNavigationBar appBar;
   final SliverList title;
   PostList({
       this.posts, // init in build.
       this.mail,
+      this.type = '',
       this.hasReachedMax = false,
       this.appBar,
       this.title,
@@ -127,9 +129,10 @@ class _PostState extends State<PostList> {
                 String document = posts[i]['document'];
                 int timestamp = posts[i]['timestamp'];
 
-                return widget.community ? RedditItem(
+                return RedditItem(
                   x: ArticleArgs(
                     id: id,
+                    type: widget.type,
                     mail: posts[i]['mail'],
                     document: document,
                     timestamp: timestamp,
@@ -137,15 +140,16 @@ class _PostState extends State<PostList> {
                     avatar: posts[i]['avatar'],
                     author: posts[i]['author'],
                   )
-                ) : PostItem(
-                  x: ArticleArgs(
-                    id: id,
-                    mail: posts[i]['author'],
-                    document: document,
-                    timestamp: timestamp,
-                    community: posts[i]['community'],
-                  )
                 );
+                // PostItem(
+                //   x: ArticleArgs(
+                //     id: id,
+                //     mail: posts[i]['author'],
+                //     document: document,
+                //     timestamp: timestamp,
+                //     community: posts[i]['community'],
+                //   )
+                // );
               }
               
               return widget.community

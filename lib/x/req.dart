@@ -68,9 +68,12 @@ class Requests {
 
   /// --- reddit ---
   //@newReddit: POST '/u/{mail:string}/reddit'
-  Future<http.Response> newReddit({String type, String community, String document}) async {
+  Future<http.Response> newReddit({
+      String type, String topic, String community, String document
+  }) async {
     final Map body = {
       'type': type,
+      'topic': topic,
       'document': document,
       'community': community,
     };
@@ -80,7 +83,7 @@ class Requests {
   //@getPosts: GET '/u/:mail/c/:id/reddit'
   Future<http.Response> getReddits({String community, int page}) async {
     var res = await rGet("/u/$mail/c/$community/reddit?p=$page");
-    if (res.statusCode != 200) return getReddits(community: community, page: page);
+    if (res.statusCode == 408) return getReddits(community: community, page: page);
     return res;
   }
   
@@ -114,9 +117,25 @@ class Requests {
     return res;
   }
 
+  //@getMembers GET '/u/{mail:string}/c/:id/topics'
+  Future<http.Response> getTopics(String id) async {
+    var res = await rGet("/u/$mail/c/$id/topics");
+    if (res.statusCode == 408) return getTopics(id);
+    return res;
+  }
+
+  //@getMembers GET '/u/{mail:string}/c/:id/topics/:topic'
+  Future<http.Response> getTopicBatch(String community, String topic) async {
+    var res = await rGet("/u/$mail/c/$community/topic/$topic");
+    if (res.statusCode == 408) return getTopicBatch(community, topic);
+    return res;
+  }
+
   //@getMembers GET '/u/{mail:string}/{id:string}/members'
   Future<http.Response> getMembers({String id}) async {
-    return await rGet("/u/$mail/c/$id/members");
+    var res = await rGet("/u/$mail/c/$id/members");
+    if (res.statusCode == 408) return getMembers(id: id);
+    return res;
   }
 
   //@getMembers GET '/u/{mail:string}/{id:string}/members'

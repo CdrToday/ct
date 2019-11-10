@@ -7,6 +7,7 @@ import 'package:cdr_today/blocs/main.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/refresh.dart';
+import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
@@ -23,8 +24,10 @@ import 'package:cdr_today/pages/bucket.dart';
 import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
 import 'package:cdr_today/pages/member.dart';
+import 'package:cdr_today/pages/reddit.dart';
 import 'package:cdr_today/pages/settings.dart';
 import 'package:cdr_today/pages/qrcode.dart' as qr;
+import 'package:cdr_today/pages/topic.dart' as topic;
 import 'package:cdr_today/pages/community.dart' as community;
 // navigations
 import 'package:cdr_today/navigations/args.dart';
@@ -43,6 +46,7 @@ void main() async {
 final VerifyBloc verifyBloc = VerifyBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
+final TopicBloc topicBloc = TopicBloc(c: communityBloc);
 final MemberBloc memberBloc = MemberBloc(c: communityBloc, u: userBloc);
 final RedditBloc redditBloc = RedditBloc(c: communityBloc);
 final RefreshBloc refreshBloc = RefreshBloc(
@@ -74,6 +78,9 @@ class _AppState extends State<App> {
         ),
         BlocProvider<CommunityBloc>(
           builder: (context) => communityBloc
+        ),
+        BlocProvider<TopicBloc>(
+          builder: (context) => topicBloc,
         ),
         BlocProvider<MemberBloc>(
           builder: (context) => memberBloc
@@ -112,6 +119,9 @@ Route router(settings) {
         }
       )
     );
+  } else if (r == '/reddits') {
+    // final RedditArgs args = settings.arguments;
+    return SlideRoute(page: RedditPage(self: true));
   } else if (r == '/login') {
     return FadeRoute(page: Login());
   } else if (r == '/root') {
@@ -129,6 +139,11 @@ Route router(settings) {
     return SlideRoute(page: qr.Join(args: args));
   } else if (r == '/community/member') {
     return FadeRoute(page: MemberPage());
+  } else if (r == '/community/topics') {
+    return SlideRoute(page: topic.TopicList());
+  } else if (r == '/community/topic/batch') {
+    final BatchArgs args = settings.arguments;
+    return SlideRoute(page: topic.TopicBatch(topic: args.topic));
   } else if (r == '/community/create') {
     return SlideRoute(page: community.Create());
   } else if (r == '/community/settings') {
@@ -139,7 +154,7 @@ Route router(settings) {
     final ArticleArgs args = settings.arguments;
     return SlideRoute(page: Edit(args: args));
   } else if (r == '/mine/settings') {
-    return FadeRoute(page: Settings());
+    return SlideRoute(page: Settings());
   } else if (r == '/mine/bucket') {
     return SlideRoute(page: Bucket());
   } else if (r == '/mine/version') {

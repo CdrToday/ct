@@ -10,9 +10,7 @@ import 'package:cdr_today/x/req.dart' as xReq;
 Future<List<dynamic>> getMembers({String id}) async {
   final xReq.Requests r = await xReq.Requests.init();
   var res = await r.getMembers(id: id);
-
-  if (res.statusCode != 200) return getMembers(id: id);
-  return json.decode(res.body)['members'];
+  return jsonDecode(res.body)['members'];
 }
 
 // ------- bloc -----

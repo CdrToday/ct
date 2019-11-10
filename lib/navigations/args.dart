@@ -12,24 +12,28 @@ class ProfileArgs {
 class ArticleArgs {
   final bool edit;
   final String id;
+  final String ref;
   final String type;
   final String mail;
   final String avatar;
   final String author;
   final String document;
   final String community;
+  final String topic;
   final int timestamp;
 
   ArticleArgs({
       this.id,
+      this.ref,
       this.mail,
       this.edit,
       this.type,
+      this.topic,
       this.avatar,
       this.author,
       this.document,
       this.community,
-      this.timestamp
+      this.timestamp,
   });
 }
 
@@ -70,4 +74,9 @@ class QrCodeArgs {
       this.name,
       this.type,
   });
+}
+
+class BatchArgs {
+  final String topic;
+  BatchArgs({ this.topic });
 }

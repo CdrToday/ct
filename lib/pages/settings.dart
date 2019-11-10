@@ -13,13 +13,13 @@ class Settings extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
-        backgroundColor: CtColors.tp,
+        // backgroundColor: CtColors.tp,
         border: null,
       ),
       child: Column(
         children: [
-          BasicTile(
-            text: '服务条款',
+          ProfileTile(
+            leading: '服务条款',
             onTap: () async {
               var url = 'https://cdr-today.github.io/intro/privacy/zh.html';
               if (await canLaunch(url)) {
@@ -29,8 +29,9 @@ class Settings extends StatelessWidget {
               }
             }
           ),
-          BasicTile(
-            text: '联系作者',
+          CtDivider(),
+          ProfileTile(
+            leading: '联系作者',
             onTap: () async {
               var url = 'mailto:cdr.today@foxmail.com?subject=hello';
               if (await canLaunch(url)) {
@@ -40,12 +41,14 @@ class Settings extends StatelessWidget {
               }
             }
           ),
-          BasicTile(
-            text: '版本信息',
+          CtDivider(),
+          ProfileTile(
+            leading: '版本信息',
             onTap: () => Navigator.pushNamed(context, '/mine/version')
           ),
-          BasicTile(
-            text: '检查更新',
+          CtDivider(),
+          ProfileTile(
+            leading: '检查更新',
             onTap: () async {
               var url = 'https://cdr-today.github.io/x/download';
               if (await canLaunch(url)) {
@@ -55,8 +58,9 @@ class Settings extends StatelessWidget {
               }
             }
           ),
-          BasicTile(
-            text: '退出登录',
+          SizedBox(height: 12.0),
+          ProfileTile(
+            leading: '退出登录',
             onTap: () {
               final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
               _bloc.dispatch(LogoutEvent());
@@ -64,7 +68,7 @@ class Settings extends StatelessWidget {
             }
           ),
         ],
-        mainAxisAlignment: MainAxisAlignment.center
+        // mainAxisAlignment: MainAxisAlignment.center
       ),
       // extendBodyBehindAppBar: true,
     );

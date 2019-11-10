@@ -5,6 +5,7 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/widgets/avatar.dart';
+import 'package:cdr_today/widgets/tiles.dart';
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/navigations/args.dart';
 
@@ -14,26 +15,68 @@ class Profile extends StatelessWidget {
   
   Widget build(BuildContext context) {
     final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
+    // final double _kTileHeight = 48.0;
+    
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserInited) {
           return CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
               leading: args.raw ? CtClose() : null,
-              trailing: CtNoRipple(
-                icon: CupertinoIcons.settings,
-                onTap: () => Navigator.of(
-                  context, rootNavigator: true
-                ).pushNamed('/mine/settings')
-              ),
               border: null
             ),
             child: Container(
               child: Column(
                 children: <Widget>[
-                  avatar(context),
-                  profile(context, state.name),
-                  mail(context, state.mail),
+                  ProfileTile(
+                    leading: '头像',
+                    trailing: AvatarHero(self: true),
+                    onTap: () => Navigator.of(
+                      context, rootNavigator: true
+                    ).pushNamed('/mine/profile/avatar'),
+                  ),
+                  CtDivider(),
+                  ProfileTile(
+                    leading: '名字',
+                    trailing: Text(
+                      state.name,
+                      style: TextStyle(color: CtColors.primary)
+                    ),
+                    onTap: () => Navigator.of(
+                      context, rootNavigator: true
+                    ).pushNamed(
+                      '/mine/profile/name',
+                      arguments: NameArgs( name: state.name ),
+                    ),
+                  ),
+                  CtDivider(),
+                  ProfileTile(
+                    leading: '邮箱',
+                    trailing: Text(
+                      state.mail,
+                      style: TextStyle(color: CtColors.primary)
+                    ),
+                  ),
+                  // SizedBox(height: 12.0),
+                  // ProfileTile(
+                  //   leading: '消息',
+                  //   onTap: () => Navigator.of(
+                  //     context, rootNavigator: true
+                  //   ).pushNamed('/mine/settings'),
+                  // ),
+                  // ProfileTile(
+                  //   leading: '文章',
+                  //   onTap: () => Navigator.of(
+                  //     context, rootNavigator: true
+                  //   ).pushNamed('/reddits')
+                  // ),
+                  SizedBox(height: 12.0),
+                  ProfileTile(
+                    leading: '设置',
+                    onTap: () => Navigator.of(
+                      context, rootNavigator: true
+                    ).pushNamed('/mine/settings'),
+                  ),
                 ]
               ),
             ),
@@ -48,68 +91,4 @@ class Profile extends StatelessWidget {
       }
     );
   }
-}
-  
-Widget avatar(BuildContext context) {
-  return Container(
-    child: Card(
-      child: ListTile(
-        title: Text(
-          '头像',
-          style: TextStyle(color: CtColors.primary)
-        ),
-        trailing: AvatarHero(self: true),
-        onTap: () => Navigator.of(context, rootNavigator: true).pushNamed('/mine/profile/avatar'),
-      ),
-      color: CtColors.gray6,
-      elevation: 0.0,
-      shape: BeveledRectangleBorder()
-    ),
-  );
-}
-
-Widget profile(BuildContext context, String name) {
-  return Container(
-    child: Card(
-      child: ListTile(
-        title: Text(
-          '名字',
-          style: TextStyle(color: CtColors.primary)
-        ),
-        trailing: Text(
-          name,
-          style: TextStyle(color: CtColors.primary)
-        ),
-        onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(
-          '/mine/profile/name',
-          arguments: NameArgs( name: name ),
-        ),
-      ),
-      color: CtColors.gray6,
-      elevation: 0.0,
-      shape: BeveledRectangleBorder()
-    ),
-  );
-}
-
-Widget mail(BuildContext context, String str) {
-  return Builder(
-    builder: (context) => Container(
-      child: Card(
-        child: ListTile(
-          title: Text(
-            '邮箱',
-            style: TextStyle(color: CtColors.primary)
-          ),
-          trailing: Text(
-            str,
-            style: TextStyle(color: CtColors.primary)
-          ),
-        ),
-        color: CtColors.gray6,
-        elevation: 0.0,
-        shape: BeveledRectangleBorder()
-      ),
-    )
-  );
 }

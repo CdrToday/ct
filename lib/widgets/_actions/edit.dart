@@ -8,6 +8,7 @@ import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/blocs/reddit.dart';
+import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/buttons.dart';
@@ -26,9 +27,11 @@ class EditAction extends StatelessWidget {
       builder: (context, state) {
         return CtNoRipple(
           icon: Icons.edit,
-          size: 18.0,
+          size: 20.0,
           onTap: () async {
-            Navigator.of(context, rootNavigator: true).pushNamed(
+            Navigator.of(
+              context, rootNavigator: true
+            ).pushNamed(
               '/user/edit',
               arguments: ArticleArgs(community: (state as Communities).current)
             );
@@ -84,6 +87,7 @@ class Post extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
+    final TopicBloc _tbloc = BlocProvider.of<TopicBloc>(context);
     
     return Builder(
       builder: (context) => CtNoRipple(
@@ -121,6 +125,7 @@ class Post extends StatelessWidget {
           // info(context, '更新成功');
           _bloc.dispatch(RedditRefresh(refresh: true));
           _rbloc.dispatch(FetchReddits(refresh: true));
+          _tbloc.dispatch(UpdateTopic());
           
           if (toPreview != null) toPreview();
         }
@@ -184,6 +189,7 @@ class Publish extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
+    final TopicBloc _tbloc = BlocProvider.of<TopicBloc>(context);
 
     post() async {
       final xReq.Requests r = await xReq.Requests.init();
@@ -197,10 +203,11 @@ class Publish extends StatelessWidget {
       ///// refresh actions
       _bloc.dispatch(Refresh(edit: true));
       /////
-      
+
       var res = await r.newReddit(
         document: json,
         type: args.type,
+        topic: args.topic,
         community: args.community,
       );
 
@@ -212,6 +219,7 @@ class Publish extends StatelessWidget {
       setString('_article', '');
       _bloc.dispatch(RedditRefresh(refresh: true));
       _rbloc.dispatch(FetchReddits(refresh: true));
+      _tbloc.dispatch(UpdateTopic());
 
       Navigator.maybePop(context);
     }

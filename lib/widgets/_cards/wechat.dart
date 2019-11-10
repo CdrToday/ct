@@ -14,6 +14,7 @@ class WeChat extends StatelessWidget {
   final int timestamp;
   final bool long;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
 
   WeChat({
       this.cover,
@@ -24,6 +25,7 @@ class WeChat extends StatelessWidget {
       this.title = '',
       this.timestamp = 0,
       this.onTap,
+      this.onLongPress,
   });
 
   @override
@@ -56,6 +58,7 @@ class WeChat extends StatelessWidget {
         )
       ),
       onTap: onTap,
+      onLongPress: onLongPress
     );
   }
 }

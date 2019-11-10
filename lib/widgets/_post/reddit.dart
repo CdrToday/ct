@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:cdr_today/widgets/cards.dart';
+import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 /// ## type List
@@ -32,17 +34,45 @@ class RedditItem extends StatelessWidget {
       }
     }
 
+    if (x.type == 'topic') {
+      return TopicCard(
+        title: title,
+        onTap: () => Navigator.of(
+          context, rootNavigator: true
+        ).pushNamed(
+          '/community/topic/batch',
+          arguments: BatchArgs(topic: x.id)
+        )
+      );
+    }
+    
     return WeChat(
       avatar: x.avatar,
       author: x.author,
       cover: cover,
       mail: x.mail,
       timestamp: x.timestamp,
-      long: x.document.length > 80 ? true : false,
+      long: x.document.length > 100 ? true : false,
       title: title,
       onTap: () => Navigator.of(
         context, rootNavigator: true
       ).pushNamed('/article', arguments: x),
+      onLongPress: () async {
+        alert(
+          context,
+          title: '回复文章',
+          ok: Text('回复'),
+          action: () => Navigator.of(
+            context, rootNavigator: true,
+          ).popAndPushNamed(
+            '/user/edit',
+            arguments: ArticleArgs(
+              topic: x.id,
+              community: x.community,
+            ),
+          ),
+        );
+      }
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/alerts.dart';
+import 'package:cdr_today/widgets/tiles.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/snackers.dart';
 import 'package:cdr_today/blocs/community.dart';
@@ -32,66 +33,46 @@ class Settings extends StatelessWidget {
             return Column(
               children: [
                 SizedBox(height: 8.0),
-                Container(
-                  child: Card(
-                    child: ListTile(
-                      title: Text(
-                        'id',
-                        style: TextStyle(color: CtColors.primary)
-                      ),
-                      trailing: Text(
-                        community['id'],
-                        style: TextStyle(color: CtColors.primary)
-                      ),
-                      // onTap: () async {
-                      //   var mail = await getString('mail');
-                      //   if (mail == community['owner']) {
-                      //     Navigator.of(context).pushNamed(
-                      //       '/mine/profile/name',
-                      //       arguments: NameArgs(
-                      //         name: community['id'],
-                      //         profile: 'id',
-                      //         id: community['id'],
-                      //       )
-                      //     );
-                      //   }
-                      // }
-                    ),
-                    color: CtColors.gray6,
-                    elevation: 0.0,
-                    shape: BeveledRectangleBorder()
+                ProfileTile(
+                  leading: 'id',
+                  trailing: Text(
+                    community['id'],
+                    style: TextStyle(color: CtColors.primary)
                   ),
+                  // onTap: () async {
+                  //   var mail = await getString('mail');
+                  //   if (mail == community['owner']) {
+                  //     Navigator.of(context).pushNamed(
+                  //       '/mine/profile/name',
+                  //       arguments: NameArgs(
+                  //         name: community['id'],
+                  //         profile: 'id',
+                  //         id: community['id'],
+                  //       )
+                  //     );
+                  //   }
+                  // }
                 ),
                 SizedBox(height: 8.0),
-                Container(
-                  child: Card(
-                    child: ListTile(
-                      title: Text(
-                        '名字',
-                        style: TextStyle(color: CtColors.primary)
-                      ),
-                      trailing: Text(
-                        community['name'],
-                        style: TextStyle(color: CtColors.primary)
-                      ),
-                      onTap: () async {
-                        var mail = await getString('mail');
-                        if (mail == community['owner']) {
-                          Navigator.of(context).pushNamed(
-                            '/mine/profile/name',
-                            arguments: NameArgs(
-                              name: community['name'],
-                              profile: 'community',
-                              id: community['id'],
-                            )
-                          );
-                        }
-                      }
-                    ),
-                    color: CtColors.gray6,
-                    elevation: 0.0,
-                    shape: BeveledRectangleBorder(),
+                ProfileTile(
+                  leading: '名字',
+                  trailing: Text(
+                    community['name'],
+                    style: TextStyle(color: CtColors.primary)
                   ),
+                  onTap: () async {
+                    var mail = await getString('mail');
+                    if (mail == community['owner']) {
+                      Navigator.of(context).pushNamed(
+                        '/mine/profile/name',
+                        arguments: NameArgs(
+                          name: community['name'],
+                          profile: 'community',
+                          id: community['id'],
+                        )
+                      );
+                    }
+                  }
                 ),
                 Spacer(),
                 Builder(

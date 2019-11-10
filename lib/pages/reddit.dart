@@ -7,25 +7,32 @@ import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/member.dart';
+import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/_actions/edit.dart';
 
 class RedditPage extends StatelessWidget {
+  final bool self;
+  RedditPage({ this.self = false });
+  
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: RedditRefresher(
+        middle: self? SizedBox.shrink() :RedditRefresher(
           widget: CommunityName(qr: true)
         ),
-        leading: CtNoRipple(
-          icon: CupertinoIcons.person,
-          onTap: () => Navigator.of(context, rootNavigator: true).pushNamed('/community/member')
+        leading: self? CtClose() : CtNoRipple(
+          size: 22.0,
+          icon: Icons.inbox,
+          onTap: () => Navigator.of(
+            context, rootNavigator: true
+          ).pushNamed('/community/topics')
         ),
-        trailing: EditAction(context),
+        trailing: self? SizedBox.shrink() : EditAction(context),
         border: null
       ),
-      child: Reddit(),
+      child: Reddit(self: self),
       resizeToAvoidBottomInset: false,
     );
   }
@@ -34,7 +41,8 @@ class RedditPage extends StatelessWidget {
 class Reddit extends StatefulWidget {
   final CupertinoSliverNavigationBar appBar;
   final SliverList title;
-  Reddit({ this.appBar, this.title });
+  final bool self;
+  Reddit({ this.appBar, this.title, this.self });
   
   @override
   _RedditState createState() => _RedditState();
@@ -72,7 +80,7 @@ class _RedditState extends State<Reddit> {
                 r['author'] = '';
               }
             }
-
+            
             return PostList(
               appBar: widget.appBar,
               title: widget.title,
