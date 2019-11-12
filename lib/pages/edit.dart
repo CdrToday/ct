@@ -41,6 +41,7 @@ class _EditState extends State<Edit> {
   }
   
   Widget build(BuildContext context) {
+    print(widget.args.topic);
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(

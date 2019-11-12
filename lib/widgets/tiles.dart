@@ -59,10 +59,10 @@ class CtDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Divider(
-        height: 0.2,
-        indent: 18.0,
+        height: 0.1,
+        indent: 24.0,
       ),
-      color: CtColors.gray6
+      color: CtColors.gray
     );
   }
 }

@@ -249,7 +249,8 @@ class EditActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
-
+    final TopicBloc _tbloc = BlocProvider.of<TopicBloc>(context);
+    
     post() async {
       final xReq.Requests r = await xReq.Requests.init();
       final String json = jsonEncode(zefyrController.document);
@@ -262,10 +263,10 @@ class EditActions extends StatelessWidget {
 
       _bloc.dispatch(Refresh(edit: true));
       var res = await r.newReddit(
-          document: json,
-          type: args.type,
-          community: args.community,
-        );
+        document: json,
+        type: args.type,
+        community: args.community,
+      );
 
       if (res.statusCode != 200) {
         info(context, '发布失败，请重试');
@@ -305,6 +306,7 @@ class EditActions extends StatelessWidget {
       if (res.statusCode == 200) {
         _bloc.dispatch(RedditRefresh(refresh: true));
         _rbloc.dispatch(FetchReddits(refresh: true));
+        _tbloc.dispatch(UpdateTopic());
       } else {
         info(context, '删除失败，请重试');
         return;

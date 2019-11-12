@@ -41,11 +41,11 @@ class RedditItem extends StatelessWidget {
           context, rootNavigator: true
         ).pushNamed(
           '/community/topic/batch',
-          arguments: BatchArgs(topic: x.id)
+          arguments: BatchArgs(topic: x.topic ?? x.id)
         )
       );
     }
-    
+
     return WeChat(
       avatar: x.avatar,
       author: x.author,
@@ -67,7 +67,7 @@ class RedditItem extends StatelessWidget {
           ).popAndPushNamed(
             '/user/edit',
             arguments: ArticleArgs(
-              topic: x.id,
+              topic: (x.topic == null || x.topic == '') ? x.id : x.topic,
               community: x.community,
             ),
           ),

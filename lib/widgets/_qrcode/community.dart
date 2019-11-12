@@ -25,7 +25,7 @@ class Community extends StatelessWidget {
 
     final String code = jsonEncode(_args);
     final double _width = MediaQuery.of(context).size.width;
-    final double _cw = _width > 375 ? _width / 2 : _width * 2 / 3;
+    final double _cw = _width > 375 ? _width * 3 / 5 : _width * 2 / 3;
     
     return Card(
       child: Container(

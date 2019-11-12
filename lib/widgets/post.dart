@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/blocs/reddit.dart';
+import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/_post/post.dart';
@@ -36,6 +38,7 @@ class PostList extends StatefulWidget {
 
 class _PostState extends State<PostList> {
   bool _scrollLock = false;
+  TopicBloc _topicBloc;
   RedditBloc _redditBloc;
   RefreshBloc _refreshBloc;
   double _scrollThreshold = 500.0;
@@ -58,6 +61,7 @@ class _PostState extends State<PostList> {
     _scrollController.addListener(_onScroll);
     _lsc = ScrollController();
     _lsc.addListener(_onScroll);
+    _topicBloc = BlocProvider.of<TopicBloc>(context);
     _redditBloc = BlocProvider.of<RedditBloc>(context);
     _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }
@@ -92,7 +96,12 @@ class _PostState extends State<PostList> {
                 child: Container(
                   child: widget.loading
                   ? CupertinoActivityIndicator()
-                  : Text('暂无文章'),
+                  : Text(
+                    '————',
+                    style: TextStyle(
+                      color: CtColors.primary
+                    ),
+                  ),
                   alignment: Alignment.center,
                   height: height,
                   padding: EdgeInsets.only(
@@ -134,6 +143,7 @@ class _PostState extends State<PostList> {
                     id: id,
                     type: widget.type,
                     mail: posts[i]['mail'],
+                    topic: posts[i]['topic'],
                     document: document,
                     timestamp: timestamp,
                     community: posts[i]['community'],
@@ -178,6 +188,7 @@ class _PostState extends State<PostList> {
     ).listen((b) {
         // dispatch events
         _refreshBloc.dispatch(RedditRefresh());
+        _topicBloc.dispatch(UpdateTopic());
         _redditBloc.dispatch(FetchReddits(refresh: b));
         
         Observable.timer(

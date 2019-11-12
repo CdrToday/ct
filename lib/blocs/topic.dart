@@ -69,6 +69,14 @@ class TopicBloc extends Bloc<TopicEvent, TopicState> {
         refresh: (currentState as Topics).refresh + 1,
       );
     } else if (event is BatchTopic) {
+      if (event.topic == '') {
+        yield (currentState as Topics).copyWith(
+          batch: [],
+          refresh: (currentState as Topics).refresh + 1,
+        );
+        return;
+      }
+      
       var batch = await getTopicBatch((currentState as Topics).id, event.topic);
       yield (currentState as Topics).copyWith(
         batch: batch,

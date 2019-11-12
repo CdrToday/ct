@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/user.dart';
+import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
@@ -17,8 +18,9 @@ Future<List<dynamic>> getMembers({String id}) async {
 class MemberBloc extends Bloc<MemberEvent, MemberState> {
   final UserBloc u;
   final CommunityBloc c;
+  final RedditBloc r;
   
-  MemberBloc({ this.c, this.u }) {
+  MemberBloc({ this.c, this.u, this.r }) {
     c.state.listen((state) {
         if (state is Communities) {
           if (
@@ -28,11 +30,19 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
         }
     });
 
+    r.state.listen((state) {
+        if (state is Reddits) {
+          if ((state.refresh % 5) == 3) {
+            this.dispatch(FetchMember(id: (currentState as Members).id));
+          }
+        }
+    });
+    
     u.state.listen(
       (state) {
-        if (
-          (state is UserInited) && state.local
-        ) this.dispatch(FetchMember(id: (currentState as Members).id));
+        if ((state is UserInited) && state.local) {
+          this.dispatch(FetchMember(id: (currentState as Members).id));
+        }
       }
     );
   }

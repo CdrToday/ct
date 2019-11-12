@@ -47,8 +47,10 @@ final VerifyBloc verifyBloc = VerifyBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
 final TopicBloc topicBloc = TopicBloc(c: communityBloc);
-final MemberBloc memberBloc = MemberBloc(c: communityBloc, u: userBloc);
 final RedditBloc redditBloc = RedditBloc(c: communityBloc);
+final MemberBloc memberBloc = MemberBloc(
+  c: communityBloc, u: userBloc, r: redditBloc
+);
 final RefreshBloc refreshBloc = RefreshBloc(
   c: communityBloc,
   r: redditBloc,
