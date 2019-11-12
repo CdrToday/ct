@@ -15,7 +15,8 @@ class Avatar extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         trailing: ProfileRefresher(
           widget: actions.Avatar(
-            screenshotController: screenshotController
+            screenshotController: screenshotController,
+            sContext: context
           ),
         ),
         backgroundColor: Colors.transparent,

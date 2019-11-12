@@ -20,6 +20,7 @@ class Join extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
     final CommunityBloc _cbloc = BlocProvider.of<CommunityBloc>(context);
+    _rbloc.dispatch(Refresh(cupertino: false));
     
     Widget check = CupertinoRefresher(
       widget: GestureDetector(
@@ -32,6 +33,7 @@ class Join extends StatelessWidget {
           
           if (res.statusCode != 200) {
             info(context, '加入失败，请重试');
+            _rbloc.dispatch(Refresh(cupertino: false));
             return;
           } else {
             _rbloc.dispatch(Refresh(cupertino: false));

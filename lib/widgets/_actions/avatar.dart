@@ -30,7 +30,9 @@ Future<void> retrieveLostData() async {
 // avatar actions
 class Avatar extends StatelessWidget {
   final ScreenshotController screenshotController;
-  Avatar({ this.screenshotController });
+  final BuildContext sContext;
+  
+  Avatar({ this.screenshotController, this.sContext });
   
   void pickImage(BuildContext context) async {
     final xReq.Requests r = await xReq.Requests.init();
@@ -67,13 +69,15 @@ class Avatar extends StatelessWidget {
     _bloc.dispatch(Refresh(profile: true));
     var res = await r.upload(image: image);
     if (res.statusCode != 200) {
-      info(context, '图片上传失败，请重试');
+      _bloc.dispatch(Refresh(profile: false));
+      info(sContext, '图片上传失败，请重试');
       return;
     }
 
     res = await r.updateAvatar(avatar: json.decode(res.body)['image']);
     if (res.statusCode != 200) {
-      info(context, '头像修改失败，请重试');
+      _bloc.dispatch(Refresh(profile: false));
+      info(sContext, '头像修改失败，请重试');
       return;
     }
 

@@ -80,6 +80,10 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
         profile: false,
         community: false,
       );
+
+      // await Timer(Duration(seconds: 5), () {
+      //     yield (currentState as Refresher).copyWith(reddit: false);
+      // });
     } else if (event is Refresh) {
       yield (currentState as Refresher).copyWith(
         qr: event.qr ?? (currentState as Refresher).qr,

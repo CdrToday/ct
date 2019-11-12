@@ -12,7 +12,15 @@ class UpdateProfile extends StatelessWidget {
   final String input;
   final String profile;
   final bool enabled;
-  UpdateProfile({ this.input, this.enabled, this.profile = 'name', this.id = '' });
+  final BuildContext sContext;
+
+  UpdateProfile({
+      this.input,
+      this.enabled,
+      this.profile = 'name',
+      this.id = '',
+      this.sContext,
+  });
   
   @override
   Widget build(BuildContext context) {
@@ -46,8 +54,8 @@ class UpdateProfile extends StatelessWidget {
         }
         
         if (res.statusCode != 200) {
-          info(context, '更新失败，请重试');
           _bloc.dispatch(Refresh(profile: false));
+          info(sContext, '更新失败，请重试');
           return;
         }
 

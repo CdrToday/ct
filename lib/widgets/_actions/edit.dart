@@ -12,6 +12,7 @@ import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/buttons.dart';
+import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/navigations/args.dart';
 import 'package:screenshot/screenshot.dart';
@@ -90,45 +91,46 @@ class Post extends StatelessWidget {
     final TopicBloc _tbloc = BlocProvider.of<TopicBloc>(context);
     
     return Builder(
-      builder: (context) => CtNoRipple(
-        icon: Icons.check,
-        onTap: () async {
-          final xReq.Requests r = await xReq.Requests.init();
-          final String json = jsonEncode(zefyrController.document);
+      builder: (context) => EditRefresher(
+        widget: CtNoRipple(
+          icon: Icons.check,
+          onTap: () async {
+            final xReq.Requests r = await xReq.Requests.init();
+            final String json = jsonEncode(zefyrController.document);
 
-          FocusScope.of(context).requestFocus(FocusNode());
-          if (!zefyrController.document.toPlainText().contains(RegExp(r'\S+'))) {
-            info(context, '请填写文章内容');
-            return;
+            FocusScope.of(context).requestFocus(FocusNode());
+            if (!zefyrController.document.toPlainText().contains(RegExp(r'\S+'))) {
+              info(context, '请填写文章内容');
+              return;
+            }
+
+            if (update != true) {
+              toPreview();
+              return;
+            }
+
+            ///// refresh actions
+            _bloc.dispatch(Refresh(edit: true));
+            /////
+            var res;
+            res = await r.updateReddit(document: json, id: args.id);
+            
+
+            if (res.statusCode != 200) {
+              info(context, '更新失败，请重试');
+              _bloc.dispatch(Refresh(edit: false));
+              return;
+            }
+
+            // info(context, '更新成功');
+            _bloc.dispatch(Refresh(edit: false));
+            _bloc.dispatch(RedditRefresh(refresh: true));
+            _rbloc.dispatch(FetchReddits(refresh: true));
+            _tbloc.dispatch(UpdateTopic());
+            
+            if (toPreview != null) toPreview();
           }
-
-          if (update != true) {
-            toPreview();
-            return;
-          }
-
-          ///// refresh actions
-          _bloc.dispatch(Refresh(edit: true));
-          /////
-          var res;
-          res = await r.updateReddit(document: json, id: args.id);
-          
-          ///// stop refreshing actions
-          _bloc.dispatch(Refresh(edit: false));
-          ////
-
-          if (res.statusCode != 200) {
-            info(context, '更新失败，请重试');
-            return;
-          }
-
-          // info(context, '更新成功');
-          _bloc.dispatch(RedditRefresh(refresh: true));
-          _rbloc.dispatch(FetchReddits(refresh: true));
-          _tbloc.dispatch(UpdateTopic());
-          
-          if (toPreview != null) toPreview();
-        }
+        )
       )
     );
   }
@@ -146,10 +148,12 @@ class More extends StatelessWidget {
   final VoidCallback toEdit;
   final ZefyrController zefyrController;
   final ScreenshotController screenshotController;
+  final BuildContext sContext;
   More({
       this.args,
       this.update,
       this.toEdit,
+      this.sContext,
       this.screenshotController,
       this.zefyrController,
   });
@@ -164,6 +168,7 @@ class More extends StatelessWidget {
               args: args,
               update: update,
               toEdit: toEdit,
+              sContext: sContext,
               controller: screenshotController,
               zefyrController: zefyrController,
             );
@@ -178,12 +183,18 @@ class More extends StatelessWidget {
 
 class Publish extends StatelessWidget {
   final ArticleArgs args;
+  final BuildContext sContext;
   final ZefyrController zefyrController;
   
   Publish({
       this.args,
+      this.sContext,
       this.zefyrController
   });
+
+  didChangeDependencies() {
+    // inheritFromWidgetOfExactType();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -212,7 +223,8 @@ class Publish extends StatelessWidget {
       );
 
       if (res.statusCode != 200) {
-        info(context, '发布失败，请重试');
+        _bloc.dispatch(Refresh(edit: false));
+        info(sContext, '发布失败，请重试');
         return;
       }
 
@@ -221,7 +233,7 @@ class Publish extends StatelessWidget {
       _rbloc.dispatch(FetchReddits(refresh: true));
       _tbloc.dispatch(UpdateTopic());
 
-      Navigator.maybePop(context);
+      Navigator.maybePop(sContext);
     }
 
     return CtNoRipple(
@@ -237,11 +249,13 @@ class EditActions extends StatelessWidget {
   final VoidCallback toEdit;
   final ArticleArgs args;
   final ZefyrController zefyrController;
+  final BuildContext sContext;
   EditActions({
       this.update,
       this.controller,
       this.toEdit,
       this.args,
+      this.sContext,
       this.zefyrController
   });
 
@@ -269,7 +283,8 @@ class EditActions extends StatelessWidget {
       );
 
       if (res.statusCode != 200) {
-        info(context, '发布失败，请重试');
+        _bloc.dispatch(Refresh(edit: false));
+        info(sContext, '发布失败，请重试');
         return;
       }
 
@@ -277,43 +292,49 @@ class EditActions extends StatelessWidget {
       _rbloc.dispatch(FetchReddits(refresh: true));
 
       Navigator.maybePop(context);
-      Navigator.maybePop(context);
+      Navigator.maybePop(sContext);
     }
 
     toTop() async {
+      Navigator.maybePop(context);
       final xReq.Requests r = await xReq.Requests.init();
       _bloc.dispatch(Refresh(edit: true));
-
+      load(context, '置顶中...');
+      
       var res = await r.updateRedditTime(id: args.id);
       if (res.statusCode == 200) {
         _bloc.dispatch(RedditRefresh(refresh: true));
         _rbloc.dispatch(FetchReddits(refresh: true));
+        Navigator.maybePop(context);
+        Navigator.maybePop(sContext);
       } else {
+        _bloc.dispatch(Refresh(edit: false));
         info(context, '置顶失败，请重试');
         return;
       }
-
-      Navigator.maybePop(context);
-      Navigator.maybePop(context);
     }
     
     delete() async {
+      Navigator.maybePop(context);
       final xReq.Requests r = await xReq.Requests.init();
       _bloc.dispatch(Refresh(edit: true));
+      // Navigator.maybePop(context);
 
+      load(context, '删除中...');
       var res = await r.deleteReddit(id: args.id);
-
+      
       if (res.statusCode == 200) {
+        Navigator.maybePop(context);
+        Navigator.maybePop(sContext);
+        
         _bloc.dispatch(RedditRefresh(refresh: true));
         _rbloc.dispatch(FetchReddits(refresh: true));
         _tbloc.dispatch(UpdateTopic());
       } else {
+        _bloc.dispatch(Refresh(edit: false));
         info(context, '删除失败，请重试');
         return;
       }
-
-      Navigator.maybePop(context);
-      Navigator.maybePop(context);
     }
 
     alertDelete(BuildContext ctx) {

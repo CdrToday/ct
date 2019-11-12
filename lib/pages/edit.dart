@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/widgets/actions.dart' as actions;
 import 'package:cdr_today/widgets/editor.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/refresh.dart';
+import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:zefyr/zefyr.dart';
 
@@ -41,13 +43,16 @@ class _EditState extends State<Edit> {
   }
   
   Widget build(BuildContext context) {
-    print(widget.args.topic);
+    final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
+    
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(
           onTap: () async {
             final String json = jsonEncode(_controller.document);
+            _bloc.dispatch(Refresh(edit: false));
             setString('_article', json);
+            
             Navigator.maybePop(context);
           }
         ),
@@ -55,6 +60,7 @@ class _EditState extends State<Edit> {
           widget: EditRefresher(
             widget: actions.Publish(
               args: widget.args,
+              sContext: context,
               zefyrController: _controller,
             )
           ),

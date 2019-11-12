@@ -45,7 +45,8 @@ class _NameState extends State<Name> {
             input: _value,
             enabled: !(widget.args.name == _value),
             profile: widget.args.profile,
-            id: widget.args.id
+            id: widget.args.id,
+            sContext: context,
           ),
         ),
         border: null,

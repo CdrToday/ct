@@ -52,7 +52,8 @@ class _ArticleState extends State<Article> {
                   setState(() { _edit = true; });
                   Navigator.pop(context);
                 },
-                screenshotController: screenshotController
+                screenshotController: screenshotController,
+                sContext: context,
               ) : Post(
                 update: true,
                 args: widget.args,

@@ -18,7 +18,8 @@ class CommunityPopMenu extends StatefulWidget {
 
 class  _CommunityPopMenuState extends State<CommunityPopMenu> {
   String _value = '';
-
+  Widget _join = Text('加入');
+  
   void changeValue(String value) {
     setState(() { _value = value; });
   }
@@ -51,10 +52,15 @@ class  _CommunityPopMenuState extends State<CommunityPopMenu> {
                 color: CtColors.gray7,
                 margin: EdgeInsets.only(top: 8.0),
               ),
-              ok: Text('加入'),
+              ok: _join,
               action: () async {
                 final r = await xReq.Requests.init();
                 _rbloc.dispatch(Refresh(cupertino: true));
+
+
+                Navigator.of(context, rootNavigator: true).pop();
+                load(context, '请求中...');
+
                 var res = await r.joinCommunity(id: _value);
                 if (res.statusCode != 200) {
                   info(context, '加入失败，请重试');
