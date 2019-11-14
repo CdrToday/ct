@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
-import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
@@ -48,6 +47,7 @@ class TopicBloc extends Bloc<TopicEvent, TopicState> {
   @override
   TopicState get initialState => Topics(
     id: '',
+    req: false,
     batch: [],
     topics: [],
     refresh: 0,
@@ -69,16 +69,11 @@ class TopicBloc extends Bloc<TopicEvent, TopicState> {
         refresh: (currentState as Topics).refresh + 1,
       );
     } else if (event is BatchTopic) {
-      if (event.topic == '') {
-        yield (currentState as Topics).copyWith(
-          batch: [],
-          refresh: (currentState as Topics).refresh + 1,
-        );
-        return;
-      }
+      yield (currentState as Topics).copyWith(req: true);
       
       var batch = await getTopicBatch((currentState as Topics).id, event.topic);
       yield (currentState as Topics).copyWith(
+        req: false,
         batch: batch,
         refresh: (currentState as Topics).refresh + 1,
       );
@@ -94,18 +89,20 @@ abstract class TopicState extends Equatable {
 class Topics extends TopicState {
   final List<dynamic> topics;
   final List<dynamic> batch;
+  final bool req;
   final int refresh;
   final String id;
   
   Topics({
-      this.id = '', this.topics, this.refresh = 0, this.batch
-  }) : super([ id, topics, refresh, batch ]);
+      this.id = '', this.topics, this.refresh = 0, this.batch, this.req
+  }) : super([ id, topics, refresh, batch, req ]);
 
   Topics copyWith({
-      List<dynamic> topics, List<dynamic> batch, int refresh, String id, 
+      List<dynamic> topics, List<dynamic> batch, int refresh, String id, bool req
   }) {
     return Topics(
       id: id ?? this.id,
+      req: req ?? this.req,
       batch: batch ?? this.batch,
       topics: topics ?? this.topics,
       refresh: refresh ?? this.refresh

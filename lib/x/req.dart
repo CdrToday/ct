@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/x/store.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:device_info/device_info.dart';
 
 const Response = http.Response;
 final http.Response timeout = http.Response('timeout', 408);

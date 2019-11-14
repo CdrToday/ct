@@ -8,7 +8,6 @@ import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
-import 'package:cdr_today/widgets/_post/post.dart';
 import 'package:cdr_today/widgets/_post/reddit.dart';
 
 // post list

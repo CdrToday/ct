@@ -7,7 +7,6 @@ import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/member.dart';
-import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/_actions/edit.dart';
 

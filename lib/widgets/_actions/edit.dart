@@ -41,40 +41,6 @@ class EditAction extends StatelessWidget {
   }
 }
 
-class EditActionsProvider {
-  final BuildContext context;
-  final bool update;
-  final ArticleArgs args;
-  final VoidCallback toEdit;
-  final VoidCallback toPreview;
-  final ZefyrController zefyrController;
-  final ScreenshotController screenshotController;
-    
-  EditActionsProvider(
-    this.context, {
-      this.args,
-      this.screenshotController,
-      this.zefyrController,
-      this.toEdit,
-      this.toPreview,
-      this.update,
-    }
-  );
-
-  Widget get more => More(
-    args: args,
-    update: update,
-    toEdit: toEdit,
-    zefyrController: zefyrController,
-    screenshotController: screenshotController,
-  );
-  
-  Widget get cancel => CtNoRipple(
-    icon: Icons.highlight_off,
-    onTap: toPreview
-  );
-}
-
 class Update extends StatelessWidget {
   final bool update;
   final ArticleArgs args;
@@ -86,6 +52,7 @@ class Update extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
+    final TopicBloc _tbloc = BlocProvider.of<TopicBloc>(context);
     
     return Builder(
       builder: (context) => EditRefresher(
@@ -105,7 +72,6 @@ class Update extends StatelessWidget {
             _bloc.dispatch(Refresh(edit: true));
             /////
 
-            load(context, '更新中...');
             var res;
             res = await r.updateReddit(document: json, id: args.id);
             
@@ -115,10 +81,10 @@ class Update extends StatelessWidget {
               return;
             }
 
-            Navigator.of(context).pop();
             _bloc.dispatch(Refresh(edit: false));
             _bloc.dispatch(RedditRefresh(refresh: true));
             _rbloc.dispatch(FetchReddits(refresh: true));
+            _tbloc.dispatch(BatchTopic(topic: args.topic));
             
             if (toPreview != null) toPreview();
           }
@@ -150,13 +116,15 @@ class More extends StatelessWidget {
       builder: (context, state) {
         if (state is UserInited) {
           if (state.mail == args.mail || args.mail == null) {
-            return EditActions(
-              args: args,
-              update: update,
-              toEdit: toEdit,
-              sContext: sContext,
-              controller: screenshotController,
-              zefyrController: zefyrController,
+            return EditRefresher(
+              widget: EditActions(
+                args: args,
+                update: update,
+                toEdit: toEdit,
+                sContext: sContext,
+                controller: screenshotController,
+                zefyrController: zefyrController,
+              )
             );
           }
         }
@@ -218,6 +186,7 @@ class Publish extends StatelessWidget {
       _bloc.dispatch(RedditRefresh(refresh: true));
       _rbloc.dispatch(FetchReddits(refresh: true));
       _tbloc.dispatch(UpdateTopic());
+      _tbloc.dispatch(BatchTopic(topic: args.topic));
 
       Navigator.maybePop(sContext);
     }
@@ -249,23 +218,23 @@ class EditActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
+    final TopicBloc _tbloc = BlocProvider.of<TopicBloc>(context);
     
     toTop() async {
       Navigator.maybePop(context);
       final xReq.Requests r = await xReq.Requests.init();
       _bloc.dispatch(Refresh(edit: true));
-      load(context, '置顶中...');
-      
+       
       var res = await r.updateRedditTime(id: args.id);
       if (res.statusCode == 200) {
         _bloc.dispatch(RedditRefresh(refresh: true));
         _rbloc.dispatch(FetchReddits(refresh: true));
+        _tbloc.dispatch(BatchTopic(topic: args.topic ?? args.id));
         
-        Navigator.maybePop(context);
         Navigator.maybePop(sContext);
       } else {
         _bloc.dispatch(Refresh(edit: false));
-        info(context, '置顶失败，请重试');
+        info(sContext, '置顶失败，请重试');
         return;
       }
     }
@@ -275,18 +244,17 @@ class EditActions extends StatelessWidget {
       final xReq.Requests r = await xReq.Requests.init();
       _bloc.dispatch(Refresh(edit: true));
 
-      load(sContext, '删除中...');
       var res = await r.deleteReddit(id: args.id);
 
       if (res.statusCode == 200) {
         Navigator.maybePop(sContext);
-        Navigator.maybePop(sContext);
         
         _bloc.dispatch(RedditRefresh(refresh: true));
         _rbloc.dispatch(FetchReddits(refresh: true));
+        _tbloc.dispatch(BatchTopic(topic: args.topic ?? args.id));
       } else {
         _bloc.dispatch(Refresh(edit: false));
-        info(context, '删除失败，请重试');
+        info(sContext, '删除失败，请重试');
         return;
       }
     }

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cdr_today/x/time.dart';
-import 'package:cdr_today/x/rng.dart';
 import 'package:cdr_today/x/_style/color.dart';
-import 'package:cdr_today/widgets/avatar.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class TopicCard extends StatelessWidget {
   final String title;

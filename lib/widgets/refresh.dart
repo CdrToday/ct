@@ -117,22 +117,6 @@ class QrRefresher extends StatelessWidget {
   }
 }
 
-class CommonRefresher extends StatelessWidget {
-  final Widget widget;
-  CommonRefresher({ this.widget });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RefreshBloc, RefreshState>(
-      builder: (context, state) {
-        if ((state as Refresher).common == true) {
-          return CupertinoActivityIndicator();
-        }
-        return widget ?? SizedBox.shrink();
-      }
-    );
-  }
-}
 
 class CupertinoRefresher extends StatelessWidget {
   final Widget widget;

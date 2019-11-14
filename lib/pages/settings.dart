@@ -5,7 +5,6 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
-import 'package:cdr_today/x/_style/color.dart';
 
 class Settings extends StatelessWidget {
   @override

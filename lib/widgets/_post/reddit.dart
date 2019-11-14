@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 import 'package:cdr_today/widgets/cards.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/navigations/args.dart';
