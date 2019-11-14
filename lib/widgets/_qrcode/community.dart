@@ -25,7 +25,15 @@ class Community extends StatelessWidget {
 
     final String code = jsonEncode(_args);
     final double _width = MediaQuery.of(context).size.width;
-    final double _cw = _width > 375 ? _width * 3 / 5 : _width * 2 / 3;
+    double _cw;
+
+    if (_width > 600) {
+      _cw = _width *  1 / 2;
+    } else if (_width > 375) {
+      _cw = _width * 3 / 5;
+    } else {
+      _cw = _width * 2 / 3;
+    }
     
     return Card(
       child: Container(
@@ -37,10 +45,10 @@ class Community extends StatelessWidget {
                   self: true,
                   rect: true,
                   tag: 'no-tag',
-                  width: _width / 20,
+                  width: _cw / 15,
                 ),
                 SizedBox(width: 10.0),
-                Name(self: true, size: _width / 25),
+                Name(self: true, size: _cw / 20),
               ]
             ),
             QrImage(
@@ -50,12 +58,15 @@ class Community extends StatelessWidget {
             AutoSizeText(
               '邀请你加入 "${args.name}"',
               maxLines: 1,
+              style: TextStyle(
+                fontSize: _cw / 25,
+              )
             )
           ],
           mainAxisAlignment: MainAxisAlignment.spaceAround
         ),
         width: _cw,
-        height: _cw + 2 * kToolbarHeight - _width / 20,
+        height: _cw * 5 / 4,
         margin: EdgeInsets.all(18.0),
       ),
     );

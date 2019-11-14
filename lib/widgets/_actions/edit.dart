@@ -186,6 +186,7 @@ class Publish extends StatelessWidget {
   Widget build(BuildContext context) {
     final RefreshBloc _bloc = BlocProvider.of<RefreshBloc>(context);
     final RedditBloc _rbloc = BlocProvider.of<RedditBloc>(context);
+    final TopicBloc _tbloc = BlocProvider.of<TopicBloc>(context);
 
     post() async {
       final xReq.Requests r = await xReq.Requests.init();
@@ -216,6 +217,7 @@ class Publish extends StatelessWidget {
       setString('_article', '');
       _bloc.dispatch(RedditRefresh(refresh: true));
       _rbloc.dispatch(FetchReddits(refresh: true));
+      _tbloc.dispatch(UpdateTopic());
 
       Navigator.maybePop(sContext);
     }
@@ -272,7 +274,6 @@ class EditActions extends StatelessWidget {
       Navigator.maybePop(context);
       final xReq.Requests r = await xReq.Requests.init();
       _bloc.dispatch(Refresh(edit: true));
-      // Navigator.maybePop(context);
 
       load(sContext, '删除中...');
       var res = await r.deleteReddit(id: args.id);
