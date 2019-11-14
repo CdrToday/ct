@@ -68,14 +68,18 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
               page: _currentPage,
         )).body)['reddits'];
       }
-
+      
       yield (currentState as Reddits).copyWith(
         reddits: _reddits + reddits,
         community: event.community,
         page: _currentPage,
-        hasReachedMax: reddits.length == 0 ? true : false,
+        hasReachedMax: reddits.length < 10 ? true : false,
         refresh: (currentState as Reddits).refresh + 1,
-      );
+      );      
+
+      if (event.refresh == true) {
+        this.dispatch(FetchReddits(community: event.community));
+      }
     }
   }
 }
@@ -129,6 +133,7 @@ abstract class RedditEvent extends Equatable {
 class FetchReddits extends RedditEvent {
   final bool refresh;
   final String community;
+  
   FetchReddits({
       this.refresh = false,
       this.community

@@ -18,13 +18,17 @@ class TopicBatch extends StatefulWidget {
 
 class _TopicBatchState extends State<TopicBatch> {
   List<dynamic> batch = [];
-  
-  
+
   initState() {
     final TopicBloc _bloc = BlocProvider.of<TopicBloc>(context);
     _bloc.dispatch(BatchTopic(topic: widget.topic));
   }
 
+  deactivate() {
+    final TopicBloc _bloc = BlocProvider.of<TopicBloc>(context);
+    if (ModalRoute.of(context).isCurrent) _bloc.dispatch(BatchTopic(topic: widget.topic));
+  }
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MemberBloc, MemberState>(
@@ -55,7 +59,7 @@ class _TopicBatchState extends State<TopicBatch> {
               r['author'] = '';
             }
           }
-          
+
           return CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
               middle: Text('...'),

@@ -80,7 +80,7 @@ class _RedditState extends State<Reddit> {
                 r['author'] = '';
               }
             }
-            
+
             return PostList(
               appBar: widget.appBar,
               title: widget.title,

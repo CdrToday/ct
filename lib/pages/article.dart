@@ -54,7 +54,7 @@ class _ArticleState extends State<Article> {
                 },
                 screenshotController: screenshotController,
                 sContext: context,
-              ) : Post(
+              ) : Update(
                 update: true,
                 args: widget.args,
                 zefyrController: controller,

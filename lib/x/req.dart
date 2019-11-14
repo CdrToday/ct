@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:cdr_today/x/conf.dart';
 import 'package:cdr_today/x/store.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:device_info/device_info.dart';
 
 const Response = http.Response;
 final http.Response timeout = http.Response('timeout', 408);
@@ -81,9 +83,9 @@ class Requests {
   }
 
   //@getPosts: GET '/u/:mail/c/:id/reddit'
-  Future<http.Response> getReddits({String community, int page}) async {
-    var res = await rGet("/u/$mail/c/$community/reddit?p=$page");
-    if (res.statusCode == 408) return getReddits(community: community, page: page);
+  Future<http.Response> getReddits({String community, int page, int limit}) async {
+    var res = await rGet("/u/$mail/c/$community/reddit?p=$page&l=$limit");
+    if (res.statusCode == 408) return getReddits(community: community, page: page, limit: limit);
     return res;
   }
   

@@ -97,7 +97,7 @@ class _PostState extends State<PostList> {
                   child: widget.loading
                   ? CupertinoActivityIndicator()
                   : Text(
-                    '————',
+                    '暂无内容',
                     style: TextStyle(
                       color: CtColors.primary
                     ),
@@ -116,7 +116,7 @@ class _PostState extends State<PostList> {
         ]
       );
     }
-  
+
     return CustomScrollView(
       slivers: <Widget>[
         widget.appBar ?? SliverPadding(padding: EdgeInsets.all(0)),
