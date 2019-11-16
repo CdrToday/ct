@@ -51,23 +51,24 @@ class Community extends StatelessWidget {
                 Name(self: true, size: _cw / 20),
               ]
             ),
-            QrImage(
-              data: code,
-              version: QrVersions.auto,
+            Container(
+              child: QrImage(
+                data: code,
+                version: QrVersions.auto,
+              ),
+              padding: EdgeInsets.all(_cw / 25)
             ),
             AutoSizeText(
               '邀请你加入 "${args.name}"',
               maxLines: 1,
-              style: TextStyle(
-                fontSize: _cw / 25,
-              )
+              style: TextStyle(fontSize: _cw / 25)
             )
           ],
           mainAxisAlignment: MainAxisAlignment.spaceAround
         ),
         width: _cw,
         height: _cw * 5 / 4,
-        margin: EdgeInsets.all(18.0),
+        margin: EdgeInsets.all(_cw / 20),
       ),
     );
   }
