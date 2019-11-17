@@ -45,7 +45,7 @@ class Community extends StatelessWidget {
                   self: true,
                   rect: true,
                   tag: 'no-tag',
-                  width: _cw / 15,
+                  width: _cw / 14,
                 ),
                 SizedBox(width: 10.0),
                 Name(self: true, size: _cw / 20),
@@ -56,7 +56,7 @@ class Community extends StatelessWidget {
                 data: code,
                 version: QrVersions.auto,
               ),
-              padding: EdgeInsets.all(_cw / 25)
+              padding: EdgeInsets.all(_cw / 28)
             ),
             AutoSizeText(
               '邀请你加入 "${args.name}"',
@@ -68,7 +68,7 @@ class Community extends StatelessWidget {
         ),
         width: _cw,
         height: _cw * 5 / 4,
-        margin: EdgeInsets.all(_cw / 20),
+        margin: EdgeInsets.all(_cw / 15),
       ),
     );
   }

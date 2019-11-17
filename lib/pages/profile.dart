@@ -10,9 +10,6 @@ import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Profile extends StatelessWidget {
-  final ProfileArgs args;
-  Profile({ this.args });
-  
   Widget build(BuildContext context) {
     final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
     // final double _kTileHeight = 48.0;
@@ -22,7 +19,7 @@ class Profile extends StatelessWidget {
         if (state is UserInited) {
           return CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
-              leading: args.raw ? CtClose() : null,
+              leading: CtClose(),
               border: null
             ),
             child: Container(
@@ -57,20 +54,14 @@ class Profile extends StatelessWidget {
                       style: TextStyle(color: CtColors.primary)
                     ),
                   ),
-                  // SizedBox(height: 12.0),
-                  // ProfileTile(
-                  //   leading: '消息',
-                  //   onTap: () => Navigator.of(
-                  //     context, rootNavigator: true
-                  //   ).pushNamed('/mine/settings'),
-                  // ),
-                  // ProfileTile(
-                  //   leading: '文章',
-                  //   onTap: () => Navigator.of(
-                  //     context, rootNavigator: true
-                  //   ).pushNamed('/reddits')
-                  // ),
                   SizedBox(height: 12.0),
+                  ProfileTile(
+                    leading: '文章',
+                    onTap: () => Navigator.of(
+                      context, rootNavigator: true
+                    ).pushNamed('/post'),
+                  ),
+                  CtDivider(),
                   ProfileTile(
                     leading: '设置',
                     onTap: () => Navigator.of(

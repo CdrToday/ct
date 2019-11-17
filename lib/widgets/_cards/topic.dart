@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdr_today/x/_style/color.dart';
+import 'package:cdr_today/x/_style/text.dart';
 
 class TopicCard extends StatelessWidget {
   final String title;
@@ -23,7 +24,7 @@ class TopicCard extends StatelessWidget {
                   title,
                   style: TextStyle(
                     color: CtColors.primary,
-                    fontSize: 18.0,
+                    fontSize: CtFontSize.callout
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis

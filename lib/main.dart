@@ -15,6 +15,7 @@ import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
 import 'package:cdr_today/pages/edit.dart';
+import 'package:cdr_today/pages/post.dart';
 import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/version.dart';
 import 'package:cdr_today/pages/splash.dart';
@@ -123,13 +124,15 @@ Route router(settings) {
     );
   } else if (r == '/reddits') {
     // final RedditArgs args = settings.arguments;
-    return SlideRoute(page: RedditPage(self: true));
+    return SlideRoute(page: RedditPage());
   } else if (r == '/login') {
     return FadeRoute(page: Login());
   } else if (r == '/root') {
     return FadeRoute(page: InitPage());
   } else if (r == '/scan') {
     return SlideRoute(page: Scan());
+  } else if (r == '/post') {
+    return SlideRoute(page: PostPage());
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Article(args: args));
@@ -162,8 +165,7 @@ Route router(settings) {
   } else if (r == '/mine/version') {
     return SlideRoute(page: VersionPage());
   } else if (r == '/mine/profile') {
-    final ProfileArgs args = settings.arguments;
-    return SlideRoute(page: Profile(args: args));
+    return SlideRoute(page: Profile());
   } else if (r == '/mine/profile/avatar') {
     return FadeRoute(page: Avatar());
   } else if (r == '/mine/profile/name') {

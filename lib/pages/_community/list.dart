@@ -10,6 +10,12 @@ class CommunityListPage extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         automaticallyImplyLeading: false,
+        leading: CtNoRipple(
+          icon: Icons.insert_emoticon,
+          onTap: () => Navigator.of(
+            context, rootNavigator: true
+          ).pushNamed('/community/member')
+        ),
         middle: CommunityRefresher(widget: Text('社区')),
         trailing: CommunityPopMenu(
           child: CtNoRipple(icon: Icons.add_circle_outline),

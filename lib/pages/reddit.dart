@@ -11,27 +11,24 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/_actions/edit.dart';
 
 class RedditPage extends StatelessWidget {
-  final bool self;
-  RedditPage({ this.self = false });
-  
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: self? SizedBox.shrink() :RedditRefresher(
+        middle: RedditRefresher(
           widget: CommunityName(qr: true)
         ),
-        leading: self? CtClose() : CtNoRipple(
+        leading: CtNoRipple(
           size: 22.0,
           icon: Icons.inbox,
           onTap: () => Navigator.of(
             context, rootNavigator: true
           ).pushNamed('/community/topics')
         ),
-        trailing: self? SizedBox.shrink() : EditAction(context),
+        trailing: EditAction(context),
         border: null
       ),
-      child: Reddit(self: self),
+      child: Reddit(),
       resizeToAvoidBottomInset: false,
     );
   }
@@ -40,8 +37,7 @@ class RedditPage extends StatelessWidget {
 class Reddit extends StatefulWidget {
   final CupertinoSliverNavigationBar appBar;
   final SliverList title;
-  final bool self;
-  Reddit({ this.appBar, this.title, this.self });
+  Reddit({ this.appBar, this.title });
   
   @override
   _RedditState createState() => _RedditState();

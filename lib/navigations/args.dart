@@ -1,14 +1,3 @@
-class RootArgs {
-  final int index;
-  final bool fetch;
-  RootArgs({ this.index, this.fetch });
-}
-
-class ProfileArgs {
-  final bool raw;
-  ProfileArgs({ this.raw });
-}
-
 class ArticleArgs {
   final bool edit;
   final String id;
@@ -37,11 +26,6 @@ class ArticleArgs {
   });
 }
 
-class ModifyArgs {
-  final String index;
-  final String title;
-  ModifyArgs({ this.index, this.title });
-}
 
 class NameArgs {
   final String id;

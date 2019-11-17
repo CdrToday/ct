@@ -57,11 +57,9 @@ class ProfileTile extends StatelessWidget {
 
 class CtDivider extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Container(
-      child: Divider(
-        height: 0.1,
-        indent: 24.0,
-      ),
+    return Divider(
+      height: 0.1,
+      indent: 10.0,
       color: CtColors.gray
     );
   }

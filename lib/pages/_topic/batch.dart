@@ -61,9 +61,7 @@ class _TopicBatchState extends State<TopicBatch> {
 
           return CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
-              middle: CupertinoRefresher(
-                widget: (state as Topics).req? CupertinoActivityIndicator() : Text('...'),
-              ),
+              middle: (state as Topics).req? CupertinoActivityIndicator() : Text('...'),
               leading: CtClose(),
               border: null
             ),

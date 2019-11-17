@@ -50,7 +50,7 @@ class _InitPageState extends State<InitPage> {
                   } else if (index == 1) {
                     return CommunityListPage();
                   } else if (index == 2) {
-                    return Profile(args: ProfileArgs(raw: false));
+                    return Profile();
                   }
                   return Container();
                 }

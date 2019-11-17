@@ -3,23 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 
-class PostRefresher extends StatelessWidget {
-  final Widget widget;
-  PostRefresher({ this.widget });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RefreshBloc, RefreshState>(
-      builder: (context, state) {
-        if ((state as Refresher).post == true) {
-          return CupertinoActivityIndicator();
-        }
-        return widget ?? SizedBox.shrink();
-      }
-    );
-  }
-}
-
 class CommunityRefresher extends StatelessWidget {
   final Widget widget;
   CommunityRefresher({ this.widget });
@@ -134,4 +117,3 @@ class CupertinoRefresher extends StatelessWidget {
     );
   }
 }
-
