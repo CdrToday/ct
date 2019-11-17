@@ -43,7 +43,15 @@ class _ArticleState extends State<Article> {
           navigationBar: CupertinoNavigationBar(
             leading: CtClose(),
             border: null,
-            trailing: _flag == false? null : (
+            trailing: _flag == false? CtNoRipple(
+              icon: Icons.code,
+              size: 22.0,
+              onTap: () => Navigator.of(
+                context, rootNavigator: true
+              ).pushNamed(
+                '/post', arguments: PostArgs(ident: widget.args.mail)
+              )
+            ) : (
               _edit == false ? More(
                 update: true,
                 args: widget.args,

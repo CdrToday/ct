@@ -23,7 +23,7 @@ class RedditPage extends StatelessWidget {
         ),
         leading: CtNoRipple(
           size: 22.0,
-          icon: Icons.inbox,
+          icon: Icons.code,
           onTap: () => Navigator.of(
             context, rootNavigator: true
           ).pushNamed('/community/topics')

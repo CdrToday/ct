@@ -151,7 +151,7 @@ Route router(settings) {
   } else if (r == '/community/member') {
     return FadeRoute(page: MemberPage());
   } else if (r == '/community/topics') {
-    return SlideRoute(page: topic.TopicList());
+    return FadeRoute(page: topic.TopicList());
   } else if (r == '/community/topic/batch') {
     final BatchArgs args = settings.arguments;
     return SlideRoute(page: topic.TopicBatch(topic: args.topic));
@@ -171,7 +171,7 @@ Route router(settings) {
   } else if (r == '/mine/version') {
     return SlideRoute(page: VersionPage());
   } else if (r == '/mine/profile') {
-    return SlideRoute(page: Profile());
+    return SlideRoute(page: Profile(raw: true));
   } else if (r == '/mine/profile/avatar') {
     return FadeRoute(page: Avatar());
   } else if (r == '/mine/profile/name') {

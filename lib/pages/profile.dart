@@ -10,6 +10,9 @@ import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/navigations/args.dart';
 
 class Profile extends StatelessWidget {
+  final bool raw;
+  Profile({ this.raw = false });
+  
   Widget build(BuildContext context) {
     final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
     // final double _kTileHeight = 48.0;
@@ -19,7 +22,7 @@ class Profile extends StatelessWidget {
         if (state is UserInited) {
           return CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
-              leading: null,
+              leading: raw ? CtClose() : null,
               border: null
             ),
             child: Container(
