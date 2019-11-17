@@ -7,6 +7,7 @@ import 'package:cdr_today/blocs/main.dart';
 import 'package:cdr_today/blocs/auth.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/refresh.dart';
+import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/blocs/reddit.dart';
@@ -45,6 +46,7 @@ void main() async {
 }
 
 final VerifyBloc verifyBloc = VerifyBloc();
+final PostBloc postBloc = PostBloc();
 final UserBloc userBloc = UserBloc(v: verifyBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
 final TopicBloc topicBloc = TopicBloc(c: communityBloc);
@@ -78,6 +80,9 @@ class _AppState extends State<App> {
         ),
         BlocProvider<VerifyBloc>(
           builder: (context) => verifyBloc
+        ),
+        BlocProvider<PostBloc>(
+          builder: (context) => postBloc
         ),
         BlocProvider<CommunityBloc>(
           builder: (context) => communityBloc
@@ -132,7 +137,8 @@ Route router(settings) {
   } else if (r == '/scan') {
     return SlideRoute(page: Scan());
   } else if (r == '/post') {
-    return SlideRoute(page: PostPage());
+    final PostArgs args = settings.arguments;
+    return SlideRoute(page: PostPage(args: args));
   } else if (r == '/article') {
     final ArticleArgs args = settings.arguments;
     return FadeRoute(page: Article(args: args));

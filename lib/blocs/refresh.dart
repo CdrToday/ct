@@ -16,13 +16,6 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
           this.dispatch(CommunityRefresh(refresh: false));
         }
     });
-
-    r.state.listen((state) {
-        if (state is Reddits) {
-          if (state.refresh == 0) return;
-          this.dispatch(RedditRefresh(refresh: false));
-        }
-    });
   }
   
   @override
@@ -41,46 +34,21 @@ class RefreshBloc extends Bloc<RefreshEvent, RefreshState> {
   RefreshState get initialState => Refresher(
     qr: false,
     edit: false,
-    post: false,
     common: false,
-    reddit: false,
     profile: false,
     community: false,
   );
 
   @override
   Stream<RefreshState> mapEventToState(RefreshEvent event) async* {
-    if (event is PostRefresh) {
-      yield (currentState as Refresher).copyWith(
-        post: event.refresh ?? (currentState as Refresher).post,
-        qr: false,
-        edit: false,
-        common: false,
-        reddit: false,
-        profile: false,
-        community: false,
-      );
-    } else if (event is CommunityRefresh) {
+    if (event is CommunityRefresh) {
       yield (currentState as Refresher).copyWith(
         community: event.refresh ?? (currentState as Refresher).community,
         qr: false,
         edit: false,
-        post: false,
-        common: false,
-        reddit: false,
-        profile: false,
-      );
-    } else if (event is RedditRefresh) {
-      yield (currentState as Refresher).copyWith(
-        reddit: event.refresh ?? (currentState as Refresher).reddit,
-        qr: false,
-        edit: false,
-        post: false,
         common: false,
         profile: false,
-        community: false,
       );
-
     } else if (event is Refresh) {
       yield (currentState as Refresher).copyWith(
         qr: event.qr ?? (currentState as Refresher).qr,
@@ -103,27 +71,21 @@ abstract class RefreshState extends Equatable {
 class Refresher extends RefreshState {
   final bool qr;
   final bool edit;
-  final bool post;
   final bool common;
-  final bool reddit;
   final bool profile;
   final bool cupertino;
   final bool community;
   Refresher({
       this.qr,
       this.edit,
-      this.post,
       this.common,
-      this.reddit,
       this.profile,
       this.cupertino,
       this.community
   }) : super([
       qr,
       edit,
-      post,
       common,
-      reddit,
       profile,
       cupertino,
       community,
@@ -132,9 +94,7 @@ class Refresher extends RefreshState {
   Refresher copyWith({
       bool qr,
       bool edit,
-      bool post,
       bool common,
-      bool reddit,
       bool profile,
       bool cupertino,
       bool community,
@@ -142,9 +102,7 @@ class Refresher extends RefreshState {
     return Refresher(
       qr: qr ?? this.qr,
       edit: edit ?? this.edit,
-      post: post ?? this.post,
       common: common ?? this.common,
-      reddit: reddit ?? this.reddit,
       profile: profile ?? this.profile,
       cupertino: cupertino ?? this.cupertino,
       community: community ?? this.community
@@ -185,11 +143,4 @@ class CommunityRefresh extends RefreshEvent {
   CommunityRefresh({ this.refresh = true });
   @override
   String toString() => 'CommunityRefresh';
-}
-
-class RedditRefresh extends RefreshEvent {
-  final bool refresh;
-  RedditRefresh({ this.refresh = true });
-  @override
-  String toString() => 'RedditRefresh';
 }

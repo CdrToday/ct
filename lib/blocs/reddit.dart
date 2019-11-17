@@ -34,6 +34,7 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
 
   @override
   RedditState get initialState => Reddits(
+    req: false,
     page: 0,
     reddits: [],
     refresh: 0,
@@ -46,6 +47,7 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
     if (event is FetchReddits) {
       int _currentPage = 0;
       List<dynamic> _reddits = [];
+      yield (currentState as Reddits).copyWith(req: true);
 
       // load reddits
       if (currentState is Reddits) {
@@ -70,6 +72,7 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
       }
       
       yield (currentState as Reddits).copyWith(
+        req: false,
         reddits: _reddits + reddits,
         community: event.community,
         page: _currentPage,
@@ -90,6 +93,7 @@ abstract class RedditState extends Equatable {
 }
 
 class Reddits extends RedditState {
+  final bool req;
   final int page;
   final int refresh;
   final String community;
@@ -97,6 +101,7 @@ class Reddits extends RedditState {
   final bool hasReachedMax;
 
   Reddits({
+      this.req,
       this.page,
       this.reddits,
       this.refresh,
@@ -105,6 +110,7 @@ class Reddits extends RedditState {
   }): super([reddits, community, hasReachedMax, refresh, page]);
   
   Reddits copyWith({
+      bool req,
       int page,
       int refresh,
       String community,
@@ -112,6 +118,7 @@ class Reddits extends RedditState {
       bool hasReachedMax
   }) {
     return Reddits(
+      req: req ?? this.req,
       page: page ?? this.page,
       reddits: reddits ?? this.reddits,
       refresh: refresh ?? this.refresh,

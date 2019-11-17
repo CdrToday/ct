@@ -19,7 +19,7 @@ class Profile extends StatelessWidget {
         if (state is UserInited) {
           return CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
-              leading: CtClose(),
+              leading: null,
               border: null
             ),
             child: Container(
@@ -59,7 +59,7 @@ class Profile extends StatelessWidget {
                     leading: '文章',
                     onTap: () => Navigator.of(
                       context, rootNavigator: true
-                    ).pushNamed('/post'),
+                    ).pushNamed('/post', arguments: PostArgs(ident: '')),
                   ),
                   CtDivider(),
                   ProfileTile(

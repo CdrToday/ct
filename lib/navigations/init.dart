@@ -14,7 +14,6 @@ class InitPage extends StatefulWidget {
 }
 
 class _InitPageState extends State<InitPage> {
-  /// __requires StatefulWidget__
   final _controller = CupertinoTabController();
   
   @override

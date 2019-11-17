@@ -64,3 +64,8 @@ class BatchArgs {
   final String topic;
   BatchArgs({ this.topic });
 }
+
+class PostArgs {
+  final String ident;
+  PostArgs({ this.ident });
+}

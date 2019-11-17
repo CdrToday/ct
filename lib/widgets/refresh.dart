@@ -20,23 +20,6 @@ class CommunityRefresher extends StatelessWidget {
   }
 }
 
-class RedditRefresher extends StatelessWidget {
-  final Widget widget;
-  RedditRefresher({ this.widget });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RefreshBloc, RefreshState>(
-      builder: (context, state) {
-        if ((state as Refresher).reddit == true) {
-          return CupertinoActivityIndicator(radius: 8.0);
-        }
-        return widget ?? SizedBox.shrink();
-      }
-    );
-  }
-}
-
 class EditRefresher extends StatelessWidget {
   final bool empty;
   final Widget widget;

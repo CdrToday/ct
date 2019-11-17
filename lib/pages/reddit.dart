@@ -15,8 +15,11 @@ class RedditPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: RedditRefresher(
-          widget: CommunityName(qr: true)
+        middle: BlocBuilder<RedditBloc, RedditState>(
+          builder: (context, state) {
+            if ((state as Reddits).req) return CupertinoActivityIndicator();
+            return CommunityName(qr: true);
+          }
         ),
         leading: CtNoRipple(
           size: 22.0,

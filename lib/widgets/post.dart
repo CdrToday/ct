@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/blocs/reddit.dart';
+import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
@@ -38,6 +39,7 @@ class PostList extends StatefulWidget {
 class _PostState extends State<PostList> {
   bool _scrollLock = false;
   TopicBloc _topicBloc;
+  PostBloc _postBloc;
   RedditBloc _redditBloc;
   RefreshBloc _refreshBloc;
   double _scrollThreshold = 500.0;
@@ -60,6 +62,7 @@ class _PostState extends State<PostList> {
     _scrollController.addListener(_onScroll);
     _lsc = ScrollController();
     _lsc.addListener(_onScroll);
+    _postBloc = BlocProvider.of<PostBloc>(context);
     _topicBloc = BlocProvider.of<TopicBloc>(context);
     _redditBloc = BlocProvider.of<RedditBloc>(context);
     _refreshBloc = BlocProvider.of<RefreshBloc>(context);
@@ -150,20 +153,9 @@ class _PostState extends State<PostList> {
                     author: posts[i]['author'],
                   )
                 );
-                // PostItem(
-                //   x: ArticleArgs(
-                //     id: id,
-                //     mail: posts[i]['author'],
-                //     document: document,
-                //     timestamp: timestamp,
-                //     community: posts[i]['community'],
-                //   )
-                // );
               }
-              
-              return widget.community
-              ? SizedBox.shrink()
-              : Divider(indent: 15.0, endIndent: 10.0);
+
+              return SizedBox.shrink();
             },
             childCount: posts.length * 2 + 1
           )
@@ -186,9 +178,13 @@ class _PostState extends State<PostList> {
       Duration(milliseconds: 1000)
     ).listen((b) {
         // dispatch events
-        _refreshBloc.dispatch(RedditRefresh());
         _topicBloc.dispatch(UpdateTopic());
-        _redditBloc.dispatch(FetchReddits(refresh: b));
+
+        if (widget.community) {
+          _redditBloc.dispatch(FetchReddits(refresh: b));
+        } else {
+          _postBloc.dispatch(FetchPosts(refresh: b));
+        }
         
         Observable.timer(
           b, new Duration(milliseconds: 1000)

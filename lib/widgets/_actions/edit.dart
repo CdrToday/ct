@@ -82,7 +82,6 @@ class Update extends StatelessWidget {
             }
 
             _bloc.dispatch(Refresh(edit: false));
-            _bloc.dispatch(RedditRefresh(refresh: true));
             _rbloc.dispatch(FetchReddits(refresh: true));
             _tbloc.dispatch(BatchTopic(topic: args.topic));
             
@@ -183,7 +182,6 @@ class Publish extends StatelessWidget {
       }
 
       setString('_article', '');
-      _bloc.dispatch(RedditRefresh(refresh: true));
       _rbloc.dispatch(FetchReddits(refresh: true));
       _tbloc.dispatch(UpdateTopic());
       _tbloc.dispatch(BatchTopic(topic: args.topic));
@@ -227,7 +225,6 @@ class EditActions extends StatelessWidget {
        
       var res = await r.updateRedditTime(id: args.id);
       if (res.statusCode == 200) {
-        _bloc.dispatch(RedditRefresh(refresh: true));
         _rbloc.dispatch(FetchReddits(refresh: true));
         _tbloc.dispatch(BatchTopic(topic: args.topic ?? args.id));
         
@@ -249,7 +246,6 @@ class EditActions extends StatelessWidget {
       if (res.statusCode == 200) {
         Navigator.maybePop(sContext);
         
-        _bloc.dispatch(RedditRefresh(refresh: true));
         _rbloc.dispatch(FetchReddits(refresh: true));
         _tbloc.dispatch(BatchTopic(topic: args.topic ?? args.id));
       } else {
