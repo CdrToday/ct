@@ -37,21 +37,28 @@ class _ArticleState extends State<Article> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if ((state as UserInited).mail == widget.args.mail) _flag = true;
-
+        if (
+          (state as UserInited).mail == widget.args.mail
+        ) _flag = true;
+        
         return CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
             leading: CtClose(),
             border: null,
-            trailing: _flag == false? CtNoRipple(
-              icon: Icons.code,
-              size: 22.0,
-              onTap: () => Navigator.of(
-                context, rootNavigator: true
-              ).pushNamed(
-                '/post', arguments: PostArgs(ident: widget.args.mail)
-              )
-            ) : (
+            trailing: _flag == false? (
+              widget.args.batch? CtNoRipple(
+                icon: Icons.code,
+                size: 22.0,
+                onTap: () => Navigator.of(
+                  context, rootNavigator: true
+                ).pushNamed(
+                  '/post', arguments: PostArgs(
+                    ident: widget.args.mail,
+                    community: widget.args.community
+                  )
+                )
+              ) : null
+            ): (
               _edit == false ? More(
                 update: true,
                 args: widget.args,

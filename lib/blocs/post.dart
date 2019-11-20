@@ -25,6 +25,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     page: 0,
     posts: [],
     refresh: 0,
+    community: '',
     hasReachedMax: false,
   );
 
@@ -40,7 +41,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         ident = await getString('mail');
       } 
       
-      yield (currentState as Posts).copyWith(req: true);
+      yield (currentState as Posts).copyWith(
+        ident: event.ident,
+        community: event.community,
+        req: true,
+        refresh: 1
+      );
       
       // load posts
       if (currentState is Posts) {
@@ -58,11 +64,13 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       if (event.ident == null) {
         posts = json.decode((await r.getPosts(
               ident: (currentState as Posts).ident,
+              community: (currentState as Posts).community,
               page: _currentPage,
         )).body)['posts'];
       } else {
         posts = json.decode((await r.getPosts(
               ident: ident,
+              community: event.community,
               page: _currentPage,
         )).body)['posts'];
       }
@@ -93,6 +101,7 @@ class Posts extends PostState {
   final int page;
   final int refresh;
   final String ident;
+  final String community;
   final List<dynamic> posts;
   final bool hasReachedMax;
 
@@ -101,15 +110,17 @@ class Posts extends PostState {
       this.page,
       this.posts,
       this.refresh,
+      this.community,
       this.ident,
       this.hasReachedMax,
-  }): super([req, posts, ident, hasReachedMax, refresh, page]);
+  }): super([req, posts, ident, community, hasReachedMax, refresh, page]);
   
   Posts copyWith({
       bool req,
       int page,
       int refresh,
       String ident,
+      String community,
       List<dynamic> posts,
       bool hasReachedMax
   }) {
@@ -118,6 +129,7 @@ class Posts extends PostState {
       page: page ?? this.page,
       posts: posts ?? this.posts,
       refresh: refresh ?? this.refresh,
+      community: community ?? this.community,
       ident: ident ?? this.ident,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
@@ -136,10 +148,12 @@ abstract class PostEvent extends Equatable {
 class FetchPosts extends PostEvent {
   final bool refresh;
   final String ident;
+  final String community;
   
   FetchPosts({
       this.refresh = false,
-      this.ident
+      this.ident,
+      this.community,
   });
 
   @override

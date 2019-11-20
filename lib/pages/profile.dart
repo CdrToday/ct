@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
+import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/widgets/avatar.dart';
@@ -58,11 +59,17 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 12.0),
-                  ProfileTile(
-                    leading: '文章',
-                    onTap: () => Navigator.of(
-                      context, rootNavigator: true
-                    ).pushNamed('/post', arguments: PostArgs(ident: '')),
+                  BlocBuilder<CommunityBloc, CommunityState>(
+                    builder: (context, cState) => ProfileTile(
+                      leading: '文章',
+                      onTap: () => Navigator.of(
+                        context, rootNavigator: true
+                      ).pushNamed('/post', arguments: PostArgs(
+                          ident: state.mail,
+                          community: (cState as Communities).current
+                        )
+                      ),
+                    )
                   ),
                   CtDivider(),
                   ProfileTile(

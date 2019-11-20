@@ -1,5 +1,6 @@
 class ArticleArgs {
   final bool edit;
+  final bool batch;
   final String id;
   final String ref;
   final String type;
@@ -17,6 +18,7 @@ class ArticleArgs {
       this.mail,
       this.edit,
       this.type,
+      this.batch,
       this.topic,
       this.avatar,
       this.author,
@@ -67,5 +69,6 @@ class BatchArgs {
 
 class PostArgs {
   final String ident;
-  PostArgs({ this.ident });
+  final String community;
+  PostArgs({ this.ident, this.community });
 }

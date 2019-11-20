@@ -68,9 +68,13 @@ class Requests {
 
   /// --- post ---
   //@getPosts: GET '/u/:mail/post'
-  Future<http.Response> getPosts({String ident, int page, int limit}) async {
-    var res = await rGet("/u/$mail/post/$ident?p=$page&l=$limit");
-    if (res.statusCode == 408) return getPosts(ident: ident, page: page, limit: limit);
+  Future<http.Response> getPosts({
+      String ident, String community, int page, int limit
+  }) async {
+    var res = await rGet("/u/$mail/post/$ident?c=$community&p=$page&l=$limit");
+    if (res.statusCode == 408) return getPosts(
+      ident: ident, community: community, page: page, limit: limit
+    );
     return res;
   }
   

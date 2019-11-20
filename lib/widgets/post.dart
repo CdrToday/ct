@@ -146,6 +146,7 @@ class _PostState extends State<PostList> {
                     type: widget.type,
                     mail: posts[i]['mail'],
                     topic: posts[i]['topic'],
+                    batch: widget.community,
                     document: document,
                     timestamp: timestamp,
                     community: posts[i]['community'],

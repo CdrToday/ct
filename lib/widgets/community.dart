@@ -16,8 +16,6 @@ class CommunityTile extends StatelessWidget {
   CommunityTile({ this.avatar, this.name, this.trailing, this.onTap, this.padding });
   
   Widget build(BuildContext context) {
-    String _name = name;
-    if (_name == '') _name = rngName();
     return Container(
       child: GestureDetector(
         child: Row(
@@ -26,7 +24,7 @@ class CommunityTile extends StatelessWidget {
             SizedBox(width: 10.0),
             Expanded(
               child: Text(
-                _name,
+                name,
                 maxLines: 1,
                 style: TextStyle(fontSize: 14.0),
               ),

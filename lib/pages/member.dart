@@ -19,29 +19,7 @@ class MemberPage extends StatelessWidget {
           ),
         ),
       ),
-      child: CommunityMember(
-        // appBar: SliverAppBar(
-        //   leading: null,
-        //   automaticallyImplyLeading: false,
-        //   floating: true,
-        //   snap: true,
-        //   elevation: 0.4,
-        //   forceElevated: true,
-        //   expandedHeight: kToolbarHeight * 1.6,
-        //   flexibleSpace: FlexibleSpaceBar(
-        //     title: Container(
-        //       child: CommunityName(limit: true),
-        //     ),
-        //     centerTitle: true,
-        //   ),
-        //   trailing: CtNoRipple(
-        //     icon: CupertinoIcons.settings,
-        //     onTap: () {
-        //       Navigator.pushNamed(context, '/community/settings');
-        //     },
-        //   ),
-        // ),
-      )
+      child: CommunityMember()
     );
   }
 }

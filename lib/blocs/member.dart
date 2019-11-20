@@ -7,6 +7,7 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
+import 'package:cdr_today/x/rng.dart';
 
 Future<List<dynamic>> getMembers({String id}) async {
   final xReq.Requests r = await xReq.Requests.init();
@@ -70,6 +71,11 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
   Stream<MemberState> mapEventToState(MemberEvent event) async* {
     if (event is FetchMember) {
       var members = await getMembers(id: event.id);
+
+      for (var m in members) {
+        if (m['name'] == '') m['name'] = rngName();
+      }
+
       yield (currentState as Members).copyWith(
         id: event.id,
         members: members,
