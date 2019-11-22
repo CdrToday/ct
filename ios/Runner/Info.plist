@@ -29,7 +29,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>(预留，如弹出请不要授予 cdr.today 相应权限)</string>
 	<key>NSCameraUsageDescription</key>
-	<string>可以使用你的相机吗？</string>
+	<string>你可以设置头像，还可以发送带图的文章。</string>
 	<key>NSContactsUsageDescription</key>
 	<string>(预留，如弹出请不要授予 cdr.today 相应权限)</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -39,7 +39,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>(预留，如弹出请不要授予 cdr.today 相应权限)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>可以访问你的相册吗？</string>
+	<string>你可以设置头像，还可以发送带图的文章。</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>(预留，如弹出请不要授予 cdr.today 相应权限)</string>
 	<key>UILaunchStoryboardName</key>
