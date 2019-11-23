@@ -31,7 +31,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   Stream<PostState> mapEventToState(PostEvent event) async* {
     xReq.Requests r = await xReq.Requests.init();
-
+    
+    if (event is CleanPosts) {
+      yield Posts(
+        req: false,
+        page: 0,
+        posts: [],
+        refresh: 0,
+        community: '',
+        hasReachedMax: false,
+      );
+    }
+    
     if (event is FetchPosts) {
       int _currentPage = 0;
       List<dynamic> _posts = [];
@@ -158,4 +169,9 @@ class FetchPosts extends PostEvent {
 
   @override
   toString() => "FetchPosts";
+}
+
+class CleanPosts extends PostEvent {
+  @override
+  toString() => "CleanPost";
 }

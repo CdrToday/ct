@@ -65,14 +65,13 @@ class _TopicBatchState extends State<TopicBatch> {
               leading: CtClose(),
               border: null
             ),
-            child: Material(
+            child: batch.length > 0 ? Material(
               color: Colors.transparent,
               child: PostList(
                 posts: batch,
                 community: true,
-                loading: true,
               ),
-            ),
+            ) : SizedBox(),
             resizeToAvoidBottomInset: true,
           );
         }

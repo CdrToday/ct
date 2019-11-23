@@ -44,15 +44,18 @@ class _ReportTileState extends State<ReportTile> {
       ok:Text("举报"),
       action: () async {
         Navigator.pop(context);
-        Navigator.pop(context);
+
+        load(widget.sContext, '请求中...');
         var r = await xReq.Requests.init();
         var res = await r.report(type: 'article', task: widget.id, content: _value);
         
+        Navigator.pop(context);
+        Navigator.pop(context);
         if (res.statusCode == 200) {
           info(widget.sContext, '感谢您的举报');
           return;
         }
-        
+
         info(widget.sContext, '举报失败，请重试');
       }
     );

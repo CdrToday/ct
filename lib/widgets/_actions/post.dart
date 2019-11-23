@@ -16,7 +16,6 @@ class PostAction extends StatelessWidget {
     child: SafeArea(
       child: Wrap(
         children: [
-          CtDivider(indent: 15.0),
           Container(child: ReportTile(sContext: context, id: id))
         ],
       )

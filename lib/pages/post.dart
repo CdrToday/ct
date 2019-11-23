@@ -35,7 +35,12 @@ class PostPage extends StatelessWidget {
 
         return CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
-            leading: CtClose(),
+            leading: CtClose(
+              onTap: () {
+                Navigator.of(context).maybePop();
+                _bloc.dispatch(CleanPosts());
+              }
+            ),
             border: null,
             middle: (state as Posts).req? CupertinoActivityIndicator(): Text(''),
             trailing: BlocBuilder<UserBloc, UserState>(
@@ -70,6 +75,8 @@ class PostPage extends StatelessWidget {
                 p.putIfAbsent('mail', () => args.ident);
                 p.putIfAbsent('avatar', () => avatar);
               }
+
+              if (posts.length == 0) return SizedBox();
 
               return PostList(
                 posts: posts,
