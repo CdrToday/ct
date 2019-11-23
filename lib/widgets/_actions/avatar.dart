@@ -14,19 +14,6 @@ import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 import 'package:cdr_today/x/permission.dart' as pms;
 
-Future<void> retrieveLostData() async {
-  final LostDataResponse response =
-      await ImagePicker.retrieveLostData();
-  if (response == null) {
-    return;
-  }
-  if (response.file != null) {
-    print('ok');
-  } else {
-    print(response.exception);
-  }
-}
-
 // avatar actions
 class Avatar extends StatelessWidget {
   final ScreenshotController screenshotController;

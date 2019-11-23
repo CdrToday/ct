@@ -6,6 +6,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:cdr_today/widgets/editor.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/_actions/edit.dart';
+import 'package:cdr_today/widgets/_actions/article.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,17 +47,9 @@ class _ArticleState extends State<Article> {
             leading: CtClose(),
             border: null,
             trailing: _flag == false? (
-              widget.args.batch? CtNoRipple(
-                icon: Icons.code,
-                size: 22.0,
-                onTap: () => Navigator.of(
-                  context, rootNavigator: true
-                ).pushNamed(
-                  '/post', arguments: PostArgs(
-                    ident: widget.args.mail,
-                    community: widget.args.community
-                  )
-                )
+              widget.args.batch? ArticleAction(
+                sContext: context,
+                args: widget.args,
               ) : null
             ): (
               _edit == false ? More(

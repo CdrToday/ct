@@ -139,7 +139,7 @@ class _PostState extends State<PostList> {
                 String id = posts[i]['id'];
                 String document = posts[i]['document'];
                 int timestamp = posts[i]['timestamp'];
-
+                
                 return RedditItem(
                   x: ArticleArgs(
                     id: id,

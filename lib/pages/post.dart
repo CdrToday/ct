@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/member.dart';
+import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/widgets/post.dart';
 import 'package:cdr_today/widgets/buttons.dart';
+import 'package:cdr_today/widgets/_actions/post.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/x/rng.dart';
 
@@ -36,6 +38,14 @@ class PostPage extends StatelessWidget {
             leading: CtClose(),
             border: null,
             middle: (state as Posts).req? CupertinoActivityIndicator(): Text(''),
+            trailing: BlocBuilder<UserBloc, UserState>(
+              builder: (context, uState) {
+                if ((uState as UserInited).mail != args.ident) {
+                  return PostAction(sContext: context, id: (state as Posts).ident);
+                }
+                return SizedBox();
+              }
+            )
           ),
           child: BlocBuilder<MemberBloc, MemberState>(
             builder: (mContext, mState) {

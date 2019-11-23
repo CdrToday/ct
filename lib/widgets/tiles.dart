@@ -56,10 +56,13 @@ class ProfileTile extends StatelessWidget {
 }
 
 class CtDivider extends StatelessWidget {
+  final double indent;
+  CtDivider({ this.indent });
+  
   Widget build(BuildContext context) {
     return Divider(
       height: 0.1,
-      indent: 10.0,
+      indent: indent ?? 10.0,
       color: CtColors.gray
     );
   }

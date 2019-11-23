@@ -182,6 +182,7 @@ class Publish extends StatelessWidget {
       }
 
       setString('_article', '');
+      _bloc.dispatch(Refresh(edit: false));
       _rbloc.dispatch(FetchReddits(refresh: true));
       _tbloc.dispatch(UpdateTopic());
       _tbloc.dispatch(BatchTopic(topic: args.topic));

@@ -64,19 +64,7 @@ class Requests {
       setString('code', code);
     }
     return res;
-  }
-
-  /// --- post ---
-  //@getPosts: GET '/u/:mail/post'
-  Future<http.Response> getPosts({
-      String ident, String community, int page, int limit
-  }) async {
-    var res = await rGet("/u/$mail/post/$ident?c=$community&p=$page&l=$limit");
-    if (res.statusCode == 408) return getPosts(
-      ident: ident, community: community, page: page, limit: limit
-    );
-    return res;
-  }
+  }  
   
   /// --- reddit ---
   //@newReddit: POST '/u/{mail:string}/reddit'
@@ -213,6 +201,17 @@ class Requests {
   }
 
   /// --- post ---
+  //@getPosts: GET '/u/:mail/post'
+  Future<http.Response> getPosts({
+      String ident, String community, int page, int limit
+  }) async {
+    var res = await rGet("/u/$mail/post/$ident?c=$community&p=$page&l=$limit");
+    if (res.statusCode == 408) return getPosts(
+      ident: ident, community: community, page: page, limit: limit
+    );
+    return res;
+  }
+  
   //@newPost: POST '/u/{mail:string}/p'
   Future<http.Response> newPost({String document}) async {
     final Map body = {
@@ -246,5 +245,17 @@ class Requests {
       'image': image
     };
     return await rPost("/u/$mail/upload", body: body);
+  }
+
+  /// --- report ---
+
+  //@report: POST '/u/{mail:string}/report'
+  Future<http.Response> report({ String type, String task, String content}) async {
+    final Map body = {
+      'type': type,
+      'task': task,
+      'content': content,
+    };
+    return await rPost("/u/$mail/report", body: body);
   }
 }
