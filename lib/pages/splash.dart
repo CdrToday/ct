@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/style.dart';
 import 'package:cdr_today/x/conf.dart';
+import 'package:cdr_today/navigations/args.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -33,29 +34,14 @@ class _SplashPageState extends State<SplashPage> {
             Navigator.of(context).pushReplacementNamed('/init');
           }
         },
-        child: Container(
-          child: Column(
-            children: [
-              // Spacer(),
-              Text(
-                conf['name'],
-                textAlign: TextAlign.center,
-                style: CtTextStyle.largeTitle
-              ),
-              // Spacer(),
-              // Text(
-              //   'Louder than Words.',
-              //   textAlign: TextAlign.center,
-              //   style: CtTextStyle.footnote
-              // ),
-              // SizedBox(height: 20.0)
-            ],
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Center(
+          child: Text(
+            conf['name'],
+            textAlign: TextAlign.center,
+            style: CtTextStyle.largeTitle
           ),
-          // padding: EdgeInsets.only(bottom: kToolbarHeight)
-        ),
-      ),
+        )
+      )
     );
   }
 }

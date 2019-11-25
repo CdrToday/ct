@@ -17,6 +17,7 @@ import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
 import 'package:cdr_today/pages/edit.dart';
 import 'package:cdr_today/pages/post.dart';
+import 'package:cdr_today/pages/protocol.dart';
 import 'package:cdr_today/pages/article.dart';
 import 'package:cdr_today/pages/version.dart';
 import 'package:cdr_today/pages/splash.dart';
@@ -123,7 +124,7 @@ Route router(settings) {
     return FadeRoute(
       page: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
-          return (state is UserInited) ? InitPage() : Login();
+          return (state is UserInited) ? InitPage() : ProtocolPage(login: true);
         }
       )
     );
@@ -145,6 +146,9 @@ Route router(settings) {
   } else if (r == '/qrcode') {
     final QrCodeArgs args = settings.arguments;
     return FadeRoute(page: qr.QrCode(args: args));
+  } else if (r == '/protocol') {
+    final ProtocolArgs args = settings.arguments;
+    return FadeRoute(page: ProtocolPage(login: args.login));
   } else if (r == '/qrcode/join') {
     final QrCodeArgs args = settings.arguments;
     return SlideRoute(page: qr.Join(args: args));

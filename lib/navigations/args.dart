@@ -72,3 +72,8 @@ class PostArgs {
   final String community;
   PostArgs({ this.ident, this.community });
 }
+
+class ProtocolArgs {
+  final bool login;
+  ProtocolArgs({ this.login });
+}
