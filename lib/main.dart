@@ -28,6 +28,7 @@ import 'package:cdr_today/pages/scan.dart';
 import 'package:cdr_today/pages/name.dart';
 import 'package:cdr_today/pages/member.dart';
 import 'package:cdr_today/pages/reddit.dart';
+import 'package:cdr_today/pages/about.dart';
 import 'package:cdr_today/pages/settings.dart';
 import 'package:cdr_today/pages/qrcode.dart' as qr;
 import 'package:cdr_today/pages/topic.dart' as topic;
@@ -128,6 +129,8 @@ Route router(settings) {
         }
       )
     );
+  } else if (r == '/splash') {
+    return FadeRoute(page: SplashPage());
   } else if (r == '/reddits') {
     // final RedditArgs args = settings.arguments;
     return SlideRoute(page: RedditPage());
@@ -168,6 +171,8 @@ Route router(settings) {
   } else if (r == '/user/edit') {
     final ArticleArgs args = settings.arguments;
     return SlideRoute(page: Edit(args: args));
+  } else if (r == '/mine/about') {
+    return SlideRoute(page: About());
   } else if (r == '/mine/settings') {
     return SlideRoute(page: Settings());
   } else if (r == '/mine/bucket') {

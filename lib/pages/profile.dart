@@ -7,6 +7,7 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/tiles.dart';
+import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/navigations/args.dart';
 
@@ -71,12 +72,31 @@ class Profile extends StatelessWidget {
                       ),
                     )
                   ),
-                  CtDivider(),
+                  SizedBox(height: 12.0),
                   ProfileTile(
                     leading: '设置',
                     onTap: () => Navigator.of(
                       context, rootNavigator: true
                     ).pushNamed('/mine/settings'),
+                  ),
+                  CtDivider(),
+                  ProfileTile(
+                    leading: '关于',
+                    onTap: () => Navigator.of(
+                      context, rootNavigator: true
+                    ).pushNamed('/mine/about'),
+                  ),
+                  SizedBox(height: 12.0),
+                  ProfileTile(
+                    leading: '退出',
+                    onTap: () async {
+                      final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
+                      clear();
+                      await _bloc.dispatch(LogoutEvent());
+                      Navigator.of(
+                        context, rootNavigator: true
+                      ).pushNamedAndRemoveUntil('/splash', (_) => false);
+                    }
                   ),
                 ]
               ),

@@ -5,8 +5,16 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
+import 'package:cdr_today/x/_style/color.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
+  @override
+  createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  bool _longArticles = false;
+  
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -18,7 +26,12 @@ class Settings extends StatelessWidget {
       child: Column(
         children: [
           ProfileTile(
-            leading: '服务条款',
+            leading: '只看长文章',
+            trailing: CupertinoSwitch(
+              value: _longArticles,
+              activeColor: CtColors.gray3,
+              onChanged: (bool value) { setState(() { _longArticles = value; }); },
+            ),
             onTap: () async {
               var url = 'https://cdr-today.github.io/intro/privacy/zh.html';
               if (await canLaunch(url)) {
@@ -28,48 +41,8 @@ class Settings extends StatelessWidget {
               }
             }
           ),
-          CtDivider(),
-          ProfileTile(
-            leading: '联系作者',
-            onTap: () async {
-              var url = 'mailto:cdr.today@foxmail.com?subject=hello';
-              if (await canLaunch(url)) {
-                await launch(url);
-              } else {
-                throw 'Could not launch $url';
-              }
-            }
-          ),
-          CtDivider(),
-          ProfileTile(
-            leading: '版本信息',
-            onTap: () => Navigator.pushNamed(context, '/mine/version')
-          ),
-          CtDivider(),
-          ProfileTile(
-            leading: '检查更新',
-            onTap: () async {
-              var url = 'https://cdr-today.github.io/x/download';
-              if (await canLaunch(url)) {
-                await launch(url);
-              } else {
-                throw 'Could not launch $url';
-              }
-            }
-          ),
-          SizedBox(height: 12.0),
-          ProfileTile(
-            leading: '退出登录',
-            onTap: () {
-              final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
-              _bloc.dispatch(LogoutEvent());
-              Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
-            }
-          ),
         ],
-        // mainAxisAlignment: MainAxisAlignment.center
       ),
-      // extendBodyBehindAppBar: true,
     );
   }
 }

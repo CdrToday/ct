@@ -87,8 +87,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         local: event.local
       );
     } else if (event is LogoutEvent) {
-      clear();
-      yield UserUnInited();
+      yield SplashState();
     }
     return;
   }
