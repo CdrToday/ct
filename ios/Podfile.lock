@@ -2,6 +2,9 @@ PODS:
   - esys_flutter_share (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - image_cropper (0.0.1):
     - Flutter
     - TOCropViewController (~> 2.5.0)
@@ -21,6 +24,9 @@ PODS:
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
+  - sqflite (0.0.1):
+    - Flutter
+    - FMDB (~> 2.7.2)
   - TOCropViewController (2.5.1)
   - url_launcher (0.0.1):
     - Flutter
@@ -36,10 +42,12 @@ DEPENDENCIES:
   - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
   - qr_code_tools (from `.symlinks/plugins/qr_code_tools/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
   trunk:
+    - FMDB
     - MTBBarcodeScanner
     - TOCropViewController
 
@@ -64,12 +72,15 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/qr_code_tools/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
   esys_flutter_share: 403498dab005b36ce1f8d7aff377e81f0621b0b4
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   image_cropper: f25bdfbf1ef970c9a0a0f78306fb6a0aaac7229e
   image_gallery_saver: 73b3cd8ad9c950c739878af9c311744d1bf5405d
   image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
@@ -79,6 +90,7 @@ SPEC CHECKSUMS:
   qr_code_scanner: 16107718bdad7d708cdf6a5eacdca24b56cdf471
   qr_code_tools: bd0c76036813e6251a1df7d130b9c366fe961444
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   TOCropViewController: 00dc36c4e4a0f4a45efa91adbf22df8a4fae01d3
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
