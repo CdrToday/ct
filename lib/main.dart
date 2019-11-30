@@ -12,6 +12,7 @@ import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/community.dart';
+import 'package:cdr_today/blocs/db.dart';
 // pages
 import 'package:cdr_today/pages/login.dart';
 import 'package:cdr_today/pages/verify.dart';
@@ -53,6 +54,7 @@ final UserBloc userBloc = UserBloc(v: verifyBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
 final TopicBloc topicBloc = TopicBloc(c: communityBloc);
 final RedditBloc redditBloc = RedditBloc(c: communityBloc);
+final DbBloc dbBloc = DbBloc(u: userBloc);
 final MemberBloc memberBloc = MemberBloc(
   c: communityBloc, u: userBloc, r: redditBloc
 );
@@ -76,6 +78,9 @@ class _AppState extends State<App> {
       providers: [
         BlocProvider<ThemeBloc>(
           builder: (context) => ThemeBloc()
+        ),
+        BlocProvider<DbBloc>(
+          builder: (context) => dbBloc
         ),
         BlocProvider<RedditBloc>(
           builder: (context) => redditBloc
