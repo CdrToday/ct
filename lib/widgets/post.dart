@@ -133,7 +133,7 @@ class _PostState extends State<PostList> {
               } else if (index == posts.length * 2) {
                 if (posts.length < 10) return PostBottom();
                 return widget.hasReachedMax == false
-                ? PostLoader() : PostBottom();
+                ? PostLoader(community: widget.community) : PostBottom();
               } else if (index.isEven) {
                 int i = index ~/ 2;
                 String id = posts[i]['id'];
@@ -228,10 +228,13 @@ class _PostState extends State<PostList> {
 }
 
 class PostLoader extends StatelessWidget {
+  final bool community;
+  PostLoader({ this.community });
+
   Widget build(BuildContext context) {
     return Container(
-      child: CupertinoActivityIndicator(),
-      padding: EdgeInsets.only(top: 30.0)
+      child: Icon(Icons.arrow_downward),
+      padding: EdgeInsets.only(top: 25.0)
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/db.dart';
 import 'package:cdr_today/x/_style/color.dart';
+import 'package:cdr_today/x/store.dart' as store;
 
 class Settings extends StatefulWidget {
   @override
@@ -18,6 +19,7 @@ class _SettingsState extends State<Settings> {
   
   @override
   Widget build(BuildContext context) {
+    final DbBloc _bloc = BlocProvider.of<DbBloc>(context);
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: CtClose(),
@@ -34,7 +36,13 @@ class _SettingsState extends State<Settings> {
                   value: (state as Db).longArticle,
                   activeColor: CtColors.gray3,
                   onChanged: (bool value) async {
-                    
+                    var db = store.CtDatabase();
+                    await db.open();
+                    await db.updateSettings(
+                      'longArticle',
+                      (state as Db).longArticle? 'false': 'true'
+                    );
+                    _bloc.dispatch(DbRefresh());
                   },
                 ),
                 onTap: () async {

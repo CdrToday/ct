@@ -28,6 +28,7 @@ class _TopicListState extends State<TopicList> {
               type: 'topic',
               posts: (state as Topics).topics,
               community: true,
+              hasReachedMax: true,
             ),
           ),
           resizeToAvoidBottomInset: true,

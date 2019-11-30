@@ -51,6 +51,7 @@ class TopicBloc extends Bloc<TopicEvent, TopicState> {
     batch: [],
     topics: [],
     refresh: 0,
+    hasReachedMax: true,
   );
 
   @override
@@ -92,20 +93,39 @@ class Topics extends TopicState {
   final bool req;
   final int refresh;
   final String id;
+  final bool hasReachedMax;
   
   Topics({
-      this.id = '', this.topics, this.refresh = 0, this.batch, this.req
-  }) : super([ id, topics, refresh, batch, req ]);
+      this.id = '',
+      this.topics,
+      this.refresh = 0,
+      this.batch,
+      this.req,
+      this.hasReachedMax,
+  }) : super([
+      id,
+      topics,
+      refresh,
+      batch,
+      req,
+      hasReachedMax,
+  ]);
 
   Topics copyWith({
-      List<dynamic> topics, List<dynamic> batch, int refresh, String id, bool req
+      List<dynamic> topics,
+      List<dynamic> batch,
+      int refresh,
+      String id,
+      bool req,
+      bool hasReachedMax,
   }) {
     return Topics(
       id: id ?? this.id,
       req: req ?? this.req,
       batch: batch ?? this.batch,
       topics: topics ?? this.topics,
-      refresh: refresh ?? this.refresh
+      refresh: refresh ?? this.refresh,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax
     );
   }
 }

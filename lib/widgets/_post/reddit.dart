@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:cdr_today/blocs/db.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/cards.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/navigations/args.dart';
@@ -45,31 +47,39 @@ class RedditItem extends StatelessWidget {
       );
     }
 
-    return WeChat(
-      avatar: x.avatar,
-      author: x.author,
-      cover: cover,
-      mail: x.mail,
-      timestamp: x.timestamp,
-      long: x.document.length > 100 ? true : false,
-      title: title,
-      onTap: () => Navigator.of(
-        context, rootNavigator: true
-      ).pushNamed('/article', arguments: x),
-      onLongPress: () async {
-        alert(
-          context,
-          title: '回复文章',
-          ok: Text('回复'),
-          action: () => Navigator.of(
-            context, rootNavigator: true,
-          ).popAndPushNamed(
-            '/user/edit',
-            arguments: ArticleArgs(
-              topic: (x.topic == null || x.topic == '') ? x.id : x.topic,
-              community: x.community,
-            ),
-          ),
+    return BlocBuilder<DbBloc, DbState>(
+      builder: (context, state) {
+        if ((state as Db).longArticle) {
+          if (x.document.length <= 100) return SizedBox();
+        }
+        
+        return WeChat(
+          avatar: x.avatar,
+          author: x.author,
+          cover: cover,
+          mail: x.mail,
+          timestamp: x.timestamp,
+          long: x.document.length > 100 ? true : false,
+          title: title,
+          onTap: () => Navigator.of(
+            context, rootNavigator: true
+          ).pushNamed('/article', arguments: x),
+          onLongPress: () async {
+            alert(
+              context,
+              title: '回复文章',
+              ok: Text('回复'),
+              action: () => Navigator.of(
+                context, rootNavigator: true,
+              ).popAndPushNamed(
+                '/user/edit',
+                arguments: ArticleArgs(
+                  topic: (x.topic == null || x.topic == '') ? x.id : x.topic,
+                  community: x.community,
+                ),
+              ),
+            );
+          }
         );
       }
     );

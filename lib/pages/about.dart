@@ -5,6 +5,8 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
+import 'package:cdr_today/widgets/alerts.dart';
+import 'package:cdr_today/x/store.dart' as store;
 
 class About extends StatelessWidget {
   @override
@@ -57,10 +59,26 @@ class About extends StatelessWidget {
               }
             }
           ),
+          SizedBox(height: 12.0),
+          ProfileTile(
+            leading: '退出账号',
+            onTap: () async {
+              alert(
+                context,
+                title: '退出当前账号?',
+                action: () async {
+                  final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
+                  store.clear();
+                  await _bloc.dispatch(LogoutEvent());
+                  Navigator.of(
+                    context, rootNavigator: true
+                  ).pushNamedAndRemoveUntil('/splash', (_) => false);
+                }
+              );
+            }
+          ),
         ],
-        // mainAxisAlignment: MainAxisAlignment.center
       ),
-      // extendBodyBehindAppBar: true,
     );
   }
 }

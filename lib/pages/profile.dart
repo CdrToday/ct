@@ -72,32 +72,21 @@ class Profile extends StatelessWidget {
                       ),
                     )
                   ),
-                  SizedBox(height: 12.0),
+                  CtDivider(),
                   ProfileTile(
                     leading: '设置',
                     onTap: () => Navigator.of(
                       context, rootNavigator: true
                     ).pushNamed('/mine/settings'),
                   ),
-                  CtDivider(),
+                  SizedBox(height: 12.0),
                   ProfileTile(
                     leading: '关于',
                     onTap: () => Navigator.of(
                       context, rootNavigator: true
                     ).pushNamed('/mine/about'),
                   ),
-                  SizedBox(height: 12.0),
-                  ProfileTile(
-                    leading: '退出',
-                    onTap: () async {
-                      final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
-                      clear();
-                      await _bloc.dispatch(LogoutEvent());
-                      Navigator.of(
-                        context, rootNavigator: true
-                      ).pushNamedAndRemoveUntil('/splash', (_) => false);
-                    }
-                  ),
+                  
                 ]
               ),
             ),

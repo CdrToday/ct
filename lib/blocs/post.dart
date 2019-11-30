@@ -31,6 +31,10 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   Stream<PostState> mapEventToState(PostEvent event) async* {
     xReq.Requests r = await xReq.Requests.init();
+
+    // yield (currentState as Posts).copyWith(
+    //   req: true,
+    // );
     
     if (event is CleanPosts) {
       yield Posts(

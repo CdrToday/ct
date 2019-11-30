@@ -33,7 +33,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
 
     r.state.listen((state) {
         if (state is Reddits) {
-          if ((state.refresh % 5) == 3) {
+          if ((state.refresh == 1) {
             this.dispatch(FetchMember(id: (currentState as Members).id));
           }
         }

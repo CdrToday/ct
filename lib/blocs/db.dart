@@ -9,17 +9,17 @@ import 'package:cdr_today/x/store.dart' as store;
 class DbBloc extends Bloc<DbEvent, DbState> {
   final UserBloc u;
   
-  @override
-  Stream<DbState> transform(
-    Stream<DbEvent> events,
-    Stream<DbState> Function(DbEvent event) next,
-  ) {
-    return super.transform(
-      (events as Observable<DbEvent>).debounceTime(
-        Duration(milliseconds: 500),
-      ), next
-    );
-  }
+  // @override
+  // Stream<DbState> transform(
+  //   Stream<DbEvent> events,
+  //   Stream<DbState> Function(DbEvent event) next,
+  // ) {
+  //   return super.transform(
+  //     (events as Observable<DbEvent>).debounceTime(
+  //       Duration(milliseconds: 500),
+  //     ), next
+  //   );
+  // }
 
   DbBloc({ this.u }) {
     u.state.listen(
@@ -30,16 +30,16 @@ class DbBloc extends Bloc<DbEvent, DbState> {
       }
     );
   }
-  
+
   Stream<DbState> mapEventToState(DbEvent event) async* {
-    var db = await store.CtDatabase();
+    var db = store.CtDatabase();
     await db.open();
     
     var settings;
     
     if (event is DbRefresh) {
       settings = await db.getSettings();
-      yield Db(
+      yield (currentState as Db).copyWith(
         longArticle: settings['longArticle'] == 'true'? true: false
       );
     }
@@ -58,11 +58,16 @@ abstract class DbState extends Equatable {
 
 class Db extends DbState {
   final bool longArticle;
-  Db({ this.longArticle });
-
+  
+  Db({
+      this.longArticle,
+  }): super([
+      longArticle,
+  ]);
+  
   Db copyWith({ bool longArticle}) {
     return Db(
-      longArticle: longArticle ?? this.longArticle
+      longArticle: longArticle ?? this.longArticle,
     );
   }
 }

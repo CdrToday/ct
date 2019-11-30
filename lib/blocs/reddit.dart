@@ -42,23 +42,28 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
   );
 
   Stream<RedditState> mapEventToState(RedditEvent event) async* {
+    
     xReq.Requests r = await xReq.Requests.init();
+    yield (currentState as Reddits).copyWith(req: true);
 
     if (event is FetchReddits) {
       int _currentPage = 0;
       List<dynamic> _reddits = [];
-      yield (currentState as Reddits).copyWith(req: true);
 
       // load reddits
       if (currentState is Reddits) {
         if (event.refresh != true) {
-          if ((currentState as Reddits).hasReachedMax == true) return;
+          if ((currentState as Reddits).hasReachedMax == true) {
+            yield (currentState as Reddits).copyWith(req: false);
+            return;
+          }
           _currentPage = (currentState as Reddits).page + 1;
           _reddits = (currentState as Reddits).reddits;
         }
       }
 
       List<dynamic> reddits;
+      
       if (event.community == null) {
         reddits = json.decode((await r.getReddits(
               community: (currentState as Reddits).community,
@@ -70,7 +75,7 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
               page: _currentPage,
         )).body)['reddits'];
       }
-      
+
       yield (currentState as Reddits).copyWith(
         req: false,
         reddits: _reddits + reddits,
@@ -78,10 +83,13 @@ class RedditBloc extends Bloc<RedditEvent, RedditState> {
         page: _currentPage,
         hasReachedMax: reddits.length < 10 ? true : false,
         refresh: (currentState as Reddits).refresh + 1,
-      );      
-
+      );
+      
       if (event.refresh == true) {
-        this.dispatch(FetchReddits(community: event.community));
+        this.dispatch(FetchReddits(
+            community: event.community,
+            refresh: false,
+        ));
       }
     }
   }
@@ -107,7 +115,7 @@ class Reddits extends RedditState {
       this.refresh,
       this.community,
       this.hasReachedMax,
-  }): super([reddits, community, hasReachedMax, refresh, page]);
+  }): super([reddits, community, hasReachedMax, refresh, page, req]);
   
   Reddits copyWith({
       bool req,

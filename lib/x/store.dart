@@ -24,10 +24,9 @@ class CtDatabase {
   final String blackListTable = 'CREATE TABLE BlackList (id INTEGER PRIMARY KEY, key TEXT, value Text)';
 
   Database db;
-  Future<Database> open() async {
+  open() async {
     var databasesPath = await getDatabasesPath();
     String path = databasesPath + 'sqflite.db';
-
     db = await openDatabase(
       path,
       version: 1,
@@ -43,8 +42,6 @@ class CtDatabase {
   }
   
   updateSettings(String key, String value) async {
-    // var exist = await db.rawQuery('SELECT key FROM Settings WHERE key = $key');
-    // print("exit: $exist");
     await db.transaction((txn) async {
         var res = await txn.rawUpdate(
           'UPDATE Settings SET VALUE = ? WHERE key = ?', [value, key]
@@ -67,7 +64,7 @@ class CtDatabase {
 
     try {
       var res = await db.rawQuery(
-        'SELECT key FROM Settings WHERE key = longArticle'
+        'SELECT key, value FROM Settings WHERE key = "longArticle"'
       );
       longArticle = res[0]['value'];
     } catch(err) {
