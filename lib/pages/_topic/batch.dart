@@ -69,6 +69,7 @@ class _TopicBatchState extends State<TopicBatch> {
               color: Colors.transparent,
               child: PostList(
                 posts: batch,
+                type: 'batch',
                 community: true,
               ),
             ) : SizedBox(),

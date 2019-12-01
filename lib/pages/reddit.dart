@@ -1,4 +1,5 @@
 // @salute to reddit
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:cdr_today/widgets/post.dart';
 import 'package:cdr_today/widgets/name.dart';
 import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/blocs/reddit.dart';
+import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/_actions/edit.dart';
@@ -79,12 +81,43 @@ class _RedditState extends State<Reddit> {
               }
             }
 
-            return PostList(
-              appBar: widget.appBar,
-              title: widget.title,
-              posts: reddits,
-              community: true,
-              hasReachedMax: (state as Reddits).hasReachedMax,
+            return BlocBuilder<TopicBloc, TopicState>(
+              builder: (context, tState) {
+                var topics = (tState as Topics).topics;
+                for (var r in reddits) {
+                  if (r['topic'] != '') {
+                    r.putIfAbsent('topicTitle', () {
+                        for (var t in topics) {
+                          if (
+                            r['topic'] == t['id'] &&
+                            r['id'] != r['topic']
+                          ) {
+                            List<dynamic> json = jsonDecode(t['document']);
+                            String topicTitle = '';
+                            for (var i in json) {
+                              if (i['insert'].contains(RegExp(r'[\u4e00-\u9fa5_a-zA-Z0-9]'))) {
+                                if (topicTitle == '') {
+                                  topicTitle = i['insert'].replaceAll(RegExp(r'\n'), '');
+                                }
+                              }
+                            }
+                            return topicTitle;
+                          }
+                        }
+                    });
+                  }
+                }
+
+                return PostList(
+                  appBar: widget.appBar,
+                  title: widget.title,
+                  type: 'reddit',
+                  posts: reddits,
+                  topics: (tState as Topics).topics,
+                  community: true,
+                  hasReachedMax: (state as Reddits).hasReachedMax,
+                );
+              }
             );
           }
         );

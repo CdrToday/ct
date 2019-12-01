@@ -14,6 +14,7 @@ import 'package:cdr_today/widgets/_post/reddit.dart';
 // post list
 class PostList extends StatefulWidget {
   final List<dynamic> posts;
+  final List<dynamic> topics;
   final bool hasReachedMax;
   final bool loading;
   final bool community;
@@ -23,6 +24,7 @@ class PostList extends StatefulWidget {
   final SliverList title;
   PostList({
       this.posts, // init in build.
+      this.topics, // init in build.
       this.mail,
       this.type = '',
       this.hasReachedMax = false,
@@ -143,6 +145,7 @@ class _PostState extends State<PostList> {
                 return RedditItem(
                   x: ArticleArgs(
                     id: id,
+                    ref: posts[i]['topicTitle'],
                     type: widget.type,
                     mail: posts[i]['mail'],
                     topic: posts[i]['topic'],
@@ -234,7 +237,7 @@ class PostLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Icon(Icons.arrow_downward),
-      padding: EdgeInsets.only(top: 25.0)
+      padding: EdgeInsets.only(top: 15.0)
     );
   }
 }

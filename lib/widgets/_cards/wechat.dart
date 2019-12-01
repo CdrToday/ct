@@ -11,12 +11,14 @@ class WeChat extends StatelessWidget {
   final String author;
   final String title;
   final String mail;
+  final String ref;
   final int timestamp;
   final bool long;
   final VoidCallback onTap;
   final VoidCallback onLongPress;
 
   WeChat({
+      this.ref = '',
       this.cover,
       this.avatar,
       this.mail,
@@ -43,7 +45,11 @@ class WeChat extends StatelessWidget {
                 timestamp: timestamp,
                 long: long,
               ),
-              content(context, title: title == null? '发表图片' : title),
+              content(
+                context,
+                title: title == null? '发表图片' : title,
+                ref: ref
+              ),
             ]
           ),
           elevation: 0.2,
@@ -107,7 +113,7 @@ Widget head({
   );
 }
 
-Widget content(BuildContext context, {String title}) {
+Widget content(BuildContext context, {String title, String ref = ''}) {
   if (title == null) return Container(height: 15.0);
   return Container(
     child: Column(
@@ -122,6 +128,35 @@ Widget content(BuildContext context, {String title}) {
             textAlign: TextAlign.left,
             maxLines: 1,
             overflow: TextOverflow.ellipsis
+          ),
+          alignment: Alignment.centerLeft,
+          width: MediaQuery.of(context).size.width - 60,
+        ),
+        (ref == '' || ref == null)?SizedBox.shrink():SizedBox(height: 8),
+        (ref == '' || ref == null)?SizedBox.shrink():Container(
+          child: Row(
+            children: [
+              Icon(
+                Icons.reply,
+                size: 18.0,
+                color: CtColors.primary
+              ),
+              SizedBox(width: 8),
+              Container(
+                child: AutoSizeText(
+                  ref,
+                  style: TextStyle(
+                    fontSize: 13.0,
+                    color: CtColors.primary
+                  ),
+                  textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis
+                ),
+                width: MediaQuery.of(context).size.width - 120,
+              ),
+            ],
+            // mainAxisAlignment: MainAxisAlignment.end,
           ),
           alignment: Alignment.centerLeft,
           width: MediaQuery.of(context).size.width - 60,
