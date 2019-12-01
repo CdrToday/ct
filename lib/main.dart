@@ -54,7 +54,10 @@ final UserBloc userBloc = UserBloc(v: verifyBloc);
 final CommunityBloc communityBloc = CommunityBloc(u: userBloc);
 final TopicBloc topicBloc = TopicBloc(c: communityBloc);
 final RedditBloc redditBloc = RedditBloc(c: communityBloc);
-final DbBloc dbBloc = DbBloc(u: userBloc);
+final DbBloc dbBloc = DbBloc(
+  u: userBloc,
+  c: communityBloc
+);
 final MemberBloc memberBloc = MemberBloc(
   c: communityBloc, u: userBloc, r: redditBloc
 );
@@ -79,9 +82,6 @@ class _AppState extends State<App> {
         BlocProvider<ThemeBloc>(
           builder: (context) => ThemeBloc()
         ),
-        BlocProvider<DbBloc>(
-          builder: (context) => dbBloc
-        ),
         BlocProvider<RedditBloc>(
           builder: (context) => redditBloc
         ),
@@ -105,6 +105,9 @@ class _AppState extends State<App> {
         ),
         BlocProvider<UserBloc>(
           builder: (context) => userBloc,
+        ),
+        BlocProvider<DbBloc>(
+          builder: (context) => dbBloc
         ),
       ],
       child: CupertinoApp(

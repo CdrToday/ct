@@ -20,13 +20,14 @@ void clear() async {
 
 class CtDatabase {
   final String settingsTable = 'CREATE TABLE Settings (id INTEGER PRIMARY KEY, key TEXT, value Text)';
-  final String communityTable = 'CREATE TABLE CommunityOrder (id INTEGER PRIMARY KEY, key TEXT, value INTEGER)';
+  final String communityTable = 'CREATE TABLE Communities (id INTEGER PRIMARY KEY, key TEXT, value INTEGER)';
   final String blackListTable = 'CREATE TABLE BlackList (id INTEGER PRIMARY KEY, key TEXT, value Text)';
 
   Database db;
   open() async {
     var databasesPath = await getDatabasesPath();
     String path = databasesPath + 'sqflite.db';
+    
     db = await openDatabase(
       path,
       version: 1,
@@ -40,7 +41,9 @@ class CtDatabase {
       }
     );
   }
+
   
+  ///@settings
   updateSettings(String key, String value) async {
     await db.transaction((txn) async {
         var res = await txn.rawUpdate(
@@ -54,8 +57,6 @@ class CtDatabase {
           );
         }
     });
-
-    await db.close();
   }
 
   getSettings() async {
@@ -76,9 +77,50 @@ class CtDatabase {
       });
       longArticle = 'false';
     }
-    
+
     return {
       'longArticle': longArticle
     };
+  }
+
+  ///@communities
+  refreshCommunity(String key) async {
+    int current;
+    try {
+      current = (
+        await db.rawQuery('SELECT key, value FROM Communities WHERE key = $key')
+      )[0]['value'];
+    } catch(err) {
+      current = 0;
+    }
+    
+    await db.transaction((txn) async {
+        var res = await txn.rawUpdate(
+          'UPDATE Communities SET VALUE = ? WHERE key = ?', [current + 1, key]
+        );
+        
+        if (res == 0) {
+          var _res = await txn.rawInsert(
+            'INSERT INTO Communities(key, value) VALUES(?, ?)',
+            [key, 1]
+          );
+        }
+    });
+  }
+
+  getCommunities() async {
+    var list;
+    try {
+      list = await db.rawQuery('SELECT * FROM "Communities"');
+    } catch(err) {
+      list = [];
+    }
+
+    var res = {};
+    for (var i in list) {
+      res.putIfAbsent(i['key'], () => i['value']);
+    }
+    
+    return res;
   }
 }

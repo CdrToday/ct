@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
+import 'package:cdr_today/x/store.dart' as store;
 
 Future<List<dynamic>> getCommunities() async {
   final xReq.Requests r = await xReq.Requests.init();
@@ -46,8 +47,17 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   Stream<CommunityState> mapEventToState(CommunityEvent event) async* {
     if (event is FetchCommunities) {
       var communities = await getCommunities();
+      
+      var db = store.CtDatabase();
+      await db.open();
+      var cs = await db.getCommunities();
+      for (var i in communities) {
+        i.putIfAbsent('clicked', () => cs[i['id']]);
+      }
+      communities.sort((a, b) => b['clicked'].compareTo(a['clicked']));
+      
       yield (currentState as Communities).copyWith(
-        current: communities.length > 0 ? communities[0]['id'] : '',
+        current: communities.length > 0? communities[0]['id']: '',
         communities: communities.length > 0 ? communities : [],
         refresh: (currentState as Communities).refresh + 1,
       );
