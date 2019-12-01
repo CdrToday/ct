@@ -51,10 +51,14 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
       var db = store.CtDatabase();
       await db.open();
       var cs = await db.getCommunities();
-      for (var i in communities) {
-        i.putIfAbsent('clicked', () => cs[i['id']]);
+      
+      if (cs.toString() != '{}') {
+        for (var i in communities) {
+          i.putIfAbsent('clicked', () => cs[i['id']] ?? 0);
+        }
+      
+        communities.sort((a, b) => b['clicked'].compareTo(a['clicked']));
       }
-      communities.sort((a, b) => b['clicked'].compareTo(a['clicked']));
       
       yield (currentState as Communities).copyWith(
         current: communities.length > 0? communities[0]['id']: '',

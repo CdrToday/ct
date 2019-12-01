@@ -1,3 +1,4 @@
+
 import 'package:sqflite/sqflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,6 +28,9 @@ class CtDatabase {
   open() async {
     var databasesPath = await getDatabasesPath();
     String path = databasesPath + 'sqflite.db';
+
+    // await deleteDatabase(path);
+    // return;
     
     db = await openDatabase(
       path,

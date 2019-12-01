@@ -56,16 +56,20 @@ class TopicBloc extends Bloc<TopicEvent, TopicState> {
 
   @override
   Stream<TopicState> mapEventToState(TopicEvent event) async* {
+    yield (currentState as Topics).copyWith(req: true);
+    
     if (event is FetchTopic) {
       var topics = await getTopics(id: event.id);
       yield (currentState as Topics).copyWith(
         id: event.id,
+        req: false,
         topics: topics,
         refresh: (currentState as Topics).refresh + 1,
       );
     } else if (event is UpdateTopic) {
       var topics = await getTopics(id: (currentState as Topics).id);
       yield (currentState as Topics).copyWith(
+        req: false,
         topics: topics,
         refresh: (currentState as Topics).refresh + 1,
       );

@@ -45,14 +45,6 @@ class _SettingsState extends State<Settings> {
                     _bloc.dispatch(DbRefresh());
                   },
                 ),
-                onTap: () async {
-                  var url = 'https://cdr-today.github.io/intro/privacy/zh.html';
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  } else {
-                    throw 'Could not launch $url';
-                  }
-                }
               ),
             ],
           );

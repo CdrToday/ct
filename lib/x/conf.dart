@@ -4,5 +4,5 @@ Map<String, dynamic> conf = {
   'base': 'https://api.cdr.today/api/v0',
   'image': 'https://ct-1253442844.cos.ap-shanghai.myqcloud.com/images/',
   'name': 'Ct',
-  'version': '0.5.1'
+  'version': '0.5.2'
 };

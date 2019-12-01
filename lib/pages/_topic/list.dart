@@ -18,7 +18,7 @@ class _TopicListState extends State<TopicList> {
       builder: (context, state) {
         return CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
-            middle: Text('话题'),
+            middle: (state as Topics).req?CupertinoActivityIndicator():Text('话题'),
             leading: CtClose(),
             border: null
           ),

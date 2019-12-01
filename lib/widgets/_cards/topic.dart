@@ -42,7 +42,7 @@ class TopicCard extends StatelessWidget {
         ),
         margin: EdgeInsets.symmetric(
           vertical: 5.0,
-          horizontal: 10.0
+          horizontal: 16.0
         )
       ),
       onTap: onTap,
