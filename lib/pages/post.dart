@@ -8,7 +8,6 @@ import 'package:cdr_today/widgets/post.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/_actions/post.dart';
 import 'package:cdr_today/navigations/args.dart';
-import 'package:cdr_today/x/rng.dart';
 
 class PostPage extends StatelessWidget {
   final PostArgs args;
@@ -55,7 +54,6 @@ class PostPage extends StatelessWidget {
           child: BlocBuilder<MemberBloc, MemberState>(
             builder: (mContext, mState) {
               String name;
-              String mail;
               String avatar;
               List<dynamic> posts = (state as Posts).posts;
               List<dynamic> members = (mState as Members).members;

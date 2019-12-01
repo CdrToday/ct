@@ -6,7 +6,6 @@ import 'package:cdr_today/pages/reddit.dart';
 import 'package:cdr_today/pages/bucket.dart';
 import 'package:cdr_today/pages/profile.dart';
 import 'package:cdr_today/pages/community.dart';
-import 'package:cdr_today/navigations/args.dart';
 
 class InitPage extends StatefulWidget {
   @override

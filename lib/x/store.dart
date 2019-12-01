@@ -1,4 +1,3 @@
-
 import 'package:sqflite/sqflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,7 +54,7 @@ class CtDatabase {
         );
 
         if (res == 0) {
-          var _res = await txn.rawInsert(
+          await txn.rawInsert(
             'INSERT INTO Settings(key, value) VALUES(?, ?)',
             [key, value]
           );
@@ -64,7 +63,6 @@ class CtDatabase {
   }
 
   getSettings() async {
-    List<Map> list = await db.rawQuery('SELECT * FROM Settings');
     String longArticle;
 
     try {
@@ -104,7 +102,7 @@ class CtDatabase {
         );
         
         if (res == 0) {
-          var _res = await txn.rawInsert(
+          await txn.rawInsert(
             'INSERT INTO Communities(key, value) VALUES(?, ?)',
             [key, 1]
           );

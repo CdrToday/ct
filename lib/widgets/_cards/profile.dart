@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/avatar.dart';
-import 'package:cdr_today/widgets/buttons.dart';
 
 class ProfileCard extends StatelessWidget {
   @override

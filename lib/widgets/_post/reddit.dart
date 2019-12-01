@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:cdr_today/blocs/db.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/cards.dart';
-import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/widgets/tiles.dart';

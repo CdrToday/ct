@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/member.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/community.dart';
@@ -40,9 +39,10 @@ class CommunityMember extends StatelessWidget {
                         onTap: () => Navigator.of(
                           context, rootNavigator: true
                         ).pushNamed(
-                          '/post', arguments: PostArgs(
+                          '/post',
+                          arguments: PostArgs(
                             ident: ms[index ~/ 2]['mail'],
-                            community: (state as Members).id
+                            community: state.id,
                           )
                         )
                       ) : Divider(

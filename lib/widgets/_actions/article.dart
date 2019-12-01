@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/tiles.dart';
-import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/widgets/report.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/x/_style/color.dart';

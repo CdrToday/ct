@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/widgets/alerts.dart';
 import 'package:cdr_today/x/_style/color.dart';
-import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/x/req.dart' as xReq;
 
 class ReportTile extends StatefulWidget {

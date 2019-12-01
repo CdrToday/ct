@@ -7,7 +7,6 @@ import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/post.dart';
 import 'package:cdr_today/blocs/topic.dart';
-import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/navigations/args.dart';
 import 'package:cdr_today/widgets/_post/reddit.dart';
 
@@ -43,7 +42,6 @@ class _PostState extends State<PostList> {
   TopicBloc _topicBloc;
   PostBloc _postBloc;
   RedditBloc _redditBloc;
-  RefreshBloc _refreshBloc;
   double _scrollThreshold = 500.0;
   double _scrollIncipiency = (- kToolbarHeight);
   ScrollController _scrollController;
@@ -67,7 +65,6 @@ class _PostState extends State<PostList> {
     _postBloc = BlocProvider.of<PostBloc>(context);
     _topicBloc = BlocProvider.of<TopicBloc>(context);
     _redditBloc = BlocProvider.of<RedditBloc>(context);
-    _refreshBloc = BlocProvider.of<RefreshBloc>(context);
   }
   
   @override

@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/widgets/post.dart';
 import 'package:cdr_today/widgets/name.dart';
-import 'package:cdr_today/widgets/refresh.dart';
 import 'package:cdr_today/blocs/reddit.dart';
 import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/member.dart';
@@ -104,6 +103,7 @@ class _RedditState extends State<Reddit> {
                             return topicTitle;
                           }
                         }
+                        return '';
                     });
                   }
                 }

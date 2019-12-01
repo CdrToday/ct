@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cdr_today/widgets/tiles.dart';
 import 'package:cdr_today/widgets/buttons.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/blocs/db.dart';
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/x/store.dart' as store;
@@ -15,8 +13,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool _longArticles = false;
-  
   @override
   Widget build(BuildContext context) {
     final DbBloc _bloc = BlocProvider.of<DbBloc>(context);

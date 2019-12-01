@@ -3,10 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/topic.dart';
 import 'package:cdr_today/blocs/member.dart';
-import 'package:cdr_today/blocs/refresh.dart';
 import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/post.dart';
-import 'package:cdr_today/widgets/refresh.dart';
 
 class TopicBatch extends StatefulWidget {
   final String topic;
@@ -28,8 +26,6 @@ class _TopicBatchState extends State<TopicBatch> {
 
   @override
   Widget build(BuildContext context) {
-    final RefreshBloc _rbloc = BlocProvider.of<RefreshBloc>(context);
-    
     return BlocBuilder<MemberBloc, MemberState>(
       builder: (mContext, mState) => BlocBuilder<TopicBloc, TopicState>(
         builder: (context, state) {

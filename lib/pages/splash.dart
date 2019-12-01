@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cdr_today/blocs/user.dart';
 import 'package:cdr_today/x/style.dart';
 import 'package:cdr_today/x/conf.dart';
-import 'package:cdr_today/navigations/args.dart';
 
 class SplashPage extends StatefulWidget {
   @override

@@ -7,7 +7,6 @@ import 'package:cdr_today/widgets/buttons.dart';
 import 'package:cdr_today/widgets/center.dart';
 import 'package:cdr_today/widgets/avatar.dart';
 import 'package:cdr_today/widgets/tiles.dart';
-import 'package:cdr_today/x/store.dart';
 import 'package:cdr_today/x/_style/color.dart';
 import 'package:cdr_today/navigations/args.dart';
 

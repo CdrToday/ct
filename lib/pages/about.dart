@@ -69,7 +69,7 @@ class About extends StatelessWidget {
                 action: () async {
                   final UserBloc _bloc = BlocProvider.of<UserBloc>(context);
                   store.clear();
-                  await _bloc.dispatch(LogoutEvent());
+                  _bloc.dispatch(LogoutEvent());
                   Navigator.of(
                     context, rootNavigator: true
                   ).pushNamedAndRemoveUntil('/splash', (_) => false);
