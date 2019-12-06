@@ -6,23 +6,38 @@ import 'package:http/http.dart' as http;
 const Response = http.Response;
 final http.Response timeout = http.Response('timeout', 408);
 
+networkAdaptor() async {
+  var res;
+  for (var i in conf['base']) {
+    res = await http.get(i);
+    if (res.statusCode == 200) {
+      setString('base', i);
+      return;
+    }
+  }
+}
+
 class Requests {
-  final String base = conf['base'];
-  String mail, code;
+  String base, code, mail;
   Map<String, String> headers;
 
   // init
   static Future<Requests> init() async {
-    String mail = await getString('mail');
+    String base = await getString('base');
     String code = await getString('code');
-    Map<String, String> headers = {
-      'code': code
-    };
-
-    return Requests(mail: mail, code: code, headers: headers);
+    String mail = await getString('mail');
+    Map<String, String> headers = {'code': code};
+    
+    
+    return Requests(
+      base: base,
+      code: code,
+      mail: mail,
+      headers: headers
+    );
   }
   
-  Requests({this.mail, this.code, this.headers});
+  Requests({this.base, this.mail, this.code, this.headers});
   
   // methods
   Future<http.Response> rGet(String url) {
@@ -49,6 +64,11 @@ class Requests {
     ).catchError((e) => timeout);
   }
 
+
+  Future<http.Response> hw() async {
+    return await rGet("/");
+  }
+  
   /* routes */
   //@auth: GET '/a/{mail:string}'
   Future<http.Response> auth({String mail}) async {

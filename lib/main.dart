@@ -40,11 +40,13 @@ import 'package:cdr_today/navigations/init.dart';
 import 'package:cdr_today/navigations/txs.dart';
 // utils
 import 'package:cdr_today/x/_style/theme.dart';
+import 'package:cdr_today/x/req.dart';
 
 /* app */
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
+  networkAdaptor();
   runApp(App());
 }
 

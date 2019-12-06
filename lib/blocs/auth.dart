@@ -25,7 +25,7 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
 
   @override
   Stream<VerifyState> mapEventToState(VerifyEvent event) async* {
-    xReq.Requests r = xReq.Requests();
+    xReq.Requests r = await xReq.Requests.init();
     
     if (event is SendCodeEvent) {
       yield CodeSending();

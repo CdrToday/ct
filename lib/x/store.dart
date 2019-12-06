@@ -1,3 +1,4 @@
+import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +18,7 @@ void clear() async {
   await prefs.clear();
 }
 
-
+// ---database---
 class CtDatabase {
   final String settingsTable = 'CREATE TABLE Settings (id INTEGER PRIMARY KEY, key TEXT, value Text)';
   final String communityTable = 'CREATE TABLE Communities (id INTEGER PRIMARY KEY, key TEXT, value INTEGER)';
@@ -26,7 +27,7 @@ class CtDatabase {
   Database db;
   open() async {
     var databasesPath = await getDatabasesPath();
-    String path = databasesPath + 'sqflite.db';
+    String path = p.join(databasesPath.toString(), 'sqflite.db');
 
     // await deleteDatabase(path);
     // return;
