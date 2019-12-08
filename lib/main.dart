@@ -41,12 +41,15 @@ import 'package:cdr_today/navigations/txs.dart';
 // utils
 import 'package:cdr_today/x/_style/theme.dart';
 import 'package:cdr_today/x/req.dart';
+import 'package:cdr_today/x/uni.dart';
 
 /* app */
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   networkAdaptor();
+
+  initUniLinks();
   runApp(App());
 }
 

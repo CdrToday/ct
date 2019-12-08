@@ -8,11 +8,16 @@ final http.Response timeout = http.Response('timeout', 408);
 
 networkAdaptor() async {
   var res;
-  for (var i in conf['base']) {
-    res = await http.get(i);
-    if (res.statusCode == 200) {
-      setString('base', i);
-      return;
+  while (res == null || res.statusCode != 200) {
+    for (var i in conf['base']) {
+      res = await http.get(i).timeout(
+        Duration(seconds: 3), onTimeout: () => timeout,
+      ).catchError((e) => timeout);
+      
+      if (res.statusCode == 200) {
+        setString('base', i);
+        return;
+      }
     }
   }
 }
