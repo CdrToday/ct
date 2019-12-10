@@ -31,9 +31,18 @@
         <category android:name="android.intent.category.LAUNCHER"/>
 	<category android:name="android.intent.category.BROWSABLE" />
         <data
-          android:scheme="cdr.today"
+          android:scheme="https"
           android:host="https://cdr.today" />
       </intent-filter>
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data
+            android:scheme="https"
+            android:host="https://cdr.today" />
+      </intent-filter>
+      
     </activity>
 
     <activity

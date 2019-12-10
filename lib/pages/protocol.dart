@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cdr_today/x/_style/text.dart';
+import 'package:cdr_today/widgets/buttons.dart';
 
 class ProtocolPage extends StatelessWidget {
   final bool login;
@@ -10,7 +11,11 @@ class ProtocolPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        border: null
+        border: null,
+        leading: Material(
+          child: CtClose(),
+          color: Colors.transparent
+        ),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -158,16 +163,16 @@ class ProtocolPage extends StatelessWidget {
               child: Text('cdr.tody\n\n', style: CtTextStyle.body),
               alignment: Alignment.centerRight,
             ),
-            Divider(),
-            Padding(
-              child: CupertinoButton.filled(
-                child: Text('同意'),
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/login');
-                }
-              ),
-              padding: EdgeInsets.only(top: 35.0, bottom: 20.0),
-            ),
+            // Divider(),
+            // Padding(
+            //   child: CupertinoButton.filled(
+            //     child: Text('同意'),
+            //     onPressed: () {
+            //       Navigator.of(context).pushReplacementNamed('/login');
+            //     }
+            //   ),
+            //   padding: EdgeInsets.only(top: 35.0, bottom: 20.0),
+            // ),
             SafeArea(child: SizedBox(height: 20.0)),
           ]
         ),

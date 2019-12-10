@@ -10,9 +10,9 @@ Future<Null> initUniLinks() async {
   // Attach a listener to the stream
   _sub = getLinksStream().listen((String link) {
       // Parse the link and warn the user, if it is not correct
-      print(link);
+      // print(link);
     }, onError: (err) {
-      print(err);
+      // print(err);
       // Handle exception by warning the user their action did not succeed
   });
 

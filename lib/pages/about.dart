@@ -20,7 +20,7 @@ class About extends StatelessWidget {
       child: Column(
         children: [
           ProfileTile(
-            leading: '服务条款',
+            leading: '隐私政策',
             onTap: () async {
               var url = 'https://cdr-today.github.io/intro/privacy/zh.html';
               if (await canLaunch(url)) {

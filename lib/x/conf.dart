@@ -9,5 +9,5 @@ Map<String, dynamic> conf = {
   ],
   'image': 'https://ct-1253442844.cos.ap-shanghai.myqcloud.com/images/',
   'name': 'Ct',
-  'version': '0.5.5'
+  'version': '0.5.6'
 };
